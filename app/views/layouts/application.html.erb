@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title><%= t("rybickazlata.name") -%> - <%= content_for?(:title) ? yield(:title) : t("rybickazlata.title") -%></title>
+  
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div id="session">
+    <% if user_signed_in? %>
+        <span id="user"><%= link_to(current_user.displayed_name, my_page_path()) %></span>
+        <%= link_to t("devise.sign_out"), destroy_user_session_path, :method => :delete %>
+    <% else %>
+        <%= link_to t("devise.sign_up"), new_user_registration_path %>
+        <%= link_to t("devise.sign_in"), new_user_session_path %>
+    <% end %>
+  </div>
+
+  <h2><%= yield(:title) %></h2>
+  <% flash.each do |key, value| %>
+      <div class='flash' id='<%= key %>'>
+        <%= value %>
+      </div>
+  <% end %>
+
+<%= yield %>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+cs:
+  activerecord:
+      models:
+        user:
+           one: "Uživatel"
+           other: "Uživatelé"
+      attributes:
+        user:
+          username: "Přihlašovací jméno"
+          email: "E-mail"
+          password: "Heslo"
+          current_password: "Aktuální heslo"
+          password_confirmation: "Heslo pro kontrolu"
+          locale: "Jazyk"
+          time_zone: "Časové pásmo"
+          remember_me: "Zapamatuj si mě"
+          display_name: "Zobrazované jméno"
+          admin: "Administrátor"
+          last_sign_in: "Poslední přihlášení"
+  user:
+      noname_prefix: "BezJména"
+

@@ -1,0 +1,19 @@
+en:
+
+  activerecord:
+      models:
+        user:
+          one: "User"
+          other: "Users"
+      attributes:
+        user:
+          username: "Username"
+          email: "E-mail"
+          password: "Password"
+          password_confirmation: "Password confirmation"
+          locale: "Language"
+          time_zone: "Time zone"
+          remember_me: "Remember me"
+          display_name: "Display name"
+          admin: "Administrator"
+          last_sign_in: "Last sign in"

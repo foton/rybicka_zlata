@@ -1,0 +1,12 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+en:
+  devise:
+    sign_up: "Sign up"
+    sign_in: "Sign in"
+    sign_out: "Sign out"
+    sessions:
+      sign_in_button: 'Sign in'
+    registrations:
+      sign_up_button: 'Sign up'  
+ 

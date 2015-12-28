@@ -1,0 +1,24 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  database: rybicka_zlata4
+  username: porybny
+  password: 3TIKA
+  #host: localhost   #PSQL authorization is set to peer, using Linux users, not direct acces with password
+  host: 127.0.0.1
+development:
+  <<: *default
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &test
+  <<: *default
+  database: rybicka_zlata4_test
+
+production:
+  <<: *default
+  database: rybicka_zlata4_test
+
+cucumber:
+  <<: *test

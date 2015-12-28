@@ -1,0 +1,9 @@
+cs:
+  devise:
+      sign_up: "Registrace"
+      sign_in: "Přihlášení"
+      sign_out: "Odhlásit"
+      sessions:
+        sign_in_button: 'Přihlásit'
+      registrations:
+        sign_up_button: 'Zaregistrovat'  
