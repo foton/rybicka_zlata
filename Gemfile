@@ -38,6 +38,8 @@ gem 'omniauth-gplus'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
+#TODO: maybe? gem 'i18n-tasks', '~> 0.9.2'
+
 group :development, :test do
 
   #Coffee-rails and Uglifier demands ExecJS, which require JS runtime. So I pick up Rubyracer

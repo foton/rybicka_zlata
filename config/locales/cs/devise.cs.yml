@@ -7,3 +7,9 @@ cs:
         sign_in_button: 'Přihlásit'
       registrations:
         sign_up_button: 'Zaregistrovat'  
+      mailer:
+        confirmation_instructions:
+          welcome: "Vítejte %{email}" 
+          click_link_below: "Svůj účet pro tento e-mail můžete potvrdit kliknutím na odkaz níže:"
+          confirm_my_account: "Potvrdit můj ůčet"
+

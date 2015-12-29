@@ -9,4 +9,10 @@ en:
       sign_in_button: 'Sign in'
     registrations:
       sign_up_button: 'Sign up'  
+    mailer:
+      confirmation_instructions:
+        welcome: "Welcome %{email}" 
+        click_link_below: "You can confirm your account email through the link below:"
+        confirm_my_account: "Confirm my account"
+
  

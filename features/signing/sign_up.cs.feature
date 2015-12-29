@@ -17,4 +17,10 @@ Scénář: Registrace uživatele jen přes aplikaci
   A kliknu na "Zaregistrovat"
 
   Pak bych měl vidět "Vítejte! Registrace byla úspěšná."
-  A měl bych být úspěšně přihlášen jako "prvni@rybickazlata.cz"
+  A měl bych vidět "Pro dokončení otevřete aktivační odkaz zaslaný na váš email."
+  
+  Pokud si otevřu poslední email pro adresu "prvni@rybickazlata.cz"
+  A kliknu v emailu na odkaz "Potvrdit můj ůčet"
+  
+  Pak bych měl vidět "Váš účet byl úspěšně potvrzen."
+  Pak bych se měl bez problémů přihlásit jako "prvni@rybickazlata.cz" s heslem "NeznáméHeslo328"
