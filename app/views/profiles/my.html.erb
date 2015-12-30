@@ -1,0 +1,6 @@
+       <%= @user.displayed_name %>
+
+       <%= t("activerecord.attributes.user.last_sign_in") %> <%= l(@user.last_sign_in_at) %>
+       [<%= @user.last_sign_in_ip %>]
+
+       <%= debug @user %>

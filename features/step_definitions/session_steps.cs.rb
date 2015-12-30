@@ -1,13 +1,8 @@
 #encoding: utf-8
 
-Given /^(?:bych měl|měl bych) být úspěšně přihlášen jako "([^"]*)"$/ do |displayed_name|
-  within("#session") do
-    assert page.has_link?(displayed_name)
-  end
-end
-
 Given /^(?:bych měl|měl bych) být úspěšně přihlášen$/ do
-  within("#session") do
+  step "měl bych vidět text \"Přihlášení úspěšné.\""
+  within(".mdl-layout__drawer nav") do
     assert page.has_link?(I18n.t("devise.sign_out"))
   end
 end

@@ -12,3 +12,6 @@ When /^kliknu na tlačítko "([^"]*)"$/ do |co|
   click_button(co)
 end
 
+When(/^přepnu na češtinu$/) do
+  visit "/change_locale?locale=cs"  
+end

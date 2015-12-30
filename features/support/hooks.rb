@@ -7,6 +7,8 @@ FAILED_DIR_PATH="tmp/capybara"
 #cleaning previous saved failure pages
 FileUtils.rm_rf(FAILED_DIR_PATH)
 
+@locale="cs"
+
 After do |scenario|
   if scenario.failed?
     filename = "#{FAILED_DIR_PATH}/failed--#{scenario.file.gsub("features/","").gsub("/","-")}--#{scenario.line}.html"

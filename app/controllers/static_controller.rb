@@ -1,7 +1,38 @@
 class StaticController < ApplicationController
 	def home
+    # flash[:alert] ="Alert me!"
+    # flash[:notice] ="Notice me!"
+    # flash[:success] ="Success me!"
+    # flash[:error] ="Error me!"
 	end
 
-	def home2
-	end	
+  def change_locale
+    redirect_to localize_referer(params[:locale])
+  end  
+
+  private
+
+  def localize_referer(new_locale)
+    reff=request.referer
+    
+    if (RybickaZlata4::Application.available_locales.map {|ls| ls.last}).include?(new_locale.to_s)
+      if reff.present? 
+        if reff.include?("?")
+          if reff.match(/locale=[a-z]*/)
+            reff= reff.gsub(/locale=[a-z]*/,"locale=#{new_locale}" )
+          else  
+            reff= reff+"\&locale=#{new_locale}"
+          end
+        else
+          reff= reff+"?locale=#{new_locale}"     
+        end
+      else
+        reff= root_path
+      end  
+    else  
+      reff=reff.present? ? reff : root_path
+    end 
+
+    reff
+  end 
 end

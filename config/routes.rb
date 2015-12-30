@@ -1,15 +1,16 @@
 Rails.application.routes.draw do
-  devise_for :users
-
-    resources :wishes
+ 
+  devise_for :users, :controllers => { :registrations => "users/registrations" }
+  #resources :wishes
 #  match "/my_wishes" => "wishes#my_index", :as => "my_wishes"
 #  match "/others_wishes" => "wishes#others_index", :as => "others_wishes"
 
-  get "/my_page" => "users#show", :as => "my_page"
+  resource :profiles
+  get "/my_page" => "profiles#my", :as => "my_page"
 
+  get "/change_locale" => "static#change_locale", :as => "change_locale"
   root to: "static#home"
-  get 'home2' => 'static#home2'
-
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

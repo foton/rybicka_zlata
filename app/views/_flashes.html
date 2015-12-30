@@ -1,0 +1,5 @@
+<% flash.each do |key, value| %>
+    <div class="flash <%= key %> mdl-cell mdl-cell--12-col" id='<%= key %>'>
+      <%= value %>
+    </div>
+<% end %>

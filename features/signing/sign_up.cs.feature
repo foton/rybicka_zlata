@@ -4,9 +4,11 @@ Požadavek:  Registrace do aplikace
   Jako neregistrovaný a nepřihlášený uživatel
   se chci zaregistrovat
   abych se mohl následně přihlásit a používat Rybičku
+Kontext:
+  Pokud jsem na úvodní stránce
+  A přepnu na češtinu  
 
 Scénář: Registrace uživatele jen přes aplikaci
-  Pokud jsem na úvodní stránce
   Když kliknu na odkaz "Registrace"
   A zapíšu do položky "E-mail" text "prvni@rybickazlata.cz"
   #A ukaž mi stránku

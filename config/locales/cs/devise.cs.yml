@@ -12,4 +12,6 @@ cs:
           welcome: "Vítejte %{email}" 
           click_link_below: "Svůj účet pro tento e-mail můžete potvrdit kliknutím na odkaz níže:"
           confirm_my_account: "Potvrdit můj ůčet"
+      passwords:
+        minimum_length: "Musí mít alespoň %{min} znaků"
 
