@@ -35,8 +35,9 @@ gem 'turbolinks'
 #authorization
 gem 'devise'
 gem 'devise-i18n'
-gem 'omniauth'
-gem 'omniauth-gplus'
+gem 'omniauth-oauth2', '~> 1.3.1'  #version 1.4.0 have 'uri_mismatch error'
+#gem 'omniauth-gplus'
+gem "omniauth-google-oauth2"
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 

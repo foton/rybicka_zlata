@@ -7,4 +7,4 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 porybny= User.create!(email: "porybny@rybickazlata.cz", password: "Rybicka4Zlata", password_confirmation: "Rybicka4Zlata", locale: "cs", time_zone: "Prague")
-porybny.confirm!
+porybny.confirm

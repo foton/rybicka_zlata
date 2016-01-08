@@ -1,0 +1,64 @@
+
+/* -------------------MODIFIED FROM ----------------
+----------------------------------------------------
+  MATTBOLDT.COM
+  Copyright (c) 2013 Matt Boldt
+----------------------------------------------------
+----------------------------------------------------
+  CODE IS AVAILABLE FOR USE FREE OF CHARGE
+  UNDER THE MIT LICENSE
+  http://opensource.org/licenses/MIT
+----------------------------------------------------
+----------------------------------------------------
+  If you'd like to credit me, or even donate
+  a few bucks that'd be very much appreciated!
+  Visit http://www.mattboldt.com/demos/social-buttons/
+  for more info.
+----------------------------------------------------
+-------------------------------------------------- */
+ .sc-btn {
+  
+  height: 3em; 
+  margin: 0.2em;
+ }
+
+.sc-icon, .sc-text {
+  display: block;
+  float: left; 
+}
+
+.sc-icon {
+  padding: 0.3em 10px 0.3em 0px;
+  border-right: rgba(255, 255, 255, 0.1) 0.1em solid;
+  vertical-align: middle;
+}
+
+.sc-text {
+  padding: .2em 0px 0.3em 10px ;
+  text-align: center; 
+  vertical-align: middle;
+  color: #fff;
+  
+}
+
+.sc-icon svg {
+/*  width: 1.8em;
+  height: 1.8em;
+*/  fill: #fff; 
+}
+
+.sc--facebook { background-color: #33477a;}
+  .sc--facebook:hover { background-color: #304373; }
+  .sc--facebook:active { background-color: #33477a; }
+
+.sc--twitter { background-color: #108ac1;}
+  .sc--twitter:hover { background-color: #0f83b8; background-color: #21aded; }
+  .sc--twitter:active { background-color: #108ac1;}
+
+.sc--google { background-color: #b92d25; }
+  .sc--google:hover { background-color: #b12b23; }
+  .sc--google:active { background-color: #b92d25; }
+
+.sc--github { background-color: #3269a0; }
+  .sc--github:hover { background-color: #2f6498; background-color: #4988c6; }
+  .sc--github:active { background-color: #3269a0;}

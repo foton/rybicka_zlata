@@ -25,4 +25,4 @@ Scenario: Registration of user throught app
   
   Then I should see "Váš účet byl úspěšně potvrzen."
 
-  Then I am able to sign in without troubles with email "prvni@rybickazlata.cz" and password "NeznáméHeslo328"
+  Then I am able to sign in without trouble with email "prvni@rybickazlata.cz" and password "NeznáméHeslo328"

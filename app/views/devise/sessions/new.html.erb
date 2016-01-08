@@ -1,5 +1,12 @@
 <% set_page_title(t("devise.sign_in") ) -%>
 
+<div class="mdl-grid">
+
+<div class="mdl-cell" >
+  <%= render partial: "devise/shared/omniauth_links" %>
+</div>
+
+<div class="mdl-cell">
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   
   <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -34,3 +41,6 @@
     <%= f.submit(t("devise.sessions.sign_in_button"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
   </div>
 <% end %>
+</div>
+
+
