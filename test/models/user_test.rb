@@ -20,50 +20,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal name, u.displayed_name
   end
 
-  def test_create_user_from_google_omni_auth_data_without_verified_email
-     auth = OmniAuth::AuthHash.new({
-      provider: 'google',
-      uid: '123545',
-      info: OmniAuth::AuthHash.new({ name: @user_name , image: "https://lh5.googleusercontent.com/-K-FYMfCDazg/AAAAAAAAAAI/AAAAAAAATug/WPHCQlEc-xM/photo.jpg" }),
-      extra: OmniAuth::AuthHash.new({raw_info: OmniAuth::AuthHash.new({locale: 'cs', email: @user_email, email_verified: "!true"}) })
-    })
+  def test_delete_identities_on_destroy
+    u=create_test_user!(email: "testme@dot.com")
+    i1=User::Identity.create(uid: "123456", provider: "XXX")
+    i2=User::Identity.create(uid: "123456", provider: "YYY")
+    i1.user=u
+    i1.save!
+    i2.user=u
+    i2.save!
+    u=User.find(u.id)
 
-    non_verified_email="change@me-#{auth.uid}-#{auth.provider}.com"
-    current_user =nil 
-    
-    u=User.find_or_create_from_omniauth!(auth, current_user)
-
-    assert u.persisted?
-    assert_equal non_verified_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal auth.extra.raw_info.locale, u.locale
-
-    i=u.identities.where(provider: :google).first
-    assert i.present?
-    assert_equal auth.uid, i.uid
-  end
-
-  def test_create_user_from_google_omni_auth_data_with_verified_email
-   auth = OmniAuth::AuthHash.new({
-    provider: 'google',
-    uid: '123545',
-    info: OmniAuth::AuthHash.new({ name: @user_name , image: "https://lh5.googleusercontent.com/-K-FYMfCDazg/AAAAAAAAAAI/AAAAAAAATug/WPHCQlEc-xM/photo.jpg" }),
-    extra: OmniAuth::AuthHash.new({raw_info: OmniAuth::AuthHash.new({locale: 'cs', email: @user_email, email_verified: "true"}) })
-  })
-
-  non_verified_email="change@me-#{auth.uid}-#{auth.provider}.com"
-  current_user =nil 
-
-  u=User.find_or_create_from_omniauth!(auth, current_user)
-
-  assert u.persisted?
-  assert_equal @user_email, u.email
-  assert_equal @user_name, u.name
-  assert_equal auth.extra.raw_info.locale, u.locale
-
-  i=u.identities.where(provider: :google).first
-  assert i.present?
-  assert_equal auth.uid, i.uid
-  end
-
+    assert_equal ((u.identities.map {|i| i.id}).sort),  [i1.id, i2.id].sort
+    u.destroy
+    assert User::Identity.where(id: [i1.id, i2.id]).blank?, "defined identities not destroyed: #{User::Identity.where(id: [i1.id, i2.id]).to_yaml}"
+    assert User::Identity.where(user_id: u.id).blank?, "User's identities not destroyed: #{User::Identity.where(user_id: u.id).to_yaml}"
+  end  
 end

@@ -40,7 +40,7 @@ gem 'omniauth-oauth2', '~> 1.3.1'  #version 1.4.0 have 'uri_mismatch error'
 gem "omniauth-google-oauth2"
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
-
+gem 'omniauth-github'
 #TODO: maybe? gem 'i18n-tasks', '~> 0.9.2'
 
 group :development, :test do

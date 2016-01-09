@@ -14,9 +14,12 @@ class User::Identity < ActiveRecord::Base
   end
 
   def self.create_from_auth!(auth, user=nil)
-    i=self.create(uid: auth.uid, provider: auth.provider, email: auth.email)
+    i=self.new(uid: auth.uid, provider: auth.provider)
     i.auth_data=auth 
+    #if there is verified email, set this one
+    i.email=(i.verified_email? ? i.verified_email : auth.info.email)
     i.try_add_user(user)
+    i.save!
     i
   end
 
@@ -24,6 +27,8 @@ class User::Identity < ActiveRecord::Base
     case provider.to_sym
       when :google
         User::Identity::Extractor::Google.new
+      when :github
+        User::Identity::Extractor::Github.new
       else
         User::Identity::Extractor.new
       end
@@ -40,15 +45,15 @@ class User::Identity < ActiveRecord::Base
 
   #TODO: learn and use Delegation to provider
   def name
-    data.name
+    @name||=data.name
   end
 
   def locale
-    data.locale
+    @locale||=data.locale
   end  
 
   def verified_email
-    data.verified_email
+    @verified_email||=data.verified_email
   end  
 
   def verified_email?
@@ -76,7 +81,6 @@ class User::Identity < ActiveRecord::Base
     end  
     if user.kind_of?(User)
      self.user=user 
-     self.save!
     end 
   end
 

@@ -10,7 +10,7 @@ class UserIdentityTest < ActiveSupport::TestCase
     @user_name="John Doe"
     @user_email="john.doe@nowhere.com"
 
-    @auth=OmniAuth::AuthHash.new( provider: "xxx", uid: "yyy")
+    @auth=OmniAuth::AuthHash.new({provider: "xxx", uid: "yyy", info: OmniAuth::AuthHash.new({email: @user_email}) })
     
     #mocking additional data from OmniAuth hash
     @extractor_verified=Extractor.new("John Doe", "john.doe@nowhere.com", "en")
@@ -75,9 +75,10 @@ class UserIdentityTest < ActiveSupport::TestCase
       i=User::Identity.create_from_auth!(@auth)
       assert_nil i.verified_email
     end
-
+     
     User::Identity.stub(:extractor_for, @extractor_verified) do
-      i=User::Identity.create_from_auth!(@auth)
+      #new uid needed because one Identity with @auth.uid and @auth.provider was already created
+      i=User::Identity.create_from_auth!(@auth.merge(OmniAuth::AuthHash.new(uid: "zzzz")) )
       assert_equal @user_email, i.verified_email
     end
   end  
@@ -98,6 +99,7 @@ class UserIdentityTest < ActiveSupport::TestCase
 
   def test_get_correct_extractors
     assert_equal User::Identity::Extractor::Google, User::Identity.extractor_for("google").class
+    assert_equal User::Identity::Extractor::Github, User::Identity.extractor_for("github").class
     # ... and more comming ...
   end
 

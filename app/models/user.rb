@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :omniauthable
          #, :omniauth_providers => [:google_oauth2]
-  has_many :identities, class_name: 'User::Identity'
+  has_many :identities, class_name: 'User::Identity', dependent: :destroy
 
 
 
@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
     user = signed_in_resource ? signed_in_resource : identity.user
 
     email=identity.verified_email
+    email=identity.email if email.blank?
     user = User.where(:email => email).first if email
     
     # Create the user if needed

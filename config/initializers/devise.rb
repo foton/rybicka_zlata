@@ -271,5 +271,10 @@ Devise.setup do |config|
     scope: 'userinfo.email, userinfo.profile', 
     access_type: 'online',
     name: 'google'
-    #, redirect_uri: 'http://localhost:3000/users/auth/google_oauth2/callback?locale=cs'
+    #, redirect_uri: 'http://localhost:3000/users/auth/google/callback?locale=cs'
+
+  config.omniauth :github, 
+    Rails.application.secrets.github_client_id, 
+    Rails.application.secrets.github_client_secret,  
+    scope: 'user' 
 end
