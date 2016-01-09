@@ -14,6 +14,20 @@
  *= require_self
  */
 
+.divider-h {
+	border-left: 1px solid #ddd;
+	width: 1px;
+}
+
+.vh-centered {
+	margin: auto 0 auto 0;
+	vertical-align: middle;
+	text-align: center;
+}
 
 
-
+/*
+.mdl-cell {
+	border: 1px solid #aaa;
+}
+*/

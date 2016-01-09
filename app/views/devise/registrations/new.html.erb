@@ -1,56 +1,77 @@
 <%= set_page_title(t("devise.sign_up")) %>
 
-<div >
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form mdl-cell--stretch mdl-cell--top"}) do |f| %>
-  <%= devise_error_messages! %>
+<div class="mdl-grid">
 
-
-  <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <%= f.label :email, class: "mdl-textfield__label" %>
-    <%= f.email_field :email, autofocus: true, class: "mdl-textfield__input" %>
+  <div class="mdl-cell" >
+    <div id="omniauth_links">
+      <div><%= t("omniauth.sign_up_with") %></div>
+      <%= render partial: "devise/shared/omniauth_links" %>
+    </div>
   </div>
 
-  <br />
-
-  <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <%= f.label :password, class: "mdl-textfield__label" %>
-    <% 
-       html_atts= {class: "mdl-textfield__input", autocomplete: "off"}
-       if @minimum_password_length
-         html_atts[:pattern]= ".{#{@minimum_password_length},}"
-         err_msg=t("devise.passwords.minimum_length", min: @minimum_password_length)
-       end 
-    %>
-    <%= f.password_field :password, html_atts %>
-    <span class="mdl-textfield__error"><%= err_msg %></span>
+  <div class="mdl-cell divider-h" >
   </div>
 
-  <br />
-
-  <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <%= f.label :password_confirmation, class: "mdl-textfield__label" %>
-    <%= f.password_field :password_confirmation, autocomplete: "off", class: "mdl-textfield__input" %>
+  <div class="mdl-cell mdl-cell--1-col vh-centered" >
+    <div><%= t("or") %></div>
   </div>
 
-  <br />
-  
-  <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
-    <%= f.label :locale, class: "mdl-selectfield__label" %>
-    <%= f.select :locale, RybickaZlata4::Application.available_locales, {}, {class: "mdl-selectfield__select"} %>
+  <div class="mdl-cell divider-h" >
   </div>
 
-  <br />
+  <div class="mdl-cell">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form mdl-cell--stretch mdl-cell--top"}) do |f| %>
+      <%= devise_error_messages! %>
 
-  <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
-    <%= f.label :time_zone, class: "mdl-selectfield__label" %>
-    <%= f.time_zone_select("time_zone", nil, {}, {class: "mdl-selectfield__select"} ) %>
+
+      <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <%= f.label :email, class: "mdl-textfield__label" %>
+        <%= f.email_field :email, autofocus: true, class: "mdl-textfield__input" %>
+      </div>
+
+      <br />
+
+      <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <%= f.label :password, class: "mdl-textfield__label" %>
+        <% 
+           html_atts= {class: "mdl-textfield__input", autocomplete: "off"}
+           if @minimum_password_length
+             html_atts[:pattern]= ".{#{@minimum_password_length},}"
+             err_msg=t("devise.passwords.minimum_length", min: @minimum_password_length)
+           end 
+        %>
+        <%= f.password_field :password, html_atts %>
+        <span class="mdl-textfield__error"><%= err_msg %></span>
+      </div>
+
+      <br />
+
+      <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <%= f.label :password_confirmation, class: "mdl-textfield__label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: "mdl-textfield__input" %>
+      </div>
+
+      <br />
+      
+      <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
+        <%= f.label :locale, class: "mdl-selectfield__label" %>
+        <%= f.select :locale, RybickaZlata4::Application.available_locales, {}, {class: "mdl-selectfield__select"} %>
+      </div>
+
+      <br />
+
+      <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
+        <%= f.label :time_zone, class: "mdl-selectfield__label" %>
+        <%= f.time_zone_select("time_zone", nil, {}, {class: "mdl-selectfield__select"} ) %>
+      </div>
+
+      <br />
+
+      <div class="actions">
+        <%= f.submit(t("devise.registrations.sign_up_button"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
+      </div>
+
+    <% end %>
   </div>
 
-  <br />
-
-  <div class="actions">
-    <%= f.submit(t("devise.registrations.sign_up_button"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
-  </div>
-
-<% end %>
 </div>

@@ -27,17 +27,16 @@ Scénář: Registrace uživatele jen přes aplikaci
   Pak bych měl vidět "Váš účet byl úspěšně potvrzen."
   Pak bych se měl bez problémů přihlásit jako "prvni@rybickazlata.cz" s heslem "NeznáméHeslo328"
 
+#Scénář: Registrace uživatele přes Google+
+#  Když kliknu na odkaz "Registrace"
+#  A kliknu na "Google+"
+#  
+#  Pak bych měl vidět "Úspěšná autorizace z účtu Google."
+#  A měl bych být přihlášen
 
-
-Scénář: Registrace uživatele G+
-  Když kliknu na odkaz "Registrace"
-  A kliknu na ikonu "G+"
-  
-  Pak bych měl vidět "Vítejte! Registrace byla úspěšná."
-  A měl bych vidět "Pro dokončení otevřete aktivační odkaz zaslaný na váš email."
-  
-  Pokud si otevřu poslední email pro adresu "prvni@rybickazlata.cz"
-  A kliknu v emailu na odkaz "Potvrdit můj ůčet"
-  
-  Pak bych měl vidět "Váš účet byl úspěšně potvrzen."
-  Pak bych se měl bez problémů přihlásit jako "prvni@rybickazlata.cz" s heslem "NeznáméHeslo328"
+#Scénář: Registrace uživatele přes Github
+#  Když kliknu na odkaz "Registrace"
+#  A kliknu na "GitHub"
+#  
+#  Pak bych měl vidět "Úspěšná autorizace z účtu GithHub."
+#  A měl bych být přihlášen

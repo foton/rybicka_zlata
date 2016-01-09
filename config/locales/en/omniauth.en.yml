@@ -1,0 +1,4 @@
+en:
+  omniauth:
+    sign_in_with: "Sign in with"
+    sign_up_with: "Sign up with"

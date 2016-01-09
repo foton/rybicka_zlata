@@ -16,10 +16,11 @@
   for more info.
 ----------------------------------------------------
 -------------------------------------------------- */
- .sc-btn {
-  
+.sc-btn {
   height: 3em; 
   margin: 0.2em;
+  width: 8em;
+  text-transform: none;
  }
 
 .sc-icon, .sc-text {
@@ -33,6 +34,12 @@
   vertical-align: middle;
 }
 
+.sc-icon svg {
+  width: 1.8em;
+  height: 1.8em;
+  fill: #fff; 
+}
+
 .sc-text {
   padding: .2em 0px 0.3em 10px ;
   text-align: center; 
@@ -41,11 +48,6 @@
   
 }
 
-.sc-icon svg {
-/*  width: 1.8em;
-  height: 1.8em;
-*/  fill: #fff; 
-}
 
 .sc--facebook { background-color: #33477a;}
   .sc--facebook:hover { background-color: #304373; }
@@ -56,9 +58,40 @@
   .sc--twitter:active { background-color: #108ac1;}
 
 .sc--google { background-color: #b92d25; }
-  .sc--google:hover { background-color: #b12b23; }
+  .sc--google:hover { background-color: #e1726b; }
   .sc--google:active { background-color: #b92d25; }
 
 .sc--github { background-color: #3269a0; }
   .sc--github:hover { background-color: #2f6498; background-color: #4988c6; }
   .sc--github:active { background-color: #3269a0;}
+
+.sc--linkedin { background-color: #3371b7; }
+  .sc--linkedin:hover { background-color: #2260a6;}
+  .sc--linkedin:active { background-color: #3371b7;}
+
+/* www.perfecticons.com 
+.soc-facebook {
+    background-color: #3e5b98;
+}
+.soc-twitter {
+    background-color: #4da7de;
+}
+.soc-google {
+    background-color: #d93e2d;
+}
+.soc-pinterest {
+    background-color: #c92619;
+}
+.soc-linkedin {
+    background-color: #3371b7;
+}
+.soc-rss {
+    background-color: #f26109;
+}
+*/
+
+#omniauth_links {
+  margin: auto 0 auto 0;
+  vertical-align: middle;
+  text-align: center;  
+}

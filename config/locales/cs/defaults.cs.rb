@@ -5,6 +5,7 @@
 { :'cs' => {
     :yes => "ano",
     :no => "ne",
+    :or => "nebo",
     :dont_know => "nevím",
     :link => {
       :create => "Vytvořit",

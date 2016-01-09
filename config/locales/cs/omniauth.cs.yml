@@ -1,0 +1,4 @@
+cs:
+  omniauth:
+    sign_in_with: "Přihlašte se pomocí"
+    sign_up_with: "Zaregistrujte se pomocí"
