@@ -25,3 +25,7 @@ Pokud(/^kliknu v emailu na odkaz "(.*?)"$/) do |link_text|
 
   visit relative_url
 end
+
+Pak(/^uživatelům, kteří ji používali o tom přijde e\-mail$/) do
+  pending # express the regexp above with the code you wish you had
+end

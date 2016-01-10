@@ -10,7 +10,7 @@ class UserIdentityTest < ActiveSupport::TestCase
     @user_name="John Doe"
     @user_email="john.doe@nowhere.com"
 
-    @auth=OmniAuth::AuthHash.new({provider: "xxx", uid: "yyy", info: OmniAuth::AuthHash.new({email: @user_email}) })
+    @auth=OmniAuth::AuthHash.new({provider: "test", uid: "yyy", info: OmniAuth::AuthHash.new({email: @user_email}) })
     
     #mocking additional data from OmniAuth hash
     @extractor_verified=Extractor.new("John Doe", "john.doe@nowhere.com", "en")
@@ -44,7 +44,6 @@ class UserIdentityTest < ActiveSupport::TestCase
   end  
 
   def test_can_associate_user_according_to_email
- #   @auth=OmniAuth::AuthHash.new( provider: "xxx", uid: "yyy", email: "jonh.doe@example.com")
     cur_user=create_test_user!(email:  @extractor_verified.verified_email)
 
     #no user given    
@@ -57,10 +56,9 @@ class UserIdentityTest < ActiveSupport::TestCase
   end 
 
   def test_can_associate_user_according_to_email_from_another_identity
-#    @auth=OmniAuth::AuthHash.new( provider: "google", uid: "yyy", email: "jonh.doe.identity@example.com")
     cur_user=create_test_user!(email: @extractor_verified.verified_email)
     User::Identity.stub(:extractor_for, @extractor_verified) do
-      User::Identity.create_from_auth!(@auth.merge(provider: "ddd", uid: "sss"), cur_user) #create first identity
+      User::Identity.create_from_auth!(@auth.merge(provider: "test", uid: "sss"), cur_user) #create first identity
           
       #no user given, second identity should find it by email in first   
       i=User::Identity.create_from_auth!(@auth)
@@ -98,9 +96,31 @@ class UserIdentityTest < ActiveSupport::TestCase
   end  
 
   def test_get_correct_extractors
-    assert_equal User::Identity::Extractor::Google, User::Identity.extractor_for("google").class
-    assert_equal User::Identity::Extractor::Github, User::Identity.extractor_for("github").class
-    # ... and more comming ...
+    User::Identity::OAUTH_PROVIDERS.each do |provider|
+      assert_equal "User::Identity::Extractor::#{provider.to_s.capitalize}".constantize, User::Identity.extractor_for(provider.to_s).class
+    end
   end
+  
+  def test_recognize_local_provider
+    assert User::Identity.new(provider: User::Identity::LOCAL_PROVIDER).local?
+    assert !User::Identity.new(provider: "xxx").local?
+  end  
 
+  def test_cannot_have_invalid_email
+    refute User::Identity.new(email: "email_@invalid").valid?
+  end
+    
+  def test_local_identity_must_have_email
+    refute User::Identity.new(email: nil, provider: User::Identity::LOCAL_PROVIDER).valid?
+    assert User::Identity.new(email: "me@home.at", provider: User::Identity::LOCAL_PROVIDER).valid?
+  end  
+
+  def test_non_local_identity_can_be_without_email
+    assert User::Identity.new(email: nil, provider: "google", uid: "yyyyy").valid?
+  end  
+
+  def test_can_accept_only_allowed_providers
+    refute User::Identity.new(email: nil, provider: "xxx", uid: "yyyy").valid?
+  end  
+  
 end

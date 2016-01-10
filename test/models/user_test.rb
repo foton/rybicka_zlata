@@ -22,8 +22,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_delete_identities_on_destroy
     u=create_test_user!(email: "testme@dot.com")
-    i1=User::Identity.create(uid: "123456", provider: "XXX")
-    i2=User::Identity.create(uid: "123456", provider: "YYY")
+    i1=User::Identity.create(uid: "123456", provider: "test")
+    i2=User::Identity.create(uid: "123456", provider: User::Identity::LOCAL_PROVIDER, email: "my@email.cz")
     i1.user=u
     i1.save!
     i2.user=u
@@ -34,5 +34,10 @@ class UserTest < ActiveSupport::TestCase
     u.destroy
     assert User::Identity.where(id: [i1.id, i2.id]).blank?, "defined identities not destroyed: #{User::Identity.where(id: [i1.id, i2.id]).to_yaml}"
     assert User::Identity.where(user_id: u.id).blank?, "User's identities not destroyed: #{User::Identity.where(user_id: u.id).to_yaml}"
+  end  
+
+  def test_got_admin
+    assert User.new(email: "porybny@rybickazlata.cz").admin?
+    refute User.new(email: "orybny@rybickazlata.cz").admin?
   end  
 end

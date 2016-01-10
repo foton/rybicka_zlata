@@ -7,7 +7,7 @@ Given /^I should be successfully signed in$/ do
   end
 end
 
-Then(/^I am able to sign in without troubles with email "(.*?)" and password "(.*?)"$/) do |email, password|
+Then(/^I am able to sign in without trouble with email "(.*?)" and password "(.*?)"$/) do |email, password|
   step "sign in as \"#{email}\" with password \"#{password}\""
   step "I should be successfully signed in"
 end

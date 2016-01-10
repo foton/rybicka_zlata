@@ -5,8 +5,13 @@ Rails.application.routes.draw do
 #  match "/my_wishes" => "wishes#my_index", :as => "my_wishes"
 #  match "/others_wishes" => "wishes#others_index", :as => "others_wishes"
 
-  resource :profiles
+  resources :users do
+    scope module: :users do
+      resources :identities
+    end
+  end  
   get "/my_page" => "profiles#my", :as => "my_page"
+
 
   get "/change_locale" => "static#change_locale", :as => "change_locale"
   root to: "static#home"

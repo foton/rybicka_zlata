@@ -14,7 +14,7 @@ module NavigationHelpers
       root_path(locale: @locale)
     when "přihlašovací stránce", "přihlášení", "signin page", "login page", "sign_in"
       new_user_session_path(locale: @locale)
-    when "mé stránce nastavení", "své stránce nastavení", "své stránce", "my profile"
+    when "Profil", "mé profilové stránce", "své stránce nastavení", "své stránce", "my profile"
       my_page_path(locale: @locale)
     when "stránce uživatele"
        user_home_page_path(desired_resource, {locale: @locale})

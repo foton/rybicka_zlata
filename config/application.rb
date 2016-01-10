@@ -30,5 +30,9 @@ module RybickaZlata4
     def self.available_locales
       [["English","en"],["Čeština","cs"]]
     end
+
+    def self.inform_admin(message, subject)
+        #TODO: not implemented yet
+    end    
   end
 end

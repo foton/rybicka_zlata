@@ -10,12 +10,31 @@ class User < ActiveRecord::Base
          #, :omniauth_providers => [:google_oauth2]
   has_many :identities, class_name: 'User::Identity', dependent: :destroy
 
+  class NotAuthorized < StandardError
+    #content borrowed form CanCan::AccessDenied (https://github.com/ryanb/cancan/blob/master/lib/cancan/exceptions.rb)
+    attr_reader :action, :subject
+    attr_writer :default_message
 
+    def initialize(message = nil, action = nil, subject = nil)
+      @message = message
+      @action = action
+      @subject = subject
+      @default_message = I18n.t(:"unauthorized.default", :default => "You are not authorized to access this page.")
+    end
+
+    def to_s
+      @message || @default_message
+    end
+  end
 
   def displayed_name
     name || email
   end       
 
+  def admin?
+    (email == "porybny@rybickazlata.cz")
+  end  
+  
   #https://www.digitalocean.com/community/tutorials/how-to-configure-devise-and-omniauth-for-your-rails-application
   #inspired from http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/
   def self.find_or_create_from_omniauth!(auth, signed_in_resource = nil)
