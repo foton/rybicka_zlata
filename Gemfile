@@ -41,6 +41,7 @@ gem "omniauth-google-oauth2"
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
+gem 'omniauth-linkedin-oauth2'
 #TODO: maybe? gem 'i18n-tasks', '~> 0.9.2'
 
 group :development, :test do

@@ -1,17 +1,17 @@
 require 'test_helper'
 
-class GithubExtractorTest < ActiveSupport::TestCase
+class LinkedinExtractorTest < ActiveSupport::TestCase
 
   def setup
-     @auth_data = OmniAuth::AuthHash.new({ provider: "github", uid: "123456",
+     @auth_data = OmniAuth::AuthHash.new({ provider: "linkedin", uid: "123456",
       info: OmniAuth::AuthHash.new({ 
          email: "john.doe@gmail.com", 
          name: "John Doe",
          nickname: "John_doe",
-         image: "https://avatars.githubusercontent.com/u/483873?v=3"
+         image: "https://media.licdn.com/mpr/mprx/0_fDcXEjwcCo3FeyuXDfXBEYedCHnoeyuXS7iUEYWcgDCVB4Uk_IFHXOjJuQ9zIUSHaazV5JUgVJ65"
         }),
     })     
-    @extractor=User::Identity::Extractor::Github.new(@auth_data)
+    @extractor=User::Identity::Extractor::Linkedin.new(@auth_data)
   end
 
   def test_get_name_when_present
@@ -19,16 +19,16 @@ class GithubExtractorTest < ActiveSupport::TestCase
   end  
 
   def test_get_nickname_when_name_is_not_present
-  	auth_data = @auth_data.dup
-  	auth_data.info.name=nil
-    extractor=User::Identity::Extractor::Github.new(auth_data)
+    auth_data = @auth_data.dup
+    auth_data.info.name=nil
+    extractor=User::Identity::Extractor::Linkedin.new(auth_data)
 
     assert_equal @auth_data.info.nickname, extractor.name
   end  
 
   def test_get_email
     assert_equal @auth_data.info.email, @extractor.email
-  end 
+  end  
 
   def test_get_verified_email
     assert_nil @extractor.verified_email
@@ -36,6 +36,10 @@ class GithubExtractorTest < ActiveSupport::TestCase
 
   def test_get_locale
     assert_nil @extractor.locale
+  end  
+
+  def test_get_time_zone
+    assert_nil @extractor.time_zone
   end  
 
 end

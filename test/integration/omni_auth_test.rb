@@ -22,31 +22,31 @@ class OmniAuthController < ActionDispatch::IntegrationTest
   def test_can_sign_in_with_google 
     skip("do not know how to get current user")
 
-    user_email="john.doe@gmail.com"
-    OmniAuth.config.mock_auth[:google] = OmniAuth::AuthHash.new({
-      provider: 'google',
-      uid: '123545',
-      info: OmniAuth::AuthHash.new({ email: user_email ,  name: @user_name , image: "https://lh5.googleusercontent.com/-K-FYMfCDazg/AAAAAAAAAAI/AAAAAAAATug/WPHCQlEc-xM/photo.jpg" }),
-      extra: OmniAuth::AuthHash.new({raw_info: OmniAuth::AuthHash.new({locale: 'cs'}) })
-    })
+    # user_email="john.doe@gmail.com"
+    # OmniAuth.config.mock_auth[:google] = OmniAuth::AuthHash.new({
+    #   provider: 'google',
+    #   uid: '123545',
+    #   info: OmniAuth::AuthHash.new({ email: user_email ,  name: @user_name , image: "https://lh5.googleusercontent.com/-K-FYMfCDazg/AAAAAAAAAAI/AAAAAAAATug/WPHCQlEc-xM/photo.jpg" }),
+    #   extra: OmniAuth::AuthHash.new({raw_info: OmniAuth::AuthHash.new({locale: 'cs'}) })
+    # })
 
-    goo_user=new_session
+    # goo_user=new_session
 
-    assert User.find_by_email(user_email).blank?
-    assert_nil goo_user.current_user
+    # assert User.find_by_email(user_email).blank?
+    # assert_nil goo_user.current_user
     
 
-    get oauth_path_for(:google,params: {}) 
+    # get oauth_path_for(:google,params: {}) 
 
-    #after succesfull (mocked) authorization
-    assert_redirected_to oauth_callback_path_for(:google)
+    # #after succesfull (mocked) authorization
+    # assert_redirected_to oauth_callback_path_for(:google)
 
-    user_created=User.find_by_email(user_email)
-    assert user_created.present?
-    assert_equal user_created.name, @user_name
-    assert_equal user_created ,current_user
-    
+    # user_created=User.find_by_email(user_email)
+    # assert user_created.present?
+    # assert_equal user_created.name, @user_name
+    # assert_equal user_created ,current_user
   end
+
 
   def new_session
     open_session do |sess|

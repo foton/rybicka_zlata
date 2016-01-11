@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   #https://www.digitalocean.com/community/tutorials/how-to-configure-devise-and-omniauth-for-your-rails-application
   #inspired from http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/
   def self.find_or_create_from_omniauth!(auth, signed_in_resource = nil)
-
+    
     # Get the identity and user if they exist
     identity = User::Identity.find_for_auth(auth)
     identity = User::Identity.create_from_auth!(auth) unless identity.present?
@@ -64,7 +64,9 @@ class User < ActiveRecord::Base
           name: identity.name,
           #username: auth.info.nickname || auth.uid,
           email: email ? email : identity.temp_email,
-          password: Devise.friendly_token[0,20]
+          password: Devise.friendly_token[0,20],
+          locale: identity.locale||User.new.locale,
+          time_zone: identity.time_zone||User.new.time_zone
         )
       user.skip_confirmation!
       user.save!

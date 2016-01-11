@@ -18,6 +18,14 @@ class User::Identity::Extractor
     nil
   end  
 
+  def time_zone
+    nil
+  end  
+
+  def email
+    nil
+  end
+  
   def verified_email
     nil
   end  

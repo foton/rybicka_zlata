@@ -62,15 +62,19 @@
 class User::Identity::Extractor::Github < User::Identity::Extractor
   
   def name
-    @name||=(@auth_data.info.name || @auth_data.info.nickname)
+    @name||=(@auth_data.info.name.present? ? @auth_data.info.name : @auth_data.info.nickname)
   end
 
   def locale
     nil
   end  
 
+  def email
+    @email||=@auth_data.info.email
+  end
+
   def verified_email
-    @verified_email||=@auth_data.info.email
+    nil #@verified_email||=@auth_data.info.email
   end
 
 end

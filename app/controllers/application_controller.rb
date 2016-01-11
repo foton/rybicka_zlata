@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   
   before_action :authenticate_user!, except: [:home,:change_locale]
   before_action :set_locale
+  around_filter :user_time_zone, :if => :current_user
 
   def set_locale
     I18n.locale = params[:locale] || (current_user && current_user.locale) || I18n.default_locale
@@ -13,6 +14,11 @@ class ApplicationController < ActionController::Base
 
   def self.default_url_options(options={})
     options.merge({ :locale => I18n.locale })
+  end
+
+  
+  def user_time_zone(&block)
+    Time.use_zone(current_user.time_zone || RybickaZlata4::Application.config.time_zone, &block) 
   end
 
 
@@ -79,6 +85,12 @@ class ApplicationController < ActionController::Base
       format.xml { head :not_found }
       format.json { head :not_found }
     end
+  end
+
+
+  
+  def after_sign_in_path_for(resource)
+    my_page_path(resource)
   end
 
 end

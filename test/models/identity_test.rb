@@ -4,7 +4,7 @@ require "minitest/mock"
 class UserIdentityTest < ActiveSupport::TestCase
 
   #stubbing extractors
-  Extractor = Struct.new(:name, :verified_email, :locale, :auth_data)
+  Extractor = Struct.new(:name, :verified_email, :locale, :time_zone, :auth_data,)
 
   def setup
     @user_name="John Doe"
@@ -13,8 +13,8 @@ class UserIdentityTest < ActiveSupport::TestCase
     @auth=OmniAuth::AuthHash.new({provider: "test", uid: "yyy", info: OmniAuth::AuthHash.new({email: @user_email}) })
     
     #mocking additional data from OmniAuth hash
-    @extractor_verified=Extractor.new("John Doe", "john.doe@nowhere.com", "en")
-    @extractor_non_verified=Extractor.new("John Doe", nil, "en")
+    @extractor_verified=Extractor.new("John Doe", "john.doe@nowhere.com", "en","Chicago")
+    @extractor_non_verified=Extractor.new("John Doe", nil, "en","London")
   end
 
   def test_can_be_created_from_auth_without_user
@@ -94,6 +94,20 @@ class UserIdentityTest < ActiveSupport::TestCase
       assert_equal @user_name, i.name
     end  
   end  
+
+  def test_get_locale
+    User::Identity.stub(:extractor_for, @extractor_verified) do
+      i=User::Identity.create_from_auth!(@auth)
+      assert_equal @extractor_verified.locale, i.locale
+    end  
+  end 
+
+  def test_get_time_zone
+    User::Identity.stub(:extractor_for, @extractor_verified) do
+      i=User::Identity.create_from_auth!(@auth)
+      assert_equal @extractor_verified.time_zone, i.time_zone
+    end  
+  end 
 
   def test_get_correct_extractors
     User::Identity::OAUTH_PROVIDERS.each do |provider|

@@ -277,4 +277,21 @@ Devise.setup do |config|
     Rails.application.secrets.github_client_id, 
     Rails.application.secrets.github_client_secret,  
     scope: 'user' 
+
+  config.omniauth :facebook, 
+    Rails.application.secrets.facebook_client_id, 
+    Rails.application.secrets.facebook_client_secret,  
+    scope: 'email,public_profile',
+    info_fields: 'name,email,locale,timezone,verified'
+
+  config.omniauth :twitter, 
+    Rails.application.secrets.twitter_client_id, 
+    Rails.application.secrets.twitter_client_secret,  
+    x_auth_access_type: 'read',
+    scope: 'email,public_profile',
+    info_fields: 'name,email,locale,timezone,verified'
+
+  config.omniauth :linkedin, 
+    Rails.application.secrets.linkedin_client_id, 
+    Rails.application.secrets.linkedin_client_secret  
 end

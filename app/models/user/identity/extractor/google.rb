@@ -53,8 +53,12 @@ class User::Identity::Extractor::Google < User::Identity::Extractor
   end
 
   def locale
-    @auth_data.extra.raw_info.locale
+   raw_info.locale
   end  
+
+  def email
+    @email||=@auth_data.info.email
+  end
 
   def verified_email
     unless defined? @verified_email

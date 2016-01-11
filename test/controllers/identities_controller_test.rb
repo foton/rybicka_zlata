@@ -31,7 +31,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 		assert_response :redirect
 		assert_redirected_to my_page_path
 		#assert_not_nil assigns(:new_contact)
-		assert_equal "#{@new_email} added to your contacts", flash[:notice]
+		assert_equal "Kontakt '#{@new_email}' byl přidán", flash[:notice]
 	end	
 
 	def test_not_create_not_local_identity
@@ -79,7 +79,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 		assert_response :redirect
 		assert_redirected_to my_page_path
 		#assert_not_nil assigns(:new_contact)
-		assert_equal "new_mail@rybickazlata.cz deleted", flash[:notice]
+		assert_equal "Kontakt '#{@new_email}' byl smazán", flash[:notice]
 	end	
 
 end

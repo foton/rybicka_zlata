@@ -6,7 +6,7 @@ class User::Identity < ActiveRecord::Base
   self.table_name="identities"
 
   LOCAL_PROVIDER = "localy_added"
-  OAUTH_PROVIDERS=["google", "github"]
+  OAUTH_PROVIDERS=["google", "github", "facebook", "twitter", "linkedin"]
   ALLOWED_PROVIDERS = [LOCAL_PROVIDER, "test"]+OAUTH_PROVIDERS
   EMAIL_REGEXP =/[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?/ # from http://regexlib.com/Search.aspx?k=email&c=1&m=-1&ps=20
 
@@ -40,6 +40,13 @@ class User::Identity < ActiveRecord::Base
         User::Identity::Extractor::Google.new
       when "github"
         User::Identity::Extractor::Github.new
+      when "facebook"
+        User::Identity::Extractor::Facebook.new
+      when "twitter"
+        User::Identity::Extractor::Twitter.new
+      when "linkedin"
+        User::Identity::Extractor::Linkedin.new
+
       else
         User::Identity::Extractor.new
     end
@@ -62,6 +69,10 @@ class User::Identity < ActiveRecord::Base
     @locale||=data.locale
   end  
 
+  def time_zone
+    @time_zone||=data.time_zone
+  end  
+
   def verified_email
     @verified_email||=data.verified_email
   end  
@@ -69,7 +80,7 @@ class User::Identity < ActiveRecord::Base
   def verified_email?
     verified_email.present?
   end  
-  
+
   def temp_email
     "#{User::TEMP_EMAIL_PREFIX}-#{self.uid}-#{self.provider}.com"
   end  
