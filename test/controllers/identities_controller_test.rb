@@ -13,14 +13,16 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 	end
 
 	def test_identities_are_created_for_current_user_only
-		assert_no_difference('User::Identity.count') do
+		#user is always set to current_user
+		cu_ids_count=@current_user.identities.count
+		assert_difference('User::Identity.count') do
 			post :create, {user_id: (@current_user.id+1) , user_identity: {email: @new_email, provider: User::Identity::LOCAL_PROVIDER}}
 	  end			
 		
 		assert_response :redirect
-		assert_redirected_to root_path
-		#assert_not_nil assigns(:new_contact)
-		assert_equal "Nejste oprávněni zobrazit si požadovanou stránku či provést požadovanou akci.", flash[:error]
+		assert_redirected_to my_page_path
+		assert_equal "Kontakt '#{@new_email}' byl přidán", flash[:notice]
+		assert_equal cu_ids_count+1, @current_user.identities.count
 	end
 
 	def test_create_local_identity
@@ -39,10 +41,11 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 			post :create, {user_id: (@current_user.id) , user_identity: {email: @new_email, provider: "test"}}
 	  end			
 		
-		assert_response :redirect
-		assert_redirected_to root_path
-		#assert_not_nil assigns(:new_contact)
-		assert_equal "Nejste oprávněni zobrazit si požadovanou stránku či provést požadovanou akci.", flash[:error]
+		assert_response :success
+		assert_template "profiles/my"
+		assert_not_nil assigns(:new_contact)
+		assert_not_nil assigns(:user)
+		assert (assigns(:new_contact).errors[:provider].size > 0)
 	end	
 
 	def test_not_create_local_identity_without_valid_email
@@ -54,7 +57,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 		assert_template "profiles/my"
 		assert_not_nil assigns(:new_contact)
 		assert_not_nil assigns(:user)
-		#assert_equal "Nejste oprávněni zobrazit si požadovanou stránku či provést požadovanou akci.", flash[:error]
+		assert (assigns(:new_contact).errors[:email].size > 0)
 	end	
 
 	def test_cannot_delete_others_identity
@@ -64,10 +67,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 			delete :destroy, {user_id: (@current_user.id) , id: @identity.id}
 	  end			
 		
-		assert_response :redirect
-		assert_redirected_to root_path
-		#assert_not_nil assigns(:new_contact)
-		assert_equal "Nejste oprávněni zobrazit si požadovanou stránku či provést požadovanou akci.", flash[:error]
+		assert_response :not_found  #no warnings, just "we do not found it between YOUR identities"
 	end	
 
 	def test_can_delete_own_identity
