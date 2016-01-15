@@ -19,7 +19,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+#gem 'turbolinks' #they blocked MDL javascripts when clicked od link to RybZl page
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.0'
@@ -56,6 +56,7 @@ group :development, :test do
   gem 'byebug'
   gem "pry-rails" # pry misto IRB v rails console
   gem "pry-byebug" #debugging with pry on ruby 2 ('step','next','finish','continue')
+  gem "minitest-reporters" #better formatted output of Minitest
 end
 
 group :development do

@@ -24,5 +24,17 @@
             }
         }
 
+    },
+
+    :wish => {
+        :views => {
+            :my => {
+                :header => "My wishes"
+            },
+            :theirs => {
+                :header => "Can fullfill"
+            }
+
+        }
     }
 }}

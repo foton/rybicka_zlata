@@ -17,6 +17,7 @@ class User::Identity < ActiveRecord::Base
   validates :uid, presence: true, uniqueness: { scope: :provider, message: "Is already taken for provider" }
   validates :email, presence: true, format: { with: EMAIL_REGEXP},  if: "local?"
   validates :email, format: { with: EMAIL_REGEXP , allow_nil: true}, unless: "local?"
+  validate :same_email_same_user
 
   def self.find_for_auth(auth)
     i=find_by(uid: auth.uid, provider: auth.provider.to_sym)
@@ -33,6 +34,11 @@ class User::Identity < ActiveRecord::Base
     i.save!
     i
   end
+
+  def self.create_for_user!(user)
+    i=self.new(provider: LOCAL_PROVIDER, user_id: user.id, email: user.email)
+    i.save!
+  end  
 
   def self.extractor_for(provider)
     case provider.to_s
@@ -118,7 +124,13 @@ class User::Identity < ActiveRecord::Base
   
   private
   
-  def fill_local_uid
-    self.uid=User::Identity.local.maximum(:uid).to_i+1 if local?
-  end 
+    def fill_local_uid
+      self.uid=User::Identity.local.maximum(:uid).to_i+1 if local?
+    end 
+
+    def same_email_same_user
+      if self.user_id.present? && User::Identity.where(email: self.email).where(["user_id <> ?",self.user_id]).present?
+        self.errors.add(:email, I18n.t("user.identities.email_is_owned_by_another_user", email: self.email)) 
+      end  
+    end  
 end

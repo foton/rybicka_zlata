@@ -28,11 +28,11 @@
 
     :wish => {
         :views => {
-            :my_wishes => {
-                :header => "Moje přání"
+            :my => {
+                :header => "Má přání"
             },
-            :others_wishes => {
-                :header => "Mohu splnit"
+            :theirs => {
+                :header => "Můžu splnit"
             }
 
         }

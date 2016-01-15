@@ -26,5 +26,7 @@ cs:
       added: "Kontakt '%{contact}' byl přidán"
       not_deleted: "Kontakt '%{contact}' nebyl smazán"
       not_added: "Kontakt '%{contact}' nebyl přidán"
+    identities:
+      email_is_owned_by_another_user: "E-mailová adresa '%{email}' je již přiřazena jinému uživateli!"
 
 

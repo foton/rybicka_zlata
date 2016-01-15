@@ -270,7 +270,8 @@ Devise.setup do |config|
     Rails.application.secrets.google_client_secret,  
     scope: 'userinfo.email, userinfo.profile', 
     access_type: 'online',
-    name: 'google'
+    name: 'google',
+    skip_jwt: true
     #, redirect_uri: 'http://localhost:3000/users/auth/google/callback?locale=cs'
 
   config.omniauth :github, 

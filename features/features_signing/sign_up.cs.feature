@@ -9,7 +9,7 @@ Kontext:
   A přepnu na češtinu  
 
 Scénář: Registrace uživatele jen přes aplikaci
-  Když kliknu na odkaz "Registrace"
+  Když kliknu v menu na "Registrace"
   A zapíšu do položky "E-mail" text "prvni@rybickazlata.cz"
   #A ukaž mi stránku
   A zapíšu do položky "Heslo" text "NeznáméHeslo328"

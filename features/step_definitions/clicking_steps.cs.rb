@@ -51,3 +51,9 @@ Pokud(/^do seznamu přidám "(.*?)"$/) do |arg1|
   pending # express the regexp above with the code you wish you had
 end
 
+Když(/^kliknu v menu na "(.*?)"$/) do |text|
+  within("div#main_menu") do
+    click_link_or_button(text)  
+  end  
+end
+

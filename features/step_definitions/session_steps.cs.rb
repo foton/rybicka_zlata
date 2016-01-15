@@ -17,7 +17,7 @@ Pak(/^přihlásím se jako "(.*?)" s heslem "(.*?)"$/) do |email, password|
   step "zapíšu do položky \"E-mail\" text \"#{email}\""
   step "zapíšu do položky \"Heslo\" text \"#{password}\""
   step "kliknu na \"Přihlásit\""
-  @current_user=@users.find {|u| u.email == email}
+  @current_user=@users.find {|u| u.email == email} if @users.present?
 end
 
 

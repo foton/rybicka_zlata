@@ -4,6 +4,9 @@
 #RUN ALL TESTS IN FILE?
 #rake test TEST=test/models/identity_test.rb 
 
+require "minitest/reporters"
+Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new]
+#Minitest::Reporters.use! [Minitest::Reporters::ProgressReporter.new]
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -15,7 +18,7 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
    def create_test_user!(attrs={})
-    user=User.new({name: "John Doe", email: "jonh.doe@example.com", password: "my_Password10"}.merge(attrs))
+    user=User.new({name: "John Doe", email: "jonh.doe@test.com", password: "my_Password10"}.merge(attrs))
     user.skip_confirmation!
     user.save!
     user

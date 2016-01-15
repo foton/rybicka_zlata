@@ -9,7 +9,7 @@ Background:
   And I switch locale to "en"
 
 Scenario: Registration of user throught app
-  When I click on "Sign up"
+  When I click on "Sign up" in menu
   And fill in text "prvni@rybickazlata.cz" into "E-mail" input
   And fill in text "NeznáméHeslo328" into "Password" input
   And fill in text "NeznáméHeslo328" into "Password confirmation" input

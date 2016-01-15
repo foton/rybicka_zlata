@@ -4,7 +4,7 @@ require "minitest/mock"
 class UserIdentityTest < ActiveSupport::TestCase
 
   #stubbing extractors
-  Extractor = Struct.new(:name, :verified_email, :locale, :time_zone, :auth_data,)
+  Extractor = Struct.new(:name, :verified_email, :email, :locale, :time_zone, :auth_data,)
 
   def setup
     @user_name="John Doe"
@@ -13,8 +13,8 @@ class UserIdentityTest < ActiveSupport::TestCase
     @auth=OmniAuth::AuthHash.new({provider: "test", uid: "yyy", info: OmniAuth::AuthHash.new({email: @user_email}) })
     
     #mocking additional data from OmniAuth hash
-    @extractor_verified=Extractor.new("John Doe", "john.doe@nowhere.com", "en","Chicago")
-    @extractor_non_verified=Extractor.new("John Doe", nil, "en","London")
+    @extractor_verified=Extractor.new("John Doe", "john.doe@nowhere.com","john.doe@nowhere.com", "en","Chicago")
+    @extractor_non_verified=Extractor.new("John Doe", nil, "john.doe@nowhere.com", "en","London")
   end
 
   def test_can_be_created_from_auth_without_user
@@ -117,7 +117,7 @@ class UserIdentityTest < ActiveSupport::TestCase
   
   def test_recognize_local_provider
     assert User::Identity.new(provider: User::Identity::LOCAL_PROVIDER).local?
-    assert !User::Identity.new(provider: "xxx").local?
+    refute User::Identity.new(provider: "xxx").local?
   end  
 
   def test_cannot_have_invalid_email
@@ -135,6 +135,17 @@ class UserIdentityTest < ActiveSupport::TestCase
 
   def test_can_accept_only_allowed_providers
     refute User::Identity.new(email: nil, provider: "xxx", uid: "yyyy").valid?
+  end  
+
+  def test_one_email_cannot_belong_to_more_users
+    same_email="common@email.cz"
+    idnt1=User::Identity.new( email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: 1)
+    assert idnt1.valid?
+    idnt1.save!
+
+    idnt2=User::Identity.new( email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: 2)
+    refute idnt2.valid?
+    assert_equal idnt2.errors[:email], ["E-mailová adresa '#{same_email}' je již přiřazena jinému uživateli!"]
   end  
   
 end

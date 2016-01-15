@@ -3,22 +3,32 @@
       
   <div class="mdl-layout__header-row">
     
-    <span class="mdl-layout-title"><%= page_title %></span>
-    
+    <span class="mdl-layout-title">
+      <%= image_tag( "logo.png", size: "96", id:"logo") %>
+      <%= page_title %>
+    </span>
     <div class="mdl-layout-spacer"></div>
+
     <nav class="mdl-navigation">
+      
       <div id="locale_switcher">
         <%= link_to((I18n.locale.to_sym == :cs ? "en" : "cs"), change_locale_path( params: {locale: (I18n.locale.to_sym == :cs ? :en : :cs)}), class: "mdl-navigation__link" ) %>
       </div>  
     </nav>
 
   </div>
+
+       
+  <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+      <%= render partial: "/navigation_links", locals: {link_class: "mdl-layout__tab"} %>
+  </div>
+
 </header>
 
-<div class="mdl-layout__drawer">
+<div id="main_menu" class="mdl-layout__drawer">
   <span class="mdl-layout-title"><%= t("rybickazlata.name") -%></span>
   <nav class="mdl-navigation">
-      <%= render partial: "/navigation_links" %>
+      <%= render partial: "/navigation_links", locals: {link_class: "mdl-navigation__link"} %>
   </nav>
 </div>
 
