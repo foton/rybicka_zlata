@@ -83,7 +83,8 @@ class Users::IdentitiesController < ApplicationController
       # ---- end of authorization model ---
       #
       #  post_params=params[:post].slice(*Auth.current.assignable_post_fields)
-      identity_params = params[:user_identity]
+      identity_params = params[:user_identity_as_contact]
+      identity_params[:provider]=User::Identity::LOCAL_PROVIDER if identity_params
       identity_params ? identity_params.permit(:email, :provider) : {}
     end
 

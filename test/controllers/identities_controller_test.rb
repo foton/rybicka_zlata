@@ -16,7 +16,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 		#user is always set to current_user
 		cu_ids_count=@current_user.identities.count
 		assert_difference('User::Identity.count') do
-			post :create, {user_id: (@current_user.id+1) , user_identity: {email: @new_email, provider: User::Identity::LOCAL_PROVIDER}}
+			post :create, {user_id: (@current_user.id+1) , user_identity_as_contact: {email: @new_email, provider: User::Identity::LOCAL_PROVIDER}}
 	  end			
 		
 		assert_response :redirect
@@ -27,7 +27,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 
 	def test_create_local_identity
 		assert_difference('User::Identity.count', +1) do
-			post :create, {user_id: @current_user.id , user_identity: {email: @new_email, provider: User::Identity::LOCAL_PROVIDER}}
+			post :create, {user_id: @current_user.id , user_identity_as_contact: {email: @new_email, provider: User::Identity::LOCAL_PROVIDER}}
 	  end			
 		
 		assert_response :redirect
@@ -36,21 +36,20 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 		assert_equal "Kontakt '#{@new_email}' byl přidán", flash[:notice]
 	end	
 
-	def test_not_create_not_local_identity
-		assert_no_difference('User::Identity.count') do
-			post :create, {user_id: (@current_user.id) , user_identity: {email: @new_email, provider: "test"}}
+	def test_convert_to_local_identity
+		assert_difference('User::Identity.count') do
+			post :create, {user_id: (@current_user.id) , user_identity_as_contact: {email: @new_email, provider: "test"}}
 	  end			
 		
-		assert_response :success
-		assert_template "profiles/my"
-		assert_not_nil assigns(:new_contact)
-		assert_not_nil assigns(:user)
-		assert (assigns(:new_contact).errors[:provider].size > 0)
+		assert_response :redirect
+		assert_redirected_to my_page_path
+		#assert_not_nil assigns(:new_contact)
+		assert_equal "Kontakt '#{@new_email}' byl přidán", flash[:notice]
 	end	
 
 	def test_not_create_local_identity_without_valid_email
 		assert_no_difference('User::Identity.count') do
-			post :create, {user_id: (@current_user.id) , user_identity: {email: "", provider: User::Identity::LOCAL_PROVIDER}}
+			post :create, {user_id: (@current_user.id) , user_identity_as_contact: {email: "", provider: User::Identity::LOCAL_PROVIDER}}
 	  end			
 		
 		assert_response :success
