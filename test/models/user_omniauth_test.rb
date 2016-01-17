@@ -21,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
 
     non_verified_email="change@me-#{auth.uid}-#{auth.provider}.com"
     current_user =nil 
-    
+
     u=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?

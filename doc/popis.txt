@@ -1,0 +1,84 @@
+Obdarovaný vytvoří přání, buď jen svoje, nebo skupinové (skupina obdarovaných o 1..* uživatelích, pro každé přání znova).
+Každý ze skupiny obdarovaných může určit, kteří potenciální dárci mají přání vidět (vznikne skupina potenciálních dárců o 1..* uživatelích, pro každé přání znova).
+Může se také ze skupiny vyřadit (jen on sám sebe).
+
+Každý obdarovaný si může vytvářet svoje skupiny uživatelů pro rychlejší přiřazování (jak do skupiny obdarovaných, tak do skupiny potenciálních dárců).
+Tyto skupiny jsou pojmenované.
+
+Dárce může splnit přání buď sám nebo jako skupina dárců (pouze ze skupiny potenciálních?, tj. (0)1..* skutečných dárců).
+
+U přání se zaznamenává změna ve skupinách potenciálních dárců i obdarovaných,  i obsahu.
+
+
+
+REALIZACE:
+
+Obdarovaný vytvoří přání, a přiřadí ho skupině obdarovaných. V té je buď sám, ne je tam více uživatelů.
+Přání patří vždy skupině obdarovaných, nikoliv obdarovanému. Kdo je v této skupině určuje ten kdo přání vytvořil (autor).
+Následně vybere skupiny či jednotlivce do skupiny potenciálních dárců tohoto přání. Tuto skupinu může měnit kdokoliv ze skupiny obdarovaných.
+
+V okamžiku kdy se najde první dárce, bude vytvořena skupina skutečných dárců. V ní bude buď on sám nebo postupně více dárců.
+Přání plní skupina dárců nikoliv jeden uživatel.
+
+
+
+PŘÍKLADY:
+
+1) Pepa si přeje kolo a chce aby tohle přání viděla jen rodina (Pepova skupina "Rodina": Táta, Máma, Babička).
+Skupina obdarovaných je jen Pepa, skupinu potenciálních dárců tvoří Táta, Máma, Babička.
+Táta s Mámou mu kolo koupí a tak tvoři skupinu skutečných dárců.
+
+2) Pepa si také přeje CD a myslí si, že tohle by mu mohla splnit Rodina i Kamarádi(Pepova skupina "Rodina": Táta, Máma, Babička ; Kamarádi: Lojza, Anička a Karel).
+Skupina obdarovaných je jen Pepa, skupinu potenciálních dárců tvoří Táta, Máma, Babička, Lojza, Anička a Karel.
+Lojza mu CD koupí a tak sám tvoři skupinu skutečných dárců.
+
+
+3)Pepa má ženu Kláru. Tu zná jak Pepova Rodina, tak Pepovi Kamarádi. Oba dva znají i Klářiny "Holky z práce" (Eva, Jana, Iva) a Klářina Rodina (K-Táta, K-Máma).
+  Do svého nového bytu by si Pepa s Klárou přáli pračku
+  Pepa tedy vytvoří přání "Pračka" a přidá Kláru do obdarovaných. Do potenciální dárců dá své Kamarády a Rodinu.
+  Klára spoluvlastnictví potvrdí a přidá do potenciálních dárců svoje Holky z práce a svou Rodinu.
+  Pak si to rozmyslí a Evu ze skupiny potenciálních dárců vyřadí (Eva ale i nadále je ve skupině Holky z Práce).
+
+  Skupina obdarovaných je Pepa a Klára, skupinu potenciálních dárců tvoří Táta, Máma, Babička, Lojza, Anička, Karel, Jana, Iva, K-Táta, K-Máma.
+  Lojza, Karel a Iva se domluví a pračku koupí a tak tvoři skupinu skutečných dárců.
+
+4)Klára by chtěla jednu sexy košilku, ale rozhodně nechce aby tohle přání viděl kdokoliv jiný než Pepa.
+  Skupina obdarovaných je jen Klára, skupinu potenciálních dárců tvoří jen Pepa.
+  Pepovi se košilka nelíbí a tak jí nekoupí. Skupina skutečných dárců je prázdná (ani nevznikne)
+
+
+
+
+
+
+
+IMPLEMENTACE
+A) přes pojmenované skupiny (podle příkladu 3)
+ přání má více skupin obdarovaných (skupiny "Pepa" + "Klára"  nebo skupina "PepoKlárových")
+ přání má více skupin potenciálních dárců (skupiny "Pepova Rodina" + "Klářina Rodina" + "Pepovi Kamarádi" + "Holky z práce" )
+  přání má jednu skupinu skutečných dárců (adhoc skupina "prani1234" [Lojza, Karel a Iva]
+
+  výhoda: Pokud někoho přidám do skupiny, hned vidí všechna odpovídající přání . Totéž s odebráním.
+  nevýhoda: Pokud chci odebrat někoho jen pro dané přání, musím vytvořit novou upravenou skupinu bez něj
+
+b) přímá vazba přání-"role"-uživatel (podle příkladu 3)
+ přání má více obdarovaných uživatelů  ("Pepa" + "Klára")
+ přání má více potenciálních dárců (uživatelé z Pojmenovaných skupin Pepova: "Rodina" + "Kamarádi" a Klářiny: "Holky z práce" + "Rodina" )
+ přání má více skutečných dárců (vazba po kliku na "chci splnit" [Lojza, Karel a Iva])
+
+  výhoda: Pojmenované skupiny slouží jen pro rychlé přidání (odebrání) uživatelů ze seznamu pro dané přání. 
+          Přání má jen max 3 seznamy uživatelů (obdarovaní, potenciální dárci, skuteční dárci), které se dají upravovat s přesností na uživatele
+  nevýhoda: Pokud někoho přidám do skupiny, vidí jen dárky, kterým bude skupina příště přidružena. Ty u kterých už použita byla nevidí.
+             => Lze řešit přehledem "tento Váš potenciální dárce vidí tyto vaše přání"
+
+
+Vybrána verze B
+
+Každý uživatel má seznam kontaktů na sebe (např. e-mailové adresy) (typ, hodnota, název?)
+Každý uživatel přidává svoje "známé" přes kontakt (název, typ?, hodnota).
+Pokud přidávaný kontakt existuje je jen doplněna vazba "uživatel zná kontakt".
+Pokud přidávaný kontakt neexistuje je vytvořen i s "dočasným" uživatelem".
+
+
+
+

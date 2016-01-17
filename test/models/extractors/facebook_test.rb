@@ -14,7 +14,7 @@ class FacebookExtractorTest < ActiveSupport::TestCase
           email: "john.doe@gmail.com",  
           locale: 'cs_CZ',
           name: "John Doe",
-          timezone: 1,  #Prague/Amsterdam?  FB-dev: float (min: -24) (max: 24) The person's current timezone offset from UTC
+          timezone: 1,  #Prague/Amsterdam?  FB-dev: float (min: -24) (max: 24) The friendship's current timezone offset from UTC
           verified: "true"
           })
         })

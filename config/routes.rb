@@ -9,7 +9,11 @@ Rails.application.routes.draw do
     scope module: :users do
       resources :identities
     end
+    resources :friendships
+    resources :groups
   end  
+
+  
   get "/my_page" => "profiles#my", :as => "my_page"
 
 

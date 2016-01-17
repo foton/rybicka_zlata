@@ -8,7 +8,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :omniauthable
          #, :omniauth_providers => [:google_oauth2]
-  has_many :identities, class_name: 'User::Identity', dependent: :destroy
+  has_many :identities, -> { order("email ASC") }, class_name: 'User::Identity', dependent: :destroy
+  has_many :friendships, -> { order("name ASC") }, {foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner}
+  
+  #has_many :friends, -> { order("name ASC") }, class_name: 'User'
+  #has_many :registered_friendships, -> { order("name ASC") }, class_name: 'Friendship', dependent: :destroy
 
   after_save :sure_identity_from_email
 
@@ -26,7 +30,7 @@ class User < ActiveRecord::Base
     
     # Get the identity and user if they exist
     identity = User::Identity.find_for_auth(auth)
-    identity = User::Identity.create_from_auth!(auth) unless identity.present?
+    identity = User::Identity.create_from_auth(auth) unless identity.present?
 
     # If a signed_in_resource is provided it always overrides the existing user
     # to prevent the identity being locked with accidentally created accounts.
@@ -79,6 +83,4 @@ class User < ActiveRecord::Base
         end  
       end  
     end  
-  
-
 end

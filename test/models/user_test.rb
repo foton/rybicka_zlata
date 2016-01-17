@@ -31,7 +31,7 @@ class UserTest < ActiveSupport::TestCase
     i2.save!
     u=User.find(u.id)
 
-    assert_equal ((u.identities.map {|i| i.id}).sort),  [i0.id, i1.id, i2.id].sort
+    assert_equal [i0.id, i1.id, i2.id].sort, ((u.identities.map {|i| i.id}).sort)
     u.destroy
     assert User::Identity.where(id: [i0.id, i1.id, i2.id]).blank?, "defined identities not destroyed: #{User::Identity.where(id: [i0.id, i1.id, i2.id]).to_yaml}"
     assert User::Identity.where(user_id: u.id).blank?, "User's identities not destroyed: #{User::Identity.where(user_id: u.id).to_yaml}"
@@ -52,5 +52,17 @@ class UserTest < ActiveSupport::TestCase
     user.save!
 
     assert user.identities.local.where(email: email).present?
+  end  
+
+  def test_know_his_friendships
+    u=create_test_user!
+    p1= Friendship.new(email: "first@friendship.cz", name: "First")
+    p2= Friendship.new(email: "second@friendship.cz", name: "second friendship")
+    #inserting in reverse order!
+    u.friendships << p2
+    u.friendships << p1
+    u.reload
+
+    assert_equal [p1,p2], u.friendships.to_a  #friendships are ordered by name
   end  
 end

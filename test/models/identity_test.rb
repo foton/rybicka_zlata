@@ -9,12 +9,13 @@ class UserIdentityTest < ActiveSupport::TestCase
   def setup
     @user_name="John Doe"
     @user_email="john.doe@nowhere.com"
+    @user=create_test_user!(name: @user_name, email: @user_email)
 
     @auth=OmniAuth::AuthHash.new({provider: "test", uid: "yyy", info: OmniAuth::AuthHash.new({email: @user_email}) })
     
     #mocking additional data from OmniAuth hash
-    @extractor_verified=Extractor.new("John Doe", "john.doe@nowhere.com","john.doe@nowhere.com", "en","Chicago")
-    @extractor_non_verified=Extractor.new("John Doe", nil, "john.doe@nowhere.com", "en","London")
+    @extractor_verified=Extractor.new(@user_name, @user_email,@user_email, "en","Chicago")
+    @extractor_non_verified=Extractor.new(@user_name, nil, @user_email, "en","London")
   end
 
   def test_can_be_created_from_auth_without_user
@@ -27,44 +28,39 @@ class UserIdentityTest < ActiveSupport::TestCase
       #auth_data are not stored in DB, but transfered from search
       persisted_i=User::Identity.find_for_auth(@auth) 
       assert_equal persisted_i , i
-      assert_nil persisted_i.user
+      assert_equal @user, persisted_i.user
       assert_equal @auth, persisted_i.auth_data
     end
   end  
 
   def test_can_be_created_from_auth_with_user
-    cur_user=create_test_user!()
-       
     User::Identity.stub(:extractor_for, @extractor_verified) do    
-      i=User::Identity.create_from_auth!(@auth, cur_user)
+      i=User::Identity.create_from_auth!(@auth, @user)
       assert i.persisted?
       assert_equal @auth, i.auth_data
-      assert_equal cur_user, i.user
+      assert_equal @user, i.user
     end
   end  
 
   def test_can_associate_user_according_to_email
-    cur_user=create_test_user!(email:  @extractor_verified.verified_email)
-
     #no user given    
     User::Identity.stub(:extractor_for, @extractor_verified) do
       i=User::Identity.create_from_auth!(@auth)
       assert i.persisted?
       assert_equal @auth, i.auth_data
-      assert_equal cur_user, i.user
+      assert_equal @user, i.user
     end  
   end 
 
   def test_can_associate_user_according_to_email_from_another_identity
-    cur_user=create_test_user!(email: @extractor_verified.verified_email)
     User::Identity.stub(:extractor_for, @extractor_verified) do
-      User::Identity.create_from_auth!(@auth.merge(provider: "test", uid: "sss"), cur_user) #create first identity
+      User::Identity.create_from_auth!(@auth.merge(provider: "test", uid: "sss"), @user) #create first identity
           
       #no user given, second identity should find it by email in first   
       i=User::Identity.create_from_auth!(@auth)
       assert i.persisted?
       assert_equal @auth, i.auth_data
-      assert_equal cur_user, i.user
+      assert_equal @user, i.user
     end  
   end 
 
@@ -125,27 +121,63 @@ class UserIdentityTest < ActiveSupport::TestCase
   end
     
   def test_local_identity_must_have_email
-    refute User::Identity.new(email: nil, provider: User::Identity::LOCAL_PROVIDER).valid?
-    assert User::Identity.new(email: "me@home.at", provider: User::Identity::LOCAL_PROVIDER).valid?
+    refute User::Identity.new(email: nil, provider: User::Identity::LOCAL_PROVIDER, user_id: @user.id).valid?
+    assert User::Identity.new(email: "me@home.at", provider: User::Identity::LOCAL_PROVIDER, user_id: @user.id).valid?
   end  
 
   def test_non_local_identity_can_be_without_email
-    assert User::Identity.new(email: nil, provider: "google", uid: "yyyyy").valid?
+    assert User::Identity.new(email: nil, provider: "google", uid: "yyyyy", user_id: @user.id).valid?
   end  
 
   def test_can_accept_only_allowed_providers
     refute User::Identity.new(email: nil, provider: "xxx", uid: "yyyy").valid?
   end  
 
+  def test_user_must_be_valid
+    same_email="common@email.cz"
+    idnt1=User::Identity.new( email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: (User.last.id+1 rescue 1))
+    refute idnt1.valid?
+    assert ["není"], idnt1.errors[:user]
+  end  
+
   def test_one_email_cannot_belong_to_more_users
     same_email="common@email.cz"
-    idnt1=User::Identity.new( email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: 1)
+    idnt1=User::Identity.new( email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: @user.id)
     assert idnt1.valid?
     idnt1.save!
 
-    idnt2=User::Identity.new( email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: 2)
+    second_user=create_test_user!(email: "john@thesecond.com")
+
+    idnt2=User::Identity.new( email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: second_user.id)
     refute idnt2.valid?
     assert_equal idnt2.errors[:email], ["E-mailová adresa '#{same_email}' je již přiřazena jinému uživateli!"]
   end  
-  
+
+  #---------- FRIENDSHIP UPDATES --------
+
+  def setup_friendship
+    @owner=create_test_user!
+    @user_to=create_test_user!(name: "Ford", email: "hitchhiker@galaxy.museum")
+    @friendship=Friendship.new(name: "Simon", email: "simon@says.com", owner_id: @owner.id)
+    assert @friendship.save
+  end 
+
+  def test_binding_user_to_friendship
+    setup_friendship
+    
+    assert_equal nil, @friendship.friend, "@friendship.friend should be blank, but is #{@friendship.friend}"
+    #now add indentiti to @user to with email mentioned in @friendship
+    idnt=User::Identity.new( email: @friendship.email, provider: User::Identity::LOCAL_PROVIDER)
+    assert @user_to.identities << idnt
+    
+    #should be binded aftre_save
+    @friendship.reload
+    assert_equal @user_to, @friendship.friend
+
+    idnt.destroy
+
+    @friendship.reload
+    assert_nil @friendship.friend_id
+  end  
+
 end

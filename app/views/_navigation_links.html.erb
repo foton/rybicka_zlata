@@ -1,14 +1,14 @@
 <% if user_signed_in? %>
   <%= link_to(t("wish.views.theirs.header"), "#theirs_wishes", class: "#{link_class} is-active") %>
   <%= link_to(t("wish.views.my.header"), "#my_wishes", class: link_class) %>
-  <%= link_to(t("people.link"), "#people", class: link_class) %>
-  <%= link_to(t("groups.link"), "#groups", class: link_class) %>
-  <%= link_to(t("my_page.link"), my_page_path(), class: link_class) %>
+  <%= link_to(t("friendship.views.header"), "#friendships", class: link_class) %>
+  <%= link_to(t("group.views.header"), "#groups", class: link_class) %>
+  <%= link_to(t("user.profile.my_page.header"), my_page_path(), class: link_class) %>
   <%= link_to t("devise.sign_out"), destroy_user_session_path, :method => :delete, class: link_class %>
 <% else %>
   <%= link_to t("devise.sign_up"), new_user_registration_path, class: link_class %>
   <%= link_to t("devise.sign_in"), new_user_session_path, class: link_class %>
-  <%= link_to t("static.about"), "#static_about", class: link_class %>
+  <%= link_to t("rybickazlata.static.about"), "#static_about", class: link_class %>
 <% end %>
  
 

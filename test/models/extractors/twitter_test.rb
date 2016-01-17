@@ -16,7 +16,6 @@ class TwitterExtractorTest < ActiveSupport::TestCase
           lang: 'en',
           time_zone: 'Chicago',
           name: "John Doe",
-          timezone: 1,  #Prague/Amsterdam?  FB-dev: float (min: -24) (max: 24) The person's current timezone offset from UTC
           verified: "true"
           })
         })

@@ -21,7 +21,7 @@ module NavigationHelpers
       when "Profil", "mé profilové stránce", "své stránce nastavení", "své stránce", "my profile"
         my_page_path(locale: @locale)
       when "Lidé", "stránce Lidé"
-        user_people_path(current_user, locale: @locale)
+        user_friendships_path(current_user, locale: @locale)
       # when "stránce uživatele"
       #    user_home_page_path(desired_resource, {locale: @locale})
       # else

@@ -28,5 +28,8 @@ cs:
       not_added: "Kontakt '%{contact}' nebyl přidán"
     identities:
       email_is_owned_by_another_user: "E-mailová adresa '%{email}' je již přiřazena jinému uživateli!"
+    profile:
+      my_page:
+        header: "Profil"
 
 

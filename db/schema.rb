@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107155514) do
+ActiveRecord::Schema.define(version: 20160117193246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "friendships", force: :cascade do |t|
+    t.string  "name",      null: false
+    t.string  "email",     null: false
+    t.integer "friend_id"
+    t.integer "owner_id"
+  end
+
+  add_index "friendships", ["email"], name: "index_friendships_on_email", using: :btree
+  add_index "friendships", ["friend_id"], name: "index_friendships_on_friend_id", using: :btree
+  add_index "friendships", ["owner_id"], name: "index_friendships_on_owner_id", using: :btree
 
   create_table "identities", force: :cascade do |t|
     t.string  "provider", default: "", null: false
@@ -23,6 +34,7 @@ ActiveRecord::Schema.define(version: 20160107155514) do
     t.string  "email"
   end
 
+  add_index "identities", ["email"], name: "index_identities_on_email", using: :btree
   add_index "identities", ["provider", "uid"], name: "oauth_index", unique: true, using: :btree
   add_index "identities", ["provider"], name: "index_identities_on_provider", using: :btree
   add_index "identities", ["uid"], name: "index_identities_on_uid", using: :btree
@@ -53,4 +65,7 @@ ActiveRecord::Schema.define(version: 20160107155514) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "friendships", "users", column: "owner_id"
+  add_foreign_key "identities", "users"
 end

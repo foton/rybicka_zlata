@@ -60,7 +60,8 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 	end	
 
 	def test_cannot_delete_others_identity
-		@identity=User::Identity.create!(email: @new_email, provider: User::Identity::LOCAL_PROVIDER)
+		other_user=create_test_user!
+		@identity=User::Identity.create!(email: @new_email, provider: User::Identity::LOCAL_PROVIDER, user: other_user)
 
 		assert_no_difference('User::Identity.count') do
 			delete :destroy, {user_id: (@current_user.id) , id: @identity.id}

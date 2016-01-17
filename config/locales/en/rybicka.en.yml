@@ -2,3 +2,5 @@ en:
   rybickazlata:
     name: "The Golden fish"
     title: "could make your wishes true"
+    static:
+      about: "About"

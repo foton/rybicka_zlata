@@ -1,20 +1,20 @@
-{:cs => {
+{:en => {
     :activerecord => {
         :models => {
-            :person => {
-                :one => "Person",
-                :other => "People"
+            :friendship => {
+                :one => "Friendship",
+                :other => "Friendships"
             }
         },
         :attributes => {
-            :person => {
+            :friendship => {
                 :name => "Name",
                 :address => "Address"
             }
         },
         :errors => {
             :models => {
-                :person => {
+                :friendship => {
                     :attributes => {
                         :name => {
                             :too_short => "This name is too short"
@@ -26,9 +26,9 @@
 
     },
 
-    :person => {
+    :friendship => {
         :views => {
-            :header => "My wishes"
+            :header => "Friendships"
             }
         }
     }

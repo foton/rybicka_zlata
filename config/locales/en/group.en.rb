@@ -1,23 +1,22 @@
-{:cs => {
+{:en => {
     :activerecord => {
         :models => {
-            :person => {
-                :one => "Člověk",
-                :other => "Lidé"
+            :group => {
+                :one => "Group",
+                :other => "Groups"
             }
         },
         :attributes => {
-            :person => {
-                :name => "Jméno",
-                :address => "Adresa"
+            :group => {
+                :name => "Name"
             }
         },
         :errors => {
             :models => {
-                :person => {
+                :group => {
                     :attributes => {
                         :name => {
-                            :too_short => "Tohle Jméno je minimální až moc"
+                            :too_short => "This Name is too short"
                         }
                     }
                 }
@@ -26,9 +25,9 @@
 
     },
 
-    :person => {
+    :group => {
         :views => {
-            :header => "Má přání"
+            :header => "Groups"
             }
         }
     }

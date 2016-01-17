@@ -1,7 +1,6 @@
 class User::Identity < ActiveRecord::Base
   belongs_to :user
-  validates_presence_of :uid, :provider
-  validates_uniqueness_of :uid, :scope => :provider
+  has_many :friendships, primary_key: 'email', foreign_key: 'email'
 
   self.table_name="identities"
 
@@ -13,12 +12,16 @@ class User::Identity < ActiveRecord::Base
   attr_accessor :auth_data
 
   before_validation :fill_local_uid
+  after_save :bind_friendships_as_friend
+  after_destroy :unbind_friendships
+
   validates :provider, presence: true, inclusion: { in: ALLOWED_PROVIDERS}
   validates :uid, presence: true, uniqueness: { scope: :provider, message: "Is already taken for provider" }
   validates :email, presence: true, format: { with: EMAIL_REGEXP},  if: "local?"
   validates :email, format: { with: EMAIL_REGEXP , allow_nil: true}, unless: "local?"
   validate :same_email_same_user
-
+  validates :user, presence: true
+  
   def self.find_for_auth(auth)
     i=find_by(uid: auth.uid, provider: auth.provider.to_sym)
     i.auth_data=auth if i
@@ -26,12 +29,17 @@ class User::Identity < ActiveRecord::Base
   end
 
   def self.create_from_auth!(auth, user=nil)
+    i=self.create_from_auth(auth,user)
+    i.save!
+    i
+  end
+
+  def self.create_from_auth(auth, user=nil)
     i=self.new(uid: auth.uid, provider: auth.provider.to_sym)
     i.auth_data=auth 
     #if there is verified email, set this one
     i.email=(i.verified_email? ? i.verified_email : auth.info.email)
     i.try_add_user(user)
-    i.save!
     i
   end
 
@@ -96,19 +104,28 @@ class User::Identity < ActiveRecord::Base
     self.save!
   end  
 
-  def try_add_user(user)
-    if !user.kind_of?(User) && verified_email.present?
-      user=User.find_by_email(verified_email)
+  def try_add_user(usr)
+    #try to find user if not passed
+    if !usr.kind_of?(User) 
+      if verified_email.present?
+       email_to_search=verified_email 
+      else 
+       email_to_search=email 
+      end
+      
+      if email.present?
+        #this is not needed, because there should be associated Identity with the user.email
+        usr=User.find_by_email(email_to_search)
 
-      if user.blank?
-        #try search between identities
-        i=User::Identity.where(email: verified_email).where("id <> ?", self.id)
-        user=i.first.user if i.present?
+        if usr.blank?
+          #try search between identities
+          i=User::Identity.where(email: email_to_search).where("id <> ?", self.id)
+          usr=i.first.usr if i.present?
+        end  
       end  
-    end  
-    if user.kind_of?(User)
-     self.user=user 
-    end 
+    end
+
+    self.user=usr if usr.kind_of?(User)
   end
 
   def local?
@@ -133,4 +150,33 @@ class User::Identity < ActiveRecord::Base
         self.errors.add(:email, I18n.t("user.identities.email_is_owned_by_another_user", email: self.email)) 
       end  
     end  
+
+    #search if there are unasigned Friendships with one of the user mails
+    #if they are, make connection
+    def bind_friendships_as_friend
+      friendships.where(friend_id: nil).each {|fshp| bind_friendship(fshp)}
+    end  
+
+    # Identity cannot be updated, just created or deleted
+    # def check_friendships_to_old_email
+    #   if self.previous_changes
+    #     old_email="xx"
+    #     Friendship.where(email: old_email).each {|fshp| unbind_friendship(fshp)}
+    #   end  
+    # end  
+
+    def unbind_friendships
+      friendships.each {|fshp| unbind_friendship(fshp)}
+    end 
+
+    def bind_friendship(fshp)
+      fshp.friend=self.user
+      fshp.save!
+    end 
+
+    def unbind_friendship(fshp)
+      fshp.friend=nil
+      fshp.save!
+    end 
 end
+

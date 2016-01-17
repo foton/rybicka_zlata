@@ -2,3 +2,5 @@ cs:
   rybickazlata:
     name: "Rybička zlatá"
     title: "možná splní vaše přání"
+    static:
+      about: "O Rybičce"

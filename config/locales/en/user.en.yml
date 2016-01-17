@@ -27,4 +27,8 @@ en:
       not_added: "Contact '%{contact}' was not added"
     identities:
       email_is_owned_by_another_user: "E-mail address '%{email}' is already assigned to another user!"
+    profile:
+      my_page:
+        header: "Profile"
+
 
