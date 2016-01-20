@@ -23,7 +23,7 @@
 #        email_verified="true" 
 #        family_name="Doe" 
 #        given_name="John" 
-#        kind="plus#friendshipOpenIdConnect" 
+#        kind="plus#connectionOpenIdConnect" 
 #        locale="cs" 
 #        name="John Doe" 
 #        picture="https://lh5.googleusercontent.com/-K-FYMfCDazg/AAAAAAAAAAI/AAAAAAAATug/WPHCQlEc-xM/photo.jpg?sz=50" 

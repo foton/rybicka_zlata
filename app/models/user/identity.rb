@@ -1,6 +1,6 @@
 class User::Identity < ActiveRecord::Base
   belongs_to :user
-  has_many :friendships, primary_key: 'email', foreign_key: 'email'
+  has_many :connections, primary_key: 'email', foreign_key: 'email'
 
   self.table_name="identities"
 
@@ -12,8 +12,8 @@ class User::Identity < ActiveRecord::Base
   attr_accessor :auth_data
 
   before_validation :fill_local_uid
-  after_save :bind_friendships_as_friend
-  after_destroy :unbind_friendships
+  after_save :bind_connections_as_friend
+  after_destroy :unbind_connections
 
   validates :provider, presence: true, inclusion: { in: ALLOWED_PROVIDERS}
   validates :uid, presence: true, uniqueness: { scope: :provider, message: "Is already taken for provider" }
@@ -151,30 +151,30 @@ class User::Identity < ActiveRecord::Base
       end  
     end  
 
-    #search if there are unasigned Friendships with one of the user mails
+    #search if there are unasigned Connections with one of the user mails
     #if they are, make connection
-    def bind_friendships_as_friend
-      friendships.where(friend_id: nil).each {|fshp| bind_friendship(fshp)}
+    def bind_connections_as_friend
+      connections.where(friend_id: nil).each {|fshp| bind_connection(fshp)}
     end  
 
     # Identity cannot be updated, just created or deleted
-    # def check_friendships_to_old_email
+    # def check_connections_to_old_email
     #   if self.previous_changes
     #     old_email="xx"
-    #     Friendship.where(email: old_email).each {|fshp| unbind_friendship(fshp)}
+    #     Connection.where(email: old_email).each {|fshp| unbind_connection(fshp)}
     #   end  
     # end  
 
-    def unbind_friendships
-      friendships.each {|fshp| unbind_friendship(fshp)}
+    def unbind_connections
+      connections.each {|fshp| unbind_connection(fshp)}
     end 
 
-    def bind_friendship(fshp)
+    def bind_connection(fshp)
       fshp.friend=self.user
       fshp.save!
     end 
 
-    def unbind_friendship(fshp)
+    def unbind_connection(fshp)
       fshp.friend=nil
       fshp.save!
     end 

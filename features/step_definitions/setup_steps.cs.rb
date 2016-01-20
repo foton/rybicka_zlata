@@ -26,8 +26,22 @@ Pokud /^existují standardní testovací uživatelé$/ do
   )
 end
 
-Pokud(/^existuje kontakt "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
+  #frienship.fullname : Ježíšek [???]: jezisek@rybickazlata.cz
+  fshps= @current_user.connections.select {|fshp| fshp.fullname == connection_fullname}
+  
+  if fshps.blank?
+     #lets create it 
+     if m=connection_fullname.strip.match(/\A(.*) \[.*\]: (.*)\z/)
+       @current_user.connections << Connection.new(name: m[1], email: m[2])
+       @current_user.connections.reload
+     else
+       raise "Unable to parse connection from fullname '#{connection_fullname}'"
+     end
+  elsif fshps.size != 1
+    raise "Ambiguous match for '#{connection_fullname}': #{fshps.join("\n")}"
+  end  
+
 end
 
 Pokud(/^existuje skupina "(.*?)" se členy \["(.*?)", "(.*?)","(.*?)"\]$/) do |arg1, arg2, arg3, arg4|

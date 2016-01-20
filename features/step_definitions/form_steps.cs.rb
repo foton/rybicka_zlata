@@ -8,8 +8,8 @@ When /^vyberu "([^"]*)" z nabídky "([^"]*)"$/ do |value, field|
   select(value, :from => field)
 end
 
-Pak(/^změním "(.*?)" na "(.*?)"$/) do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+Pak(/^změním "(.*?)" na "(.*?)"$/) do |old_value, new_value|
+  find("input[value=\"#{old_value}\"]").set(new_value)
 end
 
 Když(/^zadám další adresu "(.*?)"$/) do |adr|

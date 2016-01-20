@@ -1,25 +1,22 @@
 #encoding: utf-8
 
-Then /^(?:bych měl|měl bych) vidět (?:text )?"([^"]*)"$/ do |regexp|
-  regexp = Regexp.new(regexp)
-
-  if page.respond_to? :should
-    page.should have_xpath('//*', :text => regexp)
-  else
-    assert page.has_xpath?('//*', :text => regexp)
-  end
+Then /^(?:bych měl|měl bych) vidět (?:text )?"([^"]*)"$/ do |text|
+  page.find('body', text: text)
 end
 
 Pak(/^vidím (?:text )?"([^"]*)"$/) do |text|
   step "měl bych vidět \"#{text}\""
 end
 
-Pak(/^v seznamu lidí je "(.*?)" s adresou "(.*?)"$/) do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
-end
-
-Pak(/^v seznamu lidí (je|není) kontakt "(.*?)"$/) do |je_neni, kontakt|
-  pending # express the regexp above with the code you wish you had
+Pak(/^v seznamu (?:lidí|přátel) (je|není) kontakt "(.*?)" s adresou "(.*?)"$/) do |je_neni, name, email|
+  within(:css, "#connections_list") do
+    #find('li', text: Regexp.new("\A#{name} \[.*\]: #{email}\z") )
+    if je_neni=="je"
+      find('li', text: Regexp.new("#{name} .* #{email}") )
+    else
+      assert_no_text(email)
+    end  
+  end  
 end
 
 Pak(/^v seznamu skupin je "(.*?)" se členy \["(.*?)","(.*?)"\]$/) do |arg1, arg2, arg3|

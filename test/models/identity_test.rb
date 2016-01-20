@@ -155,29 +155,29 @@ class UserIdentityTest < ActiveSupport::TestCase
 
   #---------- FRIENDSHIP UPDATES --------
 
-  def setup_friendship
+  def setup_connection
     @owner=create_test_user!
     @user_to=create_test_user!(name: "Ford", email: "hitchhiker@galaxy.museum")
-    @friendship=Friendship.new(name: "Simon", email: "simon@says.com", owner_id: @owner.id)
-    assert @friendship.save
+    @connection=Connection.new(name: "Simon", email: "simon@says.com", owner_id: @owner.id)
+    assert @connection.save
   end 
 
-  def test_binding_user_to_friendship
-    setup_friendship
+  def test_binding_user_to_connection
+    setup_connection
     
-    assert_equal nil, @friendship.friend, "@friendship.friend should be blank, but is #{@friendship.friend}"
-    #now add indentiti to @user to with email mentioned in @friendship
-    idnt=User::Identity.new( email: @friendship.email, provider: User::Identity::LOCAL_PROVIDER)
+    assert_equal nil, @connection.friend, "@connection.friend should be blank, but is #{@connection.friend}"
+    #now add indentiti to @user to with email mentioned in @connection
+    idnt=User::Identity.new( email: @connection.email, provider: User::Identity::LOCAL_PROVIDER)
     assert @user_to.identities << idnt
     
     #should be binded aftre_save
-    @friendship.reload
-    assert_equal @user_to, @friendship.friend
+    @connection.reload
+    assert_equal @user_to, @connection.friend
 
     idnt.destroy
 
-    @friendship.reload
-    assert_nil @friendship.friend_id
+    @connection.reload
+    assert_nil @connection.friend_id
   end  
 
 end

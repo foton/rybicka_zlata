@@ -9,10 +9,10 @@ class User < ActiveRecord::Base
          :confirmable, :omniauthable
          #, :omniauth_providers => [:google_oauth2]
   has_many :identities, -> { order("email ASC") }, class_name: 'User::Identity', dependent: :destroy
-  has_many :friendships, -> { order("name ASC") }, {foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner}
+  has_many :connections, -> { order("name ASC") }, {foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner}
   
   #has_many :friends, -> { order("name ASC") }, class_name: 'User'
-  #has_many :registered_friendships, -> { order("name ASC") }, class_name: 'Friendship', dependent: :destroy
+  #has_many :registered_connections, -> { order("name ASC") }, class_name: 'Connection', dependent: :destroy
 
   after_save :sure_identity_from_email
 

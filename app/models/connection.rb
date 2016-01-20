@@ -1,4 +1,4 @@
-class Friendship < ActiveRecord::Base
+class Connection < ActiveRecord::Base
 	belongs_to :friend, class_name: User 
 	belongs_to :owner, class_name: User
 
@@ -17,13 +17,13 @@ class Friendship < ActiveRecord::Base
   def fullname
     if friend_id.blank?
       #friend (as registered user) was not assigned
-      "#{name} [???]"
+      "#{name} [???]: #{email}"
     elsif friend.blank?
       #friend (as registered user) was assigned, but now it does not exists (deleted)
-      "#{name} [deleted]"
+      "#{name} [deleted]: #{email}"
     else
       #firend (as registered user) is assigned
-      "#{name} [friened.displayed_name]"
+      "#{name} [#{friend.displayed_name}]: #{email}"
     end  
   end  
 

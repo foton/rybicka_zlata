@@ -54,15 +54,15 @@ class UserTest < ActiveSupport::TestCase
     assert user.identities.local.where(email: email).present?
   end  
 
-  def test_know_his_friendships
+  def test_know_his_connections
     u=create_test_user!
-    p1= Friendship.new(email: "first@friendship.cz", name: "First")
-    p2= Friendship.new(email: "second@friendship.cz", name: "second friendship")
+    p1= Connection.new(email: "first@connection.cz", name: "First")
+    p2= Connection.new(email: "second@connection.cz", name: "second connection")
     #inserting in reverse order!
-    u.friendships << p2
-    u.friendships << p1
+    u.connections << p2
+    u.connections << p1
     u.reload
 
-    assert_equal [p1,p2], u.friendships.to_a  #friendships are ordered by name
+    assert_equal [p1,p2], u.connections.to_a  #connections are ordered by name
   end  
 end

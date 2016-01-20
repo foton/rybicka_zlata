@@ -1,0 +1,22 @@
+<li class="connection mdl-grid">
+
+  <div class="li_content mdl-cell"><%= connection.fullname %></div>
+   <div class="mdl-layout-spacer"></div>
+  <div class="actions md-cell">
+    <%= link_to( edit_user_connection_path(current_user,connection),
+                 method: :get,
+                 class: "edit mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                ) do %>
+      <i class="material-icons">mode_edit</i>
+    <% end %> 
+
+    <%= link_to( user_connection_path(current_user,connection),
+               	 method: :delete,
+                 class: "delete mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                ) do %>
+    	<i class="material-icons">remove</i>
+    <% end %>	
+    </div>
+  </div>  
+
+</li>

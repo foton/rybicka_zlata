@@ -20,6 +20,10 @@ Když(/^kliknu na přidání$/) do
   click_link_or_button("add")
 end
 
+Když(/^kliknu na uložení$/) do
+  click_link_or_button("add")
+end
+
 Pokud(/^kliknu na (editaci|smazání) u "(.*?)"$/) do |action, text_to_find|
   case action
 	  when "smazání"

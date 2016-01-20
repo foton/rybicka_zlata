@@ -1,0 +1,15 @@
+<h3><%= t("connection.views.header") %></h3>
+
+<div id="connections">
+ 	<div id="add_connection">
+		  <%= render( partial: "form") %>
+	</div>
+
+	<div id="connections_list" class="list">
+		<h4><%= t("connection.views.list.header") %></h4>
+		<ul class="list-with-actions">
+		  <%= render( partial: "connection", collection: current_user.connections) || t("connection.views.list.none") %>
+	  </ul>
+	</div>
+</div>       
+       
