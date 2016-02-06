@@ -42,6 +42,11 @@
             list: {
                 header: "Seznam přátel",
                 none: "Zatím žádní přátelé"
+            },
+            delete: {
+                confirm: {
+                    message: "Opravdu smazat?"
+                }
             }
         }
     }

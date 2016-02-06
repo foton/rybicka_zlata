@@ -12,6 +12,7 @@
 
     <%= link_to( user_connection_path(current_user,connection),
                	 method: :delete,
+                 data: { confirm: t("connection.views.delete.confirm.message"), "confirm-yes": t("confirm.yes"), "confirm-no": t("confirm.no")},
                  class: "delete mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
                 ) do %>
     	<i class="material-icons">remove</i>

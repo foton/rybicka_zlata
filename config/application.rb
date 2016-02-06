@@ -25,7 +25,7 @@ module RybickaZlata4
 
     #On config/application.rb forcing your application to not access the DB or load models when precompiling your assets.
     config.assets.initialize_on_precompile = false
-    config.assets.paths << Rails.root.join("app","assets","javascripts","mdl_extensions")
+    #config.assets.paths << Rails.root.join("app","assets","javascripts","mdl_extensions")
 
     def self.available_locales
       [["English","en"],["Čeština","cs"]]

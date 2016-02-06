@@ -42,7 +42,12 @@
             list: {
                 header: "Friends list",
                 none: "No friends yet"
-            }
+            },
+            delete: {
+                confirm: {
+                    message: "Really delete?"
+                }
+            }            
         }
     }
 }}

@@ -12,5 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require mdl_extensions/mdl-jquery-modal-dialog.js
 //= require_tree .
 

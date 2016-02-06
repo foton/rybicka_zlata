@@ -4,3 +4,6 @@ cs:
     title: "možná splní vaše přání"
     static:
       about: "O Rybičce"
+  confirm:
+    "yes": "Ano"
+    "no": "Ne"

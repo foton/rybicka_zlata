@@ -34,6 +34,7 @@ Scénář: Úprava přítele
   A v seznamu přátel je kontakt "Ježíšek2" s adresou "jezisek2@rybickazlata.cz"
   A v seznamu přátel není kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
 
+@javascript
 Scénář: Odstranění přítele
   Pokud existuje přítel "Ježíšek [???]: jezisek@rybickazlata.cz"
   A jsem na stránce "Přátelé"
@@ -41,6 +42,6 @@ Scénář: Odstranění přítele
   A smazání potvrdím
   
   Pak jsem na stránce "Přátelé"
-  A vidím text "Kontakt 'Ježíšek' byl úspešně smazán."
-  A v seznamu přátel není kontakt "Ježíšek" s adresou [jezisek@rybickazlata.cz]"
+  A vidím text "Kontakt 'Ježíšek [???]: jezisek@rybickazlata.cz' byl úspěšně smazán."
+  A v seznamu přátel není kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
 

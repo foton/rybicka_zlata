@@ -4,3 +4,6 @@ en:
     title: "could make your wishes true"
     static:
       about: "About"
+  confirm:
+    "yes": "Yes"
+    "no": "No"

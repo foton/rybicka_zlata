@@ -40,7 +40,9 @@ Pokud(/^kliknu na (editaci|smazání) u "(.*?)"$/) do |action, text_to_find|
 end
 
 Když(/^smazání potvrdím$/) do
-  pending # express the regexp above with the code you wish you had
+  within("#confirm-dialog") do
+    click_button("Ano")
+  end  
 end
 
 Pak(/^vyřadím "(.*?)"$/) do |arg1|
