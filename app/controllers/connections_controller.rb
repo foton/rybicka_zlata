@@ -2,7 +2,6 @@ class ConnectionsController < ApplicationController
 	def index 
 	  load_connections
     build_connection
-    logger.debug("INDEX FLASHES: #{flash.to_yaml}")
 	end  
 
 	def show

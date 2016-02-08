@@ -26,26 +26,26 @@ class ConnectionsControllerTest < ActionController::TestCase
   end 	
 
   def test_created
-    fshp_h= { name: "Ježuraa", email:"jezura@com.com"}
+    conn_h= { name: "Ježuraa", email:"jezura@com.com"}
     
-    post :create, {user_id: @current_user.id, connection: fshp_h}
+    post :create, {user_id: @current_user.id, connection: conn_h}
 
     assert_response :redirect
     assert_redirected_to user_connections_path(@current_user)
-    assert_equal "Kontakt '#{fshp_h[:name]} [???]: #{fshp_h[:email]}' byl úspěšně přidán.", flash[:notice]
+    assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' byl úspěšně přidán.", flash[:notice]
   end
 
   def test_not_created
-    fshp_h= { name: "Ježuraa", email:"jezura_at_com.com"}
+    conn_h= { name: "Ježuraa", email:"jezura_at_com.com"}
     
-    post :create, {user_id: @current_user.id, connection: fshp_h}
+    post :create, {user_id: @current_user.id, connection: conn_h}
 
     assert_response :success
     assert_template "index"
     assert_not_nil assigns(:connection)
     assert_not_nil assigns(:user)
     assert (assigns(:connection).errors[:email].size > 0)
-    assert_equal "Kontakt '#{fshp_h[:name]} [???]: #{fshp_h[:email]}' nebyl přidán.", flash[:error]
+    assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' nebyl přidán.", flash[:error]
   end
 
   def test_edit
@@ -62,28 +62,28 @@ class ConnectionsControllerTest < ActionController::TestCase
   end
 
   def test_update
-    fshp_h= { name: "Ježuraa", email:"jezura@com.com"}
+    conn_h= { name: "Ježuraa", email:"jezura@com.com"}
     connection=Connection.create!(owner: @current_user, name: "second", email: "connection@my.two")
     
-    patch :update, {user_id: @current_user.id, id: connection.id, connection: fshp_h}
+    patch :update, {user_id: @current_user.id, id: connection.id, connection: conn_h}
 
     assert_response :redirect
     assert_redirected_to user_connections_path(@current_user)
-    assert_equal "Kontakt '#{fshp_h[:name]} [???]: #{fshp_h[:email]}' byl úspěšně aktualizován.", flash[:notice]
+    assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' byl úspěšně aktualizován.", flash[:notice]
   end  
 
   def test_not_update
-    fshp_h= { name: "Ježuraa", email:"jezura_at_com.com"}
+    conn_h= { name: "Ježuraa", email:"jezura_at_com.com"}
     connection=Connection.create!(owner: @current_user, name: "second", email: "connection@my.two")
 
-    patch :update, {user_id: @current_user.id,  id: connection.id, connection: fshp_h}
+    patch :update, {user_id: @current_user.id,  id: connection.id, connection: conn_h}
 
     assert_response :success
     assert_template "edit"
     assert_not_nil assigns(:connection)
     assert_not_nil assigns(:user)
     assert (assigns(:connection).errors[:email].size > 0)
-    assert_equal "Kontakt '#{fshp_h[:name]} [???]: #{fshp_h[:email]}' nebyl aktualizován.", flash[:error]
+    assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' nebyl aktualizován.", flash[:error]
   end  
 
   def test_destroy

@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
          #, :omniauth_providers => [:google_oauth2]
   has_many :identities, -> { order("email ASC") }, class_name: 'User::Identity', dependent: :destroy
   has_many :connections, -> { order("name ASC") }, {foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner}
+  has_many :groups, -> { order("name ASC") }, {dependent: :destroy, inverse_of: :user}
   
   #has_many :friends, -> { order("name ASC") }, class_name: 'User'
   #has_many :registered_connections, -> { order("name ASC") }, class_name: 'Connection', dependent: :destroy

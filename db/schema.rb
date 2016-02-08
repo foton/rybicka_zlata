@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160117193246) do
+ActiveRecord::Schema.define(version: 20160206201224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,21 @@ ActiveRecord::Schema.define(version: 20160117193246) do
   add_index "connections", ["email"], name: "index_connections_on_email", using: :btree
   add_index "connections", ["friend_id"], name: "index_connections_on_friend_id", using: :btree
   add_index "connections", ["owner_id"], name: "index_connections_on_owner_id", using: :btree
+
+  create_table "connections_groups", id: false, force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "connection_id"
+  end
+
+  add_index "connections_groups", ["connection_id"], name: "index_connections_groups_on_connection_id", using: :btree
+  add_index "connections_groups", ["group_id"], name: "index_connections_groups_on_group_id", using: :btree
+
+  create_table "groups", force: :cascade do |t|
+    t.string  "name",    null: false
+    t.integer "user_id", null: false
+  end
+
+  add_index "groups", ["user_id"], name: "index_groups_on_user_id", using: :btree
 
   create_table "identities", force: :cascade do |t|
     t.string  "provider", default: "", null: false
@@ -67,5 +82,8 @@ ActiveRecord::Schema.define(version: 20160117193246) do
 
   add_foreign_key "connections", "users", column: "friend_id"
   add_foreign_key "connections", "users", column: "owner_id"
+  add_foreign_key "connections_groups", "connections"
+  add_foreign_key "connections_groups", "groups"
+  add_foreign_key "groups", "users"
   add_foreign_key "identities", "users"
 end

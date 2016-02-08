@@ -3,6 +3,7 @@ class Connection < ActiveRecord::Base
 	belongs_to :owner, class_name: User
 
   has_many :identities, primary_key: 'email', foreign_key: 'email', class_name: 'User::Identity'
+  has_and_belongs_to_many :groups
 
   validates :email, presence: true, format: { with: User::Identity::EMAIL_REGEXP} 
   validates :name, presence: true, format: { with: /\A\S.+\S\z/ } #minimum 3 charakters, first and last is non-whitespace

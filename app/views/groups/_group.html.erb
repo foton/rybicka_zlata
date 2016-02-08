@@ -1,0 +1,23 @@
+<li class="group mdl-grid">
+
+  <div class="li_content mdl-cell"><%= group.name %><br />[<%= group.connections.count%>]</div>
+  <div class="mdl-layout-spacer"></div>
+  <div class="actions md-cell">
+    <%= link_to( edit_user_group_path(current_user,group),
+                 method: :get,
+                 class: "edit mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                ) do %>
+      <i class="material-icons">mode_edit</i>
+    <% end %> 
+
+    <%= link_to( user_group_path(current_user,group),
+               	 method: :delete,
+                 data: { confirm: t("group.views.delete.confirm.message"), "confirm-yes": t("confirm.yes"), "confirm-no": t("confirm.no")},
+                 class: "delete mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                ) do %>
+    	<i class="material-icons">remove</i>
+    <% end %>	
+    </div>
+  </div>  
+
+</li>
