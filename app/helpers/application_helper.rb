@@ -37,4 +37,22 @@ module ApplicationHelper
     end
   end
 
+  def form_submit_button(text=nil)
+    button_tag( class: "button-save mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+      text ||"<i class=\"material-icons\">check</i>".html_safe
+    end
+  end
+  
+  def form_next_button(text=nil)
+    button_tag( class: "button-save mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+      text ||"<i class=\"material-icons\">forward</i>".html_safe
+    end
+  end
+
+  def add_new_button(text=nil)
+    button_tag( class: "button-add mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+        text ||"<i class=\"material-icons\">add</i>".html_safe
+    end
+  end  
+
 end

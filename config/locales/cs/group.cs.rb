@@ -29,7 +29,7 @@
         views: {
             header: "Skupiny",
             add: { 
-              name: "Název"
+              name: "Název nové skupiny"
             },
             added: "Skupina '%{name}' byla úspěšně přidána. Nyní ji, prosím, naplňte lidmi?y.",
             not_added: "Skupina '%{name}' nebyla přidána.",

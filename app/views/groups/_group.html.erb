@@ -1,6 +1,8 @@
 <li class="group mdl-grid">
 
-  <div class="li_content mdl-cell"><%= group.name %><br />[<%= group.connections.count%>]</div>
+  <div class="li_content mdl-cell">
+     <%= link_to group.name, user_group_url(group.user, group) %><br />[<%= group.connections.count%>]
+   </div>
   <div class="mdl-layout-spacer"></div>
   <div class="actions md-cell">
     <%= link_to( edit_user_group_path(current_user,group),

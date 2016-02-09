@@ -29,7 +29,7 @@
         views: {
             header: "Groups",
             add: { 
-              name: "Name"
+              name: "Name of new group"
             }
         }
     }

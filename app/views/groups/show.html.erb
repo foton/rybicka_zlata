@@ -1,0 +1,10 @@
+ 	<div id="group_show">
+		  <h3><%= @group.name %></h3>
+    <div id="connections_in_group">
+    	<ul>
+			<% for conn in @group.connections %>
+				<li><%= conn.fullname %></li>
+			<% end %>
+      </ul>
+	  </div>
+	</div>

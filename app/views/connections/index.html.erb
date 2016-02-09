@@ -1,8 +1,9 @@
 <h3><%= t("connection.views.header") %></h3>
 
 <div id="connections">
- 	<div id="add_connection">
+ 	<div id="add_connection" class="form-add">
 		  <%= render( partial: "form") %>
+		  <%= add_new_button %>
 	</div>
 
 	<div id="connections_list" class="list">

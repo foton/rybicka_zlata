@@ -6,19 +6,20 @@
 				  <%= f.text_field :name, class: "mdl-textfield__input" %>
 				</div>
 				<div class="actions">
-				  <%= button_tag( class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do %>
-				  <i class="material-icons">check</i><!-- check, save -->
-				  <% end %>
+				  <%= form_submit_button %>
 				</div>
 	
 
-
-		    <div id="connections_not_in_group">
-		         Not in group
+        
+      <div class="group mdl-grid lists-of-checkboxes" id="group_connections">
+		    <div class="md-cell list-of-unchecked" id="connections_not_in_group">
+		      <%= render partial: "connections_select", locals: {connections: (@user_connections-@group.connections)} %>
 		    </div>
-		    <div id="connections_in_group">
-		    	In group coonections
+		    <div class="mdl-layout-spacer"></div>
+        <div class="md-cell list-of-checked" id="connections_in_group">
+		    	<%= render partial: "connections_select", locals: {connections: @group.connections} %>
 		    </div>
-
+      </div>
+      
   	<% end %>
 	</div>

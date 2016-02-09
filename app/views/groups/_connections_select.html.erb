@@ -1,0 +1,8 @@
+					<ul>
+					<% for conn in connections %>
+						<li>
+						  <%= check_box_tag "group[connection_ids][#{conn.id}]", conn.id, @group.connections.include?(conn), name: "group[connection_ids][]" %>
+						  <%= label_tag("group[connection_ids][#{conn.id}]",conn.fullname) %>
+						</li>
+					<% end %>
+				  </ul>

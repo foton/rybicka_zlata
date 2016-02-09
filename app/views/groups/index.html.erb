@@ -1,7 +1,7 @@
 <h3><%= t("group.views.header") %></h3>
 
 <div id="groups">
- 	<div id="add_group">
+ 	<div id="add_group" class="form-add">
 	  <%= form_for([@user,@group]) do |f| %>
       <%= render partial: "/shared/errors", locals: {f_object: @group} %>
 			  <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -9,11 +9,10 @@
 				  <%= f.text_field :name, class: "mdl-textfield__input" %>
 				</div>
 				<div class="actions">
-				  <%= button_tag( class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do %>
-				  <i class="material-icons">forward</i><!-- check, save -->
-				  <% end %>
+				  <%= form_next_button %>
 				</div>
 		<% end %>
+		<%= add_new_button %>
 	</div>
 
 	<div id="groups_list" class="list">

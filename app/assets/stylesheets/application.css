@@ -31,3 +31,20 @@
 	border: 1px solid #aaa;
 }
 */
+
+/* JAVAscript should hide form-add and enable this button 
+   by default this button is hided and form-add is visible
+*/
+.button-add {
+	display: none;
+}
+
+.form-add {}
+
+
+.list-of-unchecked ul, .list-of-checked ul{
+	list-style-type: none;
+	list-style-position: inside;
+	padding-left:0;   
+}
+
