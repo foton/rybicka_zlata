@@ -6,7 +6,7 @@ $( document ).ready(function() {
 		$(".form-add .button-add").show();
 		/*add onclick handler to reverse this action*/
 		$(".form-add .button-add").on("click", function(){ 
-	  	$(".form-add form").show();
+	  	$(".form-add form").slideDown( 300 );
 		  $(".form-add .button-add").hide();
 		}); 
   };

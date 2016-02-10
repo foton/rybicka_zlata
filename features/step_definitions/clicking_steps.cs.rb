@@ -20,8 +20,12 @@ Když(/^kliknu na přidání$/) do
   click_link_or_button("add")
 end
 
+Když(/^kliknu na pokračování$/) do
+  click_link_or_button("forward")
+end
+
 Když(/^kliknu na uložení$/) do
-  click_link_or_button("add")
+  click_link_or_button("check")
 end
 
 Pokud(/^kliknu na (editaci|smazání) u "(.*?)"$/) do |action, text_to_find|
@@ -45,16 +49,14 @@ Když(/^smazání potvrdím$/) do
   end  
 end
 
-Pak(/^vyřadím "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Pak(/^(?:ze seznamu )?vyřadím "(.*?)"$/) do |label|
+  #find checkbox and if checked, uncheck it
+  uncheck label
 end
 
-Pak(/^přidám "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
-
-Pokud(/^do seznamu přidám "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Pak(/^(?:do seznamu )?přidám "(.*?)"$/) do |label|
+  #find checkbox and if unchecked, check it
+  check label
 end
 
 Když(/^kliknu v menu na "(.*?)"$/) do |text|

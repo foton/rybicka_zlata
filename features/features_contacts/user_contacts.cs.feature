@@ -9,12 +9,12 @@ Kontext:
   Pokud existují standardní testovací uživatelé
   A jsem přihlášen jako "pepik"
   A přepnu na češtinu  
-  
 
 Scénář: Přidání kontaktu
   Když jsem na mé profilové stránce
+  A otevřu si formulář pro přidání
   A zadám další adresu "cucky.pracky@kotrmelci.cz"
-  A kliknu na přidání
+  A kliknu na uložení
   Pak je v seznamu mých e-mailových adres vidět i "cucky.pracky@kotrmelci.cz"
   A vidím text "Kontakt 'cucky.pracky@kotrmelci.cz' byl přidán"
 

@@ -15,3 +15,7 @@ end
 Když(/^zadám další adresu "(.*?)"$/) do |adr|
   fill_in("Další adresa", with: adr)
 end
+
+Pokud(/^otevřu si formulář pro přidání$/) do
+  click_button("add")
+end

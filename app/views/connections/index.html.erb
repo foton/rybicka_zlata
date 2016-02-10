@@ -3,7 +3,7 @@
 <div id="connections">
  	<div id="add_connection" class="form-add">
 		  <%= render( partial: "form") %>
-		  <%= add_new_button %>
+		  <%= add_new_button if @connection.errors.empty? %>
 	</div>
 
 	<div id="connections_list" class="list">

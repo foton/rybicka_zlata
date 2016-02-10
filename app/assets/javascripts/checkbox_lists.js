@@ -10,7 +10,12 @@ function move_on_change($chkbx){
 	var to_list;
 	
   var to_list=( $chkbx.is(":checked") ? $lchecked : $lunchecked );
-  $chkbx.closest("li").appendTo(to_list);
+
+  //to leave time for ripple effect
+  setTimeout(function(){
+    $chkbx.closest("li").appendTo(to_list);  
+  },300);
+  
 }
 
 $( document ).ready(function() {

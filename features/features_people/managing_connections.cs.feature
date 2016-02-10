@@ -13,9 +13,10 @@ Kontext:
 
 Scénář: Přidání kontaktu
   Pokud jsem na stránce "Přátelé"
+  A otevřu si formulář pro přidání
   A zapíšu do položky "Jméno" text "Ježíšek"
   A zapíšu do položky "E-mail" text "jezisek@rybickazlata.cz"
-  A kliknu na přidání
+  A kliknu na uložení
   Pak vidím text "Kontakt 'Ježíšek [???]: jezisek@rybickazlata.cz' byl úspěšně přidán."
   A v seznamu přátel je kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
 

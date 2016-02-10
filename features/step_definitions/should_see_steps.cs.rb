@@ -19,16 +19,20 @@ Pak(/^v seznamu (?:lidí|přátel) (je|není) kontakt "(.*?)" s adresou "(.*?)"$
   end  
 end
 
-Pak(/^v seznamu skupin je "(.*?)" se členy \["(.*?)","(.*?)"\]$/) do |arg1, arg2, arg3|
-  pending # express the regexp above with the code you wish you had
+Pak(/^v seznamu skupin je skupina "(.*?)" se? (\d+) členy$/) do |name, count|
+  within(:css, "#groups_list") do
+    find('li', text: name+"[#{count}]")
+  end  
 end
 
-Pak(/^v seznamu skupin není skupina "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Pak(/^v seznamu skupin není skupina "(.*?)"$/) do |name|
+  within(:css, "#groups_list") do
+    assert_no_text(name)
+  end  
 end
 
-Pak(/^v seznamu skupin je skupina "(.*?)" se členy \["(.*?)", "(.*?)","(.*?)"\]$/) do |arg1, arg2, arg3, arg4|
-  pending # express the regexp above with the code you wish you had
+Pak(/^vidím konexi "([^"]*)"$/) do |name|
+  find('li', text: name)
 end
 
 Pak(/^je v seznamu mých e\-mailových adres vidět i "(.*?)"$/) do |adr|

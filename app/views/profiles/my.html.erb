@@ -3,7 +3,7 @@
 <%= t("activerecord.attributes.user.last_sign_in") %>: <%= @user.last_sign_in_at.present? ? l(@user.last_sign_in_at) : ""%> [<%= @user.last_sign_in_ip.present? ? @user.last_sign_in_ip : "" %>]
 
 <div id="my_contacts">
- 	<div id="add_contact">
+ 	<div id="add_contact" class="form-add">
 	  <%= form_for(@new_contact, url: user_identities_path(@user)) do |f| %>
       <%= render partial: "/shared/errors", locals: {f_object: @new_contact} %>
 
@@ -14,12 +14,11 @@
 				  <%= f.hidden_field :provider %>
 				</div>
 				<div class="actions">
-				  <%= button_tag( class: "mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do %>
-				  <i class="material-icons">add</i>
-				  <% end %>
+					 <%= form_submit_button %>
 				</div>
 			</div>	
 		<% end %>
+		<%= add_new_button if @new_contact.errors.empty?%>
 	</div>
 
 	<div id="contacts_list" class="contact_list">

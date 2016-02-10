@@ -23,15 +23,29 @@ module NavigationHelpers
         my_page_path(locale: @locale)
       when "Lidé", "stránce Lidé", "Přátelé"
         user_connections_path(current_user, locale: @locale)
+      when "Skupiny"
+        user_groups_path(current_user, locale: @locale)
+
       else
         if (m=page_name.match(/stránce editace (.*)/) || (m=page_name.match(/editace (.*)/) ) || m=page_name.match(/editaci (.*)/) )
            if m1=m[1].match(/kontaktu "([^"]*)"/)
              name=m1[1].to_s
-             fshp= Connection.find_by_name(name)
-             raise "Connection with name '#{name}'' not found!" if fshp.blank?
-             edit_user_connection_path(current_user,fshp,{locale: @locale})
+             conn= Connection.find_by_name(name)
+             raise "Connection with name '#{name}'' not found!" if conn.blank?
+             edit_user_connection_path(current_user,conn,{locale: @locale})
+           elsif m1=m[1].match(/skupiny "([^"]*)"/)
+             name=m1[1].to_s
+             grp= Group.find_by_name(name)
+             raise "Group with name '#{name}'' not found!" if grp.blank?
+             edit_user_group_path(current_user,grp,{locale: @locale})
+           else
+             raise "Edit Path not identified"      
            end  
-        
+
+        elsif m=page_name.match(/Skupina (.*)/)        
+           grp=Group.find_by_name(m[1])
+           user_group_path(current_user, grp, {locale: @locale})
+
       #   if m=page_name.match(/přehledu? (.*)/) # melo by zachytit "přehled "Moje dárky " i "přehledu mých přání"
       #     case m[1]
       #       when "\"Moje přání\"", "mých přání"

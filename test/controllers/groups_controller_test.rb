@@ -57,7 +57,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal grp_h[:name], new_group.name
     assert new_group.persisted?
     assert_redirected_to edit_user_group_path(@current_user, new_group)
-    assert_equal "Skupina '#{grp_h[:name]}' byla úspěšně přidána. Nyní ji, prosím, naplňte lidmi?y.", flash[:notice]
+    assert_equal "Skupina '#{grp_h[:name]}' byla úspěšně přidána. Nyní ji, prosím, naplňte lidmi.", flash[:notice]
     assert_not_nil assigns(:user_connections)
 
     #after adding connections the "create process" is finished
@@ -67,7 +67,7 @@ class GroupsControllerTest < ActionController::TestCase
     
     assert_response :redirect
     assert_redirected_to user_group_path(@current_user, new_group)
-    assert_equal "Skupina '#{grp_h[:name]}' byla úspěšně aktualizována.", flash[:notice]
+    assert_equal "Skupina '#{grp_h[:name]}' byla úspěšně nastavena.", flash[:notice]
     new_group.reload
     new_group.connections.reload
     assert_equal @connections.size, new_group.connections.size
@@ -108,7 +108,7 @@ class GroupsControllerTest < ActionController::TestCase
     
     assert_response :redirect
     assert_redirected_to user_group_path(@current_user, group)
-    assert_equal "Skupina '#{group.name}' byla úspěšně aktualizována.", flash[:notice]
+    assert_equal "Skupina '#{group.name}' byla úspěšně nastavena.", flash[:notice]
     group.reload
     group.connections.reload
     assert_equal @connections.size, group.connections.size

@@ -31,9 +31,9 @@
             add: { 
               name: "Název nové skupiny"
             },
-            added: "Skupina '%{name}' byla úspěšně přidána. Nyní ji, prosím, naplňte lidmi?y.",
+            added: "Skupina '%{name}' byla úspěšně přidána. Nyní ji, prosím, naplňte lidmi.",
             not_added: "Skupina '%{name}' nebyla přidána.",
-            updated: "Skupina '%{name}' byla úspěšně aktualizována.",
+            updated: "Skupina '%{name}' byla úspěšně nastavena.",
             not_updated: "Skupina '%{name}' nebyla aktualizována.",
             deleted: "Skupina '%{name}' byla úspěšně smazána.",
             not_deleted: "Skupina '%{name}' nebyla smazána.",

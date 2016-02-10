@@ -28,9 +28,9 @@ end
 
 Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
   #frienship.fullname : Ježíšek [???]: jezisek@rybickazlata.cz
-  fshps= @current_user.connections.select {|fshp| fshp.fullname == connection_fullname}
+  conns= @current_user.connections.select {|fshp| fshp.fullname == connection_fullname}
   
-  if fshps.blank?
+  if conns.blank?
      #lets create it 
      if m=connection_fullname.strip.match(/\A(.*) \[.*\]: (.*)\z/)
        @current_user.connections << Connection.new(name: m[1], email: m[2])
@@ -38,14 +38,40 @@ Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
      else
        raise "Unable to parse connection from fullname '#{connection_fullname}'"
      end
-  elsif fshps.size != 1
-    raise "Ambiguous match for '#{connection_fullname}': #{fshps.join("\n")}"
+  elsif conns.size != 1
+    raise "Ambiguous match for '#{connection_fullname}': #{conns.join("\n")}"
   end  
 
 end
 
-Pokud(/^existuje skupina "(.*?)" se členy \["(.*?)", "(.*?)","(.*?)"\]$/) do |arg1, arg2, arg3, arg4|
-  pending # express the regexp above with the code you wish you had
+Pokud(/^existuje konexe "(.*?)"$/) do |connection_name|
+  conns= @current_user.connections.select {|fshp| fshp.name == connection_name}
+  
+  if conns.blank?
+     #lets create it 
+     @current_user.connections << Connection.new(name: connection_name, email: "#{connection_name}@example.com")
+     @current_user.connections.reload
+  elsif conns.size != 1
+    raise "Ambiguous match for '#{connection_name}': #{conns.join("\n")}"
+  end  
+
+end
+
+Pokud(/^existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |grp_name, grp_members_to_s|
+  grp=@current_user.groups.find_by_name(grp_name)
+  if grp.blank?
+    grp=@current_user.groups.create!( name: grp_name)
+  end  
+
+  members=[]
+  for mem_name in grp_members_to_s.split(",")
+    mem_name=mem_name.gsub("\"","").strip
+    conn=@current_user.connections.find_by_name(mem_name)
+    conn=@current_user.connections.create!(name: mem_name, email: "#{mem_name}@example.com") if conn.blank?
+    members << conn
+  end  
+  grp.connections = members
+  grp.save!
 end
 
 Pokud(/^mám mezi kontakty adresu "(.*?)"$/) do |adr|
@@ -55,5 +81,8 @@ Pokud(/^mám mezi kontakty adresu "(.*?)"$/) do |adr|
   end  
 end
 
+Pokud(/^zaloguju text "(.*?)"$/) do |text|
+  logger.info(text)
+end  
 
 

@@ -37,6 +37,13 @@ module ApplicationHelper
     end
   end
 
+  def checkbox_mdl_tag( tag_id, label_text, check_status, checked_value = "1", unchecked_value = "0", options ={})
+    label_tag( nil, options.merge({class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"}) ) do
+      concat(check_box_tag( tag_id, checked_value, check_status, options.merge(options.merge({class: "mdl-checkbox__input"}) )) )
+      concat(content_tag(:span, label_text, class:"mdl-checkbox__label") )  
+    end
+  end
+
   def form_submit_button(text=nil)
     button_tag( class: "button-save mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
       text ||"<i class=\"material-icons\">check</i>".html_safe
