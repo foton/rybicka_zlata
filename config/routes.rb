@@ -2,8 +2,8 @@ Rails.application.routes.draw do
  
   devise_for :users, controllers: { registrations: "users/registrations", omniauth_callbacks: 'users/omni_auth' }
   #resources :wishes
-#  match "/my_wishes" => "wishes#my_index", :as => "my_wishes"
-#  match "/others_wishes" => "wishes#others_index", :as => "others_wishes"
+  #match "/my_wishes" => "wishes#my_index", :as => "my_wishes"
+  #match "/others_wishes" => "wishes#others_index", :as => "others_wishes"
 
   resources :users do
     scope module: :users do
@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     end
     resources :connections
     resources :groups
+    resources :others_wishes, controller: 'wishes/from_donors'
+    resources :my_wishes, controller: 'wishes/from_donee'
   end  
 
   

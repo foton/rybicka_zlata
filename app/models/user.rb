@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
+  BASE_CONNECTION_NAME="--base--"
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -10,12 +11,15 @@ class User < ActiveRecord::Base
          #, :omniauth_providers => [:google_oauth2]
   has_many :identities, -> { order("email ASC") }, class_name: 'User::Identity', dependent: :destroy
   has_many :connections, -> { order("name ASC") }, {foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner}
+  has_many :friend_connections, -> { where("name <> ?", Connection::BASE_CONNECTION_NAME).order("name ASC") }, {class_name: "Connection", foreign_key: 'owner_id', dependent: :destroy}
+  has_many :connections_as_friend, -> { order("name ASC") }, {class_name: "Connection", foreign_key: 'friend_id'}
   has_many :groups, -> { order("name ASC") }, {dependent: :destroy, inverse_of: :user}
   
   #has_many :friends, -> { order("name ASC") }, class_name: 'User'
   #has_many :registered_connections, -> { order("name ASC") }, class_name: 'Connection', dependent: :destroy
 
-  after_save :sure_identity_from_email
+  after_save :sure_main_identity
+  after_save :sure_base_connection
 
   def displayed_name
     name || email
@@ -71,9 +75,23 @@ class User < ActiveRecord::Base
     user
   end
 
+  def main_identity
+    self.identities.where(email: self.email).first
+  end  
+
+  def base_connection
+    connections.base.first
+  end  
+
+  #wishes where user is between donees
+  def my_wishes
+    dls=DoneeLink.where(connection_id: (connections_as_friend.collect{|c| c.id}) )
+    Wish::FromDonee.where(id: dls.collect {|dl| dl.wish_id})
+  end  
+  
   private
 
-    def sure_identity_from_email
+    def sure_main_identity
       existing_idnts=self.identities.where(email: self.email)
       if existing_idnts.blank?
         User::Identity.create_for_user!(self)        
@@ -82,6 +100,13 @@ class User < ActiveRecord::Base
         if idnt.user != self
           raise "E-mail #{self.email} belongs to user #{idnt.user.id}"
         end  
+      end  
+    end  
+
+
+    def sure_base_connection
+      if self.base_connection.blank?
+        con=Connection.create(name: Connection::BASE_CONNECTION_NAME, email: self.email, friend: self, owner: self)
       end  
     end  
 end

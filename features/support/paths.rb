@@ -25,6 +25,11 @@ module NavigationHelpers
         user_connections_path(current_user, locale: @locale)
       when "Skupiny"
         user_groups_path(current_user, locale: @locale)
+      when "Má přání"
+        user_as_donee_wishes_path(current_user, locale: @locale)
+      when "Múžu splnit"
+        user_as_donor_wishes_path(current_user, locale: @locale)
+
 
       else
         if (m=page_name.match(/stránce editace (.*)/) || (m=page_name.match(/editace (.*)/) ) || m=page_name.match(/editaci (.*)/) )
@@ -45,6 +50,11 @@ module NavigationHelpers
         elsif m=page_name.match(/Skupina (.*)/)        
            grp=Group.find_by_name(m[1])
            user_group_path(current_user, grp, {locale: @locale})
+
+        elsif m=page_name.match(/přání uživatele (.*)/)        
+           user=User.find_by_name(m[1].gsub("\"","").strip)
+           user_as_donee_wishes_path(user, locale: @locale)
+
 
       #   if m=page_name.match(/přehledu? (.*)/) # melo by zachytit "přehled "Moje dárky " i "přehledu mých přání"
       #     case m[1]

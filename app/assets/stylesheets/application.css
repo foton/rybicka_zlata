@@ -48,3 +48,18 @@
 	padding-left:0;   
 }
 
+
+/* https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+.list-with-actions li {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: flex-start;  
+	align-content: space-between;
+	padding: 0.3em;
+}
+
+li .actions {
+  margin-left: 1em;
+}

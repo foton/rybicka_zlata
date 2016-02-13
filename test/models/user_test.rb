@@ -54,8 +54,22 @@ class UserTest < ActiveSupport::TestCase
     assert user.identities.local.where(email: email).present?
   end  
 
+  def test_create_base_connection
+    email="jonh.doe@example.com"
+
+    assert Connection.base.where(email: email).blank?
+
+    user=User.new({name: "John Doe", email: email, password: "my_Password10"})
+    #user.skip_confirmation!
+    user.save!
+
+    assert user.connections.where(email: email).present?
+    assert user.base_connection.present?
+  end  
+
   def test_know_his_connections
     u=create_test_user!
+    p0=u.base_connection
     p1= Connection.new(email: "first@connection.cz", name: "First")
     p2= Connection.new(email: "second@connection.cz", name: "second connection")
     #inserting in reverse order!
@@ -63,6 +77,19 @@ class UserTest < ActiveSupport::TestCase
     u.connections << p1
     u.reload
 
-    assert_equal [p1,p2], u.connections.to_a  #connections are ordered by name
+    assert_equal [p0,p1,p2], u.connections.to_a  #connections are ordered by name
+  end  
+
+  def test_know_his_friend_connections
+    u=create_test_user!
+    p0=u.base_connection
+    p1= Connection.new(email: "first@connection.cz", name: "First")
+    p2= Connection.new(email: "second@connection.cz", name: "second connection")
+    #inserting in reverse order!
+    u.connections << p2
+    u.connections << p1
+    u.reload
+
+    assert_equal [p1,p2], u.friend_connections.to_a  #connections are ordered by name
   end  
 end

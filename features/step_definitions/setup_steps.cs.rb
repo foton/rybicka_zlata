@@ -27,52 +27,60 @@ Pokud /^existují standardní testovací uživatelé$/ do
 end
 
 Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
-  #frienship.fullname : Ježíšek [???]: jezisek@rybickazlata.cz
-  conns= @current_user.connections.select {|fshp| fshp.fullname == connection_fullname}
-  
-  if conns.blank?
-     #lets create it 
-     if m=connection_fullname.strip.match(/\A(.*) \[.*\]: (.*)\z/)
-       @current_user.connections << Connection.new(name: m[1], email: m[2])
-       @current_user.connections.reload
-     else
-       raise "Unable to parse connection from fullname '#{connection_fullname}'"
-     end
-  elsif conns.size != 1
-    raise "Ambiguous match for '#{connection_fullname}': #{conns.join("\n")}"
-  end  
-
+  if m=connection_fullname.strip.match(/\A(.*) \[.*\]: (.*)\z/)
+    make_connection_for(@current_user,{ name: m[1], email: m[2] })  
+  else
+     raise "Unable to parse connection from fullname '#{connection_fullname}'"
+  end
 end
 
 Pokud(/^existuje konexe "(.*?)"$/) do |connection_name|
-  conns= @current_user.connections.select {|fshp| fshp.name == connection_name}
-  
-  if conns.blank?
-     #lets create it 
-     @current_user.connections << Connection.new(name: connection_name, email: "#{connection_name}@example.com")
-     @current_user.connections.reload
-  elsif conns.size != 1
-    raise "Ambiguous match for '#{connection_name}': #{conns.join("\n")}"
-  end  
-
+  make_connection_for(@current_user,{ name: connection_name})  
 end
 
-Pokud(/^existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |grp_name, grp_members_to_s|
-  grp=@current_user.groups.find_by_name(grp_name)
+# Pokud(/^existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |grp_name, grp_members_to_s|
+#   grp=@current_user.groups.find_by_name(grp_name)
+#   if grp.blank?
+#     grp=@current_user.groups.create!( name: grp_name)
+#   end  
+
+#   members=[]
+#   for mem_name in grp_members_to_s.split(",")
+#     mem_name=mem_name.gsub("\"","").strip
+#     conn=@current_user.connections.find_by_name(mem_name)
+#     conn=@current_user.connections.create!(name: mem_name, email: "#{mem_name}@example.com") if conn.blank?
+#     members << conn
+#   end  
+#   grp.connections = members
+#   grp.save!
+# end
+
+Pokud(/^(?:u "(.*?)" )?existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |user_name, grp_name, grp_members_to_s|
+  if user_name.present?
+    user=User.find_by_name(formalize_user_name(user_name))
+    raise "User with name '#{user_name}' not found" if user.blank?
+  else
+    user=@current_user
+  end  
+
+  grp=user.groups.find_by_name(grp_name)
   if grp.blank?
-    grp=@current_user.groups.create!( name: grp_name)
+    grp=user.groups.create!( name: grp_name)
   end  
 
   members=[]
   for mem_name in grp_members_to_s.split(",")
     mem_name=mem_name.gsub("\"","").strip
-    conn=@current_user.connections.find_by_name(mem_name)
-    conn=@current_user.connections.create!(name: mem_name, email: "#{mem_name}@example.com") if conn.blank?
+    conn=user.connections.find_by_name(mem_name)
+    conn=user.connections.create!(name: mem_name, email: "#{mem_name}@example.com") if conn.blank?
     members << conn
   end  
   grp.connections = members
   grp.save!
+  
 end
+
+
 
 Pokud(/^mám mezi kontakty adresu "(.*?)"$/) do |adr|
   id=@current_user.identities.where(email: adr).first
@@ -86,3 +94,40 @@ Pokud(/^zaloguju text "(.*?)"$/) do |text|
 end  
 
 
+Pokud(/^u "(.*?)" existuje konexe "(.*?)"(?: s adresou "(.*?)")?$/) do |user_name, conn_name, conn_email|
+  user=User.find_by_name(formalize_user_name(user_name))
+  raise "User with name '#{user_name}' not found" if user.blank?
+
+  make_connection_for(user,{ name: conn_name, email: conn_email })  
+end
+
+#===============================================
+
+def make_connection_for(user,conn_hash)   
+    conns= user.connections.find_by_name(conn_hash[:name])
+    if conn_hash[:email].present? && conns.present?
+      conns=conns.select {|conn| con.email == conn_hash[:email]}
+    else
+       conn_hash[:email]="#{conn_hash[:name]}@example.com"
+    end  
+  
+  if conns.blank?
+     #lets create it 
+     user.connections << Connection.new(name: conn_hash[:name], email: conn_hash[:email])
+     user.connections.reload
+  elsif conns.size != 1
+    raise "Ambiguous match for '#{conn_hash}' for user '#{user.username}': #{conns.join("\n")}"
+  end  
+end  
+
+
+def formalize_user_name(user_name)
+  case user_name
+  when "pepika", "Pepika"
+    "pepik"
+  when "Mařenky"  
+    "Mařenka"
+  else
+    user_name
+  end  
+end  

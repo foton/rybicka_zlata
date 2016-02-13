@@ -61,6 +61,17 @@ class ConnectionTest < ActiveSupport::TestCase
 		assert @connection.valid?
 	end	
 
+	def test_basename_cannot_be_used_fo_non_base_connection
+	  #base name, non base conn
+		@connection.name=Connection::BASE_CONNECTION_NAME
+    refute @connection.valid?
+		assert_equal ["není platná hodnota"], @connection.errors[:name]		
+
+   #make it base connection
+		@connection.friend_id=@connection.owner_id
+		assert @connection.valid?
+	end	
+
   def test_can_be_without_to_user
   	@connection.friend_id=nil
 		assert @connection.valid?

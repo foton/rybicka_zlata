@@ -121,7 +121,6 @@ class GroupsControllerTest < ActionController::TestCase
   def test_destroy
     group=Group.create!(user: @current_user, name: "My group", connection_ids: @connections.collect {|con| con.id})
     all_conns_count=Connection.count
-    assert_equal all_conns_count, @connections.size
     assert_equal @connections.size, group.connections.size
 
     delete :destroy, {user_id: @current_user.id, id: group.id}

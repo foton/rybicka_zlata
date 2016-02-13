@@ -166,7 +166,7 @@ class User::Identity < ActiveRecord::Base
     # end  
 
     def unbind_connections
-      connections.each {|fshp| unbind_connection(fshp)}
+      (connections-connections.base).each {|fshp| unbind_connection(fshp)}
     end 
 
     def bind_connection(fshp)

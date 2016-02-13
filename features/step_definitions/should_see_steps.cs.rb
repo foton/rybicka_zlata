@@ -48,3 +48,19 @@ Pak(/^v seznamu kontaktů už není adresa "(.*?)"$/) do |adr|
 end
 
 
+Pokud(/^v seznamu přání (?:u "(.*?)" )?je přání "(.*?)"(?: se (\d+) potenciálními dárci)$/) do |user_name, wish_title, donor_count|
+  if user_name.present?
+    visit "přání uživatele \"user_name\""
+  end  
+ 
+  within(:css, "#wish-list") do
+    if donor_count.present?
+      find('li', text: wish_title+"[#{count}]")
+    else
+      find('li', text: wish_title)
+    end  
+  end  
+  
+end
+
+

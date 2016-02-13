@@ -44,6 +44,9 @@ gem 'omniauth-github'
 gem 'omniauth-linkedin-oauth2'
 #TODO: maybe? gem 'i18n-tasks', '~> 0.9.2'
 
+#gem 'active_type'  #not yet used, but may be VERY usefull
+
+
 group :development, :test do
 
   #Coffee-rails and Uglifier demands ExecJS, which require JS runtime. So I pick up Rubyracer

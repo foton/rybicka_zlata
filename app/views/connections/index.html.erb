@@ -9,7 +9,7 @@
 	<div id="connections_list" class="list">
 		<h4><%= t("connection.views.list.header") %></h4>
 		<ul class="list-with-actions">
-		  <%= render( partial: "connection", collection: current_user.connections) || t("connection.views.list.none") %>
+		  <%= render( partial: "connection", collection: current_user.friend_connections) || t("connection.views.list.none") %>
 	  </ul>
 	</div>
 </div>       
