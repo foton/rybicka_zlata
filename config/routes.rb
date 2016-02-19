@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :groups
     resources :others_wishes, controller: 'wishes/from_donors'
     resources :my_wishes, controller: 'wishes/from_donee'
+    resources :author_wishes, controller: 'wishes/from_author'
   end  
 
   

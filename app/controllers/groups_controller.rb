@@ -14,20 +14,18 @@ class GroupsController < ApplicationController
 
   def create
     build_group
-    load_user_connections
     create_group(t("group.views.added", name: @group.name), t("group.views.not_added", name: @group.name)) or render 'index'
 	end
 
 	def edit
 	 load_group
    load_user_connections
-	 build_group
 	end  
 
 	def update
 	 load_group
    load_user_connections
-	 build_group
+   build_group #update group from params
 	 save_group(t("group.views.updated", name: @group.name), t("group.views.not_updated", name: @group.name)) or render 'edit'
 	end    
 

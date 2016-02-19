@@ -1,15 +1,15 @@
 class Connection < ActiveRecord::Base
 	BASE_CONNECTION_NAME="--base for donee--"
 
-  belongs_to :friend, class_name: User 
-	belongs_to :owner, class_name: User
+  belongs_to :friend, class_name: User, inverse_of: :connections_as_friend
+	belongs_to :owner, class_name: User, inverse_of: :connections
 
-  has_many :identities, primary_key: 'email', foreign_key: 'email', class_name: 'User::Identity'
+  has_many :identities, primary_key: 'email', foreign_key: 'email', class_name: 'User::Identity'#, inverse_of: :connections
   has_and_belongs_to_many :groups
 
-  has_many :donor_links
+  has_many :donor_links, dependent: :destroy, inverse_of: :connection
   has_many :donor_wishes, through: :donor_links, source: :wish
-  has_many :donee_links
+  has_many :donee_links, dependent: :destroy, inverse_of: :connection
   has_many :donee_wishes, through: :donee_links, source: :wish
 
   #If you want to be sure that an association is present,
@@ -37,6 +37,16 @@ class Connection < ActiveRecord::Base
     else
       #firend (as registered user) is assigned
       "#{name} [#{friend.displayed_name}]: #{email}"
+    end  
+  end  
+
+  #sorting method
+  def  <=>(conn2)
+    s_by_name= (self.name <=> conn2.name)
+    if s_by_name == 0
+      self.email <=> conn2.email
+    else
+      s_by_name  
     end  
   end  
 

@@ -1,6 +1,6 @@
 class User::Identity < ActiveRecord::Base
   belongs_to :user
-  has_many :connections, primary_key: 'email', foreign_key: 'email'
+  has_many :connections, primary_key: 'email', foreign_key: 'email'#, inverse_of: :identities
 
   self.table_name="identities"
 
@@ -11,7 +11,7 @@ class User::Identity < ActiveRecord::Base
 
   attr_accessor :auth_data
 
-  before_validation :fill_local_uid
+  before_validation :fill_local_uid, on: :create
   after_save :bind_connections_as_friend
   after_destroy :unbind_connections
 

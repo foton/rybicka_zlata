@@ -1,0 +1,24 @@
+<li class="wish mdl-grid">
+
+  <div class="li_content mdl-cell">
+     <%= link_to wish.title, user_my_wish_url(current_user, wish) %>
+   </div>
+  <div class="mdl-layout-spacer"></div>
+  <div class="actions md-cell">
+    <%= link_to( path_to_wish_action_for_user(wish, :edit, current_user),
+                 method: :get,
+                 class: "edit mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                ) do %>
+      <i class="material-icons">mode_edit</i>
+    <% end %> 
+
+    <%= link_to( path_to_wish_action_for_user(wish, :destroy, current_user),
+                 method: :delete,
+                 data: { confirm: t("wish.from_donee.views.delete.confirm.message"), "confirm-yes": t("confirm.yes"), "confirm-no": t("confirm.no")},
+                 class: "delete mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                ) do %>
+      <i class="material-icons">remove</i>
+    <% end %> 
+  </div>  
+
+</li>

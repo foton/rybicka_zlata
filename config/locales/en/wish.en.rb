@@ -1,23 +1,23 @@
-{:en => {
-    :activerecord => {
-        :models => {
-            :wish => {
-                :one => "Wish",
-                :other => "Wishes"
+{en: {
+    activerecord: {
+        models: {
+            wish: {
+                one: "Wish",
+                other: "Wishes"
             }
         },
-        :attributes => {
-            :wish => {
-                :title => "Title",
-                :comment => "Description"
+        attributes: {
+            wish: {
+                title: "Title",
+                description: "Description"
             }
         },
-        :errors => {
-            :models => {
-                :wish => {
-                    :attributes => {
-                        :title => {
-                            :too_short => "This Tile is minimized too much"
+        errors: {
+            models: {
+                wish: {
+                    attributes: {
+                        title: {
+                            too_short: "This Tile is minimized too much"
                         }
                     }
                 }
@@ -26,15 +26,23 @@
 
     },
 
-    :wish => {
-        :views => {
-            :my => {
-                :header => "My wishes"
-            },
-            :theirs => {
-                :header => "Can fullfill"
+    wish: {
+        from_donee: {
+            views: {
+                index: {
+                    header: "My wishes"
+                }
             }
 
-        }
+        },
+        from_donor: {
+            views: {
+                index: {
+                    header: "Can fulfill"
+                }
+            }
+        }    
+
     }
+
 }}

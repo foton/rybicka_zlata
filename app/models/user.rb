@@ -9,10 +9,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :omniauthable
          #, :omniauth_providers => [:google_oauth2]
-  has_many :identities, -> { order("email ASC") }, class_name: 'User::Identity', dependent: :destroy
-  has_many :connections, -> { order("name ASC") }, {foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner}
-  has_many :friend_connections, -> { where("name <> ?", Connection::BASE_CONNECTION_NAME).order("name ASC") }, {class_name: "Connection", foreign_key: 'owner_id', dependent: :destroy}
-  has_many :connections_as_friend, -> { order("name ASC") }, {class_name: "Connection", foreign_key: 'friend_id'}
+  has_many :identities, -> { order("email ASC") }, class_name: 'User::Identity', dependent: :destroy , inverse_of: :user
+  has_many :connections, -> { order("name ASC, email ASC") }, {foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner}
+  has_many :friend_connections, -> { where("name <> ?", Connection::BASE_CONNECTION_NAME).order("name ASC") }, {class_name: "Connection", foreign_key: 'owner_id'}
+  has_many :connections_as_friend, -> { order("name ASC, email ASC") }, {class_name: "Connection", foreign_key: 'friend_id'}
   has_many :groups, -> { order("name ASC") }, {dependent: :destroy, inverse_of: :user}
   
   #has_many :friends, -> { order("name ASC") }, class_name: 'User'
@@ -72,8 +72,7 @@ class User < ActiveRecord::Base
       identity.user = user
       identity.save!
     end
-    user
-  end
+    user  end
 
   def main_identity
     self.identities.where(email: self.email).first
@@ -84,9 +83,33 @@ class User < ActiveRecord::Base
   end  
 
   #wishes where user is between donees
-  def my_wishes
+  def donee_wishes
     dls=DoneeLink.where(connection_id: (connections_as_friend.collect{|c| c.id}) )
-    Wish::FromDonee.where(id: dls.collect {|dl| dl.wish_id})
+    Wish::FromDonee.where(id: (dls.collect {|dl| dl.wish_id}).uniq )
+  end  
+
+  #wishes where user is between donees
+  def donor_wishes
+    conns=connections_as_friend-[base_connection]
+    dls=DonorLink.where(connection_id: (conns.collect{|c| c.id}) )
+    Wish::FromDonor.where(id: (dls.collect {|dl| dl.wish_id}).uniq )
+  end  
+
+  #wishes where user is author
+  def author_wishes
+    Wish::FromAuthor.where(author_id: self.id)
+  end 
+  
+  def is_author_of?(wish)
+    wish.author_id == self.id
+  end  
+
+  def is_donee_of?(wish)
+    donee_wishes.to_a.include?(wish)
+  end  
+
+  def is_donor_of?(wish)
+    donor_wishes.to_a.include?(wish)
   end  
   
   private
@@ -106,7 +129,7 @@ class User < ActiveRecord::Base
 
     def sure_base_connection
       if self.base_connection.blank?
-        con=Connection.create(name: Connection::BASE_CONNECTION_NAME, email: self.email, friend: self, owner: self)
+        con=Connection.create!(name: Connection::BASE_CONNECTION_NAME, email: self.email, friend: self, owner: self)
       end  
     end  
 end

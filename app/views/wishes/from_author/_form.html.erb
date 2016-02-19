@@ -1,0 +1,64 @@
+TODO
+ <%= form_for(@wish, url: user_author_wishes_path(current_user)) do |f| %>
+  <%= render partial: "/shared/errors", locals: {f_object: @wish} %>
+    <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <%= f.label :title, t("wish.from_author.views.add.title"),  class: "mdl-textfield__label" %>
+      <%= f.text_field :title, class: "mdl-textfield__input" %>
+    </div>
+    <br />
+    <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <%= f.label :description, t("wish.from_author.views.add.description"),  class: "mdl-textfield__label" %>
+      <%= f.text_area :description, class: "mdl-textfield__input" %>
+    </div>
+
+    <div class="actions">
+      <%= form_submit_button %>
+    </div>
+
+    <div class="donees mdl-grid lists-of-checkboxes" id="donees_connections">
+      <div class="md-cell list-of-unchecked" id="connections_not_in_donees">
+        <ul class="">
+        <% for conn in (@user_connections-@wish.donee_connections) %>
+          <li>
+            <%= checkbox_mdl_tag( "wish[not_donees_conn_ids][#{conn.id}]", conn.fullname, false, conn.id, "0", { name: "wish[not_donees_conn_ids][]"}) %>
+          </li>
+        <% end %>
+        </ul>
+      </div>
+      <div class="mdl-layout-spacer"></div>
+      <div class="md-cell list-of-checked" id="connections_in_donees">
+        <%= hidden_field_tag("wish[donee_conn_ids]", "[]") %>
+        <ul class="">
+        <% for conn in (@wish.donee_connections) %>
+          <li>
+            <%= checkbox_mdl_tag( "wish[donee_conn_ids][#{conn.id}]", conn.fullname, true, conn.id, "0", { name: "wish[donee_conn_ids][]"}) %>
+          </li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="donors mdl-grid lists-of-checkboxes" id="donor_connections">
+      <div class="md-cell list-of-unchecked" id="connections_not_in_donors">
+        <ul class="">
+        <% for conn in (@user_connections-@wish.donor_connections) %>
+          <li>
+            <%= checkbox_mdl_tag( "wish[not_donor_conn_ids][#{conn.id}]", conn.fullname, false, conn.id, "0", { name: "wish[not_donor_conn_ids][]"}) %>
+          </li>
+        <% end %>
+        </ul>
+      </div>
+      <div class="mdl-layout-spacer"></div>
+      <div class="md-cell list-of-checked" id="connections_in_donors">
+        <%= hidden_field_tag("wish[donor_conn_ids]", "[]") %>
+        <ul class="">
+        <% for conn in (@wish.donor_connections) %>
+          <li>
+            <%= checkbox_mdl_tag( "wish[donor_conn_ids][#{conn.id}]", conn.fullname, true, conn.id, "0", { name: "wish[donor_conn_ids][]"}) %>
+          </li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+
+<% end %>

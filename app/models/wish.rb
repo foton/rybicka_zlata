@@ -1,8 +1,8 @@
 class Wish < ActiveRecord::Base
   belongs_to :author, class_name:"User"
-  has_many :donor_links
+  has_many :donor_links, dependent: :delete_all, inverse_of: :wish
   has_many :donor_connections, through: :donor_links, source: :connection
-  has_many :donee_links
+  has_many :donee_links, dependent: :delete_all, inverse_of: :wish
   has_many :donee_connections, through: :donee_links, source: :connection
 
   STATE_AVAILABLE=0

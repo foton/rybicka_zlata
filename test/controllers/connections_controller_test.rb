@@ -17,7 +17,7 @@ class ConnectionsControllerTest < ActionController::TestCase
   	get :index, {user_id: @current_user.id}
 
     assert assigns(:connections).present?
-  	assert_equal @current_user.friend_connections, assigns(:connections)
+  	assert_equal @current_user.friend_connections.to_a.sort, assigns(:connections).to_a.sort
     assert_template "index"
     
     assert assigns(:connection).present?

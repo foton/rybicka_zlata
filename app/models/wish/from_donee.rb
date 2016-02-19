@@ -1,21 +1,55 @@
+#donee can manage wish and donors (not donees)
 class Wish::FromDonee < Wish
 	self.table_name = 'wishes'
 
   before_validation :fill_connections_from_ids
   before_save :set_updated_by_donee_at
 
-  attr_accessor :donor_conn_ids
-  attr_accessor :donee_conn_ids
+  
+  #can only add/remove its own connections
+  def merge_donor_conn_ids(conn_ids,user)
+    conn_ids=[] unless conn_ids.kind_of?(Array)
+    
+    user_conn_ids= user.connections.select(:id).collect {|c| c.id}
+    conn_ids_to_add = conn_ids & user_conn_ids
+    conn_ids_to_remove = user_conn_ids-conn_ids_to_add
+    
+    @donor_conn_ids||=self.donor_connections.select(:id).collect {|c| c.id}
+    @donor_conn_ids+=conn_ids_to_add
+    @donor_conn_ids-=conn_ids_to_remove
+    @donor_conn_ids.uniq!
+    @donor_conn_ids
+  end
+
+  def donor_conn_ids
+    @donor_conn_ids
+  end  
+  
+  def donee_conn_ids=(conn_ids)
+    #silently ignoring
+  end  
+
+
+  def destroy(by_user)
+    if author == by_user
+      Wish.find(self.id).destroy
+      return true
+    elsif ( (user_conn_ids=self.donee_connections.where(friend_id: by_user.id).collect {|c| c.id}).present? )
+      #somebody from donnees: just remove user from donees
+      self.donee_links.where(connection_id: user_conn_ids).delete_all
+      return true
+    else
+      return false
+    end  
+  end  
+
 
   private
     def fill_connections_from_ids
-    	@donee_conn_ids=[] unless @donee_conn_ids.kind_of?(Array)
-    	@donee_conn_ids << author.base_connection.id if author
+      @donor_conn_ids=[] unless @donor_conn_ids.kind_of?(Array)
 
-    	#TODO: only current donee can add his/her connections as other donees
-    	self.donee_connections=::Connection.find(@donee_conn_ids).to_a
     	#TODO: only connection from all donnies can be added as donors
-    	self.donor_connections=::Connection.find(@donor_conn_ids).to_a
+    	self.donor_connections=::Connection.find(@donor_conn_ids.compact.uniq).to_a
     end	
 
     def set_updated_by_donee_at

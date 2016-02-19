@@ -57,6 +57,9 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal grp_h[:name], new_group.name
     assert new_group.persisted?
     assert_redirected_to edit_user_group_path(@current_user, new_group)
+    
+    #open edit page
+    get :edit, {user_id: @current_user.id, id: new_group.id}
     assert_equal "Skupina '#{grp_h[:name]}' byla úspěšně přidána. Nyní ji, prosím, naplňte lidmi.", flash[:notice]
     assert_not_nil assigns(:user_connections)
 

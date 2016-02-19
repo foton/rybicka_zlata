@@ -62,4 +62,10 @@ module ApplicationHelper
     end
   end  
 
+  def add_new_button_link(url,text=nil)
+    link_to(url, class: "button-add-link mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+        text ||"<i class=\"material-icons\">add</i>".html_safe
+    end
+  end  
+
 end
