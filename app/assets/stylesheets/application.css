@@ -63,3 +63,14 @@
 li .actions {
   margin-left: 1em;
 }
+
+.donors, .donees {
+	padding: 0.5em;
+	border: 1px solid gray;
+}
+
+.info {
+	font-size: 80%;
+	font-style: italic;
+	color: gray;
+}

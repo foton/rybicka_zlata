@@ -34,11 +34,25 @@
                 by_user: "Mezi obdarovanými je stejný uživatel '%{donee_fullname}'  jako v dárcích '%{donor_fullname}'."
             }
         },
+        donees: {
+            header:"Obdarovaní"
+        },
+        donors: {
+            header: "Dárci"
+        },
+
         from_author: {
             views: {
-                add: { 
+                edit: { 
                   title: "Titulek nového přání",
-                  description: "Širší popis"
+                  description: "Širší popis",
+                  donees: {
+                    header: "Další obdarovaní",
+                    help: "Jako první obdarovaný jste automaticky Vy (jako autor). Můžete ale přidat i další spoluobdarované z Vašich přátel. Ti pak budou moci přidat potenciální dárce ze svých přátel."
+                  },
+                  donors: {
+                    help: "Zde můžete vybrat potenciální dárce. Tedy ty z Vašich přátel, kdo toto konkrétní přání uvidí a budou ho moci splnit. Neaktivní položky již figurují v jako obdarovaní, proto je nelze vybrat."
+                  }  
                 },
                 added: "Přání '%{title}' bylo úspěšně přidáno.",
                 not_added: "Přání '%{title}' nebylo přidáno.",
@@ -63,6 +77,12 @@
                 list: {
                     header: "Seznam mých přání",
                     none: "Nemáte žádné přání. Přidejte si nějaké!"
+                },
+                show: {
+                    name_for_author_connection: "Autor přání",
+                    donors: {
+                        count: "celkem: %{total} / vašich: %{owns}"
+                    }
                 },
                 updated: "Seznam potenciálních dárců pro '%{title}' byl úspěšně aktualizován.",
                 not_updated: "Přání '%{title}' nebylo aktualizováno.",

@@ -35,7 +35,7 @@ class Wish::FromDonee < Wish
       Wish.find(self.id).destroy
       return true
     elsif ( (user_conn_ids=self.donee_connections.where(friend_id: by_user.id).collect {|c| c.id}).present? )
-      #somebody from donnees: just remove user from donees
+      #somebody from donees: just remove user from donees
       self.donee_links.where(connection_id: user_conn_ids).delete_all
       return true
     else

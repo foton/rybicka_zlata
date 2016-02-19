@@ -2,6 +2,16 @@
 
 <%= t("activerecord.attributes.user.last_sign_in") %>: <%= @user.last_sign_in_at.present? ? l(@user.last_sign_in_at) : ""%> [<%= @user.last_sign_in_ip.present? ? @user.last_sign_in_ip : "" %>]
 
+  <div class="actions">
+    <%= link_to( edit_user_registration_path(current_user),
+                 method: :get,
+                 class: "edit mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                ) do %>
+      <i class="material-icons">mode_edit</i>
+    <% end %> 
+  </div>  
+
+
 <div id="my_contacts">
  	<div id="add_contact" class="form-add">
 	  <%= form_for(@new_contact, url: user_identities_path(@user)) do |f| %>

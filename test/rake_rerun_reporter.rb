@@ -4,6 +4,11 @@ module Minitest
   module Reporters
     class RakeRerunReporter < Minitest::Reporters::DefaultReporter
 
+      def initialize(options = {})
+        @rerun_user_prefix=options.fetch(:rerun_prefix, "")
+        super
+      end
+
       def report
         super
       
@@ -14,7 +19,7 @@ module Minitest
           failed_or_error_tests=(tests.select {|t| t.failure && !t.skipped? })
 
           if failed_or_error_tests.present?
-            puts red("You can rerun failed/error test by commands (with optionally 'bundle exec' prefix):")
+            puts red("You can rerun failed/error test by commands (you can add rerun prefix with 'rerun_prefix' option):")
 
             failed_or_error_tests.each do |test|
               print_rerun_command(test)
@@ -41,7 +46,7 @@ module Minitest
 
         def rerun_message_for(test)
           file_path=location(test.failure).gsub(/(\:\d*)\z/,"")
-          msg="rake test TEST=#{file_path} TESTOPTS=\"--name=#{test.name} -v\""
+          msg="#{@rerun_user_prefix} rake test TEST=#{file_path} TESTOPTS=\"--name=#{test.name} -v\""
           if test.skipped?
             "Skipped: \n#{msg}"
           elsif test.error?

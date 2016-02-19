@@ -7,7 +7,7 @@
 require "minitest/reporters"
 require "rake_rerun_reporter"
 
-reporter_options = { color: true, slow_count: 5, verbose: false }
+reporter_options = { color: true, slow_count: 5, verbose: false, rerun_prefix: "rm -f log/*.log && be" }
 #Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(reporter_options)]
 Minitest::Reporters.use! [Minitest::Reporters::RakeRerunReporter.new(reporter_options)]
 

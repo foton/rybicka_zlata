@@ -1,36 +1,82 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%= set_page_title(t("devise.registration.edit")) %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+<div class="mdl-grid">
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+  <div class="mdl-cell">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put, class: "form mdl-cell--stretch mdl-cell--top"}) do |f| %>
+      <%= devise_error_messages! %>
+
+      <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <%= f.label :name, class: "mdl-textfield__label" %>
+        <%= f.text_field :name, autofocus: true, class: "mdl-textfield__input", required: false %>
+      </div>
+
+
+      <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <%= f.label :email, class: "mdl-textfield__label" %>
+        <%= f.email_field :email, class: "mdl-textfield__input", required: true %>
+      </div>
+
+      <br />
+      
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+         <div><%= t("devise.registrations.waiting_for_confirmation", email: resource.unconfirmed_email) %></div>
+      <% end %>
+
+      <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <%= f.label :password, class: "mdl-textfield__label" %>
+        <% 
+           html_atts= {class: "mdl-textfield__input", autocomplete: "off"}
+           if @minimum_password_length
+             html_atts[:pattern]= ".{#{@minimum_password_length},}"
+             err_msg=t("devise.passwords.minimum_length", min: @minimum_password_length)
+           end 
+        %>
+        <%= f.password_field :password, html_atts %>
+        <span class="mdl-textfield__error"><%= err_msg %></span>
+      </div>
+
+      <br />
+
+      <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <%= f.label :password_confirmation, class: "mdl-textfield__label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: "mdl-textfield__input" %>
+      </div>
+
+
+      <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <%= f.label :current_password, class: "mdl-textfield__label" %>
+        <%= f.password_field :current_password, autocomplete: "off", class: "mdl-textfield__input", required: true  %>
+         <span class="info"><%= t("devise.passwords.current_password_reason") %></span>
+      </div>
+
+      <br />
+      
+      <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
+        <%= f.label :locale, class: "mdl-selectfield__label" %>
+        <%= f.select :locale, RybickaZlata4::Application.available_locales, {}, {class: "mdl-selectfield__select"} %>
+      </div>
+
+      <br />
+
+      <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
+        <%= f.label :time_zone, class: "mdl-selectfield__label" %>
+        <%= f.time_zone_select("time_zone", nil, {}, {class: "mdl-selectfield__select"} ) %>
+      </div>
+
+      <br />
+
+      <div class="actions">
+        <%= f.submit(t("devise.registrations.update_button"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
+      </div>
+
+    <% end %>
   </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+</div>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
 
 <h3>Cancel my account</h3>
 

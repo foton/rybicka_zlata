@@ -59,7 +59,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal @wish, assigns(:wish)  
     
     assert_not_nil assigns(:user_connections)
-    assert_equal @current_user.connections , assigns(:user_connections)    
+    assert_equal (@current_user.connections-[@current_user.base_connection]) , assigns(:user_connections)    
     
     assert_not_nil assigns(:user_groups)
     assert_equal @current_user.groups , assigns(:user_groups)    

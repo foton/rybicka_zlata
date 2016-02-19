@@ -65,6 +65,8 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
 
   def test_edit_shared_wish
     shared_wish=create_shared_wish
+    usr_conns=@current_user.connections-[@current_user.base_connection]
+    available_donor_conns=usr_conns
 
     get :edit, {user_id: @current_user.id, id: shared_wish.id}
     
@@ -72,10 +74,14 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     assert_equal shared_wish, assigns(:wish)  
     
     assert_not_nil assigns(:user_connections)
-    assert_equal @current_user.connections , assigns(:user_connections)    
+    assert_equal usr_conns , assigns(:user_connections)    
     
     assert_not_nil assigns(:user_groups)
     assert_equal @current_user.groups , assigns(:user_groups)    
+
+    assert_not_nil assigns(:available_donor_connections)
+    assert_equal available_donor_conns , assigns(:available_donor_connections)    
+
   end
 
   def test_add_donors_to_shared_wish

@@ -7,6 +7,7 @@ cs:
     attributes:
       user:
         username: "Přihlašovací jméno"
+        name: "Jméno účtu"
         email: "E-mail"
         password: "Heslo"
         current_password: "Aktuální heslo"

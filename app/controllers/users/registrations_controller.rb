@@ -6,6 +6,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up).push( :locale, :time_zone)
+    #create action
+    devise_parameter_sanitizer.for(:sign_up).push( :locale, :time_zone, :name)
+    #update action
+    devise_parameter_sanitizer.for(:account_update).push( :locale, :time_zone, :name)
   end
 end

@@ -9,6 +9,8 @@ en:
       sign_in_button: 'Sign me in'
     registrations:
       sign_up_button: 'Sign me up'  
+      update_button: 'Update'  
+      waiting_for_confirmation: 'Currently waiting confirmation for: %{email}'
     mailer:
       confirmation_instructions:
         welcome: "Welcome %{email}" 
@@ -16,6 +18,7 @@ en:
         confirm_my_account: "Confirm my account"
     passwords:
       minimum_length: "Musí mít alespoň %{min} znaků"
+      current_password_reason: "we need your current password to confirm your changes"
 
 
  

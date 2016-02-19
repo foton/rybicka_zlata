@@ -1,4 +1,6 @@
-class Wishes::FromAuthorController < ApplicationController
+require_relative "from_donee_controller"
+
+class Wishes::FromAuthorController < Wishes::FromDoneeController
   
   def new
     build_wish
@@ -15,51 +17,7 @@ class Wishes::FromAuthorController < ApplicationController
     create_wish(t("wish.from_author.views.added", title: @wish.title), t("wish.from_author.views.not_added", title: @wish.title)) or render 'new'
   end
 
-  def edit
-    load_wish
-    load_user_connections
-    load_user_groups
-    build_wish
-  end  
-
-  def update
-    load_wish
-    load_user_connections
-    load_user_groups
-    build_wish #update wish from params
-    save_wish(t("wish.from_author.views.updated", title: @wish.title), t("wish.from_author.views.not_updated", title: @wish.title)) or render 'edit'
-  end    
-
-  def destroy
-    load_wish
-    destroy_wish
-    redirect_to user_my_wishes_url(@user)
-  end 
-
   private
-
-    def load_wish
-      @wish||=wish_scope.find(params[:id]) 
-    end 
-
-    def build_wish
-      @wish||=wish_scope.build
-      donor_conn_ids=wish_params.delete(:donor_conn_ids)
-      @wish.attributes=wish_params    
-      @wish.merge_donor_conn_ids(donor_conn_ids, @user)
-    end 
-
-    def save_wish(msg_ok,msg_bad)
-      if @wish.save
-        flash[:notice]=msg_ok
-        redirect_to user_my_wish_url(@user,@wish) #WishFromDonee controller ::show
-        true
-      else  
-        flash[:error]=msg_bad
-        @user=@wish.user
-        false
-      end 
-    end
 
     def create_wish(msg_ok,msg_bad)
       if @wish.save
@@ -84,12 +42,12 @@ class Wishes::FromAuthorController < ApplicationController
     def wish_params
       unless defined?(@wish_params)
         if params[:wish_from_author].blank?
-          @wish_params = {}
+          @wish_params = ActionController::Parameters.new({})
         else
           @wish_params=params[:wish_from_author]
-          @wish_params[:donee_conn_ids]=[] if @wish_params[:donee_conn_ids]=="[]"
+          @wish_params[:donee_conn_ids]=[] if @wish_params[:donee_conn_ids].blank?
           @wish_params[:donee_conn_ids]=@wish_params[:donee_conn_ids].collect {|c| c.to_i}
-          @wish_params[:donor_conn_ids]=[] if @wish_params[:donor_conn_ids]=="[]"
+          @wish_params[:donor_conn_ids]=[] if @wish_params[:donor_conn_ids].blank?
           @wish_params[:donor_conn_ids]=@wish_params[:donor_conn_ids].collect {|c| c.to_i}
         
           #The permitted scalar types are String, Symbol, NilClass, Numeric, TrueClass, FalseClass, Date, Time, DateTime, StringIO, IO, ActionDispatch::Http::UploadedFile and Rack::Test::UploadedFile.
@@ -108,15 +66,12 @@ class Wishes::FromAuthorController < ApplicationController
       @user.author_wishes
     end  
 
-    def load_user_connections
-      @user_connections=@user.connections
+    def updated_message
+      t("wish.from_author.views.updated", title: @wish.title) 
     end  
 
-    def load_user_groups
-      @user_groups=@user.groups.includes(:connections)
+    def not_updated_message
+      t("wish.from_author.views.not_updated", title: @wish.title) 
     end  
-
-
- 
 
 end

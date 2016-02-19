@@ -7,6 +7,8 @@ cs:
         sign_in_button: 'Přihlásit'
       registrations:
         sign_up_button: 'Zaregistrovat'  
+        update_button: 'Změnit'  
+        waiting_for_confirmation: 'Čeká se na potvrzení z emailu: %{email}'
       mailer:
         confirmation_instructions:
           welcome: "Vítejte %{email}" 
@@ -14,4 +16,5 @@ cs:
           confirm_my_account: "Potvrdit můj ůčet"
       passwords:
         minimum_length: "Musí mít alespoň %{min} znaků"
+        current_password_reason: "aktuální heslo je potřeba pro potvrzení požadovaných změn"
 

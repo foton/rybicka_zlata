@@ -37,7 +37,7 @@ class UserWishTest < ActiveSupport::TestCase
       @author_wish1.save!
       #puts("author_wish1: #{@author_wish1.id}")
       
-      @author_wish2=Wish::FromAuthor.new(author: @user, title: "second wish", description: "I am still only donnee")
+      @author_wish2=Wish::FromAuthor.new(author: @user, title: "second wish", description: "I am still only donee")
       @author_wish2.merge_donor_conn_ids([conn_mama.id], @user )
       @author_wish2.save!
       #puts("author_wish1: #{@author_wish2.id}")
@@ -53,7 +53,7 @@ class UserWishTest < ActiveSupport::TestCase
       @mama_shared_wish.save!
       #puts("mama_shared_wish: #{@mama_shared_wish.id}")
       
-      @mama_wish=Wish::FromAuthor.new(author: @mama, title: "Mama wish", description: "I am only donnee, others are donors")
+      @mama_wish=Wish::FromAuthor.new(author: @mama, title: "Mama wish", description: "I am only donee, others are donors")
       @mama_wish.merge_donor_conn_ids([conn_tata.id,conn_user.id], @mama )
       @mama_wish.save!
       #puts("mama_wish: #{@mama_wish.id}")
@@ -70,7 +70,7 @@ class UserWishTest < ActiveSupport::TestCase
       @tata_shared_wish.save!
       #puts("tata_shared_wish: #{@tata_shared_wish.id}")
 
-      @tata_wish=Wish::FromAuthor.new(author: @tata, title: "Tata wish", description: "I am only donnee, others are donors")
+      @tata_wish=Wish::FromAuthor.new(author: @tata, title: "Tata wish", description: "I am only donee, others are donors")
       @tata_wish.merge_donor_conn_ids([conn_mama.id,conn_user.id], @tata )
       @tata_wish.save!
       #puts("tata_wish: #{@tata_wish.id}")

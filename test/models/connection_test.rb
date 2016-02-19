@@ -96,18 +96,22 @@ class ConnectionTest < ActiveSupport::TestCase
 
   def test_show_existing_reg_user_in_full_name
   	@connection.friend_id=@user_to.id
-		assert "Simon [Ford]", @connection.fullname  # friendsip.name + [friend.name] if friend is assigned
+		assert_equal "Simon [Ford]: simon@says.com", @connection.fullname  # friendsip.name + [friend.name] if friend is assigned
   end	
 
   def test_show_not_yet_assigned_reg_user_in_full_name
   	@connection.friend_id=nil
-  	assert "Simon [???]", @connection.fullname
+  	assert_equal "Simon [???]: simon@says.com", @connection.fullname
   end	
 
   def test_show_assigned_but_deleted_reg_user_in_full_name
   	@connection.friend_id=@user_to.id
   	@user_to.destroy
-  	assert "Simon [zrušen]", @connection.fullname
+  	assert_equal "Simon [zrušen]: simon@says.com", @connection.fullname
   end	
+
+  def test_show_base_connection_as_author_in_full_name
+    assert_equal "Autor přání [Ford]: hitchhiker@galaxy.museum", @user_to.base_connection.fullname
+  end 
 
 end

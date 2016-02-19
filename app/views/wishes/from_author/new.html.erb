@@ -1,4 +1,4 @@
 
 <div id="add_wish" class="form-add">
-  <%= render partial: 'form' %>
+  <%= render partial: 'form', locals: {url: user_author_wishes_path(current_user) } %>
 </div>

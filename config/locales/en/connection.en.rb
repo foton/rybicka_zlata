@@ -27,6 +27,8 @@
     },
 
     connection: {
+        base_cover_name: "Author of wish",
+        friend_deleted: "deleted",
         views: {
             header: "Friends",
             add: {

@@ -28,16 +28,27 @@ class Connection < ActiveRecord::Base
   
 
   def fullname
-    if friend_id.blank?
-      #friend (as registered user) was not assigned
-      "#{name} [???]: #{email}"
-    elsif friend.blank?
-      #friend (as registered user) was assigned, but now it does not exists (deleted)
-      "#{name} [deleted]: #{email}"
+    conn_name=name
+    friend_uname="???" #friend (as registered user) was not assigned
+    if base?
+      conn_name=I18n.t("connection.base_cover_name")
+      friend_uname=owner.displayed_name
     else
-      #firend (as registered user) is assigned
-      "#{name} [#{friend.displayed_name}]: #{email}"
+      if friend_id.present? 
+        if friend.blank?
+          #friend (as registered user) was assigned, but now it does not exists (deleted)
+          friend_uname=I18n.t("connection.friend_deleted")
+        else
+          #friend (as registered user) is assigned
+          friend_uname=friend.displayed_name
+        end  
+      end
     end  
+    "#{conn_name} [#{friend_uname}]: #{email}"
+  end  
+
+  def base?
+    name == BASE_CONNECTION_NAME
   end  
 
   #sorting method
@@ -52,6 +63,7 @@ class Connection < ActiveRecord::Base
 
   scope :base, -> { where(name: BASE_CONNECTION_NAME) }
   scope :friends, -> {where("name <> ?", Connection::BASE_CONNECTION_NAME) }
+  scope :owned_by, -> (user) { where(owner_id: user.id) }
 
   private
 

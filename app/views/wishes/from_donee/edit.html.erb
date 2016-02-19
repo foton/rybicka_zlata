@@ -1,27 +1,33 @@
-TODO
- <%= form_for(@wish, url: user_my_wishes_path(current_user)) do |f| %>
+ <%= form_for(@wish, url: user_my_wish_path(current_user,@wish)) do |f| %>
   <%= render partial: "/shared/errors", locals: {f_object: @wish} %>
 		<div class="actions">
 		  <%= form_submit_button %>
 		</div>
+    <h4><%= t("wish.donors.header") %></h4>
+    <p class="help"><%= t("wish.from_author.views.edit.donors.help") %></p>
 
     <div class="donors mdl-grid lists-of-checkboxes" id="donor_connections">
       <div class="md-cell list-of-unchecked" id="connections_not_in_donors">
         <ul class="">
-        <% for conn in (@user_connections-@wish.donor_connections) %>
+        <% for conn in (@user_connections-(@wish.donor_connections.owned_by(current_user))) %>
           <li>
-            <%= checkbox_mdl_tag( "wish[not_donor_conn_ids][#{conn.id}]", conn.fullname, false, conn.id, "0", { name: "wish[not_donor_conn_ids][]"}) %>
+            <% if @available_donor_connections.include?(conn) %>
+              <%= checkbox_mdl_tag( "wish_from_donee[donor_conn_ids][#{conn.id}]", conn.fullname, false, conn.id, "0", { name: "wish_from_donee[donor_conn_ids][]"}) %>
+            <% else %>
+              <%= checkbox_mdl_tag( "wish_from_donee[donor_conn_ids][#{conn.id}]", conn.fullname, false, conn.id, "0", { name: "wish_from_donee[donor_conn_ids][]", disabled: true}) %>
+            <% end %>  
           </li>
         <% end %>
         </ul>
       </div>
+    
       <div class="mdl-layout-spacer"></div>
+    
       <div class="md-cell list-of-checked" id="connections_in_donors">
-        <%= hidden_field_tag("wish[donor_conn_ids]", "[]") %>
         <ul class="">
-        <% for conn in (@wish.donor_connections) %>
+        <% for conn in ((@wish.donor_connections.owned_by(current_user))) %>
           <li>
-            <%= checkbox_mdl_tag( "wish[donor_conn_ids][#{conn.id}]", conn.fullname, true, conn.id, "0", { name: "wish[donor_conn_ids][]"}) %>
+            <%= checkbox_mdl_tag( "wish_from_donee[donor_conn_ids][#{conn.id}]", conn.fullname, true, conn.id, "0", { name: "wish_from_donee[donor_conn_ids][]"}) %>
           </li>
         <% end %>
         </ul>

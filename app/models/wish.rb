@@ -15,6 +15,12 @@ class Wish < ActiveRecord::Base
   validates :author, presence: true
   validate :no_same_donor_and_donee
 
+  def available_donor_connections_from(connections)
+    emails_of_donees=donee_connections.collect {|c| c.email}
+    user_ids_of_donees=donee_connections.collect {|c| c.friend_id}
+ 
+    (connections-connections.where(email: emails_of_donees)-connections.where(friend_id: user_ids_of_donees))
+  end  
 
   private
     #wish should not have the same USER or CONNECTION.EMAIL as donee and donor
@@ -51,4 +57,6 @@ class Wish < ActiveRecord::Base
       errors.add(:donor_conn_ids,text)
       errors.add(:donee_conn_ids,text)
     end  
+
+
 end

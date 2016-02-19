@@ -27,6 +27,8 @@
     },
 
     connection: {
+        base_cover_name: "Autor přání",
+        friend_deleted: "zrušen",
         views: {
             header: "Přátelé",
             add: {
