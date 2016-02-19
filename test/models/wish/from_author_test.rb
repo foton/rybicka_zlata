@@ -66,6 +66,49 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     assert_equal [conn1,conn2,@author.base_connection].sort, @wish.donee_connections.sort
   end	
 
+  def test_cannot_have_same_donee_and_donor_connection
+    conn1= Connection.create!(name: "Simon", email: "simon@says.com", owner_id: @author.id)
+    conn2= Connection.create!(name: "Paul", email: "Paul.Simon@says.com", owner_id: @author.id)
+    conn3= Connection.create!(name: "John", email: "john@beatles.com", owner_id: @author.id)
+    @wish.donee_conn_ids=([conn1,conn2].collect {|c| c.id})
+    @wish.merge_donor_conn_ids(([conn1,conn3].collect {|c| c.id}),@author)
+    
+    refute @wish.valid?
+    assert_equal ["Mezi obdarovanými je stejná konexe jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donor_conn_ids]
+    assert_equal ["Mezi obdarovanými je stejná konexe jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donee_conn_ids]
+  end
+
+  def test_cannot_have_same_email_for_donee_and_donor
+    conn1= Connection.create!(name: "Simon", email: "simon@says.com", owner_id: @author.id)
+    conn2= Connection.create!(name: "Paul", email: "Paul.Simon@says.com", owner_id: @author.id)
+    conn3= Connection.create!(name: "Simon2", email: "simon@says.com", owner_id: @author.id)
+    @wish.donee_conn_ids=([conn1].collect {|c| c.id})
+    @wish.merge_donor_conn_ids(([conn2,conn3].collect {|c| c.id}),@author)
+    
+    refute @wish.valid?
+    assert_equal ["Mezi obdarovanými je konexe se stejným emailem jako jiná v dárcích: '#{conn3.email}'"], @wish.errors[:donor_conn_ids]
+    assert_equal ["Mezi obdarovanými je konexe se stejným emailem jako jiná v dárcích: '#{conn3.email}'"], @wish.errors[:donee_conn_ids]
+  end
+
+  def test_cannot_have_same_user_for_donee_and_donor
+    conn1= Connection.create!(name: "Simon", email: "simon@says.com", owner_id: @author.id)
+    conn2= Connection.create!(name: "Paul", email: "Paul.Simon@says.com", owner_id: @author.id)
+    conn3= Connection.create!(name: "John", email: "john@beatles.com", owner_id: @author.id)
+
+    user13=create_test_user!(name: "Simon and John", email: conn1.email)
+    user13.identities << User::Identity.new( email: conn3.email, provider: User::Identity::LOCAL_PROVIDER)
+    conn1.reload #to get user.name
+    conn3.reload #to get user.name
+
+    @wish.donee_conn_ids=([conn1].collect {|c| c.id})
+    @wish.merge_donor_conn_ids(([conn2,conn3].collect {|c| c.id}),@author)
+    
+    refute @wish.valid?
+    assert_equal ["Mezi obdarovanými je stejný uživatel '#{conn1.fullname}'  jako v dárcích '#{conn3.fullname}'."], @wish.errors[:donor_conn_ids]
+    assert_equal ["Mezi obdarovanými je stejný uživatel '#{conn1.fullname}'  jako v dárcích '#{conn3.fullname}'."], @wish.errors[:donee_conn_ids]
+  end
+
+
   def test_set_updated_by_donee_at
   	assert @wish.save
   	updated_by_donee=@wish.updated_by_donee_at
