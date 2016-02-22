@@ -20,7 +20,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 	  end			
 		
 		assert_response :redirect
-		assert_redirected_to my_page_path
+		assert_redirected_to my_profile_path
 		assert_equal "Kontakt '#{@new_email}' byl přidán", flash[:notice]
 		assert_equal cu_ids_count+1, @current_user.identities.count
 	end
@@ -31,7 +31,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 	  end			
 		
 		assert_response :redirect
-		assert_redirected_to my_page_path
+		assert_redirected_to my_profile_path
 		#assert_not_nil assigns(:new_contact)
 		assert_equal "Kontakt '#{@new_email}' byl přidán", flash[:notice]
 	end	
@@ -42,7 +42,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 	  end			
 		
 		assert_response :redirect
-		assert_redirected_to my_page_path
+		assert_redirected_to my_profile_path
 		#assert_not_nil assigns(:new_contact)
 		assert_equal "Kontakt '#{@new_email}' byl přidán", flash[:notice]
 	end	
@@ -77,7 +77,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 	  end			
 		
 		assert_response :redirect
-		assert_redirected_to my_page_path
+		assert_redirected_to my_profile_path
 		#assert_not_nil assigns(:new_contact)
 		assert_equal "Kontakt '#{@new_email}' byl smazán", flash[:notice]
 	end	

@@ -10,12 +10,12 @@ Background:
 
 Scenario: Registration of user throught app
   When I click on "Sign up" in menu
-  And fill in text "prvni@rybickazlata.cz" into "E-mail" input
+  And fill in text "prvni@rybickazlata.cz" into "Primary e-mail" input
   And fill in text "NeznáméHeslo328" into "Password" input
   And fill in text "NeznáméHeslo328" into "Password confirmation" input
   And select "English" from "Language" selection
   And select "(GMT+01:00) Prague" from "Time zone" selection
-  And click on "Sign me up"
+  And click on button "Sign up"
 
   Then I should see "A message with a confirmation link has been sent to your email address."
   And I should see " Please follow the link to activate your account."

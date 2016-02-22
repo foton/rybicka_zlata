@@ -3,7 +3,7 @@
 <div id="wishes">
   <%= add_new_button_link(new_user_author_wish_url)%>
 
-	<div id="donee_wishes_list" class="list">
+	<div id="donee_wishes_list" class="list wishes-list">
 		<h4><%= t("wish.from_donee.views.list.header") %></h4>
 		<ul class="list-with-actions">
 		  <%= render( partial: "wish", collection: current_user.donee_wishes) || t("wish.from_donee.views.list.none") %>

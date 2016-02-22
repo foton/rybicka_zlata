@@ -105,8 +105,8 @@ end
 
 def make_connection_for(user,conn_hash)   
     conns= user.connections.find_by_name(conn_hash[:name])
-    if conn_hash[:email].present? && conns.present?
-      conns=conns.select {|conn| con.email == conn_hash[:email]}
+    if conn_hash[:email].present?
+     conns=conns.select {|conn| con.email == conn_hash[:email]} if conns.present?
     else
        conn_hash[:email]="#{conn_hash[:name]}@example.com"
     end  

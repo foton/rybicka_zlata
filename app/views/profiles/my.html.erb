@@ -1,7 +1,7 @@
 <h3><%= @user.displayed_name %></h3>
-
+<p><%= t("activerecord.attributes.user.email") %>: <%= @user.email %><br/>
 <%= t("activerecord.attributes.user.last_sign_in") %>: <%= @user.last_sign_in_at.present? ? l(@user.last_sign_in_at) : ""%> [<%= @user.last_sign_in_ip.present? ? @user.last_sign_in_ip : "" %>]
-
+</p>
   <div class="actions">
     <%= link_to( edit_user_registration_path(current_user),
                  method: :get,

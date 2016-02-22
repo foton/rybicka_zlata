@@ -1,0 +1,11 @@
+cs:
+  devise:
+    confirmations:
+      user:
+        confirmed: Váš účet byl úspěšně potvrzen. Nyní jste přihlášen(a).
+    sessions:
+      destroy:
+        sign_out: 'Odhlásit'
+    passwords:
+      current_password_reason: Potřebujeme vaše současné heslo pro potvrzení změn
+      minimum_length: "Musí mít alespoň %{min} znaků"

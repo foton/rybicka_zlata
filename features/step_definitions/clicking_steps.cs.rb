@@ -28,6 +28,10 @@ Když(/^kliknu na uložení$/) do
   click_link_or_button("check")
 end
 
+Když(/^kliknu na editaci$/) do
+  click_link_or_button("mode_edit")
+end
+
 Pokud(/^kliknu na (editaci|smazání) u "(.*?)"$/) do |action, text_to_find|
   case action
 	  when "smazání"
@@ -64,4 +68,11 @@ Když(/^kliknu v menu na "(.*?)"$/) do |text|
     click_link_or_button(text)  
   end  
 end
+
+Pokud(/^do seznamu dárců přidám "(.*?)"$/) do |label|
+  within("#donors_connections") do
+    check label 
+  end
+end
+
 

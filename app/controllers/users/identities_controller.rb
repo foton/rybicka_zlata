@@ -30,7 +30,7 @@ class Users::IdentitiesController < ApplicationController
 	def destroy
     load_identity
     destroy_identity
-    redirect_to my_page_url
+    redirect_to my_profile_url
 	end	
 
   private
@@ -52,7 +52,7 @@ class Users::IdentitiesController < ApplicationController
     def save_identity
       if @identity.save
         flash[:notice]=t("user.contacts.added", contact: @identity.to_s)
-        redirect_to my_page_url
+        redirect_to my_profile_url
         true
       else  
         flash[:error]=t("user.contacts.not_added", contact: @identity.to_s)

@@ -19,9 +19,10 @@ class DeviseEmailTest < ActionMailer::TestCase
   def test_confirmation_instruction_should_be_translated 
    I18n.locale = :cs
    mail=@devise_mailer.confirmation_instructions(@user_cs, "xxx")
-   assert mail.body.include?("Vítejte #{@user_cs.email}") , "Body of email is not fully translated:\n #{mail.body}"
-   assert mail.body.include?("Svůj účet pro tento e-mail můžete potvrdit kliknutím na odkaz níže:"), "Body of email is not fully translated:\n #{mail.body}"
-   assert mail.body.include?("Potvrdit můj ůčet"), "Body of email is not fully translated:\n #{mail.body}"
+
+   assert mail.body.include?("Vítejte, #{@user_cs.email}!") , "Body of email is not fully translated:\n #{mail.body}"
+   assert mail.body.include?("Můžete potvrdit svůj účet pomocí odkazu níže"), "Body of email is not fully translated:\n #{mail.body}"
+   assert mail.body.include?("Potvrdit můj účet"), "Body of email is not fully translated:\n #{mail.body}"
 
    I18n.locale = :en
    mail=@devise_mailer.confirmation_instructions(@user_en, "xxx")

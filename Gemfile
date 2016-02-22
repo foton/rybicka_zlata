@@ -34,7 +34,7 @@ gem 'jquery-rails'
 
 #authorization
 gem 'devise'
-gem 'devise-i18n'
+gem 'devise-i18n', git: "git@github.com:tigrish/devise-i18n.git"  #direct from github beacause of very good changes, which  are not in gem
 gem 'omniauth-oauth2', '~> 1.3.1'  #version 1.4.0 have 'uri_mismatch error'
 #gem 'omniauth-gplus'
 gem "omniauth-google-oauth2"

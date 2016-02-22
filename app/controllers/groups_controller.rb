@@ -100,7 +100,7 @@ class GroupsController < ApplicationController
     end  
 
     def load_user_connections
-      @user_connections=@user.connections
+      @user_connections=@user.friend_connections
     end  
 
 end

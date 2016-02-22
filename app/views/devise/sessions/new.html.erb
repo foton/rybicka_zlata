@@ -1,10 +1,10 @@
-<% set_page_title(t("devise.sign_in") ) -%>
+<% set_page_title(t("devise.sessions.new.sign_in") ) -%>
 
 <div class="mdl-grid">
 
   <div class="mdl-cell" >
     <div id="omniauth_links">
-      <div><%= t("omniauth.sign_in_with") %></div>
+      <div><%= t("devise.shared.links.sign_in_with_provider", provider: "") %></div>
       <%= render partial: "devise/shared/omniauth_links" %>
     </div>
   </div>
@@ -51,7 +51,7 @@
     <br />
 
     <div class="actions">
-      <%= f.submit(t("devise.sessions.sign_in_button"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
+      <%= f.submit(t("devise.sessions.new.sign_in"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
     </div>
   <% end %>
   </div>

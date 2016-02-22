@@ -3,7 +3,7 @@
 //and add onchange event which move changed item to corresponding list
 
 function move_on_change($chkbx){
-	var $lcheckboxes=$chkbx.closest(".lists-of-checkboxes");
+	var $lcheckboxes=$chkbx.closest(".lists-of-checkboxes_two-panels");
 	var $lchecked=$lcheckboxes.find(".list-of-checked ul");
 	var $lunchecked=$lcheckboxes.find(".list-of-unchecked ul");
 	

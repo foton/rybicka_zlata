@@ -1,11 +1,28 @@
 #encoding: utf-8
 
-Then /^(?:bych měl|měl bych) vidět (?:text )?"([^"]*)"$/ do |text|
+require 'nokogiri'
+
+Pak /^(?:bych měl|měl bych) vidět (?:text )?"([^"]*)"$/ do |text|
   page.find('body', text: text)
 end
 
 Pak(/^vidím (?:text )?"([^"]*)"$/) do |text|
   step "měl bych vidět \"#{text}\""
+end
+
+Pak /^(?:bych neměl|neměl bych) vidět (?:text )?"([^"]*)"$/ do |text|
+  assert_no_text(text)
+end
+
+Pak /^(?:bych neměl|neměl bych) vidět (?:text )?"([^"]*)" v nadpisech$/ do |text|
+  doc = Nokogiri::HTML.parse(page.html)
+  
+  for h_type in ["h1","h2","h3","h4","h5","h6"] do
+    headers=doc.css(h_type).select {|h| h.text.include?(text) }
+    if (headers.size != 0)
+      assert_no_text(text, "There is text '#{text}' in #{h_type} headers")
+    end 
+  end
 end
 
 Pak(/^v seznamu (?:lidí|přátel) (je|není) kontakt "(.*?)" s adresou "(.*?)"$/) do |je_neni, name, email|
@@ -53,12 +70,12 @@ Pokud(/^v seznamu přání (?:u "(.*?)" )?je přání "(.*?)"(?: se (\d+) potenc
     visit "přání uživatele \"user_name\""
   end  
  
-  within(:css, "#wish-list") do
-    if donor_count.present?
-      find('li', text: wish_title+"[#{count}]")
-    else
+  within(:css, ".wishes-list") do
+  #  if donor_count.present?
+  #    find('li', text: wish_title+"[#{donor_count}]")
+  #  else
       find('li', text: wish_title)
-    end  
+  #  end  
   end  
   
 end

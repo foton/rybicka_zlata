@@ -86,11 +86,10 @@ class ApplicationController < ActionController::Base
       format.json { head :not_found }
     end
   end
-
-
   
   def after_sign_in_path_for(resource)
-    my_page_path(resource)
+    #user_others_wishes_path(resource)
+    my_profile_path
   end
 
 end

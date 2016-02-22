@@ -25,26 +25,22 @@ Kontext:
 
 Scénář: Přidání přání
   Pokud jsem na stránce "Má přání"
-  A otevřu si formulář pro přidání
-  A zapíšu do položky "Název" text "Kalhoty s kapsami"
-  A zapíšu do položky "Popis" text "Ale velkými! Tkaové jako má Krteček. Třeba zde: http://img.csfd.cz/files/images/film/photos/157/911/157911911_df971a.jpg?w700"
-  A kliknu na pokračování
-
-  Pak jsem na stránce editace přání "Kalhoty s kapsami"
-  A vidím text "Přání 'Kalhoty s kapsami' bylo úspěšně přidáno. Nyní určete kdo bude mít možnost ho vidět. A v případě sdíleného přání vyberte i spoluobdarované."
-  A do seznamu přidám "Rodina"
-  A do seznamu přidám "Karel"
+  A kliknu na přidání
+  A zapíšu do položky "Titulek nového přání" text "Kalhoty s kapsami"
+  A zapíšu do položky "Širší popis" text "Ale velkými! Takové jako má Krteček. Třeba zde: http://img.csfd.cz/files/images/film/photos/157/911/157911911_df971a.jpg?w700"
+  A do seznamu dárců přidám "Karel"
+  #TODO: groups are not yet ready A do seznamu dárců přidám "Rodina"
   A kliknu na uložení
 
   Pak jsem na stránce "Přání 'Kalhoty s kapsami'"
-  A vidím text "Přání 'Kalhoty s kapsami' bylo úspěšně nastaveno."
-  A vidím konexi "Máma"
-  A vidím konexi "Táta"
-  A vidím konexi "Mařenka"
+  A vidím text "Přání 'Kalhoty s kapsami' bylo úspěšně přidáno."
+  #A vidím konexi "Máma"
+  #A vidím konexi "Táta"
+  #A vidím konexi "Mařenka"
   A vidím konexi "Karel"
 
   Pokud jsem na stránce "Má přání" 
-  A v seznamu přání je přání "Kalhoty s kapsami" se 4 potenciálními dárci
+  A v seznamu přání je přání "Kalhoty s kapsami" se 1 potenciálními dárci
 
 # Scénář: Přidání sdíleného přání
 

@@ -10,5 +10,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.for(:sign_up).push( :locale, :time_zone, :name)
     #update action
     devise_parameter_sanitizer.for(:account_update).push( :locale, :time_zone, :name)
+    set_minimum_password_length
   end
+
+  def after_update_path_for(resource)
+    my_profile_path
+  end  
 end

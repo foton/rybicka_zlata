@@ -8,7 +8,7 @@ cs:
       user:
         username: "Přihlašovací jméno"
         name: "Jméno účtu"
-        email: "E-mail"
+        email: "Hlavní e-mail"
         password: "Heslo"
         current_password: "Aktuální heslo"
         password_confirmation: "Heslo pro kontrolu"
@@ -30,7 +30,7 @@ cs:
     identities:
       email_is_owned_by_another_user: "E-mailová adresa '%{email}' je již přiřazena jinému uživateli!"
     profile:
-      my_page:
+      my:
         header: "Profil"
 
 

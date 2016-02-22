@@ -20,15 +20,15 @@ module NavigationHelpers
       when "přihlašovací stránce", "přihlášení", "signin page", "login page", "sign_in"
         new_user_session_path(locale: @locale)
       when "Profil", "mé profilové stránce", "své stránce nastavení", "své stránce", "my profile"
-        my_page_path(locale: @locale)
+        my_profile_path(locale: @locale)
       when "Lidé", "stránce Lidé", "Přátelé"
         user_connections_path(current_user, locale: @locale)
       when "Skupiny"
         user_groups_path(current_user, locale: @locale)
       when "Má přání"
-        user_as_donee_wishes_path(current_user, locale: @locale)
+        user_my_wishes_path(current_user, locale: @locale)
       when "Múžu splnit"
-        user_as_donor_wishes_path(current_user, locale: @locale)
+        user_others_wishes_path(current_user, locale: @locale)
 
 
       else
@@ -53,7 +53,12 @@ module NavigationHelpers
 
         elsif m=page_name.match(/přání uživatele (.*)/)        
            user=User.find_by_name(m[1].gsub("\"","").strip)
-           user_as_donee_wishes_path(user, locale: @locale)
+           user_my_wishes_path(user, locale: @locale)
+
+        elsif m=page_name.match(/Přání '(.*)'\z/)        
+           wishes=(current_user.donee_wishes.where(title: m[1]).to_a+current_user.donor_wishes.where(title: m[1]).to_a)
+           raise "Wish '#{m[1]}' was not found between wishes os user #{current_user.displayed_name}" if wishes.blank?
+           user_my_wish_path(current_user, wishes.first, locale: @locale)
 
 
       #   if m=page_name.match(/přehledu? (.*)/) # melo by zachytit "přehled "Moje dárky " i "přehledu mých přání"

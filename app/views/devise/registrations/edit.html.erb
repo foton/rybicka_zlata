@@ -1,4 +1,4 @@
-<%= set_page_title(t("devise.registration.edit")) %>
+<%= set_page_title(t("devise.registrations.edit.title", resource: "profil")) %>
 
 <div class="mdl-grid">
 
@@ -67,7 +67,7 @@
       <br />
 
       <div class="actions">
-        <%= f.submit(t("devise.registrations.update_button"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
+        <%= f.submit(t("devise.registrations.edit.update"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
       </div>
 
     <% end %>
@@ -75,11 +75,6 @@
 
 </div>
 
+<p><%= t('.unhappy', :default => 'Unhappy') %>? <%= link_to t('.cancel_my_account', :default => "Cancel my account"), registration_path(resource_name), :data => { :confirm => t('.are_you_sure', :default => "Are you sure?") }, :method => :delete %>.</p>
 
-
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+<%= link_to t('devise.shared.links.back', :default => "Back"), :back %>

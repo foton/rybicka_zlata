@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   end  
 
   
-  get "/my_page" => "profiles#my", :as => "my_page"
+  get "/my_profile" => "profiles#my", :as => "my_profile"
 
 
   get "/change_locale" => "static#change_locale", :as => "change_locale"

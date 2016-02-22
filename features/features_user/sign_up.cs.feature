@@ -9,20 +9,20 @@ Kontext:
   A přepnu na češtinu  
 
 Scénář: Registrace uživatele jen přes aplikaci
-  Když kliknu v menu na "Registrace"
-  A zapíšu do položky "E-mail" text "prvni@rybickazlata.cz"
+  Když kliknu v menu na "Registrovat"
+  A zapíšu do položky "Hlavní e-mail" text "prvni@rybickazlata.cz"
   #A ukaž mi stránku
   A zapíšu do položky "Heslo" text "NeznáméHeslo328"
   A zapíšu do položky "Heslo pro kontrolu" text "NeznáméHeslo328"
   A vyberu "Čeština" z nabídky "Jazyk"
   A vyberu "(GMT+01:00) Prague" z nabídky "Časové pásmo"
-  A kliknu na "Zaregistrovat"
+  A kliknu na tlačítko "Registrovat"
 
   Pak bych měl vidět "Vítejte! Registrace byla úspěšná."
   A měl bych vidět "Pro dokončení otevřete aktivační odkaz zaslaný na váš email."
   
   Pokud si otevřu poslední email pro adresu "prvni@rybickazlata.cz"
-  A kliknu v emailu na odkaz "Potvrdit můj ůčet"
+  A kliknu v emailu na odkaz "Potvrdit můj účet"
   
   Pak bych měl vidět "Váš účet byl úspěšně potvrzen."
   Pak bych se měl bez problémů přihlásit jako "prvni@rybickazlata.cz" s heslem "NeznáméHeslo328"

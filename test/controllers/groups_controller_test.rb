@@ -62,6 +62,7 @@ class GroupsControllerTest < ActionController::TestCase
     get :edit, {user_id: @current_user.id, id: new_group.id}
     assert_equal "Skupina '#{grp_h[:name]}' byla úspěšně přidána. Nyní ji, prosím, naplňte lidmi.", flash[:notice]
     assert_not_nil assigns(:user_connections)
+    assert_equal @connections.to_a.sort, assigns(:user_connections).to_a.sort
 
     #after adding connections the "create process" is finished
     edit_grp_hash={name: new_group.name, connection_ids: @connections.collect {|con| con.id} }

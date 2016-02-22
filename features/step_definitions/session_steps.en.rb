@@ -3,7 +3,7 @@
 Given /^I should be successfully signed in$/ do
   step "should see text \"Signed in successfully.\""
   within(".mdl-layout__drawer nav") do
-    assert page.has_link?(I18n.t("devise.sign_out"))
+    assert page.has_link?(I18n.t("devise.sessions.destroy.sign_out"))
   end
 end
 
@@ -14,8 +14,8 @@ end
 
 Pak(/^sign in as "(.*?)" with password "(.*?)"$/) do |email, password|
   visit path_to("sign_in")
-  step "fill in text \"#{email}\" into \"E-mail\" input"
+  step "fill in text \"#{email}\" into \"Primary e-mail\" input"
   step "fill in text \"#{password}\" into \"Password\" input"
-  step "click on \"Sign me in\""
+  step "click on button \"Sign in\""
 end
 

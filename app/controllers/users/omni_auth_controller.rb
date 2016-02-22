@@ -69,7 +69,7 @@ class Users::OmniAuthController < Devise::OmniauthCallbacksController
 
   protected
     def after_sign_up_path_for(resource)
-      my_page(@user)
+      my_profile_path
     end
 
 end
