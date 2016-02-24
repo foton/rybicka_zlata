@@ -52,6 +52,9 @@
                   },
                   donors: {
                     help: "Zde můžete vybrat potenciální dárce. Tedy ty z Vašich přátel, kdo toto konkrétní přání uvidí a budou ho moci splnit. Neaktivní položky již figurují v jako obdarovaní, proto je nelze vybrat."
+                  },
+                  unused_connections: {
+                    header: "Nevyužito"
                   }  
                 },
                 added: "Přání '%{title}' bylo úspěšně přidáno.",

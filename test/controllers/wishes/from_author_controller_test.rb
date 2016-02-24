@@ -66,9 +66,12 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
   end
 
   def test_update_my_wish
+    assert_equal [@conn_segra,@current_user.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@conn_mama, @conn_tata].sort, @wish.donor_connections.to_a.sort
+
     new_title="Much better title"
     new_description= "something for me and my dad"
-    edit_wish_hash={title: new_title, description: new_description, donee_conn_ids: [@conn_tata.id] ,donor_conn_ids: [@conn_mama.id] }
+    edit_wish_hash={title: new_title, description: new_description, donee_conn_ids: [@conn_tata.id] ,donor_conn_ids: [@conn_mama.id, @conn_segra.id] }
 
     patch :update, {user_id: @current_user.id, id: @wish.id, wish_from_author: edit_wish_hash }
     
@@ -80,7 +83,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal new_title, @wish.title
     assert_equal new_description, @wish.description
     assert_equal [@conn_tata,@current_user.base_connection].sort, @wish.donee_connections.to_a.sort
-    assert_equal [@conn_mama], @wish.donor_connections.to_a
+    assert_equal [@conn_mama,@conn_segra].sort, @wish.donor_connections.to_a.sort
   end
 
   def test_destroy

@@ -1,3 +1,7 @@
+ <% content_for :javascripts, javascript_include_tag("http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js") %>
+ <%# content_for :stylesheets, stylesheet_link_tag("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css") %>
+   
+
  <%= form_for(@wish, url: url) do |f| %>
   <%= render partial: "/shared/errors", locals: {f_object: @wish} %>
     <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -15,11 +19,12 @@
     </div>
 
     <div class=" mdl-grid" id="user_connections">
-      <div class="donees md-cell " id="donees_connections">
+      
+      <div class="donees md-cell mdl-cell--6-col" id="donee_connections">
         <h4><%= t("wish.from_author.views.edit.donees.header") %></h4>
         <p class="help"><%= t("wish.from_author.views.edit.donees.help") %></p>
         <div class="list-of-checkboxes">
-          <ul>
+          <ul id="donee_conn_ids" >
           <% for conn in (@user_connections) %>
             <li>
               <%= checkbox_mdl_tag( "wish_from_author[donee_conn_ids][#{conn.id}]", conn.fullname, @wish.donee_connections.include?(conn), conn.id, "0", { name: "wish_from_author[donee_conn_ids][]"}) %>
@@ -29,13 +34,21 @@
         </div>
       </div>
      
-      <div class="mdl-layout-spacer"></div>
+      <div class="available_conns md-cell mdl-cell--4-col" id="unused_connections">
+        <!-- this div is not visible by default -->
+        <h4><%= t("wish.from_author.views.edit.unused_connections.header") %></h4>
+        <div class="list-of-checkboxes">
+          <ul id="unused_conn_ids">
+             <!-- <li><label><input type="hidden" name="wish_from_author[unused_conn_ids][]" id="wish_from_author[unused_conn_ids][0]" />TEST</li> -->
+          </ul>
+        </div>    
+      </div>  
       
-      <div class="donors md-cell" id="donors_connections">
+      <div class="donors md-cell mdl-cell--6-col" id="donor_connections">
         <h4><%= t("wish.donors.header") %></h4>
         <p class="help"><%= t("wish.from_author.views.edit.donors.help") %></p>
         <div class="list-of-checkboxes">
-          <ul>
+          <ul id="donor_conn_ids">
           <% for conn in (@user_connections) %>
             <li>
               <%= checkbox_mdl_tag( "wish_from_author[donor_conn_ids][#{conn.id}]", conn.fullname, @wish.donor_connections.include?(conn), conn.id, "0", { name: "wish_from_author[donor_conn_ids][]"}) %>
@@ -44,6 +57,23 @@
           </ul>
         </div>  
       </div>
+
     </div>
 
 <% end %>
+
+<script type="text/javascript">
+$( document ).ready(function() {
+  var selectors_hash = {};
+  selectors_hash['lists_container']="#user_connections";
+  selectors_hash['unused_list']="#unused_connections";
+  selectors_hash['other_lists_arr']=["#donor_connections","#donee_connections"];
+  
+  if($(selectors_hash['lists_container']).length != 0) {
+    create_three_panels(selectors_hash);
+    move_unchecked_items_to_unused(selectors_hash);
+    remove_duplicates_between_lists(selectors_hash);
+    hide_checkboxes(selectors_hash);
+  }
+});
+</script>

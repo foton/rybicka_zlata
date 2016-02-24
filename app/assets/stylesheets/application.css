@@ -74,3 +74,41 @@ li .actions {
 	font-style: italic;
 	color: gray;
 }
+
+#unused_connections {
+	display: none;
+	background-color: #afa;
+}
+
+.sortbox {
+}
+
+
+.sortable-list {
+	min-height: 5em;
+	margin-bottom: 0px ;
+	padding: 0.3em;
+	list-style-type: none;
+	list-style-position: inside;
+	border: 1px dashed rgb(63, 81, 181);
+}
+
+.sortable-list li {
+	background-color: white;
+	min-height: 2em;
+	border: 1px solid gray;
+  padding: 0.3em;  
+  margin: 0.1em;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.sortablee-list li input {
+	display: hidden;
+}
+
+.sortable_drop_placeholder {
+	border: 1px dashed #666;
+	background-color: #aaa;
+}
+
+
