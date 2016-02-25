@@ -60,6 +60,10 @@ group :development, :test do
   gem "pry-rails" # pry misto IRB v rails console
   gem "pry-byebug" #debugging with pry on ruby 2 ('step','next','finish','continue')
   gem "minitest-reporters" #better formatted output of Minitest
+
+  #managing secrets
+  gem 'dotenv-rails' #loads secrets from.env file into ENV variables (which are then used in config.secrets.yml)
+  gem 'dotenv-heroku' #upload secrets to HEROKU as ENV variables
 end
 
 group :development do
