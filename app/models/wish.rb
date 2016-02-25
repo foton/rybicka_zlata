@@ -22,6 +22,14 @@ class Wish < ActiveRecord::Base
     (connections-connections.where(email: emails_of_donees)-connections.where(friend_id: user_ids_of_donees))
   end  
 
+  def description_shortened
+    if description.size > 100
+      description[0..100].gsub(/ \S*\z/," ...")
+    else
+      description 
+    end 
+  end  
+
   private
     #wish should not have the same USER or CONNECTION.EMAIL as donee and donor
     def no_same_donor_and_donee

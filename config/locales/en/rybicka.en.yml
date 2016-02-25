@@ -7,3 +7,7 @@ en:
   confirm:
     "yes": "Yes"
     "no": "No"
+  actions:
+    delete: "Smazat"
+    edit: "Změnit"
+

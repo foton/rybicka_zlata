@@ -1,16 +1,16 @@
-  <div class="actions md-cell">
+  <span class="mdl-list__item-secondary-content actions">
     <%= link_to( path_to_wish_action_for_user(wish, :edit, current_user),
                  method: :get,
-                 class: "edit mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                 class: "edit mdl-list__item-secondary-action mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored"
                 ) do %>
-      <i class="material-icons">mode_edit</i>
+      <%= t("actions.edit") %>
     <% end %> 
 
     <%= link_to( path_to_wish_action_for_user(wish, :destroy, current_user),
                  method: :delete,
                  data: { confirm: t("wish.from_donee.views.delete.confirm.message"), "confirm-yes": t("confirm.yes"), "confirm-no": t("confirm.no")},
-                 class: "delete mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
+                 class: "delete mdl-list__item-secondary-action mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--colored"
                 ) do %>
-      <i class="material-icons">remove</i>
+          <%= t("actions.delete") %>
     <% end %> 
-  </div>  
+  </span>  

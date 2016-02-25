@@ -1,9 +1,10 @@
-<li class="wish mdl-grid">
+<li class="wish mdl-list__item mdl-list__item--three-line">
 
-  <div class="li_content mdl-cell">
-     <%= link_to wish.title, user_my_wish_url(current_user, wish) %>
-   </div>
-  <div class="mdl-layout-spacer"></div>
+  <span class="mdl-list__item-primary-content">
+     <span><%= link_to wish.title, user_my_wish_url(current_user, wish) %></span>
+     <span class="mdl-list__item-text-body"><%= wish.description_shortened %></span>
+  </span>
+  
   <%= render partial: "actions", locals: {wish: wish} %>
 
 </li>

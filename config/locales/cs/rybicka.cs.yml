@@ -7,3 +7,6 @@ cs:
   confirm:
     "yes": "Ano"
     "no": "Ne"
+  actions:
+    delete: "Smazat"
+    edit: "Změnit"

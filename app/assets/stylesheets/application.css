@@ -50,7 +50,7 @@
 
 
 /* https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
-.list-with-actions li {
+/*.list-with-actions li {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -59,10 +59,11 @@
 	align-content: space-between;
 	padding: 0.3em;
 }
-
-li .actions {
-  margin-left: 1em;
+*/
+.actions {
+  flex-direction: row;
 }
+
 
 .donors, .donees {
 	padding: 0.5em;
@@ -111,4 +112,10 @@ li .actions {
 	background-color: #aaa;
 }
 
+.wish {
+	border-bottom: 1px solid gray;
+}
 
+.wish:first-child {
+	border-top: 1px solid gray;
+}
