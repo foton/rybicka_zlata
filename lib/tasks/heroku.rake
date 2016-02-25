@@ -1,1 +1,1 @@
-require "dotenv-heroku/tasks"
+require "dotenv-heroku/tasks" if Rails.env=='development'
