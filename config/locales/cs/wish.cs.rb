@@ -93,7 +93,7 @@
                 },
                 updated: "Seznam potenciálních dárců pro '%{title}' byl úspěšně aktualizován.",
                 not_updated: "Přání '%{title}' nebylo aktualizováno.",
-                deleted: "'%{title}' bylo vyřazeno z vašich přání.",
+                deleted: "Byli jste odebráni z obdarovaných u přání '%{title}'.",
                 not_deleted: "Přání '%{title}' nebylo odstraněno.",
                 delete: {
                     confirm: {

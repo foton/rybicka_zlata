@@ -17,34 +17,33 @@ When(/^přepnu na češtinu$/) do
 end
 
 Když(/^kliknu na přidání$/) do
-  click_link_or_button("add")
+  #click_link_or_button("add")
+  find(".create").click()
 end
 
 Když(/^kliknu na pokračování$/) do
-  click_link_or_button("forward")
+  #click_link_or_button("forward")
+  find(".next-step").click()
 end
 
 Když(/^kliknu na uložení$/) do
-  click_link_or_button("check")
+  #click_link_or_button("check")
+  find(".save").click()
 end
 
 Když(/^kliknu na editaci$/) do
-  click_link_or_button("mode_edit")
+  find(".edit").click()
 end
 
-Pokud(/^kliknu na (editaci|smazání) u "(.*?)"$/) do |action, text_to_find|
+Pokud(/^kliknu na (editaci|smazání) u(?: přání)? "(.*?)"$/) do |action, text_to_find|
   case action
 	  when "smazání"
-	  	button_hidden_text="remove"
+	  	a_selector=".delete"
 	  when "editaci"
-	  	button_hidden_text="mode_edit"
+	  	a_selector=".edit"
   end
   
-  element=find("li", text: text_to_find)
-  
-  within(element) do
-    click_link_or_button(button_hidden_text)	
-  end  
+  find("li", text: text_to_find).find(a_selector).click()
 end
 
 Když(/^smazání potvrdím$/) do
@@ -69,17 +68,17 @@ Když(/^kliknu v menu na "(.*?)"$/) do |text|
   end  
 end
 
-Pokud(/^kliknu na editaci u přání "(.*?)"$/) do |title|
-  within(:css, "ul") do
-   find("li", text: title).find("a.edit").click()
-  end 
-end
+# Pokud(/^kliknu na editaci u přání "(.*?)"$/) do |title|
+#   within(:css, "ul") do
+#    find("li", text: title).find("a.edit").click()
+#   end 
+# end
 
-Pokud(/^kliknu na smazání u přání "(.*?)"$/) do |title|
-  within(:css, "ul") do
-   find("li", text: title).find("a.delete").click()
-  end 
-end
+# Pokud(/^kliknu na smazání u přání "(.*?)"$/) do |title|
+#   within(:css, "ul") do
+#    find("li", text: title).find("a.delete").click()
+#   end 
+# end
 
 
 Pokud(/^do seznamu (dárců|obdarovaných) přidám "(.*?)"$/) do |block,label|

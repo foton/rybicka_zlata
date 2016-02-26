@@ -81,12 +81,17 @@ Pokud(/^(?:u "(.*?)" )?existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |us
 end
 
 
+Pokud(/^"(.*?)" má kontakt "(.*?)"$/) do |user_name, email_adr|
+  user=User.find_by_name(user_name)
+  id=user.identities.where(email: email_adr).first
+  if id.blank?
+    User::Identity.create!(email: email_adr, provider: User::Identity::LOCAL_PROVIDER, user_id: user.id)
+  end  
+end
+
 
 Pokud(/^mám mezi kontakty adresu "(.*?)"$/) do |adr|
-  id=@current_user.identities.where(email: adr).first
-  if id.blank?
-    User::Identity.create!(email: adr, provider: User::Identity::LOCAL_PROVIDER, user_id: @current_user.id)
-  end  
+  step "\"#{@current_user.name}\" má kontakt \"#{adr}\""
 end
 
 Pokud(/^zaloguju text "(.*?)"$/) do |text|
@@ -105,6 +110,13 @@ Pokud(/^existuje moje přání "(.*?)"$/) do |title|
   @wish=Wish::FromAuthor.new(author: @current_user, title: title, description: "Description of přání #{title}")
   @wish.save!
 end
+
+Pokud(/^existuje přání "(.*?)" uživatele "(.*?)"$/) do |title, user_name|
+  user=User.find_by_name(user_name)  
+  @wish=Wish::FromAuthor.new(author: user, title: title, description: "Description of přání #{title}")
+  @wish.save!
+end
+
 
 Pokud(/^to má dárce \[(.*?)\]$/) do |donor_names_str|
   donor_names=donor_names_str.gsub("\"","").split(",").collect {|name| name.strip}
@@ -141,7 +153,7 @@ def make_connection_for(user,conn_hash)
     if conn_hash[:email].present?
      conns=conns.select {|conn| con.email == conn_hash[:email]} if conns.present?
     else
-       conn_hash[:email]="#{conn_hash[:name]}@example.com"
+       conn_hash[:email]="#{conn_hash[:name].parameterize}@example.com"
     end  
   
   if conns.blank?

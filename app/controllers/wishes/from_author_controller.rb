@@ -41,10 +41,10 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
 
     def wish_params
       unless defined?(@wish_params)
-        if params[:wish_from_author].blank?
+        if params[:wish].blank?
           @wish_params = ActionController::Parameters.new({})
         else
-          @wish_params=params[:wish_from_author]
+          @wish_params=params[:wish]
           @wish_params[:donee_conn_ids]=[] if @wish_params[:donee_conn_ids].blank?
           @wish_params[:donee_conn_ids]=@wish_params[:donee_conn_ids].collect {|c| c.to_i}
           @wish_params[:donor_conn_ids]=[] if @wish_params[:donor_conn_ids].blank?

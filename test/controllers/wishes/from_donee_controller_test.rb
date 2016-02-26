@@ -101,7 +101,7 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     edit_wish_hash={title: new_title, description: new_description, donee_conn_ids: [@conn_tata.id]  }
     edit_wish_hash[:donor_conn_ids]=[@conn_mama.id, conn_segra.id]
 
-    patch :update, {user_id: @current_user.id, id: shared_wish.id, wish_from_donee: edit_wish_hash }
+    patch :update, {user_id: @current_user.id, id: shared_wish.id, wish: edit_wish_hash }
     
     assert_response :redirect
     assert_redirected_to user_my_wish_path(@current_user, shared_wish)
@@ -131,7 +131,7 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     #tata is out, mama left and segra is added
     edit_wish_hash={donor_conn_ids: [@conn_mama.id, conn_segra.id]}
 
-    patch :update, {user_id: @current_user.id, id: shared_wish.id, wish_from_donee: edit_wish_hash }
+    patch :update, {user_id: @current_user.id, id: shared_wish.id, wish: edit_wish_hash }
     
     assert_response :redirect
     assert_redirected_to user_my_wish_path(@current_user, shared_wish)
@@ -150,7 +150,7 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     
     assert_response :redirect
     assert_redirected_to user_my_wishes_path(@current_user)
-    assert_equal "'#{shared_wish.title}' bylo vyřazeno z vašich přání.", flash[:notice]
+    assert_equal "Byli jste odebráni z obdarovaných u přání '#{shared_wish.title}'.", flash[:notice]
     
     refute Wish.where(id: shared_wish.id).blank?
     refute @current_user.donee_wishes.include?(shared_wish)

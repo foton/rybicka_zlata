@@ -16,7 +16,7 @@ class Wishes::FromDoneeController < ApplicationController
 	end  
 
 	def update
-   
+
 	 load_wish
    load_user_connections
    load_user_groups
@@ -69,7 +69,7 @@ class Wishes::FromDoneeController < ApplicationController
 
     def wish_params
       unless defined?(@wish_params)
-        @wish_params = params[:wish_from_donee] || ActionController::Parameters.new({})
+        @wish_params = params[:wish] || ActionController::Parameters.new({})
         @wish_params[:donor_conn_ids]=[] if @wish_params[:donor_conn_ids].blank?
         @wish_params[:donor_conn_ids]=@wish_params[:donor_conn_ids].collect {|c| c.to_i}
         

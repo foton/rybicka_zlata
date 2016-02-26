@@ -34,7 +34,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     donee_conns=[@conn_segra]
     wish_h= { title: "A special wish", description: "Wish me luck for tomorow!", donee_conn_ids: donee_conns.collect {|c| c.id} , donor_conn_ids:  donor_conns.collect {|c| c.id} }
     
-    post :create, {user_id: @current_user.id, wish_from_author: wish_h}
+    post :create, {user_id: @current_user.id, wish: wish_h}
     
     #redirect to edit, where donee and donors are added
 
@@ -73,7 +73,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     new_description= "something for me and my dad"
     edit_wish_hash={title: new_title, description: new_description, donee_conn_ids: [@conn_tata.id] ,donor_conn_ids: [@conn_mama.id, @conn_segra.id] }
 
-    patch :update, {user_id: @current_user.id, id: @wish.id, wish_from_author: edit_wish_hash }
+    patch :update, {user_id: @current_user.id, id: @wish.id, wish: edit_wish_hash }
     
     assert_response :redirect
     assert_redirected_to user_my_wish_path(@current_user, @wish)
@@ -106,7 +106,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     
     edit_wish_hash={donee_conn_ids: [@conn_tata.id,@conn_mama.id], donor_conn_ids: [@conn_segra.id]} #segra out, mama in
 
-    patch :update, {user_id: @current_user.id, id: @wish.id, wish_from_author: edit_wish_hash }
+    patch :update, {user_id: @current_user.id, id: @wish.id, wish: edit_wish_hash }
     
     assert_response :redirect
     assert_redirected_to user_my_wish_path(@current_user, @wish)

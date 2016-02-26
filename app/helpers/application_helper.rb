@@ -45,27 +45,31 @@ module ApplicationHelper
   end
 
   def form_submit_button(text=nil)
-    button_tag( class: "button-save mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "save mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
       text ||"<i class=\"material-icons\">check</i>".html_safe
     end
   end
   
   def form_next_button(text=nil)
-    button_tag( class: "button-save mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "next-step mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
       text ||"<i class=\"material-icons\">forward</i>".html_safe
     end
   end
 
   def add_new_button(text=nil)
-    button_tag( class: "button-add mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "create mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
         text ||"<i class=\"material-icons\">add</i>".html_safe
     end
   end  
 
   def add_new_button_link(url,text=nil)
-    link_to(url, class: "button-add-link mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+    link_to(url, class: "create mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
         text ||"<i class=\"material-icons\">add</i>".html_safe
     end
   end  
 
+  def add_jquery_ui
+     # content_for :stylesheets, stylesheet_link_tag("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css") 
+    content_for :javascripts, javascript_include_tag("http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
+  end  
 end

@@ -24,7 +24,7 @@ class GroupsControllerTest < ActionController::TestCase
   	get :index, {user_id: @current_user.id}
 
     assert assigns(:groups).present?
-  	assert_equal @current_user.groups, assigns(:groups)
+  	assert_equal @current_user.groups.to_a.sort, assigns(:groups).to_a.sort
     assert_template "index"
     
     assert assigns(:group).present?
