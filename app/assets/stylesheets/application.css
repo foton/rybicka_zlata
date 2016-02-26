@@ -65,20 +65,25 @@
 }
 
 
-.donors, .donees {
+.donors, .donees, .available_conns {
 	padding: 0.5em;
 	border: 1px solid gray;
 }
 
-.info {
+.available_conns {
+	background-color: rgb(200, 200, 255);
+	border: 1px solid gray;
+}
+
+.info, .help {
 	font-size: 80%;
 	font-style: italic;
 	color: gray;
+	line-height: 1.2em;
 }
 
 #unused_connections {
 	display: none;
-	background-color: #afa;
 }
 
 .sortbox {
@@ -119,3 +124,4 @@
 .wish:first-child {
 	border-top: 1px solid gray;
 }
+

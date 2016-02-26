@@ -52,6 +52,19 @@ Pak(/^vidím konexi "([^"]*)"$/) do |name|
   find('li', text: name)
 end
 
+Pak(/^vidím konexi "([^"]*)" v "([^"]*)"$/) do |name, block_name|
+  within(:css, block_selector_for(block_name)) do
+    find('li', text: name)
+  end
+end
+
+Pak(/^nevidím konexi "([^"]*)" v "([^"]*)"$/) do |name, block_name|
+  within(:css, block_selector_for(block_name)) do
+    assert_no_text(name)
+  end
+end
+
+
 Pak(/^je v seznamu mých e\-mailových adres vidět i "(.*?)"$/) do |adr|
   within(:css, "#contacts_list") do
     find('li', text: adr)
@@ -80,4 +93,20 @@ Pokud(/^v seznamu přání (?:u "(.*?)" )?je přání "(.*?)"(?: se (\d+) potenc
   
 end
 
+Pak(/^v seznamu přání není přání "(.*?)"$/) do |wish_title|
+   within(:css, ".wishes-list") do
+    assert_no_text(wish_title)
+  end  
+end
 
+
+def block_selector_for(block_name)
+   case block_name
+    when "Dárci" 
+      return "#donor_connections"
+    when "Obdarovaní"  
+      return "#donee_connections"
+    else
+      raise "Uncatched block_name: '#{block_name}'"
+   end 
+end

@@ -16,6 +16,7 @@ class Wishes::FromDoneeController < ApplicationController
 	end  
 
 	def update
+   
 	 load_wish
    load_user_connections
    load_user_groups

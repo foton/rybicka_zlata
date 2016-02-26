@@ -1,5 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.app_domain="localhost"
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -40,9 +41,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   #Devise requirement
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
-  config.app_domain = 'rybickazlata.cz'
+  config.action_mailer.default_url_options = { host: config.app_domain, port: 3000 }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true

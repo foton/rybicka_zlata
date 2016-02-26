@@ -1,3 +1,6 @@
+  <h3><%= @wish.title %></h3>
+  <p><%= @wish.description %></p>
+
  <%= form_for(@wish, url: user_my_wish_path(current_user,@wish)) do |f| %>
   <%= render partial: "/shared/errors", locals: {f_object: @wish} %>
 		<div class="actions">
@@ -7,6 +10,19 @@
     <p class="help"><%= t("wish.from_author.views.edit.donors.help") %></p>
 
     <div class="donors mdl-grid lists-of-checkboxes lists-of-checkboxes_two-panels" id="donor_connections">
+  
+      <div class="md-cell list-of-checked" id="connections_in_donors">
+        <ul class="">
+        <% for conn in ((@wish.donor_connections.owned_by(current_user))) %>
+          <li>
+            <%= checkbox_mdl_tag( "wish_from_donee[donor_conn_ids][#{conn.id}]", conn.fullname, true, conn.id, "0", { name: "wish_from_donee[donor_conn_ids][]"}) %>
+          </li>
+        <% end %>
+        </ul>
+      </div>
+    
+      <div class="mdl-layout-spacer"></div>
+
       <div class="md-cell list-of-unchecked" id="connections_not_in_donors">
         <ul class="">
         <% for conn in (@user_connections-(@wish.donor_connections.owned_by(current_user))) %>
@@ -21,17 +37,7 @@
         </ul>
       </div>
     
-      <div class="mdl-layout-spacer"></div>
     
-      <div class="md-cell list-of-checked" id="connections_in_donors">
-        <ul class="">
-        <% for conn in ((@wish.donor_connections.owned_by(current_user))) %>
-          <li>
-            <%= checkbox_mdl_tag( "wish_from_donee[donor_conn_ids][#{conn.id}]", conn.fullname, true, conn.id, "0", { name: "wish_from_donee[donor_conn_ids][]"}) %>
-          </li>
-        <% end %>
-        </ul>
-      </div>
     </div>
 
 <% end %>

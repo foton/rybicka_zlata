@@ -75,6 +75,7 @@ group :development do
 end
 
 group :test do
+  gem "cucumber",  "~> 1.3"
   gem "cucumber-rails", require: false
   gem 'database_cleaner', require: false
   gem "capybara-webkit", require: false   #need QT installed  for Ubuntu: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x

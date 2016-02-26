@@ -43,18 +43,22 @@
 
         from_author: {
             views: {
+                new: { 
+                  title: "Titulek nového přání"
+                },
                 edit: { 
-                  title: "Titulek nového přání",
+                  title: "Titulek přání",
                   description: "Širší popis",
                   donees: {
                     header: "Další obdarovaní",
                     help: "Jako první obdarovaný jste automaticky Vy (jako autor). Můžete ale přidat i další spoluobdarované z Vašich přátel. Ti pak budou moci přidat potenciální dárce ze svých přátel."
                   },
                   donors: {
-                    help: "Zde můžete vybrat potenciální dárce. Tedy ty z Vašich přátel, kdo toto konkrétní přání uvidí a budou ho moci splnit. Neaktivní položky již figurují v jako obdarovaní, proto je nelze vybrat."
+                    help: "Zde můžete vybrat potenciální dárce. Tedy ty z Vašich přátel, kdo toto konkrétní přání uvidí a budou ho moci splnit. Případné neaktivní položky již figurují jako obdarovaní, proto je nelze vybrat."
                   },
                   unused_connections: {
-                    header: "Nevyužito"
+                    header: "Nevyužití",
+                    help: "Přátelé, kteří toto přání vůbec neuvidí. Pokud tu žádní nejsou, je možné že jste zatím žádné nezadali nebo už jsou v ostatních blocích."
                   }  
                 },
                 added: "Přání '%{title}' bylo úspěšně přidáno.",

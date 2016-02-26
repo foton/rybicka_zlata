@@ -63,6 +63,7 @@ Capybara.javascript_driver = :webkit
 Capybara::Webkit.configure do |config|
   config.allow_url("storage.googleapis.com")
   config.allow_url("fonts.googleapis.com")
+  config.allow_url("ajax.googleapis.com")
 end
 
 def logger

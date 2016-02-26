@@ -69,10 +69,44 @@ Když(/^kliknu v menu na "(.*?)"$/) do |text|
   end  
 end
 
-Pokud(/^do seznamu dárců přidám "(.*?)"$/) do |label|
-  within("#donors_connections") do
-    check label 
-  end
+Pokud(/^kliknu na editaci u přání "(.*?)"$/) do |title|
+  within(:css, "ul") do
+   find("li", text: title).find("a.edit").click()
+  end 
+end
+
+Pokud(/^kliknu na smazání u přání "(.*?)"$/) do |title|
+  within(:css, "ul") do
+   find("li", text: title).find("a.delete").click()
+  end 
 end
 
 
+Pokud(/^do seznamu (dárců|obdarovaných) přidám "(.*?)"$/) do |block,label|
+  # non dragable version
+   # within("#donor_connections") do
+   #   check label 
+   # end
+
+   within("#user_connections") do
+    find("li", text: label).drag_to(find(list_selector_for(block)))
+   end 
+end
+
+Pak(/^ze seznamu (?:dárců|obdarovaných) odeberu "(.*?)"$/) do |label|
+  #it not depend where connections is right now, it shoul be only once on screen
+   within("#user_connections") do
+    find("li", text: label).drag_to(find("#unused_conn_ids"))
+   end 
+end
+
+def list_selector_for(block)
+   case block
+    when "dárců" 
+      return "#donor_conn_ids"
+    when "obdarovaných"  
+      return "#donee_conn_ids"
+    else
+      raise "Uncatched block: '#{block_name}'"
+   end 
+end

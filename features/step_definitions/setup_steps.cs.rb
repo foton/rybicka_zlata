@@ -101,10 +101,43 @@ Pokud(/^u "(.*?)" existuje konexe "(.*?)"(?: s adresou "(.*?)")?$/) do |user_nam
   make_connection_for(user,{ name: conn_name, email: conn_email })  
 end
 
+Pokud(/^existuje moje přání "(.*?)"$/) do |title|
+  @wish=Wish::FromAuthor.new(author: @current_user, title: title, description: "Description of přání #{title}")
+  @wish.save!
+end
+
+Pokud(/^to má dárce \[(.*?)\]$/) do |donor_names_str|
+  donor_names=donor_names_str.gsub("\"","").split(",").collect {|name| name.strip}
+  donor_conn_ids=[]
+  
+  for donor_name in donor_names do
+     donor_conn_ids << (make_connection_for(@wish.author,{ name: donor_name})).id
+  end  
+  
+  if donor_conn_ids.present?
+   @wish.merge_donor_conn_ids(donor_conn_ids, @wish.author )
+   @wish.save!
+  end 
+end
+
+Pokud(/^má v obdarovaných \[(.*?)\]$/) do |donee_names_str|
+  donee_names=donee_names_str.gsub("\"","").split(",").collect {|name| name.strip}
+  donee_conn_ids=[]
+  
+  for donee_name in donee_names do
+     donee_conn_ids << (make_connection_for(@wish.author,{ name: donee_name})).id
+  end  
+  
+  if donee_conn_ids.present?
+   @wish.donee_conn_ids=donee_conn_ids
+   @wish.save!
+  end 
+end
+
 #===============================================
 
 def make_connection_for(user,conn_hash)   
-    conns= user.connections.find_by_name(conn_hash[:name])
+    conns= user.connections.where(name: conn_hash[:name])
     if conn_hash[:email].present?
      conns=conns.select {|conn| con.email == conn_hash[:email]} if conns.present?
     else
@@ -113,11 +146,15 @@ def make_connection_for(user,conn_hash)
   
   if conns.blank?
      #lets create it 
-     user.connections << Connection.new(name: conn_hash[:name], email: conn_hash[:email])
+     conn=Connection.new(name: conn_hash[:name], email: conn_hash[:email])
+     user.connections << conn
      user.connections.reload
   elsif conns.size != 1
     raise "Ambiguous match for '#{conn_hash}' for user '#{user.username}': #{conns.join("\n")}"
+  else
+    conn=conns.first
   end  
+  conn
 end  
 
 
