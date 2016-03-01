@@ -20,6 +20,10 @@ module Wish::State
     self.booked_by_id == user.id
   end  
 
+  def called_by?(user)
+    self.called_for_co_donors_by_id == user.id
+  end  
+
   def available?
     self.state == STATE_AVAILABLE
   end  
@@ -41,18 +45,26 @@ module Wish::State
     if self.booked_by?(user)
       self.state= STATE_AVAILABLE
       self.booked_by_id=nil
-      I18n.t("wish.actions.unbook.message", wish_title: self.title)
+      I18n.t("wish.actions.unbook.message", wish_title: self.title, user_name: user.name)
     end  
   end  
 
   def call_for_co_donors!(user)
     if user.is_donor_of?(self)
       self.state= STATE_CALL_FOR_CO_DONORS
-      self.booked_by_user=user
+      self.called_for_co_donors_by_id=user.id
       I18n.t("wish.actions.call_for_co_donors.message", wish_title: self.title, user_name: user.name)
     end  
   end  
 
+  def withdraw_call!(user)
+    if self.called_by?(user)
+      self.state= STATE_AVAILABLE
+      self.called_for_co_donors_by_id=nil
+      I18n.t("wish.actions.withdraw_call.message", wish_title: self.title, user_name: user.name)
+    end  
+  end
+    
   def call_for_co_donors?
     self.state == STATE_CALL_FOR_CO_DONORS
   end  
@@ -98,7 +110,7 @@ module Wish::State
       elsif self.booked?
         (self.booked_by?(user) ? [:show, :unbook, :gifted] : [])
       elsif self.call_for_co_donors?
-        (self.booked_by?(user) ? [:show, :unbook, :book] :  [:show, :book])
+        (self.called_by?(user) ? [:show, :withdraw_call, :book] :  [:show, :book])
       elsif (self.gifted? || self.fullfilled?)
         []
       else 

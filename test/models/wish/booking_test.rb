@@ -40,18 +40,7 @@ class WishBookingTest < ActiveSupport::TestCase
     @wish.booked_by_id=@donor.id
     assert @wish.valid?
   end 
-
-  def test_cannot_be_in_call_for_co_donors_without_booked_by_id
-    @wish.state=Wish::State::STATE_CALL_FOR_CO_DONORS
-
-    @wish.booked_by_id=nil
-    refute @wish.valid?
-    assert @wish.errors[:booked_by_id].present?
-
-    @wish.booked_by_id=@donor.id
-    assert @wish.valid?, "errors: #{@wish.errors.full_messages}"
-  end 
-
+ 
   def test_cannot_be_gifted_without_booked_by_id
     @wish.state=Wish::State::STATE_GIFTED
 

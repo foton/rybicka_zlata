@@ -49,22 +49,21 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
 
   def test_only_donor_can_set_call_for_co_donors
     msg=@wish.call_for_co_donors!(@author)
-    refute @wish.called_for_co_donors?
+    refute @wish.call_for_co_donors?
     assert_equal nil, @wish.booked_by_user 
 
     msg=@wish.call_for_co_donors!(@donee)
-    refute @wish.called_for_co_donors?
+    refute @wish.call_for_co_donors?
     assert_equal nil, @wish.booked_by_user 
 
     msg=@wish.call_for_co_donors!(stranger)
-    refute @wish.called_for_co_donors?
+    refute @wish.call_for_co_donors?
     assert_equal nil, @wish.booked_by_user 
 
     msg=@wish.call_for_co_donors!(@donor)
-
-    assert @wish.called_for_co_donors?
+    assert @wish.call_for_co_donors?
     assert_equal @donor,@wish.called_for_co_donors_by_user 
-    assert_equal "Přání 'My first wish' bylo zarezervováno pro 'donor'", msg
+    assert_equal "Uživatel 'donor' hledá se spoludárce pro přání 'My first wish'", msg
   end
 
   

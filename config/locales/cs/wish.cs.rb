@@ -59,6 +59,10 @@
                 button: "Vyzvat ke spoluúčasti",
                 message: "Uživatel '%{user_name}' hledá se spoludárce pro přání '%{wish_title}'"
             } ,   
+            withdraw_call: {
+                button: "Zrušit výzvu ke spoluúčasti",
+                message: "Uživatel '%{user_name}' zrušil svoji výzvu ke spoluúčasti u přání '%{wish_title}'"
+            } ,   
             gifted: {
                 button: "Darováno",
                 message: "Přání '%{wish_title}' bylo darováno/splněno dárcem '%{user_name}'"

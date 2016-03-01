@@ -41,10 +41,16 @@ class WishBookingTest < ActiveSupport::TestCase
     assert @wish.valid?, "errors: #{@wish.errors.full_messages}"
   end 
 
-  def test_cannot_be_gifted_without_called_for_co_donors_by_id
-    for state in [Wish::State::STATE_GIFTED, Wish::State::STATE_RESERVED]
-    @wish.called_for_co_donors_by_id=nil
-    assert @wish.valid?
+  def test_may_be_set_for_other_states_then_available_and_called_for_co_donors
+    for state in [Wish::State::STATE_RESERVED, Wish::State::STATE_GIFTED, Wish::State::STATE_FULFILLED] do
+      @wish.state=state
+      @wish.booked_by_id=@donor.id
+      @wish.called_for_co_donors_by_id=nil
+      assert @wish.valid?, "#{@wish.state} errors: #{@wish.errors.full_messages}"
+
+      @wish.called_for_co_donors_by_id=@donor.id
+      assert @wish.valid?, "#{@wish.state} errors: #{@wish.errors.full_messages}"
+    end  
   end 
 
   def test_can_be_fullfiled_without_called_for_co_donors_by_id

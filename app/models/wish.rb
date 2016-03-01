@@ -95,7 +95,7 @@ class Wish < ActiveRecord::Base
 
 
     def validate_booked_by
-      if [STATE_RESERVED,STATE_CALL_FOR_CO_DONORS, STATE_GIFTED].include?(self.state)
+      if [STATE_RESERVED, STATE_GIFTED].include?(self.state)
         if self.booked_by_user.blank?
           self.errors.add(:booked_by_id, I18n.t("wish.errors.must_have_booking_user"))
         else    

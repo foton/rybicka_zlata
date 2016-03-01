@@ -75,13 +75,13 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
     assert_equal [:show, :book, :call_for_co_donors], @wish.available_actions_for(@donor)
     
     @wish.call_for_co_donors!(@donor)
-    assert_equal [:show, :unbook, :book], @wish.available_actions_for(@donor)
+    assert_equal [:show, :withdraw_call, :book], @wish.available_actions_for(@donor)
 
-    @wish.unbook!(@donor)
+    @wish.withdraw_call!(@donor)
     assert_equal [:show, :book, :call_for_co_donors], @wish.available_actions_for(@donor)
 
     @wish.call_for_co_donors!(@donor)
-    assert_equal [:show, :unbook, :book], @wish.available_actions_for(@donor)
+    assert_equal [:show, :withdraw_call, :book], @wish.available_actions_for(@donor)
 
     @wish.book!(@donor)
     assert_equal [:show, :unbook, :gifted], @wish.available_actions_for(@donor)
@@ -99,10 +99,11 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
     @wish.merge_donor_conn_ids([adonor_conn.id, @donor_conn.id], @author)
     @wish.save!
 
+    #even when call for co-donors is in place another donor can overtake the wish by booking
     @wish.call_for_co_donors!(@donor)
     assert_equal [:show, :book], @wish.available_actions_for(another_donor)
 
-    @wish.unbook!(@donor)
+    @wish.withdraw_call!(@donor)
     assert_equal [:show, :book, :call_for_co_donors], @wish.available_actions_for(another_donor)
 
     @wish.book!(@donor)
