@@ -2,7 +2,7 @@
 
 require 'nokogiri'
 
-Pak /^(?:bych měl|měl bych) vidět (?:text )?"([^"]*)"$/ do |text|
+Pak /^(?:bych měl|měl bych) vidět (?:(?:text|přání) )?"([^"]*)"$/ do |text|
   page.find('body', text: text)
 end
 
@@ -10,7 +10,7 @@ Pak(/^vidím (?:text )?"([^"]*)"$/) do |text|
   step "měl bych vidět \"#{text}\""
 end
 
-Pak /^(?:bych neměl|neměl bych) vidět (?:text )?"([^"]*)"$/ do |text|
+Pak /^(?:bych neměl|neměl bych) vidět (?:(?:text|přání) )?"([^"]*)"$/ do |text|
   assert_no_text(text)
 end
 
@@ -98,6 +98,20 @@ Pak(/^v seznamu přání není přání "(.*?)"$/) do |wish_title|
     assert_no_text(wish_title)
   end  
 end
+
+Pokud(/^u přání "(.*?)" jsou akce \[(.*?)\]$/) do |wish_title, actions_str|
+  action_names=actions_str.gsub("\"","").split(",").collect {|name| name.strip}
+  
+   within(:css, ".wishes-list") do
+    wish=find('li', text: wish_title)
+    for action_name in action_names
+      wish.find(".actions").find("a", text: action_name)
+    end
+  end  
+  
+end
+
+
 
 
 def block_selector_for(block_name)

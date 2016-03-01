@@ -9,7 +9,7 @@ end
 
 Pak(/^bych se měl bez problémů přihlásit jako "(.*?)" s heslem "(.*?)"$/) do |email, password|
   if page.has_link?("Odhlásit")
-    step "kliknu na \"Odhlásit\""  
+    step "kliknu v menu na \"Odhlásit\""  
   end  
   step "přihlásím se jako \"#{email}\" s heslem \"#{password}\""
   step "měl bych být úspěšně přihlášen"
@@ -20,6 +20,7 @@ Pak(/^přihlásím se jako "(.*?)" s heslem "(.*?)"$/) do |email, password|
   step "zapíšu do položky \"Hlavní e-mail\" text \"#{email}\""
   step "zapíšu do položky \"Heslo\" text \"#{password}\""
   step "kliknu na tlačítko \"Přihlásit\""
+  step "měl bych být úspěšně přihlášen"
   @current_user=@users.find {|u| u.email == email} if @users.present?
 end
 

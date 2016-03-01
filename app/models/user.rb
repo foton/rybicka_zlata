@@ -101,15 +101,15 @@ class User < ActiveRecord::Base
   end 
   
   def is_author_of?(wish)
-    wish.author_id == self.id
+    wish.is_author?(self)
   end  
 
   def is_donee_of?(wish)
-    donee_wishes.to_a.include?(wish)
+    wish.is_donee?(self)
   end  
 
   def is_donor_of?(wish)
-    donor_wishes.to_a.include?(wish)
+    wish.is_donor?(self)
   end  
   
   private

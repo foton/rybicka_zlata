@@ -1,0 +1,6 @@
+<div id="donor_wish_show">
+  <h3><%= @wish.title %></h3>
+  <p><%= @wish.description %></p>
+  <%= render partial: "actions", locals: {wish: @wish} %>
+
+</div>  

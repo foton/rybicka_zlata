@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     end
     resources :connections
     resources :groups
-    resources :others_wishes, controller: 'wishes/from_donors'
+    resources :others_wishes, controller: 'wishes/from_donor'
     resources :my_wishes, controller: 'wishes/from_donee'
     resources :author_wishes, controller: 'wishes/from_author'
   end  

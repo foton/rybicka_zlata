@@ -35,12 +35,17 @@ Když(/^kliknu na editaci$/) do
   find(".edit").click()
 end
 
-Pokud(/^kliknu na (editaci|smazání) u(?: přání)? "(.*?)"$/) do |action, text_to_find|
+Pokud(/^kliknu na (editaci|smazání|rezervaci|uvolnění rezervace) u(?: přání)? "(.*?)"$/) do |action, text_to_find|
   case action
 	  when "smazání"
 	  	a_selector=".delete"
 	  when "editaci"
 	  	a_selector=".edit"
+    when "rezervaci"
+      a_selector=".book"
+    when "uvolnění rezervace"
+      a_selector=".unbook"
+
   end
   
   find("li", text: text_to_find).find(a_selector).click()

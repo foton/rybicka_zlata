@@ -6,22 +6,29 @@ Pokud /^existují tito uživatelé\:$/ do |table|
   table.hashes.each do |attributes|
     admin=attributes.delete("admin") == "true"
     unconfirmed=attributes.delete("unconfirmedin") == "true"
-    
-    @user = User.create!(attributes)
-#    @user.admin=admin
-    @user.confirm unless unconfirmed
-    @user.save!
+
+    @user = User.where(email: attributes[:email]).first
+    if @user.blank?
+      @user = User.create(attributes)
+  #    @user.admin=admin
+      @user.confirm unless unconfirmed
+      unless @user.save
+        raise "User not created! Errors :#{@user.errors.full_messages} for user: #{@user}}"
+      end  
+    end  
+
     @users << @user
   end
 end
 
 Pokud /^existují standardní testovací uživatelé$/ do
   step("existují tito uživatelé:", table(%{
-        | name        | email                   | locale  | password  |  admin  |
-        | porybny     |porybny@rybickazlata.cz  | cs      | Abcd1234  |  true   |
-        | charles     |charles@rybickazlata.cz  | en      | Abcd1234  |  false  |
-        | pepik       |pepik@rybickazlata.cz    | cs      | Abcd1234  |  false  |
-        | Mařenka     |marenka@rybickazlata.cz  | cs      | Abcd1234  |  false  |
+        | name        | email                   | locale  | password                |  admin  |
+        | porybny     |porybny@rybickazlata.cz  | cs      | #{DEFAULTS[:password]}  |  true   |
+        | charles     |charles@rybickazlata.cz  | en      | #{DEFAULTS[:password]}  |  false  |
+        | pepik       |pepik@rybickazlata.cz    | cs      | #{DEFAULTS[:password]}  |  false  |
+        | Mařenka     |marenka@rybickazlata.cz  | cs      | #{DEFAULTS[:password]}  |  false  |
+        | Karel       |karel@rybickazlata.cz    | cs      | #{DEFAULTS[:password]}  |  false  |
         })
   )
 end

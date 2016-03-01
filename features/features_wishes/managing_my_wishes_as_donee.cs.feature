@@ -1,9 +1,9 @@
 # encoding: utf-8
 # language: cs
 
-Požadavek: Práce s přáními
-  Jako přihlášený uživatel 
-  chci mít možnost spravovat svá přání
+Požadavek: Práce s přáními jako obdarovaný
+  Jako přihlášený uživatel Mařenka
+  chci mít možnost spravovat svá (či cizí ale sdílená) přání
   abych je mohl dostat to co opravdu chci
 
 Kontext:
@@ -24,14 +24,14 @@ Kontext:
   
   A přepnu na češtinu  
 
-@javascript
-Scénář: Úprava sdíleného přání
   Pokud existuje přání "Pračka" uživatele "pepik"
   A to má dárce ["Máma", "Táta"]
   A má v obdarovaných ["Maruška"]
   
   A jsem přihlášen jako "Mařenka"
-  
+
+@javascript
+Scénář: Úprava sdíleného přání
   Pokud jsem na stránce "Má přání"
   A kliknu na editaci u přání "Pračka"
 
@@ -66,12 +66,6 @@ Scénář: Úprava sdíleného přání
   
 
 Scénář: Smazání sdíleného přání
-  Pokud existuje přání "Pračka" uživatele "pepik"
-  A to má dárce ["Máma", "Táta"]
-  A má v obdarovaných ["Maruška"]
-  
-  A jsem přihlášen jako "Mařenka"
-
   Pokud jsem na stránce "Má přání"
   A kliknu na smazání u přání "Pračka"
 

@@ -1,8 +1,8 @@
 # encoding: utf-8
 # language: cs
 
-Požadavek: Práce s přáními
-  Jako přihlášený uživatel 
+Požadavek: Práce s přáními jako autor
+  Jako přihlášený uživatel Pepik
   chci mít možnost spravovat svá přání
   abych je mohl dostat to co opravdu chci
 

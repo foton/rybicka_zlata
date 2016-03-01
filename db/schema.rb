@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160213124256) do
+ActiveRecord::Schema.define(version: 20160301110749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,13 +101,15 @@ ActiveRecord::Schema.define(version: 20160213124256) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "wishes", force: :cascade do |t|
-    t.string   "title",                           null: false
+    t.string   "title",                                  null: false
     t.text     "description"
-    t.integer  "state",               default: 0, null: false
-    t.integer  "author_id",                       null: false
+    t.integer  "state",                      default: 0, null: false
+    t.integer  "author_id",                              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "updated_by_donee_at"
+    t.integer  "booked_by_id"
+    t.integer  "called_for_co_donors_by_id"
   end
 
   add_index "wishes", ["author_id"], name: "index_wishes_on_author_id", using: :btree
@@ -123,4 +125,6 @@ ActiveRecord::Schema.define(version: 20160213124256) do
   add_foreign_key "groups", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "wishes", "users", column: "author_id"
+  add_foreign_key "wishes", "users", column: "booked_by_id"
+  add_foreign_key "wishes", "users", column: "called_for_co_donors_by_id"
 end

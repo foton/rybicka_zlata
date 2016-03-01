@@ -48,7 +48,7 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
    def create_test_user!(attrs={})
-    default_email="jonh.doe@test.com"
+    default_email="john.doe@test.com"
     if attrs[:email].blank?
       if attrs[:name].present?
         attrs[:email]=default_email.gsub("john.doe",attrs[:name].parameterize)
@@ -90,6 +90,28 @@ class ActiveSupport::TestCase
     end  
     conn
   end 
+
+  def setup_wish
+    @author=create_test_user!(name: "author")
+    @donor=create_test_user!(name: "donor")
+    @donee=create_test_user!(name: "donee")
+
+    assert @author != @donor
+    assert @author != @donee
+    assert @donee != @donor
+
+    @donor_conn=create_connection_for(@author, {name: "donor_conn", email: @donor.email})  
+    @donee_conn=create_connection_for(@author, {name: "donee_conn", email: @donee.email})  
+    
+    @wish=Wish::FromAuthor.new(
+      author: @author, 
+      title: "My first wish", 
+      description: "This is my first wish I am trying", 
+      donee_conn_ids: [@donee_conn.id]
+      )
+    @wish.merge_donor_conn_ids([@donor_conn.id], @author)
+    @wish.save!    
+  end
 
 end
 

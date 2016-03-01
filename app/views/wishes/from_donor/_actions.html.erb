@@ -1,0 +1,6 @@
+  <span class="mdl-list__item-secondary-content actions">
+    <% for action in wish.available_actions_for(current_user) %>
+      <%= button_to_wish_action(action, user_others_wish_path(current_user,wish)) %>
+    <% end %>
+  </span>  
+

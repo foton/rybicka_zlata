@@ -6,7 +6,6 @@
 
 <!-- https://www.getmdl.io/components/index.html#lists-section -->
 	<div id="donee_wishes_list" class="lists wishes-list">
-		<h4><%= t("wish.from_donee.views.list.header") %></h4>
 		<ul class="list-with-actions  mdl-list">
 		  <%= render( partial: "wish", collection: current_user.donee_wishes) || t("wish.from_donee.views.list.none") %>
 	  </ul>

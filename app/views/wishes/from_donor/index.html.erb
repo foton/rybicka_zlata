@@ -1,0 +1,10 @@
+<h3><%= t("wish.from_donor.views.index.header") %></h3>
+
+<div id="wishes">
+  <div id="donor_wishes_list" class="lists wishes-list">
+    <ul class="list-with-actions  mdl-list">
+      <%= render( partial: "wish", collection: current_user.donor_wishes) || t("wish.from_donor.views.list.none") %>
+    </ul>
+  </div>
+</div>       
+       

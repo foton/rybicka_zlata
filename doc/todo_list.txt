@@ -1,2 +1,4 @@
 - loging wish changes , diplaying them to user after sign in or throught feed
 - user can choose to "receive changes by email"
+- chat for friends/donors/donnies for wish
+- groups were hidden, so make them usable

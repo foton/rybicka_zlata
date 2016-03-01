@@ -1,36 +1,63 @@
 class Wish < ActiveRecord::Base
   belongs_to :author, class_name:"User"
+  belongs_to :booked_by_user, class_name:"User", foreign_key: "booked_by_id"
+  belongs_to :called_for_co_donors_by_user, class_name:"User", foreign_key: "called_for_co_donors_by_id"
+  
   has_many :donor_links, dependent: :delete_all, inverse_of: :wish
   has_many :donor_connections, through: :donor_links, source: :connection
   has_many :donee_links, dependent: :delete_all, inverse_of: :wish
   has_many :donee_connections, through: :donee_links, source: :connection
 
-  STATE_AVAILABLE=0
-  STATE_CALL_FOR_CO_DONORS=1
-  STATE_RESERVED=5
-  STATE_ACQUIRED=9
-  STATE_FULFILLED=10
-
   validates :title, presence: true
   validates :author, presence: true
+  
   validate :no_same_donor_and_donee
+  validate :validate_booked_by
+  validate :validate_called_for_co_donors
+  
+  include Wish::State
+
+  public
+
+  scope :not_fullfilled, ->{ where.not( state: Wish::State::STATE_FULFILLED) }
 
   def available_donor_connections_from(connections)
-    emails_of_donees=donee_connections.collect {|c| c.email}
-    user_ids_of_donees=donee_connections.collect {|c| c.friend_id}
+    emails_of_donees=(donee_connections.collect {|c| c.email}).uniq.compact
+    user_ids_of_donees=(donee_connections.collect {|c| c.friend_id}).uniq.compact
  
-    (connections-connections.where(email: emails_of_donees)-connections.where(friend_id: user_ids_of_donees))
+    #(connections-connections.where(email: emails_of_donees)-connections.where(friend_id: user_ids_of_donees))
+    (connections.reject {|conn| (emails_of_donees.include?(conn.email) || user_ids_of_donees.include?(conn.friend_id)) } )
   end  
 
   def description_shortened
     if description.size > 100
-      description[0..100].gsub(/ \S*\z/," ...")
+      description[0..95].gsub(/ \S*\z/,"")+" ..."
     else
       description 
     end 
   end  
 
+  def is_author?(user)
+    author_id == user.id
+  end  
+
+  def is_donor?(user)
+    donor_user_ids.include?(user.id)
+  end  
+
+  def is_donee?(user)
+    is_author?(user) || donee_user_ids.include?(user.id)
+  end  
+
   private
+    def donor_user_ids
+      @donor_user_ids ||=(donor_connections.collect {|conn| conn.friend_id})
+    end  
+
+    def donee_user_ids
+      @donee_user_ids ||=(donee_connections.collect {|conn| conn.friend_id})
+    end  
+
     #wish should not have the same USER or CONNECTION.EMAIL as donee and donor
     def no_same_donor_and_donee
       donor_conns=donor_connections.to_a
@@ -67,4 +94,33 @@ class Wish < ActiveRecord::Base
     end  
 
 
+    def validate_booked_by
+      if [STATE_RESERVED,STATE_CALL_FOR_CO_DONORS, STATE_GIFTED].include?(self.state)
+        if self.booked_by_user.blank?
+          self.errors.add(:booked_by_id, I18n.t("wish.errors.must_have_booking_user"))
+        else    
+          bu=self.booked_by_user
+          self.errors.add(:booked_by_id, I18n.t("wish.errors.cannot_be_booked_by_donee")) if self.is_donee?(bu)
+        end    
+      elsif STATE_AVAILABLE == self.state
+        self.errors.add(:booked_by_id, I18n.t("wish.errors.cannot_be_booked_in_this_state")) if self.booked_by_user.present?
+      else
+        #wish can be fullfiled from outside, booked_id CAN be present
+      end  
+    end  
+
+    def validate_called_for_co_donors
+      if [STATE_CALL_FOR_CO_DONORS].include?(self.state)
+        if self.called_for_co_donors_by_user.blank?
+          self.errors.add(:called_for_co_donors_by_id, I18n.t("wish.errors.must_have_calling_by_user"))
+        else    
+          cu=self.called_for_co_donors_by_user
+          self.errors.add(:called_for_co_donors_by_id, I18n.t("wish.errors.donne_cannot_call_for_co_donors")) if self.is_donee?(cu)
+        end    
+      elsif STATE_AVAILABLE == self.state
+        self.errors.add(:called_for_co_donors_by_id, I18n.t("wish.errors.cannot_be_called_in_this_state")) if self.called_for_co_donors_by_user.present?
+      else
+        #others states may or may not have filled in called_for_co_donors_by_id
+      end  
+    end  
 end

@@ -32,7 +32,41 @@
                 by_connection: "Mezi obdarovanými je stejná konexe jako v dárcích: '%{conn_fullname}'.",
                 by_email: "Mezi obdarovanými je konexe se stejným emailem jako jiná v dárcích: '%{email}'",
                 by_user: "Mezi obdarovanými je stejný uživatel '%{donee_fullname}'  jako v dárcích '%{donor_fullname}'."
-            }
+            },
+            cannot_be_booked_by_donee: "Nemůže být rezervováno obdarovaným!",
+            cannot_be_booked_in_this_state: "Nemůže mít, v tomto stavu, přiděleného rezervujícího uživatele!",
+            must_have_booking_user: "Musí mít, v tomto stavu, přřazeného rezervujícího uživatele!"
+        },
+        actions: {
+            new: {
+                button: "Přidat přání"
+            },
+            edit: {
+                button: "Upravit"
+            },
+            delete: {
+                button: "Odstranit"
+            },
+            book: {
+                button: "Rezervovat",
+                message: "Přání '%{wish_title}' bylo zarezervováno pro '%{user_name}'"
+            },
+            unbook: {
+                button: "Uvolnit",
+                message: "Přání '%{wish_title}' bylo uvolněno pro ostatní dárce"
+            },
+            call_for_co_donors: {
+                button: "Vyzvat ke spoluúčasti",
+                message: "Uživatel '%{user_name}' hledá se spoludárce pro přání '%{wish_title}'"
+            } ,   
+            gifted: {
+                button: "Darováno",
+                message: "Přání '%{wish_title}' bylo darováno/splněno dárcem '%{user_name}'"
+            },    
+            fullfilled: {
+                button: "Splněno",
+                message: "Přání '%{wish_title}' bylo splněno"
+            }    
         },
         donees: {
             header:"Obdarovaní"
@@ -107,7 +141,8 @@
             views: {
                 index: {
                     header: "Můžu splnit"
-                }
+                },
+                updated: "Seznam potenciálních dárců pro '%{title}' byl úspěšně aktualizován.",
             }
         }    
 

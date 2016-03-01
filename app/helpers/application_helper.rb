@@ -72,4 +72,13 @@ module ApplicationHelper
      # content_for :stylesheets, stylesheet_link_tag("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css") 
     content_for :javascripts, javascript_include_tag("http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
   end  
+
+  def button_to_action(title, url, method=:get, html_class="" )
+    link_to( title, url, method: method, class: html_class+" mdl-list__item-secondary-action mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored") 
+  end  
+
+  def button_to_wish_action(action, url)
+    method=( (action == :show) ? :get : :patch)
+    button_to_action(t("wish.actions.#{action}"), url, method, action.to_s )
+  end  
 end

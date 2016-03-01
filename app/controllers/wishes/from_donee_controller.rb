@@ -1,7 +1,7 @@
 class Wishes::FromDoneeController < ApplicationController
 
 	def index 
-	  load_wishes
+	  load_wishes.not_fullfilled
 	end  
 
 	def show
