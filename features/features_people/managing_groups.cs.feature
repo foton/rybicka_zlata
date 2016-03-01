@@ -4,10 +4,10 @@
 
 #TODO: Groups was removed from menu, beacuse there are not used yet in wish creation. So they are useles now. Also, edit of group should be draggable (no checkboxes)
 
-# Požadavek: Přidání kontaktů na mé potenciální dárce
-#   Jako přihlášený uživatel 
-#   chci mít možnost spravovat skupiny lidí
-#   abych je mohl přiřazovat jako dárce nebo spoluobdarované
+ Požadavek: Přidání kontaktů na mé potenciální dárce
+   Jako přihlášený uživatel 
+   chci mít možnost spravovat skupiny lidí
+   abych je mohl přiřazovat jako dárce nebo spoluobdarované
 
 # Kontext:
 #   Pokud existují standardní testovací uživatelé
