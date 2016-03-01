@@ -77,8 +77,18 @@ module ApplicationHelper
     link_to( title, url, method: method, class: html_class+" mdl-list__item-secondary-action mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored") 
   end  
 
-  def button_to_wish_action(action, url)
-    method=( (action == :show) ? :get : :patch)
-    button_to_action(t("wish.actions.#{action}"), url, method, action.to_s )
+  def button_to_wish_action(action, wish)
+    if (action == :show) 
+      method= :get
+      url=user_others_wish_url(current_user,wish)
+    elsif [:delete,:destroy].include?(action)
+      method= :delete
+      url=user_others_wish_url(current_user,wish)
+    else  
+      method= :patch
+      url=user_others_wish_url(user_id: current_user, id: wish, state_action: action)
+    end  
+    url=user_others_wish_path(current_user,wish)
+    button_to_action( I18n.t("wish.actions.#{action}.button"), url, method, action.to_s )
   end  
 end

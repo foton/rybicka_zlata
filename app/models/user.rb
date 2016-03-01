@@ -23,7 +23,11 @@ class User < ActiveRecord::Base
 
   def displayed_name
     name || email
-  end       
+  end   
+
+  def anchor
+    self.email.parameterize
+  end    
 
   def admin?
     (email == "porybny@rybickazlata.cz")

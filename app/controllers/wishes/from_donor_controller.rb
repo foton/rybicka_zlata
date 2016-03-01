@@ -1,7 +1,7 @@
 class Wishes::FromDonorController < ApplicationController
 
   def index 
-    load_wishes.not_fullfilled
+    load_wishes
   end  
 
   def show
@@ -17,7 +17,8 @@ class Wishes::FromDonorController < ApplicationController
   private
 
     def load_wishes
-      @wishes||=wish_scope
+      @user=current_user
+      @wishes_by_donees = Wish::ListByDonees.new(@user)
     end  
 
     def load_wish
@@ -31,7 +32,7 @@ class Wishes::FromDonorController < ApplicationController
     def save_wish(msg_ok,msg_bad)
       if @wish.save
         flash[:notice]=msg_ok
-        redirect_to user_my_wish_url(@user,@wish)
+        redirect_to user_others_wish_url(@user,@wish)
         true
       else  
         flash[:error]=msg_bad
@@ -46,7 +47,7 @@ class Wishes::FromDonorController < ApplicationController
 
     def wish_scope
       @user=current_user
-      @user.donor_wishes
+      @user.donor_wishes.not_fullfilled
     end  
 
     def not_updated_message

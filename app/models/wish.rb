@@ -49,14 +49,15 @@ class Wish < ActiveRecord::Base
     is_author?(user) || donee_user_ids.include?(user.id)
   end  
 
+  def donee_user_ids
+    @donee_user_ids ||=(donee_connections.collect {|conn| conn.friend_id}).uniq.compact
+  end  
+
   private
     def donor_user_ids
-      @donor_user_ids ||=(donor_connections.collect {|conn| conn.friend_id})
+      @donor_user_ids ||=(donor_connections.collect {|conn| conn.friend_id}).uniq.compact
     end  
 
-    def donee_user_ids
-      @donee_user_ids ||=(donee_connections.collect {|conn| conn.friend_id})
-    end  
 
     #wish should not have the same USER or CONNECTION.EMAIL as donee and donor
     def no_same_donor_and_donee
