@@ -35,7 +35,7 @@ Když(/^kliknu na editaci$/) do
   find(".edit").click()
 end
 
-Pokud(/^kliknu na (editaci|smazání|rezervaci|uvolnění rezervace) u(?: přání)? "(.*?)"$/) do |action, text_to_find|
+Pokud(/^kliknu na (editaci|smazání|rezervaci|uvolnění rezervace|darování|výzvu ke spoluúčasti|uvolnění výzvy|splnění přání) u(?: přání)? "(.*?)"$/) do |action, text_to_find|
   case action
 	  when "smazání"
 	  	a_selector=".delete"
@@ -45,7 +45,12 @@ Pokud(/^kliknu na (editaci|smazání|rezervaci|uvolnění rezervace) u(?: přán
       a_selector=".book"
     when "uvolnění rezervace"
       a_selector=".unbook"
-
+    when "darování"
+      a_selector=".gifted"
+    when "výzvu ke spoluúčasti"
+      a_selector=".call_for_co_donors"
+    when "uvolnění výzvy"
+      a_selector=".withdraw_call"
   end
   
   find("li", text: text_to_find).find(a_selector).click()
@@ -103,6 +108,19 @@ Pak(/^ze seznamu (?:dárců|obdarovaných) odeberu "(.*?)"$/) do |label|
     find("li", text: label).drag_to(find("#unused_conn_ids"))
    end 
 end
+
+Pak(/^pokud si otevřu přání "([^"]*)"$/) do |wish_title|
+  click_link(wish_title)
+end
+
+Pak(/^pokud si otevřu přání "([^"]*)" u "([^"]*)"$/) do |wish_title, user_name|
+  header_with_name=find("h4", text: user_name)
+  #method .parent returns whole document ?!
+  donee_block = header_with_name.find(:xpath, '..')
+  donee_block.click_link(wish_title)
+end
+
+
 
 def list_selector_for(block)
    case block

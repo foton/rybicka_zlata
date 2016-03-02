@@ -44,13 +44,19 @@ Scénář: Vidím jen přání, kde jsem dárcem
   A měl bych vidět přání "Překvapení pro Pepu"
   A neměl bych vidět přání "Pračka"
 
+  A pokud si otevřu přání "Dovolená v Karibiku" u "Mařenka"
+  
+  Pak bych měl vidět nadpis "Dovolená v Karibiku"
+  A měl bych vidět popis "Description of přání Dovolená v Karibiku"
+  A měl bych vidět spoluobdarované ["pepik","Mařenka"]
+
 Scénář: Rezervuji si přání
   Pokud jsem na stránce "Můžu splnit"
   A u přání "Překvapení pro Pepu" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
   A kliknu na rezervaci u přání "Překvapení pro Pepu"
   
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro Vás."
-  A u přání "Překvapení pro Pepu" jsou akce ["Uvolnit","Splněno"]
+  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro 'Karel'"
+  A u přání "Překvapení pro Pepu" jsou akce ["Uvolnit","Darováno"]
 
   Pokud kliknu na uvolnění rezervace u přání "Překvapení pro Pepu"
 
@@ -61,20 +67,20 @@ Scénář: Vyzvu ke spoluúčasti
   Pokud jsem na stránce "Můžu splnit"
   A kliknu na výzvu ke spoluúčasti u přání "Překvapení pro Pepu"
   
-  Pak bych měl vidět "K přání 'Překvapení pro Pepu' byla přidána výzva ke spoluúčasti."
-  A u přání "Překvapení pro Pepu" jsou akce ["Uvolnit","Rezervovat"]
+  Pak bych měl vidět "Uživatel 'Karel' hledá se spoludárce pro přání 'Překvapení pro Pepu'."
+  A u přání "Překvapení pro Pepu" jsou akce ["Zrušit výzvu ke spoluúčasti","Rezervovat"]
 
   Pokud kliknu na uvolnění výzvy u přání "Překvapení pro Pepu"
 
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo uvolněno pro ostatní dárce."
+  Pak bych měl vidět "Uživatel 'Karel' zrušil svoji výzvu ke spoluúčasti u přání 'Překvapení pro Pepu'."
   A u přání "Překvapení pro Pepu" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
 
 Scénář: Splním rezervované přání
   Pokud jsem na stránce "Můžu splnit"
   A kliknu na rezervaci u přání "Překvapení pro Pepu"
   
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro Vás."
-  Pokud kliknu na splnění přání "Překvapení pro Pepu"
+  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro 'Karel'"
+  Pokud kliknu na darování u přání "Překvapení pro Pepu"
   
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zařízeno, zbývá ho jen předat obdarovaným."
-  A u přání "Překvapení pro Pepu" jsou akce ["Předáno"]
+  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo darováno/splněno dárcem 'Karel'."
+  A u přání "Překvapení pro Pepu" nejsou žádné akce

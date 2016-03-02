@@ -30,7 +30,7 @@ class Wish < ActiveRecord::Base
   end  
 
   def description_shortened
-    if description.size > 100
+    if description.to_s.size > 100
       description[0..95].gsub(/ \S*\z/,"")+" ..."
     else
       description 
@@ -51,6 +51,10 @@ class Wish < ActiveRecord::Base
 
   def donee_user_ids
     @donee_user_ids ||=(donee_connections.collect {|conn| conn.friend_id}).uniq.compact
+  end  
+
+  def anchor
+    "wish_#{self.id}"
   end  
 
   private

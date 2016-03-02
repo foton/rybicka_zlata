@@ -53,23 +53,23 @@
             },
             unbook: {
                 button: "Uvolnit",
-                message: "Přání '%{wish_title}' bylo uvolněno pro ostatní dárce"
+                message: "Přání '%{wish_title}' bylo uvolněno pro ostatní dárce."
             },
             call_for_co_donors: {
                 button: "Vyzvat ke spoluúčasti",
-                message: "Uživatel '%{user_name}' hledá se spoludárce pro přání '%{wish_title}'"
+                message: "Uživatel '%{user_name}' hledá spoludárce pro přání '%{wish_title}'."
             } ,   
             withdraw_call: {
                 button: "Zrušit výzvu ke spoluúčasti",
-                message: "Uživatel '%{user_name}' zrušil svoji výzvu ke spoluúčasti u přání '%{wish_title}'"
+                message: "Uživatel '%{user_name}' zrušil svoji výzvu ke spoluúčasti u přání '%{wish_title}'."
             } ,   
             gifted: {
                 button: "Darováno",
-                message: "Přání '%{wish_title}' bylo darováno/splněno dárcem '%{user_name}'"
+                message: "Přání '%{wish_title}' bylo darováno/splněno dárcem '%{user_name}'."
             },    
             fullfilled: {
                 button: "Splněno",
-                message: "Přání '%{wish_title}' bylo splněno"
+                message: "Přání '%{wish_title}' bylo splněno."
             }    
         },
         donees: {
@@ -145,6 +145,9 @@
             views: {
                 index: {
                     header: "Můžu splnit"
+                },
+                show: {
+                    donees_list_header: "Obdarovaní"
                 },
                 updated: "Seznam potenciálních dárců pro '%{title}' byl úspěšně aktualizován.",
             }

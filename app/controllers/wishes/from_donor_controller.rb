@@ -32,7 +32,8 @@ class Wishes::FromDonorController < ApplicationController
     def save_wish(msg_ok,msg_bad)
       if @wish.save
         flash[:notice]=msg_ok
-        redirect_to user_others_wish_url(@user,@wish)
+        #redirect_to user_others_wish_url(@user,@wish)
+        redirect_to user_others_wishes_url(@user, anchor: @wish.anchor)
         true
       else  
         flash[:error]=msg_bad

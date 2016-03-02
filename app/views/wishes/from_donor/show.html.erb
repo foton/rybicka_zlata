@@ -1,6 +1,14 @@
 <div id="donor_wish_show">
-  <h3><%= @wish.title %></h3>
-  <p><%= @wish.description %></p>
+  <h3 id="title"><%= @wish.title %></h3>
+  <p id="description"><%= @wish.description %></p>
+  <div id="donees">
+    <h4><%= I18n.t("wish.from_donor.views.show.donees_list_header") %></h4>
+    <ul id="donees_list">
+     <% for donee_name in @wish.donee_names_for(@user) %>
+        <li><%= donee_name %></li>
+     <% end %>
+    </ul>
+  </div>
   <%= render partial: "actions", locals: {wish: @wish} %>
 
 </div>  

@@ -2,3 +2,5 @@
 - user can choose to "receive changes by email"
 - chat for friends/donors/donnies for wish
 - groups were hidden, so make them usable
+- do not show donee connection for other donnes in EDIT
+- if author delete donee from wish, alee donees connection should be gone

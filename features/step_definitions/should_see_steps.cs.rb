@@ -25,6 +25,33 @@ Pak /^(?:bych neměl|neměl bych) vidět (?:text )?"([^"]*)" v nadpisech$/ do |t
   end
 end
 
+Pak(/^bych měl vidět nadpis "([^"]*)"$/) do |text|
+  founded=false
+  for h_type in ["h6","h1","h2","h3","h4","h5","h6"] do
+    begin
+      find(h_type, text: text)
+      founded=true
+    rescue Capybara::ElementNotFound  
+      #just leave it for next item
+    end
+    break if founded
+  end
+  raise Capybara::ElementNotFound  unless founded
+end
+
+Pak(/^měl bych vidět popis "([^"]*)"$/) do |text|
+  find("#description", text: text)
+end
+
+Pak(/^měl bych vidět spoluobdarované \[(.*?)\]$/) do |donee_names_str|
+  donee_names=donee_names_str.gsub("\"","").split(",").collect {|name| name.strip}
+  within(:css, "#donees_list") do
+     for donee_name in donee_names
+        find("li", text: donee_name)
+     end 
+  end
+end
+
 Pak(/^v seznamu (?:lidí|přátel) (je|není) kontakt "(.*?)" s adresou "(.*?)"$/) do |je_neni, name, email|
   within(:css, "#connections_list") do
     #find('li', text: Regexp.new("\A#{name} \[.*\]: #{email}\z") )
@@ -94,7 +121,7 @@ Pokud(/^v seznamu přání (?:u "(.*?)" )?je přání "(.*?)"(?: se (\d+) potenc
 end
 
 Pak(/^v seznamu přání není přání "(.*?)"$/) do |wish_title|
-   within(:css, ".wishes-list") do
+  within(:css, ".wishes-list") do
     assert_no_text(wish_title)
   end  
 end
@@ -102,7 +129,7 @@ end
 Pokud(/^u přání "(.*?)" jsou akce \[(.*?)\]$/) do |wish_title, actions_str|
   action_names=actions_str.gsub("\"","").split(",").collect {|name| name.strip}
   
-   within(:css, ".wishes-list") do
+   within(:css, "#wishes") do
     wish=find('li', text: wish_title)
     for action_name in action_names
       wish.find(".actions").find("a", text: action_name)
@@ -111,6 +138,13 @@ Pokud(/^u přání "(.*?)" jsou akce \[(.*?)\]$/) do |wish_title, actions_str|
   
 end
 
+Pak(/^u přání "([^"]*)" nejsou žádné akce$/) do |wish_title|
+   within(:css, "#wishes") do
+    actions=find('li', text: wish_title).find(".actions")
+    assert(actions.text == "")
+  end  
+  
+end
 
 
 

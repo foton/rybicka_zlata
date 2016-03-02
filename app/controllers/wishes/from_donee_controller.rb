@@ -13,6 +13,7 @@ class Wishes::FromDoneeController < ApplicationController
    load_user_connections
    load_user_groups
 	 build_wish
+   @wish.donor_connections=@available_donor_connections unless @user.is_author_of?(@wish)
 	end  
 
 	def update

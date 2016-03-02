@@ -7,6 +7,7 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
     load_user_connections
     load_user_groups
     @wish.author=@user
+    @wish.donor_connections=@available_donor_connections
   end  
   
   def create

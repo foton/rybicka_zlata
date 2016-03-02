@@ -44,7 +44,7 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     msg=@wish.unbook!(@wish.booked_by_user)
     refute @wish.booked?
     assert_equal nil, @wish.booked_by_user 
-    assert_equal "Přání 'My first wish' bylo uvolněno pro ostatní dárce", msg
+    assert_equal "Přání 'My first wish' bylo uvolněno pro ostatní dárce.", msg
   end   
 
   def test_only_donor_can_set_call_for_co_donors
@@ -63,7 +63,7 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     msg=@wish.call_for_co_donors!(@donor)
     assert @wish.call_for_co_donors?
     assert_equal @donor,@wish.called_for_co_donors_by_user 
-    assert_equal "Uživatel 'donor' hledá se spoludárce pro přání 'My first wish'", msg
+    assert_equal "Uživatel 'donor' hledá spoludárce pro přání 'My first wish'.", msg
   end
 
   

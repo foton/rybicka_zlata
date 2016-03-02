@@ -73,8 +73,8 @@ module ApplicationHelper
     content_for :javascripts, javascript_include_tag("http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
   end  
 
-  def button_to_action(title, url, method=:get, html_class="" )
-    link_to( title, url, method: method, class: html_class+" mdl-list__item-secondary-action mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored") 
+  def button_to_action(title, url, method=:get, html_class="", data={} )
+    link_to( title, url, method: method, data: data, class: html_class+" mdl-list__item-secondary-action mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored") 
   end  
 
   def button_to_wish_action(action, wish)
@@ -86,9 +86,8 @@ module ApplicationHelper
       url=user_others_wish_url(current_user,wish)
     else  
       method= :patch
-      url=user_others_wish_url(user_id: current_user, id: wish, state_action: action)
+      url=user_others_wish_url(current_user,wish, state_action: action)
     end  
-    url=user_others_wish_path(current_user,wish)
     button_to_action( I18n.t("wish.actions.#{action}.button"), url, method, action.to_s )
   end  
 end
