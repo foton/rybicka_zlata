@@ -15,7 +15,7 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
     load_user_connections
     load_user_groups
     @wish.author=@user #params[:user_id]
-    create_wish(t("wish.from_author.views.added", title: @wish.title), t("wish.from_author.views.not_added", title: @wish.title)) or render 'new'
+    create_wish(t("wishes.from_author.views.added", title: @wish.title), t("wishes.from_author.views.not_added", title: @wish.title)) or render 'new'
   end
 
   private
@@ -34,9 +34,9 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
 
     def destroy_wish
       if @wish.destroy(current_user)
-        flash[:notice]=t("wish.from_author.views.deleted", title: @wish.title)
+        flash[:notice]=t("wishes.from_author.views.deleted", title: @wish.title)
       else  
-        flash[:error]=t("wish.from_author.views.not_deleted", title: @wish.title)
+        flash[:error]=t("wishes.from_author.views.not_deleted", title: @wish.title)
       end
     end  
 
@@ -68,11 +68,11 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
     end  
 
     def updated_message
-      t("wish.from_author.views.updated", title: @wish.title) 
+      t("wishes.from_author.views.updated", title: @wish.title) 
     end  
 
     def not_updated_message
-      t("wish.from_author.views.not_updated", title: @wish.title) 
+      t("wishes.from_author.views.not_updated", title: @wish.title) 
     end  
 
 end

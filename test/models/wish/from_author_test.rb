@@ -108,7 +108,6 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     assert_equal ["Mezi obdarovanými je stejný uživatel '#{conn1.fullname}'  jako v dárcích '#{conn3.fullname}'."], @wish.errors[:donee_conn_ids]
   end
 
-
   def test_set_updated_by_donee_at
   	assert @wish.save
   	updated_by_donee=@wish.updated_by_donee_at
@@ -136,7 +135,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   def test_can_be_deleted_when_have_donees
   	conn1= Connection.create!(name: "Simon", email: "simon@says.com", owner_id: @author.id)
   	conn2= Connection.create!(name: "Paul", email: "Paul.Simon@says.com", owner_id: @author.id)
-  	@wish.donee_conn_ids=([conn1,conn2].collect {|c| c.id})
+  	@wish.donee_conn_ids=([conn1.id,conn2.id])
   	assert @wish.save
   	@wish.reload
 
@@ -147,4 +146,33 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     assert (DoneeLink.for_wish(@wish)).blank?
     assert Wish.where(id: @wish.id).blank?
   end	
+
+  def test_when_donee_is_kicked_out_all_his_connections_shoul_be_gone_too
+    donee1=create_test_user!(name: "Donee Simon", email: "simon@says.com")
+    donee2=create_test_user!(name: "Donee Paul", email: "paul.simon@says.com")
+    a_conn1= Connection.create!(name: "Simon", email: donee1.email, owner_id: @author.id)
+    a_conn2= Connection.create!(name: "Paul", email: donee2.email, owner_id: @author.id)
+    d1_conn= Connection.create!(name: "George", email: "george@beatles.com", owner_id: donee1.id)
+    d2_conn= Connection.create!(name: "Ringo", email: "ringo@beatles.com", owner_id: donee2.id)
+
+    @wish.donee_conn_ids=([a_conn1.id,a_conn2.id])
+    assert @wish.save
+    @wish.merge_donor_conn_ids([d1_conn.id], donee1) 
+    assert @wish.save
+    @wish.merge_donor_conn_ids([d2_conn.id], donee2) 
+    assert @wish.save
+    @wish.reload
+
+    assert_equal [d1_conn, d2_conn].sort, @wish.donor_connections.sort
+    
+    #author desides to kick out donee1
+    @wish.donee_conn_ids=@wish.donee_conn_ids-[a_conn1.id]
+    assert @wish.valid?
+    assert @wish.save
+    @wish.reload
+    @wish.donor_connections.reload
+
+    #so d1_conn should be out of donors
+    assert_equal [d2_conn].sort, @wish.donor_connections.sort
+  end  
 end

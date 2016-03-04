@@ -2,6 +2,6 @@
   	<h4><%= donee_wishes[:user].displayed_name %></h4>
   	<a name="<%= donee_wishes[:user].anchor %>"></a>
     <ul class="list-with-actions  mdl-list">
-      <%= render( partial: "wish", collection: donee_wishes[:wishes]) || t("wish.from_donor.views.list.none") %>
+      <%= render( partial: "wish", collection: donee_wishes[:wishes]) || t("wishes.from_donor.views.list.none") %>
     </ul>
   </div>

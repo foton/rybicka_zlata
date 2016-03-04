@@ -46,7 +46,7 @@ module NavigationHelpers
 
           elsif m=page_name.match(/přání "(.*)"\z/)
             wishes=(current_user.donee_wishes.where(title: m[1]).to_a+current_user.donor_wishes.where(title: m[1]).to_a)
-            raise "Wish '#{m[1]}' was not found between wishes os user #{current_user.displayed_name}" if wishes.blank?
+            raise "wish '#{m[1]}' was not found between wishes os user #{current_user.displayed_name}" if wishes.blank?
             @wish=wishes.first
             if current_user.is_author_of?(@wish)
               edit_user_author_wish_path(current_user, @wish, locale: @locale)
@@ -67,7 +67,7 @@ module NavigationHelpers
 
         elsif m=page_name.match(/přání "(.*)"\z/)
            wishes=(current_user.donee_wishes.where(title: m[1]).to_a+current_user.donor_wishes.where(title: m[1]).to_a)
-           raise "Wish '#{m[1]}' was not found between wishes os user #{current_user.displayed_name}" if wishes.blank?
+           raise "wish '#{m[1]}' was not found between wishes os user #{current_user.displayed_name}" if wishes.blank?
            user_my_wish_path(current_user, wishes.first, locale: @locale)
 
 

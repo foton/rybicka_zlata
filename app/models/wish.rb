@@ -11,6 +11,8 @@ class Wish < ActiveRecord::Base
   validates :title, presence: true
   validates :author, presence: true
   
+  before_validation :ensure_no_connections_from_ex_donees
+
   validate :no_same_donor_and_donee
   validate :validate_booked_by
   validate :validate_called_for_co_donors
@@ -71,14 +73,14 @@ class Wish < ActiveRecord::Base
       #first check for same connection 
       in_both=donor_conns & donee_conns
       if in_both.present?
-        add_same_donor_and_donee_error(I18n.t("wish.errors.same_donor_and_donee.by_connection", conn_fullname: in_both.first.fullname)) 
+        add_same_donor_and_donee_error(I18n.t("wishes.errors.same_donor_and_donee.by_connection", conn_fullname: in_both.first.fullname)) 
       else  
         #check for connection with same email (cann be dubled with another name)
         donor_emails=donor_conns.collect{|c| c.email}
         donee_emails=donee_conns.collect{|c| c.email}
         in_both=donor_emails & donee_emails
         if in_both.present?      
-          add_same_donor_and_donee_error(I18n.t("wish.errors.same_donor_and_donee.by_email", email: in_both.first))
+          add_same_donor_and_donee_error(I18n.t("wishes.errors.same_donor_and_donee.by_email", email: in_both.first))
         else  
           #check for identical user directly (can have many emails)
           donor_user_ids=(donor_conns.collect{|c| c.friend_id}).compact
@@ -87,7 +89,7 @@ class Wish < ActiveRecord::Base
           if in_both.present?      
             donor_connection=(donor_conns.select{|c| c.friend_id == in_both.first}).first
             donee_connection=(donee_conns.select{|c| c.friend_id == in_both.first}).first
-            add_same_donor_and_donee_error(I18n.t("wish.errors.same_donor_and_donee.by_user", donee_fullname: donee_connection.fullname, donor_fullname: donor_connection.fullname))
+            add_same_donor_and_donee_error(I18n.t("wishes.errors.same_donor_and_donee.by_user", donee_fullname: donee_connection.fullname, donor_fullname: donor_connection.fullname))
           end
         end
       end    
@@ -98,17 +100,24 @@ class Wish < ActiveRecord::Base
       errors.add(:donee_conn_ids,text)
     end  
 
+    def ensure_no_connections_from_ex_donees
+       connection_ids_of_current_donees=::Connection.where(owner_id: donee_user_ids).pluck(:id)
+       dls_to_delete = donor_links.where.not(connection_id: connection_ids_of_current_donees)
+       dls_to_delete.destroy_all
+    end  
+
+
 
     def validate_booked_by
       if [STATE_RESERVED, STATE_GIFTED].include?(self.state)
         if self.booked_by_user.blank?
-          self.errors.add(:booked_by_id, I18n.t("wish.errors.must_have_booking_user"))
+          self.errors.add(:booked_by_id, I18n.t("wishes.errors.must_have_booking_user"))
         else    
           bu=self.booked_by_user
-          self.errors.add(:booked_by_id, I18n.t("wish.errors.cannot_be_booked_by_donee")) if self.is_donee?(bu)
+          self.errors.add(:booked_by_id, I18n.t("wishes.errors.cannot_be_booked_by_donee")) if self.is_donee?(bu)
         end    
       elsif STATE_AVAILABLE == self.state
-        self.errors.add(:booked_by_id, I18n.t("wish.errors.cannot_be_booked_in_this_state")) if self.booked_by_user.present?
+        self.errors.add(:booked_by_id, I18n.t("wishes.errors.cannot_be_booked_in_this_state")) if self.booked_by_user.present?
       else
         #wish can be fullfiled from outside, booked_id CAN be present
       end  
@@ -117,13 +126,13 @@ class Wish < ActiveRecord::Base
     def validate_called_for_co_donors
       if [STATE_CALL_FOR_CO_DONORS].include?(self.state)
         if self.called_for_co_donors_by_user.blank?
-          self.errors.add(:called_for_co_donors_by_id, I18n.t("wish.errors.must_have_calling_by_user"))
+          self.errors.add(:called_for_co_donors_by_id, I18n.t("wishes.errors.must_have_calling_by_user"))
         else    
           cu=self.called_for_co_donors_by_user
-          self.errors.add(:called_for_co_donors_by_id, I18n.t("wish.errors.donne_cannot_call_for_co_donors")) if self.is_donee?(cu)
+          self.errors.add(:called_for_co_donors_by_id, I18n.t("wishes.errors.donne_cannot_call_for_co_donors")) if self.is_donee?(cu)
         end    
       elsif STATE_AVAILABLE == self.state
-        self.errors.add(:called_for_co_donors_by_id, I18n.t("wish.errors.cannot_be_called_in_this_state")) if self.called_for_co_donors_by_user.present?
+        self.errors.add(:called_for_co_donors_by_id, I18n.t("wishes.errors.cannot_be_called_in_this_state")) if self.called_for_co_donors_by_user.present?
       else
         #others states may or may not have filled in called_for_co_donors_by_id
       end  

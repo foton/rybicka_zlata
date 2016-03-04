@@ -1,3 +1,7 @@
+.list-with-actions {
+  padding: 0;
+}
+
 .list-with-actions li {
   border-bottom: 1px solid gray;
 }

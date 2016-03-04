@@ -2,7 +2,7 @@
 
 <div id="groups">
  	<div id="add_group" class="form-add">
-	  <%= form_for([@user,@group]) do |f| %>
+	  <%= form_for([@user,@group], html: {class: "mdl-shadow--2dp"} ) do |f| %>
       <%= render partial: "/shared/errors", locals: {f_object: @group} %>
 			  <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				  <%= f.label :name, t("groups.views.add.name"),  class: "mdl-textfield__label" %>

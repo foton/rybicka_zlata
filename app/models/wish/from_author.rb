@@ -10,7 +10,11 @@ class Wish::FromAuthor < Wish::FromDonee
 
     	@donee_conn_ids=[] unless @donee_conn_ids.kind_of?(Array)
     	@donee_conn_ids << author.base_connection.id if author
+      @donee_conn_ids.uniq!
     	#TODO: only current donee can add his/her connections as other donees
     	self.donee_connections=::Connection.find(@donee_conn_ids.compact.uniq).to_a
+      @donee_user_ids=nil
+
+      ensure_no_connections_from_ex_donees
     end	
 end

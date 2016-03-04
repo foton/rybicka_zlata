@@ -1,11 +1,11 @@
-<h3><%= t("wish.from_donee.views.index.header") %></h3>
+<h3><%= t("wishes.from_donee.views.index.header") %></h3>
 
 <div id="wishes">
   <%= button_to_wish_action(:new, @user) %>
 
 	<div id="donee_wishes_list" class="wishes-list">
 		<ul class="list-with-actions  mdl-list">
-		  <%= render( partial: "wish", collection: current_user.donee_wishes) || t("wish.from_donee.views.list.none") %>
+		  <%= render( partial: "wish", collection: current_user.donee_wishes) || t("wishes.from_donee.views.list.none") %>
 	  </ul>
 	</div>
 </div>       

@@ -26,7 +26,7 @@
 
     },
 
-    wish: {
+    wishes: {
         errors: {
             same_donor_and_donee: {
                 by_connection: "Mezi obdarovanými je stejná konexe jako v dárcích: '%{conn_fullname}'.",
@@ -43,6 +43,9 @@
             },
             edit: {
                 button: "Upravit"
+            },
+            save: {
+                button: "Zapsat"
             },
             delete: {
                 button: "Smazat",

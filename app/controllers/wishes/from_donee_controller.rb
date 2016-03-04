@@ -13,11 +13,9 @@ class Wishes::FromDoneeController < ApplicationController
    load_user_connections
    load_user_groups
 	 build_wish
-   @wish.donor_connections=@available_donor_connections unless @user.is_author_of?(@wish)
 	end  
 
 	def update
-
 	 load_wish
    load_user_connections
    load_user_groups
@@ -62,15 +60,16 @@ class Wishes::FromDoneeController < ApplicationController
    
     def destroy_wish
       if @wish.destroy(current_user)
-        flash[:notice]=t("wish.from_donee.views.deleted", title: @wish.title)
+        flash[:notice]=t("wishes.from_donee.views.deleted", title: @wish.title)
       else  
-        flash[:error]=t("wish.from_donee.views.not_deleted", title: @wish.title)
+        flash[:error]=t("wishes.from_donee.views.not_deleted", title: @wish.title)
       end
     end  
 
     def wish_params
       unless defined?(@wish_params)
         @wish_params = params[:wish] || ActionController::Parameters.new({})
+        @wish_params.delete(:unused_conn_ids)
         @wish_params[:donor_conn_ids]=[] if @wish_params[:donor_conn_ids].blank?
         @wish_params[:donor_conn_ids]=@wish_params[:donor_conn_ids].collect {|c| c.to_i}
         
@@ -98,10 +97,10 @@ class Wishes::FromDoneeController < ApplicationController
     end 
 
     def updated_message
-      t("wish.from_donee.views.updated", title: @wish.title) 
+      t("wishes.from_donee.views.updated", title: @wish.title) 
     end  
 
     def not_updated_message
-      t("wish.from_donee.views.not_updated", title: @wish.title) 
+      t("wishes.from_donee.views.not_updated", title: @wish.title) 
     end  
 end

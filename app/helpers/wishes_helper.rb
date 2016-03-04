@@ -33,14 +33,14 @@ module WishesHelper
       method= :patch
     end  
     
-    wid = "wish_#{action}" 
+    wid = "wishes_#{action}" 
     wid+="_#{wish.id}" if wish.present?
-    bt_content= I18n.t("wish.actions.#{action}.button")
-    tooltip=I18n.t("wish.actions.#{action}.button")
+    bt_content= I18n.t("wishes.actions.#{action}.button")
+    tooltip=I18n.t("wishes.actions.#{action}.button")
     url=path_to_wish_action_for_user(action, user, wish, params)
     if (action == :delete)
       data= { 
-                confirm: t("wish.actions.delete.confirm.message", wish_title: wish.title), 
+                confirm: t("wishes.actions.delete.confirm.message", wish_title: wish.title), 
                 #keys are with '-', for consistency
                 #if underscore is used 'confirm_yes', still dashed 'data-confirm-yes = "YES"' is generated in html
                 "confirm-yes": t("confirm.yes"), 
@@ -52,7 +52,7 @@ module WishesHelper
     
     content_tag(:span) do
       concat button_link_to( bt_content, url, {method: method, id: wid, class: action.to_s, data: data } )
-      concat content_tag(:span, class: "mdl-tooltip", for: wid) { I18n.t("wish.actions.#{action}.button") }  if bt_content != tooltip
+      concat content_tag(:span, class: "mdl-tooltip", for: wid) { I18n.t("wishes.actions.#{action}.button") }  if bt_content != tooltip
     end  
   end 
 end

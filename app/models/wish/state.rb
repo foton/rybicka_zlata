@@ -33,7 +33,7 @@ module Wish::State
     if user.is_donor_of?(self)
       self.state= STATE_RESERVED
       self.booked_by_user=user
-      I18n.t("wish.actions.book.message", wish_title: self.title, user_name: user.name)
+      I18n.t("wishes.actions.book.message", wish_title: self.title, user_name: user.name)
     end  
   end  
 
@@ -45,7 +45,7 @@ module Wish::State
     if self.booked_by?(user)
       self.state= STATE_AVAILABLE
       self.booked_by_id=nil
-      I18n.t("wish.actions.unbook.message", wish_title: self.title, user_name: user.name)
+      I18n.t("wishes.actions.unbook.message", wish_title: self.title, user_name: user.name)
     end  
   end  
 
@@ -53,7 +53,7 @@ module Wish::State
     if user.is_donor_of?(self)
       self.state= STATE_CALL_FOR_CO_DONORS
       self.called_for_co_donors_by_id=user.id
-      I18n.t("wish.actions.call_for_co_donors.message", wish_title: self.title, user_name: user.name)
+      I18n.t("wishes.actions.call_for_co_donors.message", wish_title: self.title, user_name: user.name)
     end  
   end  
 
@@ -61,7 +61,7 @@ module Wish::State
     if self.called_by?(user)
       self.state= STATE_AVAILABLE
       self.called_for_co_donors_by_id=nil
-      I18n.t("wish.actions.withdraw_call.message", wish_title: self.title, user_name: user.name)
+      I18n.t("wishes.actions.withdraw_call.message", wish_title: self.title, user_name: user.name)
     end  
   end
     
@@ -73,7 +73,7 @@ module Wish::State
     if self.booked_by?(user)
       self.state= STATE_GIFTED
       #self.booked_by_user=user
-      I18n.t("wish.actions.gifted.message", wish_title: self.title, user_name: user.name)
+      I18n.t("wishes.actions.gifted.message", wish_title: self.title, user_name: user.name)
     end  
   end  
 
@@ -84,7 +84,7 @@ module Wish::State
   def fullfilled!(user)
     if user.is_donee_of?(self)
       self.state= STATE_FULFILLED
-      I18n.t("wish.actions.fullfilled.message", wish_title: self.title)
+      I18n.t("wishes.actions.fullfilled.message", wish_title: self.title)
     end
   end  
 

@@ -32,7 +32,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
 
     donor_conns=[@conn_mama,@conn_tata]
     donee_conns=[@conn_segra]
-    wish_h= { title: "A special wish", description: "Wish me luck for tomorow!", donee_conn_ids: donee_conns.collect {|c| c.id} , donor_conn_ids:  donor_conns.collect {|c| c.id} }
+    wish_h= { title: "A special wish", description: "wish me luck for tomorow!", donee_conn_ids: donee_conns.collect {|c| c.id} , donor_conn_ids:  donor_conns.collect {|c| c.id} }
     
     post :create, {user_id: @current_user.id, wish: wish_h}
     
@@ -115,6 +115,5 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal [@conn_mama,@conn_tata,@current_user.base_connection].sort, @wish.donee_connections.to_a.sort
     assert_equal [@conn_segra].sort, @wish.donor_connections.to_a.sort
   end  
-
 
 end

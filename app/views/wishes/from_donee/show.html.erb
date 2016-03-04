@@ -5,7 +5,7 @@
 
   <div class="mdl-grid" id="wish_connections">
     <div class="donees md-cell" id="donee_connections">
-       <h4><%= t("wish.donees.header") %></h4>
+       <h4><%= t("wishes.donees.header") %></h4>
         <ul class="connection_list">
         <% for conn in (@wish.donee_connections) %>
           <li><%= conn.fullname %></li>
@@ -16,8 +16,8 @@
     <div class="mdl-layout-spacer"></div>
     
     <div class="donors md-cell" id="donor_connections">
-      <h4><%= t("wish.donors.header") %></h4>
-      <p><%= t("wish.from_donee.views.show.donors.count", total: @wish.donor_connections.count , owns: @wish.donor_connections.owned_by(current_user).count ) %>
+      <h4><%= t("wishes.donors.header") %></h4>
+      <p><%= t("wishes.from_donee.views.show.donors.count", total: @wish.donor_connections.count , owns: @wish.donor_connections.owned_by(current_user).count ) %>
         <ul class="connection_list">
         <% for conn in (@wish.donor_connections.owned_by(current_user)) %>
           <li><%= conn.fullname %></li>

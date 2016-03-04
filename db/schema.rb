@@ -36,24 +36,24 @@ ActiveRecord::Schema.define(version: 20160304101448) do
   add_index "connections_groups", ["group_id"], name: "index_connections_groups_on_group_id", using: :btree
 
   create_table "donee_links", force: :cascade do |t|
-    t.integer "wish_id",       null: false
+    t.integer "wishes.id",       null: false
     t.integer "connection_id", null: false
   end
 
   add_index "donee_links", ["connection_id"], name: "index_donee_links_on_connection_id", using: :btree
-  add_index "donee_links", ["wish_id", "connection_id"], name: "donee_wish_conn_index", unique: true, using: :btree
-  add_index "donee_links", ["wish_id"], name: "index_donee_links_on_wish_id", using: :btree
+  add_index "donee_links", ["wishes.id", "connection_id"], name: "donee_wish_conn_index", unique: true, using: :btree
+  add_index "donee_links", ["wishes.id"], name: "index_donee_links_on_wish_id", using: :btree
 
   create_table "donor_links", force: :cascade do |t|
-    t.integer "wish_id",                   null: false
+    t.integer "wishes.id",                   null: false
     t.integer "connection_id",             null: false
     t.integer "role",          default: 0, null: false
   end
 
   add_index "donor_links", ["connection_id"], name: "index_donor_links_on_connection_id", using: :btree
   add_index "donor_links", ["role"], name: "index_donor_links_on_role", using: :btree
-  add_index "donor_links", ["wish_id", "connection_id"], name: "donor_wish_conn_index", unique: true, using: :btree
-  add_index "donor_links", ["wish_id"], name: "index_donor_links_on_wish_id", using: :btree
+  add_index "donor_links", ["wishes.id", "connection_id"], name: "donor_wish_conn_index", unique: true, using: :btree
+  add_index "donor_links", ["wishes.id"], name: "index_donor_links_on_wish_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
     t.string  "name",    null: false
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20160304101448) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "wishes", force: :cascade do |t|
+  create_table "wishes.s", force: :cascade do |t|
     t.string   "title",                                  null: false
     t.text     "description"
     t.integer  "state",                      default: 0, null: false
@@ -112,19 +112,19 @@ ActiveRecord::Schema.define(version: 20160304101448) do
     t.integer  "called_for_co_donors_by_id"
   end
 
-  add_index "wishes", ["author_id"], name: "index_wishes_on_author_id", using: :btree
+  add_index "wishes.s", ["author_id"], name: "index_wishes_on_author_id", using: :btree
 
   add_foreign_key "connections", "users", column: "friend_id"
   add_foreign_key "connections", "users", column: "owner_id"
   add_foreign_key "connections_groups", "connections"
   add_foreign_key "connections_groups", "groups"
   add_foreign_key "donee_links", "connections"
-  add_foreign_key "donee_links", "wishes"
+  add_foreign_key "donee_links", "wishes.s"
   add_foreign_key "donor_links", "connections"
-  add_foreign_key "donor_links", "wishes"
+  add_foreign_key "donor_links", "wishes.s"
   add_foreign_key "groups", "users"
   add_foreign_key "identities", "users"
-  add_foreign_key "wishes", "users", column: "author_id"
-  add_foreign_key "wishes", "users", column: "booked_by_id"
-  add_foreign_key "wishes", "users", column: "called_for_co_donors_by_id"
+  add_foreign_key "wishes.s", "users", column: "author_id"
+  add_foreign_key "wishes.s", "users", column: "booked_by_id"
+  add_foreign_key "wishes.s", "users", column: "called_for_co_donors_by_id"
 end

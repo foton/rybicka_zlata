@@ -1,7 +1,7 @@
 <li class="wish mdl-list__item mdl-list__item--three-line">
 
   <span class="mdl-list__item-primary-content">
-     <span><%= link_to wish.title, user_my_wish_url(current_user, wish) %></span>
+     <span><%= link_to( wish.title, user_my_wish_url(@user, wish) ) %></span>
      <span class="mdl-list__item-text-body"><%= wish.description_shortened %></span>
   </span>
   

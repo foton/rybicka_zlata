@@ -41,7 +41,13 @@
 }
 
 .form-add {
-  width: 90%;	
+  width: 95%;	
+}
+
+.form-add form {
+  border: 1px solid #ddd;
+  margin-left: 2%;
+  padding: 0.5em;
 }
 
 
@@ -140,3 +146,6 @@
 
 }
 
+#delete_registration {
+  margin-top: 1em;
+}

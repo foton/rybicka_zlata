@@ -1,10 +1,10 @@
   
       <div class="donors md-cell mdl-cell--6-col" id="donor_connections">
-        <h4><%= t("wish.donors.header") %></h4>
-        <p class="help"><%= t("wish.from_author.views.edit.donors.help") %></p>
+        <h4><%= t("wishes.donors.header") %></h4>
+        <p class="help"><%= t("wishes.from_author.views.edit.donors.help") %></p>
         <div class="list-of-checkboxes">
           <ul id="donor_conn_ids">
-          <% for conn in (@user_connections) %>
+          <% for conn in (@available_donor_connections) %>
             <li>
               <%= checkbox_mdl_tag( "wish[donor_conn_ids][#{conn.id}]", conn.fullname, wish.donor_connections.include?(conn), conn.id, "0", { name: "wish[donor_conn_ids][]"}) %>
             </li>

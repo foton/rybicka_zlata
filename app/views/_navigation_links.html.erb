@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
-  <%= link_to(t("wish.from_donor.views.index.header"), user_others_wishes_path(current_user), class: "#{link_class} is-active") %>
-  <%= link_to(t("wish.from_donee.views.index.header"), user_my_wishes_path(current_user), class: link_class) %>
+  <%= link_to(t("wishes.from_donor.views.index.header"), user_others_wishes_path(current_user), class: "#{link_class} is-active") %>
+  <%= link_to(t("wishes.from_donee.views.index.header"), user_my_wishes_path(current_user), class: link_class) %>
   <%= link_to(t("connections.views.header"), user_connections_path(current_user), class: link_class) %>
   <%#= link_to(t("group.views.header"), user_groups_path(current_user), class: link_class) %>
   <%= link_to(t("user.profile.my.header"), my_profile_path(), class: link_class) %>

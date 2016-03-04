@@ -1,7 +1,7 @@
 #encoding: utf-8
 
 Given /^(?:bych měl|měl bych) být úspěšně přihlášen$/ do
-  step "měl bych vidět text \"Přihlášení úspěšné.\""
+  step "měl bych vidět text \"Přihlášení bylo úspěšné.\""
   within(".mdl-layout__drawer nav") do
     assert page.has_link?("Odhlásit")
   end

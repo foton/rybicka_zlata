@@ -52,6 +52,6 @@ class Wishes::FromDonorController < ApplicationController
     end  
 
     def not_updated_message
-      t("wish.from_donor.views.not_updated", title: @wish.title) 
+      t("wishes.from_donor.views.not_updated", title: @wish.title) 
     end  
 end

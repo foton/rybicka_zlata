@@ -47,9 +47,8 @@ class Wish::FromDonee < Wish
   private
     def fill_connections_from_ids
       @donor_conn_ids=[] unless @donor_conn_ids.kind_of?(Array)
-
-    	#TODO: only connection from all donnies can be added as donors
     	self.donor_connections=::Connection.find(@donor_conn_ids.compact.uniq).to_a
+      @donor_user_ids=nil
     end	
 
     def set_updated_by_donee_at
