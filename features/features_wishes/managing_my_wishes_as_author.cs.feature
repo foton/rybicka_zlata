@@ -126,17 +126,20 @@ Scénář: Úprava sdíleného přání
   A nevidím konexi "Maruška" v "Obdarovaní"
   A vidím konexi "Máma" v "Obdarovaní"
 
+@javascript
 Scénář: Smazání přání
   Pokud existuje moje přání "Kalhoty s kapsami"
   A to má dárce ["Máma", "Táta"]
 
   Pokud jsem na stránce "Má přání"
   A kliknu na smazání u přání "Kalhoty s kapsami"
+  A smazání potvrdím
 
   Pak jsem na stránce "Má přání"
   A vidím text "Přání 'Kalhoty s kapsami' bylo úspěšně smazáno."
   A v seznamu přání není přání "Kalhoty s kapsami"
 
+@javascript
 Scénář: Smazání sdíleného přání
   Pokud existuje moje přání "Pračka"
   A to má dárce ["Máma", "Táta"]
@@ -144,6 +147,7 @@ Scénář: Smazání sdíleného přání
   
   Pokud jsem na stránce "Má přání"
   A kliknu na smazání u přání "Pračka"
+  A smazání potvrdím
 
   Pak jsem na stránce "Má přání"
   A vidím text "Přání 'Pračka' bylo úspěšně smazáno."

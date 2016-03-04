@@ -1,15 +1,15 @@
-<h3><%= t("connection.views.header") %></h3>
+<h3><%= t("connections.views.header") %></h3>
 
 <div id="connections">
  	<div id="add_connection" class="form-add">
 		  <%= render( partial: "form") %>
-		  <%= add_new_button if @connection.errors.empty? %>
+		  <%= add_new_button(t("connections.actions.new.button")) if @connection.errors.empty? %>
 	</div>
 
 	<div id="connections_list" class="list">
-		<h4><%= t("connection.views.list.header") %></h4>
-		<ul class="list-with-actions">
-		  <%= render( partial: "connection", collection: current_user.friend_connections) || t("connection.views.list.none") %>
+		<h4><%= t("connections.views.list.header") %></h4>
+		<ul class="list-with-actions mdl-list">
+		  <%= render( partial: "connection", collection: current_user.friend_connections) || t("connections.views.list.none") %>
 	  </ul>
 	</div>
 </div>       

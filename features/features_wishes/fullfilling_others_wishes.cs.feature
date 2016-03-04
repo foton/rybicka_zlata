@@ -67,7 +67,7 @@ Scénář: Vyzvu ke spoluúčasti
   Pokud jsem na stránce "Můžu splnit"
   A kliknu na výzvu ke spoluúčasti u přání "Překvapení pro Pepu"
   
-  Pak bych měl vidět "Uživatel 'Karel' hledá se spoludárce pro přání 'Překvapení pro Pepu'."
+  Pak bych měl vidět "Uživatel 'Karel' hledá spoludárce pro přání 'Překvapení pro Pepu'."
   A u přání "Překvapení pro Pepu" jsou akce ["Zrušit výzvu ke spoluúčasti","Rezervovat"]
 
   Pokud kliknu na uvolnění výzvy u přání "Překvapení pro Pepu"

@@ -203,7 +203,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal @user_email, i.email
   end
 
-  def test_create_user_from_github
+  def test_create_user_from_linkedin
     auth = OmniAuth::AuthHash.new({ provider: "linkedin", uid: "123456",
       info: OmniAuth::AuthHash.new({ 
          email: @user_email, 
@@ -223,6 +223,64 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.new.locale, u.locale
 
     i=u.identities.where(provider: :linkedin).first
+    assert i.present?
+    assert_equal auth.uid, i.uid
+    assert_equal @user_email, i.email
+  end
+
+  def test_merge_identity_with_existing_user_according_to_user_main_email
+    auth = OmniAuth::AuthHash.new({ provider: "github", uid: "123456",
+      info: OmniAuth::AuthHash.new({ 
+         email: @user_email, 
+         name: "John Doe",
+         nickname: "John_doe",
+         image: "https://avatars.githubusercontent.com/u/483873?v=3"
+        }),
+    })  
+    orig_user_name="Original John Doe"
+    orig_user=create_test_user!({name: orig_user_name, email: @user_email})
+    idnt_count=orig_user.identities.count
+
+    current_user =nil 
+
+    u=User.find_or_create_from_omniauth!(auth, current_user)
+
+    assert u.persisted?
+    assert_equal orig_user, u
+    assert_equal (idnt_count+1), orig_user.identities.count , orig_user.identities.to_yaml
+    
+    i=orig_user.identities.where(provider: :github).first
+    assert i.present?
+    assert_equal auth.uid, i.uid
+    assert_equal @user_email, i.email
+  end
+
+  def test_merge_identity_with_existing_user_according_to_user_email_from_other_identity
+    auth = OmniAuth::AuthHash.new({ provider: "github", uid: "123456",
+      info: OmniAuth::AuthHash.new({ 
+         email: @user_email, 
+         name: "John Doe",
+         nickname: "John_doe",
+         image: "https://avatars.githubusercontent.com/u/483873?v=3"
+        }),
+    })  
+    orig_user_name="Original John Doe"
+    orig_user=create_test_user!({name: orig_user_name, email: "no"+@user_email})
+
+    User::Identity.create!(email: @user_email, provider: User::Identity::LOCAL_PROVIDER, user: orig_user)
+    idnt_count=orig_user.identities.count
+
+    current_user =nil 
+
+
+    u=User.find_or_create_from_omniauth!(auth, current_user)
+
+
+    assert u.persisted?
+    assert_equal orig_user, u
+    assert_equal (idnt_count+1), orig_user.identities.count , orig_user.identities.to_yaml
+    
+    i=orig_user.identities.where(provider: :github).first
     assert i.present?
     assert_equal auth.uid, i.uid
     assert_equal @user_email, i.email

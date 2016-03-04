@@ -20,7 +20,13 @@ cs:
         last_sign_in: "Poslední přihlášení"
   user:
     contacts: 
-      add: "Další adresa"
+      actions:
+        delete:
+          button: "Smazat"
+        new: 
+          button: "Přidat"
+          submit_button: "Zapsat"
+          label: "Další adresa"
       none: "Nemáte evidovány žádné adresy" 
       list: "Vaše adresy"
       deleted: "Kontakt '%{contact}' byl smazán"
@@ -32,5 +38,8 @@ cs:
     profile:
       my:
         header: "Profil"
+      actions:
+        edit: 
+          button: "Upravit"  
 
 

@@ -31,7 +31,7 @@ Scénář: Úprava přítele
   A kliknu na uložení
 
   Pak jsem na stránce "Přátelé"
-  #TODO: A vidím text "Kontakt 'Ježíšek2 [???]: jezisek2@rybickazlata.cz' byl úspěšně aktualizován."
+  A vidím text "Kontakt 'Ježíšek2 [???]: jezisek2@rybickazlata.cz' byl úspěšně aktualizován."
   A v seznamu přátel je kontakt "Ježíšek2" s adresou "jezisek2@rybickazlata.cz"
   A v seznamu přátel není kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
 

@@ -45,6 +45,7 @@ end
 
 Pak(/^měl bych vidět spoluobdarované \[(.*?)\]$/) do |donee_names_str|
   donee_names=donee_names_str.gsub("\"","").split(",").collect {|name| name.strip}
+  
   within(:css, "#donees_list") do
      for donee_name in donee_names
         find("li", text: donee_name)

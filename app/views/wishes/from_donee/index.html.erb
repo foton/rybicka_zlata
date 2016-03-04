@@ -1,11 +1,9 @@
 <h3><%= t("wish.from_donee.views.index.header") %></h3>
 
 <div id="wishes">
-  <%= add_new_button_link(new_user_author_wish_url)%>
+  <%= button_to_wish_action(:new, @user) %>
 
-
-<!-- https://www.getmdl.io/components/index.html#lists-section -->
-	<div id="donee_wishes_list" class="lists wishes-list">
+	<div id="donee_wishes_list" class="wishes-list">
 		<ul class="list-with-actions  mdl-list">
 		  <%= render( partial: "wish", collection: current_user.donee_wishes) || t("wish.from_donee.views.list.none") %>
 	  </ul>

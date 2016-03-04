@@ -1,24 +1,24 @@
-<h3><%= t("group.views.header") %></h3>
+<h3><%= t("groups.views.header") %></h3>
 
 <div id="groups">
  	<div id="add_group" class="form-add">
 	  <%= form_for([@user,@group]) do |f| %>
       <%= render partial: "/shared/errors", locals: {f_object: @group} %>
 			  <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				  <%= f.label :name, t("group.views.add.name"),  class: "mdl-textfield__label" %>
+				  <%= f.label :name, t("groups.views.add.name"),  class: "mdl-textfield__label" %>
 				  <%= f.text_field :name, class: "mdl-textfield__input" %>
 				</div>
 				<div class="actions">
-				  <%= form_next_button %>
+				  <%= form_next_button(I18n.t("groups.actions.new.next_button")) %>
 				</div>
 		<% end %>
-		<%= add_new_button  if @group.errors.empty?%>
+		<%= add_new_button(I18n.t("groups.actions.new.button"))  if @group.errors.empty?%>
 	</div>
 
 	<div id="groups_list" class="list">
-		<h4><%= t("group.views.list.header") %></h4>
+		<h4><%= t("groups.views.list.header") %></h4>
 		<ul class="list-with-actions">
-		  <%= render( partial: "group", collection: current_user.groups) || t("group.views.list.none") %>
+		  <%= render( partial: "group", collection: current_user.groups) || t("groups.views.list.none") %>
 	  </ul>
 	</div>
 </div>       

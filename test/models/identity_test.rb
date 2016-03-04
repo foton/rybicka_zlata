@@ -153,6 +153,8 @@ class UserIdentityTest < ActiveSupport::TestCase
     assert_equal idnt2.errors[:email], ["E-mailová adresa '#{same_email}' je již přiřazena jinému uživateli!"]
   end  
 
+  #not needed: def test_main_idenity_cannot_be_deleted
+    
   #---------- FRIENDSHIP UPDATES --------
 
   def setup_connection

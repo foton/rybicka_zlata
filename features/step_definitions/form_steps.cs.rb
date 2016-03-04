@@ -17,5 +17,5 @@ Když(/^zadám další adresu "(.*?)"$/) do |adr|
 end
 
 Pokud(/^otevřu si formulář pro přidání$/) do
-  click_button("add")
+  click_button("Přidat")
 end

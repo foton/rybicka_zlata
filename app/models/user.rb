@@ -47,9 +47,11 @@ class User < ActiveRecord::Base
     # can be cleaned up at a later date.
     user = signed_in_resource ? signed_in_resource : identity.user
 
-    email=identity.verified_email
-    email=identity.email if email.blank?
-    user = User.where(:email => email).first if email
+    if user.blank?
+      email=identity.verified_email
+      email=identity.email if email.blank?
+      user = User.where(:email => email).first if email
+    end  
     
     # Create the user if needed
     if user.nil?
@@ -74,13 +76,10 @@ class User < ActiveRecord::Base
     # Associate the identity with the user if needed
     if identity.user != user
       identity.user = user
-      identity.save!
     end
-    user  end
-
-  def main_identity
-    self.identities.where(email: self.email).first
-  end  
+    identity.save!
+    user
+  end
 
   def base_connection
     connections.base.first
@@ -115,8 +114,19 @@ class User < ActiveRecord::Base
   def is_donor_of?(wish)
     wish.is_donor?(self)
   end  
+
+  def main_identity
+    sure_main_identity
+    existing_local_idnts=self.identities.where(email: self.email, provider: User::Identity::LOCAL_PROVIDER).order("id ASC")
+    if existing_local_idnts.present?
+      return existing_local_idnts.first
+    else
+      return self.identities.where(email: self.email).order("id ASC").first
+    end  
+  end  
   
   private
+
 
     def sure_main_identity
       existing_idnts=self.identities.where(email: self.email)

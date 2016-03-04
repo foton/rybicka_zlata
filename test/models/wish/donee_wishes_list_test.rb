@@ -17,34 +17,38 @@ class DoneeWishListTest < ActiveSupport::TestCase
 
     @mama_to_tata_conn=create_connection_for(@mama, {name: "mama_tata", email: @tata.email})  
     @mama_to_segra_conn=create_connection_for(@mama, {name: "mama_segra", email: @segra.email})  
+    @mama_to_bracha_conn=create_connection_for(@mama, {name: "mama_bracha", email: @bracha.email})  
 
     @tata_to_mama_conn=create_connection_for(@tata, {name: "tata_mama", email: @mama.email})  
     @tata_to_segra_conn=create_connection_for(@tata, {name: "tata_segra", email: @segra.email})  
+    @tata_to_bracha_conn=create_connection_for(@tata, {name: "tata_bracha", email: @bracha.email})  
 
     @bracha_to_segra_conn=create_connection_for(@bracha, {name: "bracha_segra", email: @segra.email})  
 
     
     @wish_mama=Wish::FromAuthor.new(
       author: @mama, 
-      title: "Mamas personal wish", 
-      description: "just for segra" 
+      title: "Mama personal wish", 
+      description: "Just for segra. Mama is donee, Segra is donor." 
     )
     @wish_mama.merge_donor_conn_ids([@mama_to_segra_conn.id], @mama)
     @wish_mama.save!  
 
     @wish_mama_tata=Wish::FromAuthor.new(
       author: @mama, 
-      title: "Mamaa+Tata wish", 
-      description: "nice holiday without children",
-      donee_conn_ids: [@mama_to_tata_conn.id]
+      title: "Mama and Tata wish", 
+      description: "Nice holiday without children. Mama and Tata are donees, Segra nad Bracha are donors.",
+      donee_conn_ids: [@mama_to_tata_conn.id] #mama is added automagically as author
     )
     @wish_mama_tata.merge_donor_conn_ids([@mama_to_segra_conn.id], @mama)
+    @wish_mama_tata.save!  
+    @wish_mama_tata.merge_donor_conn_ids([@tata_to_bracha_conn.id], @tata)
     @wish_mama_tata.save!  
 
     @wish_bracha=Wish::FromAuthor.new(
       author: @bracha, 
-      title: "Brother personal wish", 
-      description: "nice holiday without parents and segra"
+      title: "Bracha personal wish", 
+      description: "Nice holiday without parents and sister. Bracha is donee, Segra is donor."
     )
     @wish_bracha.merge_donor_conn_ids([@bracha_to_segra_conn.id], @bracha)
     @wish_bracha.save!  

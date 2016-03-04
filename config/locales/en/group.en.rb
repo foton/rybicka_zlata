@@ -25,7 +25,7 @@
 
     },
 
-    group: {
+    groups: {
         views: {
             header: "Groups",
             add: { 

@@ -6,7 +6,7 @@
 <%= form_for(@wish, url: user_my_wish_path(current_user,@wish)) do |f| %>
   <%= render partial: "/shared/errors", locals: {f_object: @wish} %>
   <div class="actions">
-    <%= form_submit_button %>
+    <%= form_submit_button(t("wish.from_donee.actions")) %>
   </div>
 
   <div class=" mdl-grid" id="user_connections">

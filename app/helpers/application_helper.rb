@@ -27,6 +27,10 @@ module ApplicationHelper
     content_tag(:h3, text)
   end  
 
+  def add_jquery_ui
+     # content_for :stylesheets, stylesheet_link_tag("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css") 
+    content_for :javascripts, javascript_include_tag("http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
+  end  
 
   def switch_for( f_builder, method, label_text=nil, options ={}, html_options={}, checked_value = "1", unchecked_value = "0")
     label_text= t("activerecord.attributes.#{f_builder.object.class.name.downcase}.#{method}") if label_text.blank? && f_builder.object.kind_of?(ActiveRecord::Base)
@@ -45,49 +49,39 @@ module ApplicationHelper
   end
 
   def form_submit_button(text=nil)
-    button_tag( class: "save mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "save mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect" ) do 
       text ||"<i class=\"material-icons\">check</i>".html_safe
     end
   end
   
   def form_next_button(text=nil)
-    button_tag( class: "next-step mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "next-step mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect" ) do 
       text ||"<i class=\"material-icons\">forward</i>".html_safe
     end
   end
 
   def add_new_button(text=nil)
-    button_tag( class: "create mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "new mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect" ) do 
         text ||"<i class=\"material-icons\">add</i>".html_safe
     end
+  end 
+
+  def button_link_to(title, url, options={} )
+    opt={method: :get, class: ""}.merge(options)
+    opt_4_helper={method: opt[:method], data: opt[:data], remote: opt[:remote]}
+    html_opt=opt.dup
+    html_opt.delete(:method)
+    html_opt.delete(:data)
+    html_opt.delete(:remote)
+    html_opt[:class]=html_opt[:class]+" mdl-list__item-secondary-action "+button_mdl_classes
+
+    #link_to( title, url, method: opt[:method], data: opt[:data], id: opt[:id], class: opt[:html_class]+" mdl-list__item-secondary-action "+button_mdl_classes)    
+    link_to(title, url, opt_4_helper.merge(html_opt) )
   end  
 
-  def add_new_button_link(url,text=nil)
-    link_to(url, class: "create mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" ) do 
-        text ||"<i class=\"material-icons\">add</i>".html_safe
-    end
-  end  
-
-  def add_jquery_ui
-     # content_for :stylesheets, stylesheet_link_tag("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css") 
-    content_for :javascripts, javascript_include_tag("http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
-  end  
-
-  def button_to_action(title, url, method=:get, html_class="", data={} )
-    link_to( title, url, method: method, data: data, class: html_class+" mdl-list__item-secondary-action mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored") 
-  end  
-
-  def button_to_wish_action(action, wish)
-    if (action == :show) 
-      method= :get
-      url=user_others_wish_url(current_user,wish)
-    elsif [:delete,:destroy].include?(action)
-      method= :delete
-      url=user_others_wish_url(current_user,wish)
-    else  
-      method= :patch
-      url=user_others_wish_url(current_user,wish, state_action: action)
+  private
+    def button_mdl_classes
+      "mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored"
     end  
-    button_to_action( I18n.t("wish.actions.#{action}.button"), url, method, action.to_s )
-  end  
+
 end

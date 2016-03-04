@@ -37,6 +37,13 @@ class UserTest < ActiveSupport::TestCase
     assert User::Identity.where(user_id: u.id).blank?, "User's identities not destroyed: #{User::Identity.where(user_id: u.id).to_yaml}"
   end  
 
+  def test_get_main_idenity
+    u=create_test_user!(email: "testme@dot.com")
+    mi=u.identities.where(email: u.email, provider: User::Identity::LOCAL_PROVIDER).order("id ASC").first
+    assert_equal mi, u.main_identity
+  end
+
+
   def test_got_admin
     assert User.new(email: "porybny@rybickazlata.cz").admin?
     refute User.new(email: "orybny@rybickazlata.cz").admin?

@@ -45,7 +45,10 @@
                 button: "Upravit"
             },
             delete: {
-                button: "Odstranit"
+                button: "Smazat",
+                confirm: {
+                  message: "Opravdu chcete přání '%{wish_title}' smazat?"
+                }
             },
             book: {
                 button: "Rezervovat",

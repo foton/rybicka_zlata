@@ -14,7 +14,7 @@ class ConnectionsController < ApplicationController
 
   def create
     build_connection
-    save_connection(t("connection.views.added", fullname: @connection.fullname), t("connection.views.not_added", fullname: @connection.fullname)) or render 'index'
+    save_connection(t("connections.views.added", fullname: @connection.fullname), t("connections.views.not_added", fullname: @connection.fullname)) or render 'index'
 	end
 
 	def edit
@@ -25,7 +25,7 @@ class ConnectionsController < ApplicationController
 	def update
 	 load_connection
 	 build_connection
-	 save_connection(t("connection.views.updated", fullname: @connection.fullname), t("connection.views.not_updated", fullname: @connection.fullname)) or render 'edit'
+	 save_connection(t("connections.views.updated", fullname: @connection.fullname), t("connections.views.not_updated", fullname: @connection.fullname)) or render 'edit'
 	end    
 
 	def destroy
@@ -65,9 +65,9 @@ class ConnectionsController < ApplicationController
 
     def destroy_connection
       if @connection.destroy
-        flash[:notice]=t("connection.views.deleted", fullname: @connection.fullname)
+        flash[:notice]=t("connections.views.deleted", fullname: @connection.fullname)
       else  
-        flash[:error]=t("connection.views.not_deleted", fullname: @connection.fullname)
+        flash[:error]=t("connections.views.not_deleted", fullname: @connection.fullname)
       end
     end  
 

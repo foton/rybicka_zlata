@@ -3,36 +3,35 @@
 <%= t("activerecord.attributes.user.last_sign_in") %>: <%= @user.last_sign_in_at.present? ? l(@user.last_sign_in_at) : ""%> [<%= @user.last_sign_in_ip.present? ? @user.last_sign_in_ip : "" %>]
 </p>
   <div class="actions">
-    <%= link_to( edit_user_registration_path(current_user),
-                 method: :get,
-                 class: "edit mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
-                ) do %>
-      <i class="material-icons">mode_edit</i>
-    <% end %> 
+    <%= button_link_to(I18n.t("user.profile.actions.edit.button"), edit_user_registration_path(@user), {method: :get, class: "edit"} ) %>
   </div>  
 
 
 <div id="my_contacts">
- 	<div id="add_contact" class="form-add">
-	  <%= form_for(@new_contact, url: user_identities_path(@user)) do |f| %>
-      <%= render partial: "/shared/errors", locals: {f_object: @new_contact} %>
-
-      <div class="mdl-grid">
-			  <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				  <%= f.label :email, t("user.contacts.add"),  class: "mdl-textfield__label" %>
-				  <%= f.email_field :email, class: "mdl-textfield__input" %>
-				  <%= f.hidden_field :provider %>
-				</div>
-				<div class="actions">
-					 <%= form_submit_button %>
-				</div>
-			</div>	
-		<% end %>
-		<%= add_new_button if @new_contact.errors.empty?%>
-	</div>
-
+ 	
 	<div id="contacts_list" class="contact_list">
+
 		<h4><%= t("user.contacts.list") %></h4>
+
+    <div id="add_contact" class="form-add">
+      <%= form_for(@new_contact, url: user_identities_path(@user), html: {class: "mdl-shadow--2dp"} ) do |f| %>
+        <%= render partial: "/shared/errors", locals: {f_object: @new_contact} %>
+
+        <div class="mdl-grid">
+          <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <%= f.label :email, t("user.contacts.actions.new.label"),  class: "mdl-textfield__label" %>
+            <%= f.email_field :email, class: "mdl-textfield__input" %>
+            <%= f.hidden_field :provider %>
+          </div>
+          <div class="actions">
+            <%= form_submit_button(t("user.contacts.actions.new.submit_button")) %>
+          </div>
+        </div>  
+      <% end %>
+      <%= add_new_button(t("user.contacts.actions.new.button")) if @new_contact.errors.empty?%>
+    </div>
+
+
 		<ul class="list-with-actions">
 		  <%= render( partial: "/profiles/contact", collection: @user.identities.order(:email)) || t("user.contacts.none") %>
 	  </ul>

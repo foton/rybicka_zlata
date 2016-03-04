@@ -25,7 +25,22 @@
 
     },
 
-    group: {
+    groups: {
+        actions: {
+            new: {
+                button: "Přidat",
+                next_button: "Další"
+            },
+            save: {
+                button: "Zapsat"
+          },
+          edit: {
+            button: "Upravit"
+          },
+          delete: {
+            button: "Smazat"
+          }
+        },
         views: {
             header: "Skupiny",
             add: { 

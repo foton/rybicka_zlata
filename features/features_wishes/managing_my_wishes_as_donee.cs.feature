@@ -64,10 +64,11 @@ Scénář: Úprava sdíleného přání
   A vidím konexi "Hana" v "Dárci"
   A vidím konexi "KarelM" v "Dárci"
   
-
+@javascript
 Scénář: Smazání sdíleného přání
   Pokud jsem na stránce "Má přání"
   A kliknu na smazání u přání "Pračka"
+  A smazání potvrdím
 
   Pak jsem na stránce "Má přání"
   A vidím text "Byli jste odebráni z obdarovaných u přání 'Pračka'."

@@ -72,7 +72,7 @@ function hide_checkboxes(selectors_hash){
   lists=$(selectors_hash['lists_container'])
   lists.find(".list-of-checkboxes").addClass("list-of-sortables").removeClass("list-of-checkboxes");
   lists.find("label.mdl-checkbox").attr('class', 'sortbox');
-  lists.find("label.sortbox span.mdl-checkbox__label").removeClass("mdl-checkbox__label");
+  lists.find("label.sortbox span.mdl-checkbox__label").removeClass("mdl-checkbox__label").addClass("label_text");
   lists.find("label.sortbox input").attr("type","hidden");
 }
 

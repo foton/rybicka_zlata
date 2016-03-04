@@ -26,9 +26,24 @@
 
     },
 
-    connection: {
+    connections: {
         base_cover_name: "Autor přání",
         friend_deleted: "zrušen",
+        actions: {
+          new: { 
+            button: "Přidat"
+          },
+          save: {
+            button: "Zapsat"
+          },
+          edit: {
+            button: "Upravit"
+          },
+          delete: {
+            button: "Smazat"
+          }
+
+        },
         views: {
             header: "Přátelé",
             add: {

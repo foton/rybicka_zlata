@@ -104,28 +104,28 @@ class User::Identity < ActiveRecord::Base
     self.save!
   end  
 
-  def try_add_user(usr)
+  def try_add_user(user)
     #try to find user if not passed
-    if !usr.kind_of?(User) 
+    if !user.kind_of?(User) 
       if verified_email.present?
        email_to_search=verified_email 
       else 
        email_to_search=email 
       end
       
-      if email.present?
-        #this is not needed, because there should be associated Identity with the user.email
-        usr=User.find_by_email(email_to_search)
+      if email_to_search.present?
+        user=User.find_by_email(email_to_search)
 
-        if usr.blank?
+        if user.blank?
           #try search between identities
-          i=User::Identity.where(email: email_to_search).where("id <> ?", self.id)
-          usr=i.first.usr if i.present?
+          i=User::Identity.where(email: email_to_search)
+          i=i.where("id <> ?", self.id) if self.id.present?
+          user=i.first.user if i.present?
         end  
       end  
     end
 
-    self.user=usr if usr.kind_of?(User)
+    self.user=user if user.kind_of?(User)
   end
 
   def local?
@@ -137,6 +137,7 @@ class User::Identity < ActiveRecord::Base
     s+=" [#{provider}]" unless local?
     s
   end  
+
   scope(:local, -> { where( provider: User::Identity::LOCAL_PROVIDER) })
   
   private

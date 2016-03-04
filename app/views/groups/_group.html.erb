@@ -1,24 +1,24 @@
-<li class="group mdl-grid">
+<li class="group mdl-list__item">
 
-  <div class="li_content mdl-cell">
-     <%= link_to group.name, user_group_url(group.user, group) %><br />[<%= group.connections.count%>]
-   </div>
-  <div class="mdl-layout-spacer"></div>
-  <div class="actions md-cell">
-    <%= link_to( edit_user_group_path(current_user,group),
-                 method: :get,
-                 class: "edit mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
-                ) do %>
-      <i class="material-icons">mode_edit</i>
-    <% end %> 
-
-    <%= link_to( user_group_path(current_user,group),
-               	 method: :delete,
-                 data: { confirm: t("group.views.delete.confirm.message"), "confirm-yes": t("confirm.yes"), "confirm-no": t("confirm.no")},
-                 class: "delete mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
-                ) do %>
-    	<i class="material-icons">remove</i>
-    <% end %>	
-  </div>  
+  <span class="mdl-list__item-primary-content">
+    <span><%= link_to group.name, user_group_url(group.user, group) %><br />[<%= group.connections.count%>]</span>
+  </span>
+  
+  <span class="mdl-list__item-secondary-content actions">
+    <%= button_link_to(I18n.t("groups.actions.edit.button"), edit_user_group_path(@user,group), {method: :get, class: "edit"} ) %>
+    <%= button_link_to(I18n.t("groups.actions.delete.button"), user_group_path(@user,group), 
+        {
+          method: :delete, 
+          class: "delete", 
+          data: { 
+            confirm: t("groups.views.delete.confirm.message"), 
+            #keys are with '-', for consistency
+            #if underscore is used 'confirm_yes', still dashed 'data-confirm-yes = "YES"' is generated in html
+            "confirm-yes": t("confirm.yes"), 
+            "confirm_no": t("confirm.no")
+          }
+        }
+      ) %>
+  </span>  
 
 </li>

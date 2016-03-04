@@ -31,13 +31,13 @@ class Connection < ActiveRecord::Base
     conn_name=name
     friend_uname="???" #friend (as registered user) was not assigned
     if base?
-      conn_name=I18n.t("connection.base_cover_name")
+      conn_name=I18n.t("connections.base_cover_name")
       friend_uname=owner.displayed_name
     else
       if friend_id.present? 
         if friend.blank?
           #friend (as registered user) was assigned, but now it does not exists (deleted)
-          friend_uname=I18n.t("connection.friend_deleted")
+          friend_uname=I18n.t("connections.friend_deleted")
         else
           #friend (as registered user) is assigned
           friend_uname=friend.displayed_name

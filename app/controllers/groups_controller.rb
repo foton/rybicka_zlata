@@ -14,7 +14,7 @@ class GroupsController < ApplicationController
 
   def create
     build_group
-    create_group(t("group.views.added", name: @group.name), t("group.views.not_added", name: @group.name)) or render 'index'
+    create_group(t("groups.views.added", name: @group.name), t("groups.views.not_added", name: @group.name)) or render 'index'
 	end
 
 	def edit
@@ -26,7 +26,7 @@ class GroupsController < ApplicationController
 	 load_group
    load_user_connections
    build_group #update group from params
-	 save_group(t("group.views.updated", name: @group.name), t("group.views.not_updated", name: @group.name)) or render 'edit'
+	 save_group(t("groups.views.updated", name: @group.name), t("groups.views.not_updated", name: @group.name)) or render 'edit'
 	end    
 
 	def destroy
@@ -79,9 +79,9 @@ class GroupsController < ApplicationController
 
     def destroy_group
       if @group.destroy
-        flash[:notice]=t("group.views.deleted", name: @group.name)
+        flash[:notice]=t("groups.views.deleted", name: @group.name)
       else  
-        flash[:error]=t("group.views.not_deleted", name: @group.name)
+        flash[:error]=t("groups.views.not_deleted", name: @group.name)
       end
     end  
 

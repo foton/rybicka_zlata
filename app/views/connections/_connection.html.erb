@@ -1,22 +1,24 @@
-<li class="connection">
+<li class="connection mdl-list__item">
 
-  <div class="li_content"><%= connection.fullname %></div>
+  <span class="mdl-list__item-primary-content">
+    <span><%= connection.fullname %></span>
+  </span>
   
-  <div class="actions">
-    <%= link_to( edit_user_connection_path(current_user,connection),
-                 method: :get,
-                 class: "edit mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
-                ) do %>
-      <i class="material-icons">mode_edit</i>
-    <% end %> 
+  <span class="mdl-list__item-secondary-content actions">
+    <%= button_link_to(I18n.t("connections.actions.edit.button"), edit_user_connection_path(@user,connection), {method: :get, class: "edit"} ) %>
+    <%= button_link_to(I18n.t("connections.actions.delete.button"), user_connection_path(@user,connection), 
+          {
+            method: :delete, 
+            class: "delete", 
+            data: { 
+              confirm: t("connections.views.delete.confirm.message"), 
+              #keys are with '-', for consistency
+              #if underscore is used 'confirm_yes', still dashed 'data-confirm-yes = "YES"' is generated in html
+              "confirm-yes": t("confirm.yes"), 
+              "confirm_no": t("confirm.no")
+            }
+          }
+        ) %>
+  </span>  
 
-    <%= link_to( user_connection_path(current_user,connection),
-               	 method: :delete,
-                 data: { confirm: t("connection.views.delete.confirm.message"), "confirm-yes": t("confirm.yes"), "confirm-no": t("confirm.no")},
-                 class: "delete mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
-                ) do %>
-    	<i class="material-icons">remove</i>
-    <% end %>	
-  </div>
- 
 </li>

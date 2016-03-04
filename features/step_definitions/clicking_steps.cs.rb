@@ -18,7 +18,7 @@ end
 
 Když(/^kliknu na přidání$/) do
   #click_link_or_button("add")
-  find(".create").click()
+  find(".new").click()
 end
 
 Když(/^kliknu na pokračování$/) do

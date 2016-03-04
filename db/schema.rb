@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301110749) do
+ActiveRecord::Schema.define(version: 20160304101448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20160301110749) do
   add_index "connections_groups", ["connection_id"], name: "index_connections_groups_on_connection_id", using: :btree
   add_index "connections_groups", ["group_id"], name: "index_connections_groups_on_group_id", using: :btree
 
-  create_table "donee_links", id: false, force: :cascade do |t|
+  create_table "donee_links", force: :cascade do |t|
     t.integer "wish_id",       null: false
     t.integer "connection_id", null: false
   end
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20160301110749) do
   add_index "donee_links", ["wish_id", "connection_id"], name: "donee_wish_conn_index", unique: true, using: :btree
   add_index "donee_links", ["wish_id"], name: "index_donee_links_on_wish_id", using: :btree
 
-  create_table "donor_links", id: false, force: :cascade do |t|
+  create_table "donor_links", force: :cascade do |t|
     t.integer "wish_id",                   null: false
     t.integer "connection_id",             null: false
     t.integer "role",          default: 0, null: false

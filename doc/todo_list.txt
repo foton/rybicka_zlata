@@ -4,3 +4,16 @@
 - groups were hidden, so make them usable
 - do not show donee connection for other donnes in EDIT
 - if author delete donee from wish, alee donees connection should be gone
+- add tooltips
+- make links from urls
+- test for deleting account
+     [1m[36mDonorLink Load (0.2ms)[0m  [1mSELECT "donor_links".* FROM "donor_links" WHERE "donor_links"."connection_id" = $1[0m  [["connection_id", 8]]
+     [1m[35mDoneeLink Load (0.2ms)[0m  SELECT "donee_links".* FROM "donee_links" WHERE "donee_links"."connection_id" = $1  [["connection_id", 8]]
+     [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+     EXCEPTION[PG::SyntaxError]: ERROR:  zero-length delimited identifier at or near """"
+     LINE 1: DELETE FROM "donee_links" WHERE "donee_links"."" = $1
+                                                      ^
+- make list item clickable on primary content not just link itself
+- nicer SHOW of WISH form donee
+- donee edit of wish is not centered
+- when adding local identity there must be verification by sending email

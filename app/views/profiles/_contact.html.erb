@@ -1,15 +1,11 @@
-<li class="contact mdl-grid">
+<li class="contact mdl-list__item">
 
-  <div class="li_content mdl-cell"><%= contact.to_s %></div>
-   <div class="mdl-layout-spacer"></div>
-  <div class="actions md-cell">
-    <%= link_to( user_identity_path(@user,contact),
-               	 method: :delete,
-                 class: "delete mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect"
-                ) do %>
-    	<i class="material-icons">remove</i>
-    <% end %>	
-    </div>
-  </div>  
+  <span class="mdl-list__item-primary-content">
+    <span><%= contact.to_s %></span>
+  </span>
+  
+  <span class="mdl-list__item-secondary-content actions">
+    <%= button_link_to(I18n.t("user.contacts.actions.delete.button"), user_identity_path(@user,contact), {method: :delete, class: "delete"} ) %>
+  </span>  
 
 </li>
