@@ -76,7 +76,15 @@
 
 .donors, .donees, .available_conns {
 	padding: 0.5em;
-	border: 1px solid gray;
+	border: 1px solid lightgray;
+}
+
+.connection_list li {
+  border-bottom: 1px solid gray;
+}
+
+.connection_list li:first-child{
+  border-top: 1px solid gray;
 }
 
 .available_conns {

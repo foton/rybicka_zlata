@@ -4,25 +4,31 @@
   <%= render partial: "actions", locals: {wish: @wish} %>
 
   <div class="mdl-grid" id="wish_connections">
-    <div class="donees md-cell" id="donee_connections">
+
+    <div class="donees mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet"  id="donee_connections">
        <h4><%= t("wishes.donees.header") %></h4>
-        <ul class="connection_list">
+        <ul class="connection_list mdl-list">
         <% for conn in (@wish.donee_connections) %>
-          <li><%= conn.fullname %></li>
+          <li class="mdl-list__item">
+            <span class="mdl-list__item-primary-content"><%= conn.fullname %></span>
+          </li>
         <% end %>
         </ul>
     </div>
     
     <div class="mdl-layout-spacer"></div>
     
-    <div class="donors md-cell" id="donor_connections">
+    <div class="donors mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet" id="donor_connections">
       <h4><%= t("wishes.donors.header") %></h4>
       <p><%= t("wishes.from_donee.views.show.donors.count", total: @wish.donor_connections.count , owns: @wish.donor_connections.owned_by(current_user).count ) %>
-        <ul class="connection_list">
+        <ul class="connection_list mdl-list">
         <% for conn in (@wish.donor_connections.owned_by(current_user)) %>
-          <li><%= conn.fullname %></li>
+          <li class="mdl-list__item">
+            <span class="mdl-list__item-primary-content"><%= conn.fullname %></span>
+          </li>
         <% end %>
         </ul>
     </div>
+
   </div>
 </div>  
