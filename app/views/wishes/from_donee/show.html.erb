@@ -1,6 +1,6 @@
 <div id="donee_wish_show">
   <h3><%= @wish.title %></h3>
-  <p><%= @wish.description %></p>
+  <p><%= raw to_html(@wish.description) %></p>
   <%= render partial: "actions", locals: {wish: @wish} %>
 
   <div class="mdl-grid" id="wish_connections">

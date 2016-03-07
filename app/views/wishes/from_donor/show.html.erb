@@ -1,6 +1,6 @@
 <div id="donor_wish_show">
   <h3 id="title"><%= @wish.title %></h3>
-  <p id="description"><%= @wish.description %></p>
+  <p id="description"><%=raw to_html(@wish.description) %></p>
   <div id="donees">
     <h4><%= I18n.t("wishes.from_donor.views.show.donees_list_header") %></h4>
     <ul id="donees_list">

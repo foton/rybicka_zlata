@@ -7,6 +7,4 @@ cs:
   confirm:
     "yes": "Ano"
     "no": "Ne"
-  actions:
-    delete: "Smazat"
-    edit: "Změnit"
+  uri_shortened: "%{uri_short}...(zkráceno)"

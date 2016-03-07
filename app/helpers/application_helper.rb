@@ -49,19 +49,19 @@ module ApplicationHelper
   end
 
   def form_submit_button(text=nil)
-    button_tag( class: "save mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "save "+button_mdl_classes) do 
       text ||"<i class=\"material-icons\">check</i>".html_safe
     end
   end
   
   def form_next_button(text=nil)
-    button_tag( class: "next-step mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "next-step "+button_mdl_classes ) do 
       text ||"<i class=\"material-icons\">forward</i>".html_safe
     end
   end
 
   def add_new_button(text=nil)
-    button_tag( class: "new mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect" ) do 
+    button_tag( class: "new "+button_mdl_classes ) do 
         text ||"<i class=\"material-icons\">add</i>".html_safe
     end
   end 
@@ -78,6 +78,39 @@ module ApplicationHelper
     #link_to( title, url, method: opt[:method], data: opt[:data], id: opt[:id], class: opt[:html_class]+" mdl-list__item-secondary-action "+button_mdl_classes)    
     link_to(title, url, opt_4_helper.merge(html_opt) )
   end  
+
+  #convert char '\n' to '<br />'
+  #and  URIs to clickable links
+  require "url_regexp.rb"
+  def to_html(str)
+    #cutoff URIs
+    uri_placeholder="LINK_PLAC3HOLD3R_HERE"
+    uris=str.scan(Regexp::PERFECT_URL_PATTERN)
+    htmls=str.gsub(Regexp::PERFECT_URL_PATTERN, uri_placeholder)
+
+    #escape other text
+    htmls=CGI::escapeHTML(htmls)
+
+    #substitute newlines
+    htmls=htmls.gsub("\n","<br />")
+
+    #put URIs back as clickable links
+    for uri in uris
+      htmls=htmls.sub(uri_placeholder, short_link_from_uri(uri))
+    end
+
+    return htmls
+  end
+
+  def short_link_from_uri(uri)
+    if uri.size < 50
+      text=uri
+    else
+      text=I18n.t("uri_shortened", uri_short: URI.parse(uri).host)    
+    end  
+    link_to(text, uri)
+  end  
+   
 
   private
     def button_mdl_classes

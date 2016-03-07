@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
          #, :omniauth_providers => [:google_oauth2]
   has_many :identities, -> { order("email ASC") }, class_name: 'User::Identity', dependent: :destroy , inverse_of: :user
   has_many :connections, -> { order("name ASC, email ASC") }, {foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner}
-  has_many :friend_connections, -> { where("name <> ?", Connection::BASE_CONNECTION_NAME).order("name ASC") }, {class_name: "Connection", foreign_key: 'owner_id'}
+  has_many :friend_connections, -> { where.not(name: Connection::BASE_CONNECTION_NAME).order("name ASC") }, {class_name: "Connection", foreign_key: 'owner_id'}
+  has_many :friends, through: :friend_connections, source: :friend
   has_many :connections_as_friend, -> { order("name ASC, email ASC") }, {class_name: "Connection", foreign_key: 'friend_id'}
   has_many :groups, -> { order("name ASC") }, {dependent: :destroy, inverse_of: :user}
   
@@ -24,6 +25,17 @@ class User < ActiveRecord::Base
   def displayed_name
     name || email
   end   
+
+  #without connection, user.displayed_name is used
+  #with connection watchman-> user , connection.name is used
+  def displayed_name_for(watchman)
+    conns=watchman.friend_connections.where(friend: self)
+    if conns.present?
+      conns.first.name
+    else
+      displayed_name
+    end  
+  end  
 
   def anchor
     self.email.parameterize

@@ -56,6 +56,18 @@ module Minitest
           end
         end
 
+        def location(exception)
+          last_before_assertion = ''
+
+          exception.backtrace.reverse_each do |ss|
+            break if ss =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
+            last_before_assertion = ss
+            break if ss=~ /_test.rb\:/
+          end
+
+          last_before_assertion.sub(/:in .*$/, '')
+        end  
+
     end
   end
 end

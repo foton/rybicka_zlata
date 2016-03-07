@@ -1,4 +1,4 @@
-- make links from urls
+
 - make list item clickable on primary content not just link itself  (and wih:showw as popup paper)
 - nicer SHOW of WISH form donee
 - groups were hidden, so make them usable
@@ -8,3 +8,5 @@
 - user can choose to "receive changes by email"
 - chat for friends/donors/donnies for wish
 - when adding local identity there must be verification by sending email
+
+

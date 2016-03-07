@@ -20,6 +20,20 @@ class UserTest < ActiveSupport::TestCase
     assert_equal name, u.displayed_name
   end
 
+  def test_displayed_name_for_show_name_from_connection_or_user_displayed_name
+    donee=create_test_user!(name: "donee")
+    donor=create_test_user!(name: "donor")
+    
+    #without connection, user.displayed_name is used
+    assert_equal donee.displayed_name, donee.displayed_name_for(donor)
+   
+    conn_donor_to_donee=create_connection_for(donor, {name: "donor2donee", email: donee.email})
+    
+    assert donor.friends.include?(donee)
+    #with connection connection.name is used
+    assert_equal conn_donor_to_donee.name, donee.displayed_name_for(donor)
+  end  
+
   def test_delete_identities_on_destroy
     u=create_test_user!(email: "testme@dot.com")
     i0=u.identities.first  #created on creation of user

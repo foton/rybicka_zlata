@@ -1,1 +1,1 @@
-<li><%= button_link_to(donee.displayed_name, user_others_wishes_path(current_user, anchor: donee.anchor ), {class: "mdl-button--colored mdl-button--raised"}) %></li>
+<li><%= button_link_to(donee.displayed_name_for(@user), user_others_wishes_path(@user, anchor: donee.anchor ), {class: "mdl-button--colored mdl-button--raised"}) %></li>
