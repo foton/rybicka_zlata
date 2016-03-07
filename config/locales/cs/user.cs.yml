@@ -2,8 +2,8 @@ cs:
   activerecord:
     models:
       user:
-         one: "Uživatel"
-         other: "Uživatelé"
+        one: "Uživatel"
+        other: "Uživatelé"
     attributes:
       user:
         username: "Přihlašovací jméno"

@@ -2,3 +2,16 @@
   align-items: center;
   justify-content: center;
 }
+
+.mdl-list__item-primary-content a {
+  text-decoration: none;
+
+}
+
+.mdl-menu__item a {
+    color: rgba(0, 0, 0, 0.87);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+}

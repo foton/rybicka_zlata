@@ -1,9 +1,9 @@
-
-- make list item clickable on primary content not just link itself  (and wih:showw as popup paper)
-- nicer SHOW of WISH form donee
+- from_donee wish.show  -> make it more beautifull
+- actions on wish are performed by ajax
 - groups were hidden, so make them usable
-- if author delete donee from wish, alee donees connection should be gone
+- if author delete donee from wish, all donees connection should be gone
 
+- display wish from list as popup paper
 - loging wish changes , diplaying them to user after sign in or throught feed
 - user can choose to "receive changes by email"
 - chat for friends/donors/donnies for wish

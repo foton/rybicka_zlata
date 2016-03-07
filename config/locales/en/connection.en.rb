@@ -26,9 +26,24 @@
 
     },
 
-    connection: {
+    connections: {
         base_cover_name: "Author of wish",
         friend_deleted: "deleted",
+        actions: {
+          new: { 
+            button: "Add"
+          },
+          save: {
+            button: "Save"
+          },
+          edit: {
+            button: "Edit"
+          },
+          delete: {
+            button: "Delete"
+          }
+
+        },        
         views: {
             header: "Friends",
             add: {

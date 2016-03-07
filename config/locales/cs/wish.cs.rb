@@ -9,7 +9,8 @@
         attributes: {
             wish: {
                 title: "Titulek",
-                description: "Popis"
+                description: "Popis",
+                updated_by_donne_at: "Čas poslední změny obdarovaným"
             }
         },
         errors: {
@@ -138,7 +139,7 @@
                 updated: "Seznam potenciálních dárců pro '%{title}' byl úspěšně aktualizován.",
                 not_updated: "Přání '%{title}' nebylo aktualizováno.",
                 deleted: "Byli jste odebráni z obdarovaných u přání '%{title}'.",
-                not_deleted: "Přání '%{title}' nebylo odstraněno.",
+                not_deleted: "Nebyli jste odebráni z obdarovaných u přání '%{title}'.",
                 delete: {
                     confirm: {
                         message: "Opravdu smazat?"
@@ -154,8 +155,7 @@
                 },
                 show: {
                     donees_list_header: "Obdarovaní"
-                },
-                updated: "Seznam potenciálních dárců pro '%{title}' byl úspěšně aktualizován.",
+                }
             }
         }    
 

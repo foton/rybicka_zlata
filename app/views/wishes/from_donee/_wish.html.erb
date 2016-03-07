@@ -1,8 +1,15 @@
 <li class="wish mdl-list__item mdl-list__item--three-line">
 
   <span class="mdl-list__item-primary-content">
-     <span><%= link_to( wish.title, user_my_wish_url(@user, wish) ) %></span>
-     <span class="mdl-list__item-text-body"><%= wish.description_shortened %></span>
+    <%= link_to user_my_wish_url(@user, wish), name:  wish.anchor do %>
+      <span><%= wish.title %></span>
+      <span class="mdl-list__item-text-body">
+        <%= wish.description_shortened %>
+        <br />
+        <span class="info" id="<%= wish.anchor+"_updated_by_donee_at" %>" title="<%=I18n.t("activerecord.attributes.wish.updated_by_donne_at") %>" ><%= I18n.l(wish.updated_by_donee_at) %></span>
+        <div class="mdl-tooltip" for="<%= wish.anchor+"_updated_by_donee_at" %>"><%= I18n.t("activerecord.attributes.wish.updated_by_donne_at") %></div>
+      </span>
+    <%end%>
   </span>
   
   <%= render partial: "actions", locals: {wish: wish} %>

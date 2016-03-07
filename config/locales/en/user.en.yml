@@ -10,6 +10,7 @@ en:
         name: "Account name"
         email: "Primary e-mail"
         password: "Password"
+        current_password: "Current password"
         password_confirmation: "Password confirmation"
         locale: "Language"
         time_zone: "Time zone"
@@ -19,7 +20,13 @@ en:
         last_sign_in: "Last sign in"
   user:
     contacts: 
-      add: "Add adress"
+      actions:
+        delete:
+          button: "Delete"
+        new: 
+          button: "Add"
+          submit_button: "Submit"
+          label: "Another address"
       none: "You have no address in evidence" 
       list: "Your addresses"
       deleted: "Contact '%{contact}' was deleted"
@@ -31,5 +38,7 @@ en:
     profile:
       my:
         header: "Profile"
-
+      actions:  
+        edit:
+          button: "Edit"
 

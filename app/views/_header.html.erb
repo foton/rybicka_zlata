@@ -10,9 +10,16 @@
 
     <nav class="mdl-navigation">
       <%= render partial: "/navigation_links", locals: {link_class: "mdl-navigation__link"} %>
-      <div id="locale_switcher">
-        <%= link_to((I18n.locale.to_sym == :cs ? "en" : "cs"), change_locale_path( params: {locale: (I18n.locale.to_sym == :cs ? :en : :cs)}), class: "mdl-navigation__link" ) %>
-      </div>  
+
+
+<button id="locale-switcher" class="mdl-button mdl-js-button mdl-button--icon">
+    <i class="material-icons">language</i>
+</button>
+<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="locale-switcher">
+    <li class="mdl-menu__item"><%= link_to("Čeština", change_locale_path( params: {locale: :cs })) %></li>
+    <li class="mdl-menu__item"><%= link_to("English", change_locale_path( params: {locale: :en })) %></li>
+</ul>
+
     </nav>
 
   </div>

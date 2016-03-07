@@ -1,5 +1,3 @@
-# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-
 en:
   devise:
     confirmations:
@@ -11,4 +9,8 @@ en:
     passwords:
       current_password_reason: We need your current password to confirm your changes
       minimum_length: "Must have at least %{min} chars"
+    registrations:
+      delete:
+        confirm:
+          message: "Really delete?"      
  
