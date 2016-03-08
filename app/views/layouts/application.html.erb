@@ -2,11 +2,12 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= t("rybickazlata.name") -%>: <%= content_for?(:title) ? yield(:title) : t("rybickazlata.title") -%></title>
   
   <!-- Material Design Lite -->
-  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.1.1/material.indigo-amber.min.css" /> 
-  <script src="https://storage.googleapis.com/code.getmdl.io/1.1.1/material.min.js"></script>
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.1.2/material.indigo-amber.min.css" /> 
+  <script src="https://storage.googleapis.com/code.getmdl.io/1.1.2/material.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
   <%= stylesheet_link_tag    'application', media: 'all' %>
@@ -22,6 +23,12 @@
     <%= render partial: "/header" %>
     <%= render partial: "/content" %>
     <%= render partial: "/footer" %>
+    
+    <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+      <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
   </div>  
 </body>
 </html>
