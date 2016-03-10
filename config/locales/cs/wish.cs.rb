@@ -74,7 +74,7 @@
                 button: "Darováno",
                 message: "Přání '%{wish_title}' bylo darováno/splněno dárcem '%{user_name}'."
             },    
-            fullfilled: {
+            fulfilled: {
                 button: "Splněno",
                 message: "Přání '%{wish_title}' bylo splněno."
             }    
@@ -124,11 +124,13 @@
         from_donee: {
             views: {
                 index: {
-                    header: "Má přání"
+                    header: "Má přání",
+                    header_fulfilled: "Má splněná přání"
                 },
                 list: {
                     header: "Seznam mých přání",
-                    none: "Nemáte žádné přání. Přidejte si nějaké!"
+                    none: "Nemáte žádné přání. Přidejte si nějaké!",
+                    none_fulfilled: "Nemáte žádné splněné přání. Co si to, proboha, vlastně přejete?"
                 },
                 show: {
                     name_for_author_connection: "Autor přání",

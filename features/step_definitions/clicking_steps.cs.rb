@@ -35,7 +35,7 @@ Když(/^kliknu na editaci$/) do
   find(".edit").click()
 end
 
-Pokud(/^kliknu na (editaci|smazání|rezervaci|uvolnění rezervace|darování|výzvu ke spoluúčasti|uvolnění výzvy|splnění přání) u(?: přání)? "(.*?)"$/) do |action, text_to_find|
+Pokud(/^kliknu na (editaci|smazání|rezervaci|uvolnění rezervace|darování|výzvu ke spoluúčasti|uvolnění výzvy|splnění) u(?: přání)? "(.*?)"$/) do |action, text_to_find|
   case action
 	  when "smazání"
 	  	a_selector=".delete"
@@ -51,6 +51,8 @@ Pokud(/^kliknu na (editaci|smazání|rezervaci|uvolnění rezervace|darování|v
       a_selector=".call_for_co_donors"
     when "uvolnění výzvy"
       a_selector=".withdraw_call"
+    when "splnění"  
+      a_selector=".fulfilled"
   end
   
   find("li", text: text_to_find).find(a_selector).click()

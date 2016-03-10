@@ -19,16 +19,44 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
 	end
 
   def test_index_of_my_wishes
-    create_author_wish
-    create_shared_wish
+    aw=create_author_wish
+    sw=create_shared_wish
 
   	get :index, {user_id: @current_user.id}
 
     assert assigns(:wishes).present?
-  	assert_equal @current_user.donee_wishes, assigns(:wishes)
+  	assert_equal [aw,sw], assigns(:wishes).to_a
     assert_template "index"
     assert_not_nil assigns(:user)
   end	
+
+  def test_index_of_my_fulfilled_wishes
+    aw=create_author_wish
+    aw.fulfilled!(@current_user)
+    aw.save!
+    sw=create_shared_wish
+
+    get :index, {user_id: @current_user.id, fulfilled: 1}
+
+    assert assigns(:wishes).present?
+    assert_equal [aw], assigns(:wishes).to_a
+    assert_template "index_fulfilled"
+    assert_not_nil assigns(:user)
+  end 
+
+  def test_index_of_my_notfulfilled_wishes
+    aw=create_author_wish
+    aw.fulfilled!(@current_user)
+    aw.save!
+    sw=create_shared_wish
+
+    get :index, {user_id: @current_user.id}
+
+    assert assigns(:wishes).present?
+    assert_equal [sw], assigns(:wishes).to_a
+    assert_template "index"
+    assert_not_nil assigns(:user)
+  end 
 
   def test_index_no_wish_yet
   	#Wish.destroy_all
@@ -156,6 +184,19 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     refute @current_user.donee_wishes.include?(shared_wish)
   end
 
+  def test_destroy_js
+    shared_wish=create_shared_wish
+
+    delete :destroy, {user_id: @current_user.id, id: shared_wish.id, format: :js}
+    
+    assert_response :ok
+    assert_template "fulfilled_or_destroyed.js.erb"
+    assert_equal "Byli jste odebráni z obdarovaných u přání '#{shared_wish.title}'.", flash[:notice]
+    
+    refute Wish.where(id: shared_wish.id).blank?
+    refute @current_user.donee_wishes.include?(shared_wish)
+  end
+
   def test_cannot_update_wish_if_is_not_donee
     nonshared_wish=create_nonshared_wish
 
@@ -172,6 +213,40 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
 
     assert_response :not_found
   end  
+
+  def test_cannot_see_my_wishes_for_other_user_account
+    get :index, {user_id: @other_user.id}
+   
+    assert_response :redirect
+    assert_redirected_to user_my_wishes_url(@current_user)
+    assert_equal "Nakukování k sousedům není dovoleno!", flash[:error]            
+  end
+
+  def test_fulfilled
+    shared_wish=create_shared_wish
+
+    patch :update, {user_id: @current_user.id, id: shared_wish.id, state_action: :fulfilled }
+    
+    assert_response :redirect
+    assert_redirected_to user_my_wish_path(@current_user, shared_wish)
+    assert_equal "Přání '#{shared_wish.title}' bylo splněno.", flash[:notice]
+
+    shared_wish.reload
+    assert shared_wish.fulfilled?
+  end
+
+  def test_fulfilled_js
+    shared_wish=create_shared_wish
+
+    patch :update, {user_id: @current_user.id, id: shared_wish.id, state_action: :fulfilled, format: :js }
+    
+    assert_response :ok
+    assert_template "fulfilled_or_destroyed.js.erb"
+    assert_equal "Přání '#{shared_wish.title}' bylo splněno.", flash[:notice]
+
+    shared_wish.reload
+    assert shared_wish.fulfilled?
+  end
 
   private
 

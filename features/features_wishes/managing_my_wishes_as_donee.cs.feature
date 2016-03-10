@@ -74,8 +74,17 @@ Scénář: Smazání sdíleného přání
   A vidím text "Byli jste odebráni z obdarovaných u přání 'Pračka'."
   A v seznamu přání není přání "Pračka"
 
-# Scénář: Vyřazení přání
-# Scénář: Vyřazení sdíleného přání
+@javascript
+Scénář: Vyřazení/Splnění sdíleného přání
+  Pokud jsem na stránce "Má přání"
+  A kliknu na splnění u přání "Pračka"
+
+  Pak jsem na stránce "Má přání"
+  A vidím text "Přání 'Pračka' bylo splněno"
+  A v seznamu přání není přání "Pračka"
+
+  Pokud jdu na stránku "Vyřazená přání"
+  Pak v seznamu přání je přání "Pračka"
 
 
 

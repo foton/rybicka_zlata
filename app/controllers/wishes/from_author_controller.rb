@@ -1,7 +1,9 @@
 require_relative "from_donee_controller"
 
 class Wishes::FromAuthorController < Wishes::FromDoneeController
-  
+ 
+  before_filter :set_user
+
   def new
     build_wish
     load_user_connections
@@ -33,7 +35,7 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
     end
 
     def destroy_wish
-      if @wish.destroy(current_user)
+      if @wish.destroy(@user)
         flash[:notice]=t("wishes.from_author.views.deleted", title: @wish.title)
       else  
         flash[:error]=t("wishes.from_author.views.not_deleted", title: @wish.title)
@@ -61,7 +63,6 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
     end
 
     def wish_scope
-      @user=current_user
       #here I can solve authorization to access objects
       #user can manage only it's own wishs
       @user.author_wishes
@@ -74,5 +75,9 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
     def not_updated_message
       t("wishes.from_author.views.not_updated", title: @wish.title) 
     end  
+
+    def not_peeking_url
+      user_my_wishes_url(current_user, params: {locale: I18n.locale})  
+    end 
 
 end

@@ -1,7 +1,7 @@
 class Wish::ListByDonees 
-	def initialize(donor, wishes=nil ,include_fullfilled=false)
+	def initialize(donor, wishes=nil ,include_fulfilled=false)
 	  wishes = donor.donor_wishes if wishes.blank?
-	  wishes = wishes.not_fullfilled unless include_fullfilled
+	  wishes = wishes.not_fulfilled unless include_fulfilled
 
 	  #we need to set wishes to group by donne name
     #one wish can be at many donees (shared wish)
@@ -34,4 +34,8 @@ class Wish::ListByDonees
   def all
   	@wish_list
   end	
+
+  def to_a
+    @wish_list.collect {|wi| [wi[:user],wi[:wishes]] }
+  end  
 end

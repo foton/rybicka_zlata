@@ -66,14 +66,49 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     assert_equal "Uživatel 'donor' hledá spoludárce pro přání 'My first wish'.", msg
   end
 
+  def test_only_booked_by_user_can_set_gifted
+    @wish.book!(@donor)
+    assert_equal @donor, @wish.booked_by_user
+
+    @wish.gifted!(@donee)
+    refute @wish.gifted?
+    
+    @wish.gifted!(stranger)
+    refute @wish.gifted?
+         
+    msg=@wish.gifted!(@donor)
+    assert @wish.gifted?
+    assert_equal @donor, @wish.booked_by_user 
+    assert_equal "Přání 'My first wish' bylo darováno/splněno dárcem 'donor'.", msg
+  end
+
+
+  def test_only_donee_or_author_can_set_fulfilled
+    @wish.book!(@donor)
+    @wish.gifted!(@donor)
+    assert @wish.gifted?
+    
+    msg=@wish.fulfilled!(@donor)
+    refute @wish.fulfilled?
+
+    msg=@wish.fulfilled!(stranger)
+    refute @wish.fulfilled?
+    
+    msg=@wish.fulfilled!(@donee)
+    assert @wish.fulfilled?
+    assert_equal @donor, @wish.booked_by_user 
+    assert_equal "Přání 'My first wish' bylo splněno.", msg
+
+    #all_donor_links_are_deleted_on_fulfilling
+    assert @wish.donor_links.empty?
+  end
+
   
-
-
 
   private
   
     def stranger
-      @starnger||=create_test_user!(name: "stranger")
+      @stranger||=create_test_user!(name: "stranger")
     end  
 
 end

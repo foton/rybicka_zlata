@@ -7,48 +7,48 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
   end  
 
   def test_action_from_authors_side
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@author)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@author)
     
     @wish.book!(@donor)
     #do not test the state of wish, this is internall stuff
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@author)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@author)
     
     @wish.unbook!(@donor)
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@author)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@author)
 
     @wish.call_for_co_donors!(@donor)
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@author)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@author)
 
     @wish.book!(@donor)
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@author)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@author)
 
     @wish.gifted!(@donor)
-    assert_equal [:fullfilled], @wish.available_actions_for(@author)
+    assert_equal [:fulfilled], @wish.available_actions_for(@author)
     
-    @wish.fullfilled!(@author)
+    @wish.fulfilled!(@author)
     assert_equal [], @wish.available_actions_for(@author)
   end  
 
 
   def test_action_from_donee_side
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@donee)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@donee)
     
     @wish.book!(@donor)
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@donee)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@donee)
     
     @wish.unbook!(@donor)
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@donee)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@donee)
 
     @wish.call_for_co_donors!(@donor)
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@donee)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@donee)
 
     @wish.book!(@donor)
-    assert_equal [:show, :edit, :delete, :fullfilled], @wish.available_actions_for(@donee)
+    assert_equal [:show, :edit, :delete, :fulfilled], @wish.available_actions_for(@donee)
 
     @wish.gifted!(@donor)
-    assert_equal [:fullfilled], @wish.available_actions_for(@donee)
+    assert_equal [:fulfilled], @wish.available_actions_for(@donee)
     
-    @wish.fullfilled!(@donee)
+    @wish.fulfilled!(@donee)
     assert_equal [], @wish.available_actions_for(@donee)
   end  
 
@@ -67,7 +67,7 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
     @wish.gifted!(@donor)
     assert_equal [], @wish.available_actions_for(@donor)
     
-    @wish.fullfilled!(@author)
+    @wish.fulfilled!(@author)
     assert_equal [], @wish.available_actions_for(@donor)
   end  
 
@@ -89,7 +89,7 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
     @wish.gifted!(@donor)
     assert_equal [], @wish.available_actions_for(@donor)
     
-    @wish.fullfilled!(@author)
+    @wish.fulfilled!(@author)
     assert_equal [], @wish.available_actions_for(@donor)
   end  
 
@@ -112,7 +112,7 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
     @wish.gifted!(@donor)
     assert_equal [], @wish.available_actions_for(another_donor)
     
-    @wish.fullfilled!(@author)
+    @wish.fulfilled!(@author)
     assert_equal [], @wish.available_actions_for(another_donor)
   end  
 
@@ -137,7 +137,7 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
     @wish.gifted!(@donor)
     assert_equal [], @wish.available_actions_for(bfu)
     
-    @wish.fullfilled!(@author)
+    @wish.fulfilled!(@author)
     assert_equal [], @wish.available_actions_for(bfu)
   end  
 

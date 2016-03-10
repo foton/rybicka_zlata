@@ -1,6 +1,9 @@
   <span class="mdl-list__item-secondary-content actions">
-    <% for action in wish.available_actions_for(@user)-[:show] %>
-      <%= button_to_wish_action(action, @user, wish) %>
+    <% for action in wish.available_actions_for(@user)-[:show, :fulfilled] %>
+      <%= button_to_wish_action(action, @user, wish, remote) %>
+    <% end %>
+    <% if wish.available_actions_for(@user).include?(:fulfilled) %>
+      <%= button_to_wish_action(:fulfilled, @user, wish, remote, {state_action: :fulfilled} ) %>
     <% end %>
   </span>  
 

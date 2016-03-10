@@ -1,0 +1,12 @@
+document.querySelector('#snackbar').MaterialSnackbar.showSnackbar(
+  {
+    message: "<%= raw flash[:notice] %>"
+  }
+);
+
+
+$("#<%= @wish.anchor %>").bind('ajax:success', function() { 
+  $("#<%= @wish.anchor %>").effect("blind", 500).remove();
+});
+
+

@@ -1,0 +1,13 @@
+.wish_reserved, 
+.wish_gifted, 
+.wish_fulfilled {
+  background-color: lightgrey;
+}
+
+.wish_me_as_donor {
+ background-color: lightblue; 
+}
+
+.donee-link {
+  margin-top: 0.5em;
+}

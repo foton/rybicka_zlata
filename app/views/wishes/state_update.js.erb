@@ -1,0 +1,9 @@
+$("#<%= @wish.anchor %>").replaceWith("<%= escape_javascript( render( partial: "wish", locals: {wish: @wish}) ) %>");
+$("#<%= @wish.anchor %>").effect("highlight", 500);
+
+document.querySelector('#snackbar').MaterialSnackbar.showSnackbar(
+  {
+    message: "<%= raw flash[:notice] %>"
+  }
+);
+

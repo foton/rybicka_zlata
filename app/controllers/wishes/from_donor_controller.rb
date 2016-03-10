@@ -1,4 +1,6 @@
 class Wishes::FromDonorController < ApplicationController
+  
+  before_filter :set_user
 
   def index 
     load_wishes
@@ -11,13 +13,12 @@ class Wishes::FromDonorController < ApplicationController
   def update
    load_wish
    updated_message=build_wish #update wish from params
-   save_wish(updated_message, not_updated_message) or render 'edit'
+   save_wish(updated_message, not_updated_message)
   end    
 
   private
 
     def load_wishes
-      @user=current_user
       @wishes_by_donees = Wish::ListByDonees.new(@user)
     end  
 
@@ -26,20 +27,21 @@ class Wishes::FromDonorController < ApplicationController
     end 
 
     def build_wish
-      msg=@wish.send("#{wish_params[:state_action]}!", current_user) if wish_params[:state_action].present?
+      msg=@wish.send("#{wish_params[:state_action]}!", @user) if wish_params[:state_action].present? && @wish.available_actions_for(@user).include?(wish_params[:state_action].to_sym)
     end 
 
     def save_wish(msg_ok,msg_bad)
-      if @wish.save
-        flash[:notice]=msg_ok
-        #redirect_to user_others_wish_url(@user,@wish)
-        redirect_to user_others_wishes_url(@user, anchor: @wish.anchor)
-        true
-      else  
-        flash[:error]=msg_bad
-        @user=@wish.author
-        false
-      end 
+      respond_to do |format|
+        if @wish.save
+          flash[:notice]=msg_ok
+          format.html { redirect_to user_others_wish_url(@user, @wish)}
+          format.js   { render "/wishes/state_update.js.erb"}
+        else  
+          flash[:error]=msg_bad
+          @user=@wish.author
+          format.html { render action: "show" }
+        end 
+      end
     end
   
     def wish_params
@@ -47,9 +49,10 @@ class Wishes::FromDonorController < ApplicationController
     end
 
     def wish_scope
-      @user=current_user
-      @user.donor_wishes.not_fullfilled
-    end  
+
+      
+      @user.donor_wishes.not_fulfilled
+    end 
 
     def not_updated_message
       t("wishes.from_donor.views.not_updated", title: @wish.title) 

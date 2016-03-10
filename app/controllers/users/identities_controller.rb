@@ -1,4 +1,7 @@
 class Users::IdentitiesController < ApplicationController
+
+  before_filter :set_user
+
 # def index 
 #    load_indentities
 #  end  
@@ -91,13 +94,10 @@ class Users::IdentitiesController < ApplicationController
     def identity_scope
       #here I can solve authorization to access objects
       #user can manage only it's own identities
-      User::Identity::AsContact.where(user_id: current_user.id)
+      User::Identity::AsContact.where(user_id: @user.id)
     end  
-
-   # Authorization: from book Growing Rails Application in Practice and http://bizarre-authorization.talks.makandra.com/slides.html#slide12
-   # 1) Reduce requirements to sets of accessible things (Scopes of records the current user may see Lists of attributes the current user may assign )
-   # 2) Contain sets of accessible things in a central repository  ( Crazy authorization requirements go here.  That repository should not be the user. Make it a "Power" or "Ability" object. )
-   # 3) Authorize against sets of accessible things from the repository ( Don't care how the set came to be. )
-   # 4) Skip authorization when not in a controller context ( Stuff should work on the console. )
-	
+ 
+    def not_peeking_url
+      my_profile_url
+    end  
 end

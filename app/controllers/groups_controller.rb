@@ -1,4 +1,7 @@
 class GroupsController < ApplicationController
+
+  before_filter :set_user
+
 	def index 
 	  load_groups
     build_group
@@ -93,7 +96,6 @@ class GroupsController < ApplicationController
     end
 
     def group_scope
-      @user=current_user
       #here I can solve authorization to access objects
       #user can manage only it's own groups
       Group.where(user_id: @user.id)

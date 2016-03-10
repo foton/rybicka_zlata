@@ -17,6 +17,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     @wish.merge_donor_conn_ids([@conn_mama.id, @conn_tata.id], @current_user )
     @wish.donee_conn_ids=[@conn_segra.id]
     @wish.save!
+
   end
 
   def test_get_new_for_my_wish
@@ -27,6 +28,14 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal @current_user, assigns(:wish).author
     assert_template 'new'
   end 
+
+  def test_work_on_behalf_of_other_user_account
+    other_user=create_test_user!(name: "OtherGuy")
+    get :new, {user_id: other_user.id}
+   
+    assert_response :redirect
+    assert_redirected_to user_my_wishes_url(@current_user)
+  end
 
   def test_create_my_wish
 
@@ -86,11 +95,43 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal [@conn_mama,@conn_segra].sort, @wish.donor_connections.to_a.sort
   end
 
+  def test_fulfilled
+    patch :update, {user_id: @current_user.id, id: @wish.id, state_action: :fulfilled }
+    
+    assert_response :redirect
+    assert_redirected_to user_my_wish_path(@current_user, @wish)
+    assert_equal "Přání '#{@wish.title}' bylo splněno.", flash[:notice]
+
+    @wish.reload
+    assert @wish.fulfilled?
+  end
+
+  def test_fulfilled_js
+    patch :update, {user_id: @current_user.id, id: @wish.id, state_action: :fulfilled, format: :js }
+    
+    assert_response :ok
+    assert_template "fulfilled_or_destroyed.js.erb"
+    assert_equal "Přání '#{@wish.title}' bylo splněno.", flash[:notice]
+
+    @wish.reload
+    assert @wish.fulfilled?
+  end
+
   def test_destroy
     delete :destroy, {user_id: @current_user.id, id: @wish.id}
     
     assert_response :redirect
     assert_redirected_to user_my_wishes_path(@current_user)
+    assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
+    
+    assert Wish.where(id: @wish.id).blank?
+  end
+
+   def test_destroy_js
+    delete :destroy, {user_id: @current_user.id, id: @wish.id, format: :js}
+    
+    assert_response :ok
+    assert_template "fulfilled_or_destroyed.js.erb"
     assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
     
     assert Wish.where(id: @wish.id).blank?

@@ -53,10 +53,10 @@ class WishBookingTest < ActiveSupport::TestCase
     end  
   end 
 
-  def test_can_be_fullfiled_without_called_for_co_donors_by_id
+  def test_can_be_fulfilled_without_called_for_co_donors_by_id
     @wish.state=Wish::State::STATE_FULFILLED
 
-    @wish.called_for_co_donors_by_id=nil  #can be fullfiled by person out of this app
+    @wish.called_for_co_donors_by_id=nil  #can be fulfilled by person out of this app
     assert @wish.valid?  
     
     @wish.called_for_co_donors_by_id=@donor.id #or from this app

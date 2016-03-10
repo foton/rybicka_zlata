@@ -24,9 +24,10 @@ module WishesHelper
     send("#{prefix}#{base_path}", user, wish, params)  
   end    
 
-  def button_to_wish_action(action, user, wish=nil, params={})
+  def button_to_wish_action(action, user, wish=nil, remote=false, params={})
     if [:new,:show, :edit].include?(action)
       method= :get
+      remote=false
     elsif [:delete,:destroy].include?(action)
       method= :delete
     else  
@@ -51,8 +52,58 @@ module WishesHelper
     end         
     
     content_tag(:span) do
-      concat button_link_to( bt_content, url, {method: method, id: wid, class: action.to_s, data: data } )
+      concat button_link_to( bt_content, url, {method: method, id: wid, remote: remote, class: action.to_s, data: data } )
       concat content_tag(:span, class: "mdl-tooltip", for: wid) { I18n.t("wishes.actions.#{action}.button") }  if bt_content != tooltip
     end  
   end 
+
+  def link_to_wish_action(action, user, wish=nil, remote=false, params={})
+    if [:new,:show, :edit].include?(action)
+      method= :get
+      remote=false
+    elsif [:delete,:destroy].include?(action)
+      method= :delete
+    else  
+      method= :patch
+    end  
+    
+    wid = "wishes_#{action}" 
+    wid+="_#{wish.id}" if wish.present?
+    bt_content= I18n.t("wishes.actions.#{action}.button")
+    tooltip=I18n.t("wishes.actions.#{action}.button")
+    url=path_to_wish_action_for_user(action, user, wish, params)
+    if (action == :delete)
+      data= { 
+                confirm: t("wishes.actions.delete.confirm.message", wish_title: wish.title), 
+                #keys are with '-', for consistency
+                #if underscore is used 'confirm_yes', still dashed 'data-confirm-yes = "YES"' is generated in html
+                "confirm-yes": t("confirm.yes"), 
+                "confirm_no": t("confirm.no")
+              }
+    else
+      data={}          
+    end         
+    
+    content_tag(:span) do
+      concat link_to( bt_content, url, {method: method, id: wid, remote: remote, class: action.to_s, data: data } )
+      concat content_tag(:span, class: "mdl-tooltip", for: wid) { I18n.t("wishes.actions.#{action}.button") }  if bt_content != tooltip
+    end  
+  end 
+
+  def class_for_state(wish, user=current_user)
+    if wish.available?
+      "wish_available"
+    elsif wish.booked?
+      wish.booked_by?(user) ? "wish_me_as_donor" : "wish_reserved"
+    elsif wish.call_for_co_donors?
+      wish.called_by?(user) ? "wish_me_as_donor" : "wish_call-for-co-donors"
+    elsif wish.gifted?
+      wish.booked_by?(user) ? "wish_me_as_donor" : "wish_gifted"
+    elsif wish.fulfilled?  
+      "wish_fulfilled"
+    else
+      ""
+    end  
+  end  
+
 end

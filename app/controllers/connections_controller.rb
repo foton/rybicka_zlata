@@ -1,4 +1,7 @@
 class ConnectionsController < ApplicationController
+
+  before_filter :set_user
+
 	def index 
 	  load_connections
     build_connection
@@ -77,7 +80,6 @@ class ConnectionsController < ApplicationController
     end
 
     def connection_scope
-      @user=current_user
       #here I can solve authorization to access objects
       #user can manage only it's own connections
       Connection.where(owner_id: @user.id).friends

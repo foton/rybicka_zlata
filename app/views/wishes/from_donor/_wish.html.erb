@@ -1,5 +1,5 @@
-<li class="wish mdl-list__item mdl-list__item--three-line">
-  <span class="mdl-list__item-primary-content">
+<li class="wish <%= class_for_state(wish) %> mdl-list__item mdl-list__item--three-line" id="<%= wish.anchor %>">
+  <span class="content mdl-list__item-primary-content">
     <%= link_to user_others_wish_url(@user, wish), name:  wish.anchor do %>
       <span><%= wish.title %></span>
       <span class="mdl-list__item-text-body">
@@ -11,6 +11,6 @@
     <%end%>
   </span>
   
-  <%= render partial: "actions", locals: {wish: wish} %>
+  <%= render partial: "actions", locals: {wish: wish, remote: true} %>
 
 </li>

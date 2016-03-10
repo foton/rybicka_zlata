@@ -92,4 +92,17 @@ class ApplicationController < ActionController::Base
     my_profile_path
   end
 
+  private
+
+    def set_user
+      @user=User.find(params[:user_id])
+      if (current_user != @user)
+        flash[:error]=I18n.t("peeking_is_not_allowed")
+        redirect_to(not_peeking_url) 
+      end
+    end 
+
+    def not_peeking_url
+      url_for(action: :index, user_id: current_user.id, params: {locale: I18n.locale})  
+    end  
 end

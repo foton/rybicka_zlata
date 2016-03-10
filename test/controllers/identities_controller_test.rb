@@ -12,11 +12,20 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 		@new_email="new_mail@rybickazlata.cz"
 	end
 
+  def test_cannot_see_identities_for_other_user_account
+    other_user=create_test_user!(name: "OtherGuy")
+    idnt_params={email: @new_email, provider: User::Identity::LOCAL_PROVIDER}
+    post :create, {user_id: (other_user.id) , user_identity_as_contact: idnt_params}
+
+    assert_response :redirect
+    assert_redirected_to my_profile_path
+    assert_equal "Nakukování k sousedům není dovoleno!", flash[:error]
+  end
+
 	def test_identities_are_created_for_current_user_only
-		#user is always set to current_user
 		cu_ids_count=@current_user.identities.count
 		assert_difference('User::Identity.count') do
-			post :create, {user_id: (@current_user.id+1) , user_identity_as_contact: {email: @new_email, provider: User::Identity::LOCAL_PROVIDER}}
+			post :create, {user_id: (@current_user.id) , user_identity_as_contact: {email: @new_email, provider: User::Identity::LOCAL_PROVIDER}}
 	  end			
 		
 		assert_response :redirect

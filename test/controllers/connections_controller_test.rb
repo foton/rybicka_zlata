@@ -25,6 +25,15 @@ class ConnectionsControllerTest < ActionController::TestCase
     assert assigns(:connection).kind_of?(Connection)
   end 	
 
+  def test_cannot_see_connections_for_other_user_account
+    other_user=create_test_user!(name: "OtherGuy")
+    get :index, {user_id: other_user.id}
+   
+    assert_response :redirect
+    assert_redirected_to user_connections_url(@current_user)
+    assert_equal "Nakukování k sousedům není dovoleno!", flash[:error]
+  end
+
   def test_created
     conn_h= { name: "Ježuraa", email:"jezura@com.com"}
     

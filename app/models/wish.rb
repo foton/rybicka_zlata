@@ -21,7 +21,8 @@ class Wish < ActiveRecord::Base
 
   public
 
-  scope :not_fullfilled, ->{ where.not( state: Wish::State::STATE_FULFILLED) }
+  scope :not_fulfilled, ->{ where.not( state: Wish::State::STATE_FULFILLED) }
+  scope :fulfilled, ->{ where( state: Wish::State::STATE_FULFILLED) }
 
   def available_donor_connections_from(connections)
     emails_of_donees=(donee_connections.collect {|c| c.email}).uniq.compact
@@ -119,7 +120,7 @@ class Wish < ActiveRecord::Base
       elsif STATE_AVAILABLE == self.state
         self.errors.add(:booked_by_id, I18n.t("wishes.errors.cannot_be_booked_in_this_state")) if self.booked_by_user.present?
       else
-        #wish can be fullfiled from outside, booked_id CAN be present
+        #wish can be fulfilled from outside, booked_id CAN be present
       end  
     end  
 

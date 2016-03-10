@@ -44,6 +44,14 @@ class GroupsControllerTest < ActionController::TestCase
     assert assigns(:group).kind_of?(Group)
   end   
 
+  def test_cannot_see_groups_for_other_user_account
+    other_user=create_test_user!(name: "OtherGuy")
+    get :index, {user_id: other_user.id}
+   
+    assert_response :redirect
+    assert_redirected_to user_groups_url(@current_user)
+  end
+
   def test_created
     grp_h= { name: "Family"}
     

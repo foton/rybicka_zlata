@@ -155,7 +155,18 @@ Scénář: Smazání sdíleného přání
 
 # Scénář: Vyřazení přání
 # Scénář: Vyřazení sdíleného přání
+@javascript
+Scénář: Vyřazení/Splnění přání
+  Pokud existuje moje přání "Kalhoty s kapsami"
+  A jsem na stránce "Má přání"
+  A kliknu na splnění u přání "Kalhoty s kapsami"
 
+  Pak jsem na stránce "Má přání"
+  A vidím text "Přání 'Kalhoty s kapsami' bylo splněno"
+  A v seznamu přání není přání "Kalhoty s kapsami"
+
+  Pokud jdu na stránku "Vyřazená přání"
+  Pak v seznamu přání je přání "Kalhoty s kapsami"
 
 
 

@@ -106,7 +106,7 @@ Pak(/^v seznamu kontaktů už není adresa "(.*?)"$/) do |adr|
 end
 
 
-Pokud(/^v seznamu přání (?:u "(.*?)" )?je přání "(.*?)"(?: se (\d+) potenciálními dárci)$/) do |user_name, wish_title, donor_count|
+Pokud(/^v seznamu přání (?:u "(.*?)" )?je přání "(.*?)"(?: se (\d+) potenciálními dárci)?$/) do |user_name, wish_title, donor_count|
   if user_name.present?
     visit "přání uživatele \"user_name\""
   end  
@@ -128,7 +128,7 @@ Pak(/^v seznamu přání není přání "(.*?)"$/) do |wish_title|
 end
 
 Pokud(/^u přání "(.*?)" jsou akce \[(.*?)\]$/) do |wish_title, actions_str|
-  action_names=actions_str.gsub("\"","").split(",").collect {|name| name.strip}
+  action_names=actions_str.gsub("\"","").split(",").collect {|name| name.strip.mb_chars.upcase}
   
    within(:css, "#wishes") do
     wish=find('li', text: wish_title)

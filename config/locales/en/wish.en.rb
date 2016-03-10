@@ -71,11 +71,11 @@
             } ,   
             gifted: {
                 button: "Gifted",
-                message: "Wish '%{wish_title}' was gifted/fullfilled by donor '%{user_name}'."
+                message: "Wish '%{wish_title}' was gifted/fulfilled by donor '%{user_name}'."
             },    
-            fullfilled: {
-                button: "Fullfilled",
-                message: "Wish '%{wish_title}' was fullfilled."
+            fulfilled: {
+                button: "fulfilled",
+                message: "Wish '%{wish_title}' was fulfilled."
             }    
         },
         donees: {
@@ -98,7 +98,7 @@
                     help: "Author of wish is it's first donee. You can add more donees and create shared wish. Other donees can only add more donors from theirs friends."
                   },
                   donors: {
-                    help: "Add potentional donors here. These are some of your friends, who will see this wish and can fullfill it. Nonactive items are already in donees, so You can not choose them as donors."
+                    help: "Add potentional donors here. These are some of your friends, who will see this wish and can fulfill it. Nonactive items are already in donees, so You can not choose them as donors."
                   },
                   unused_connections: {
                     header: "Unused",
@@ -123,10 +123,12 @@
         from_donee: {
             views: {
                 index: {
-                    header: "My wishes"
+                    header: "My wishes",
+                    header_fulfilled: "My fulfilled wishes"
                 },
                 list: {
-                    none: "You do not have any wish, add some!"
+                    none: "You do not have any wish, add some!",
+                    none_fulfilled: "You do not have any fulfilled wish. Are you wishing World Peace only?"
                 },
                 show: {
                     name_for_author_connection: "Author of the wish",
@@ -149,7 +151,7 @@
         from_donor: {
             views: {
                 index: {
-                    header: "Can fullfill"
+                    header: "Can fulfill"
                 },
                 show: {
                     donees_list_header: "Donees"

@@ -10,7 +10,7 @@ module NavigationHelpers
   #
   def path_to(page_name, desired_resource =nil)
     
-    page_name =page_name.gsub("stránce ","")
+    page_name =page_name.gsub("stránce ","").gsub("stránku ","")
     m=page_name.match(/\A"([^"]*)"\z/)
     page_name =m[1] if m
 
@@ -27,6 +27,8 @@ module NavigationHelpers
         user_groups_path(current_user, locale: @locale)
       when "Má přání"
         user_my_wishes_path(current_user, locale: @locale)
+      when "Vyřazená přání"
+        user_my_wishes_path(current_user, locale: @locale, fulfilled: 1) 
       when "Můžu splnit"
         user_others_wishes_path(current_user, locale: @locale)
 

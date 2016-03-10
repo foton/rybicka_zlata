@@ -8,3 +8,4 @@ cs:
     "yes": "Ano"
     "no": "Ne"
   uri_shortened: "%{uri_short}...(zkráceno)"
+  peeking_is_not_allowed: "Nakukování k sousedům není dovoleno!"

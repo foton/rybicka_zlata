@@ -1,7 +1,17 @@
 class Wishes::FromDoneeController < ApplicationController
 
+  before_filter :set_user
+
 	def index 
-	  load_wishes.not_fullfilled
+    load_wishes
+    if params[:fulfilled].to_i==1
+      @wishes=@wishes.fulfilled
+      render "index_fulfilled"
+    else  
+      @wishes=@wishes.not_fulfilled
+      render "index"
+    end 
+    
 	end  
 
 	def show
@@ -19,14 +29,17 @@ class Wishes::FromDoneeController < ApplicationController
 	 load_wish
    load_user_connections
    load_user_groups
-	 build_wish #update wish from params
-	 save_wish(updated_message, not_updated_message) or render 'edit'
+	 msg=build_wish #update wish from params
+	 save_wish( (msg ||updated_message), not_updated_message)
 	end    
 
 	def destroy
     load_wish
     destroy_wish
-    redirect_to user_my_wishes_url(@user)
+    respond_to do |format|
+      format.html { redirect_to user_my_wishes_url(@user), status: :see_other, format: :html}
+      format.js   { render "fulfilled_or_destroyed.js.erb", layout: false}
+    end  
 	end	
 
   private
@@ -41,25 +54,39 @@ class Wishes::FromDoneeController < ApplicationController
 
     def build_wish
       @wish||=wish_scope.build
-      donor_conn_ids=wish_params.delete(:donor_conn_ids)
-      @wish.attributes=wish_params    
-      @wish.merge_donor_conn_ids(donor_conn_ids, @user)
+      if params[:state_action].present?
+        msg=@wish.send("#{params[:state_action]}!", @user) 
+      else
+        donor_conn_ids=wish_params.delete(:donor_conn_ids)
+        @wish.attributes=wish_params    
+        @wish.merge_donor_conn_ids(donor_conn_ids, @user)        
+        msg=nil
+      end  
+      msg
     end	
 
     def save_wish(msg_ok,msg_bad)
-      if @wish.save
-        flash[:notice]=msg_ok
-        redirect_to user_my_wish_url(@user,@wish)
-        true
-      else  
-        flash[:error]=msg_bad
-        @user=@wish.author
-        false
-      end 
+      respond_to do |format|
+        if @wish.save
+          flash[:notice]=msg_ok
+          format.html { redirect_to user_my_wish_url(@user,@wish)}
+          format.js   { 
+            if @wish.fulfilled?
+              render "fulfilled_or_destroyed.js.erb"
+            else  
+              render "/wishes/state_update.js.erb"
+            end 
+          }
+        else  
+          flash[:error]=msg_bad
+          @user=@wish.author
+          format.html { render action: "edit" }
+        end 
+      end  
     end
    
     def destroy_wish
-      if @wish.destroy(current_user)
+      if @wish.destroy(@user)
         flash[:notice]=t("wishes.from_donee.views.deleted", title: @wish.title)
       else  
         flash[:error]=t("wishes.from_donee.views.not_deleted", title: @wish.title)
@@ -81,7 +108,6 @@ class Wishes::FromDoneeController < ApplicationController
     end
 
     def wish_scope
-      @user=current_user
       #here I can solve authorization to access objects
       #user can manage only it's own wishs
       @user.donee_wishes
@@ -103,4 +129,5 @@ class Wishes::FromDoneeController < ApplicationController
     def not_updated_message
       t("wishes.from_donee.views.not_updated", title: @wish.title) 
     end  
+
 end

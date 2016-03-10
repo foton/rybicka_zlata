@@ -76,6 +76,7 @@ function showDialog(options) {
                   hideDialog(dialog);
                  else
                    options.positive.onClick(e);
+                   hideDialog(dialog);
             });
             posButton.appendTo(buttonBar);
         }

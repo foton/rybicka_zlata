@@ -36,7 +36,7 @@ class WishesHelperTest < ActionView::TestCase
     assert_equal user_my_wish_path(@donee,@wish), path_to_wish_action_for_user(:destroy, @donee, @wish)
     assert_equal user_my_wish_path(@donee,@wish), path_to_wish_action_for_user(:delete, @donee, @wish)
 
-    assert_equal user_my_wish_path(@donee,@wish), path_to_wish_action_for_user(:fullfilled, @donee, @wish)
+    assert_equal user_my_wish_path(@donee,@wish), path_to_wish_action_for_user(:fulfilled, @donee, @wish)
   end
   
   def test_path_to_wish_action_for_author
@@ -49,7 +49,43 @@ class WishesHelperTest < ActionView::TestCase
     assert_equal user_author_wish_path(@author,@wish), path_to_wish_action_for_user(:destroy, @author, @wish)
     assert_equal user_author_wish_path(@author,@wish), path_to_wish_action_for_user(:delete, @author, @wish)
 
-    assert_equal user_author_wish_path(@author,@wish), path_to_wish_action_for_user(:fullfilled, @author, @wish)
+    assert_equal user_author_wish_path(@author,@wish), path_to_wish_action_for_user(:fulfilled, @author, @wish)
   end  
 
+  def test_class_for_state_not_yet_donor
+    @wish.state=Wish::State::STATE_AVAILABLE
+    assert_equal "wish_available", class_for_state(@wish,@donor)
+
+    @wish.state=Wish::State::STATE_RESERVED
+    assert_equal "wish_reserved", class_for_state(@wish,@donor)
+
+    @wish.state=Wish::State::STATE_CALL_FOR_CO_DONORS
+    assert_equal "wish_call-for-co-donors", class_for_state(@wish,@donor)
+
+    @wish.state=Wish::State::STATE_GIFTED
+    assert_equal "wish_gifted", class_for_state(@wish,@donor)
+
+    @wish.state=Wish::State::STATE_FULFILLED
+    assert_equal "wish_fulfilled", class_for_state(@wish,@donor)
+  end  
+
+  def test_class_for_state_not_yet_donor
+    @wish.booked_by_id=@donor.id
+    @wish.called_for_co_donors_by_id=@donor.id
+
+    @wish.state=Wish::State::STATE_AVAILABLE
+    assert_equal "wish_available", class_for_state(@wish,@donor)
+
+    @wish.state=Wish::State::STATE_RESERVED
+    assert_equal "wish_me_as_donor", class_for_state(@wish,@donor)
+
+    @wish.state=Wish::State::STATE_CALL_FOR_CO_DONORS
+    assert_equal "wish_me_as_donor", class_for_state(@wish,@donor)
+
+    @wish.state=Wish::State::STATE_GIFTED
+    assert_equal "wish_me_as_donor", class_for_state(@wish,@donor)
+
+    @wish.state=Wish::State::STATE_FULFILLED
+    assert_equal "wish_fulfilled", class_for_state(@wish,@donor)
+  end  
 end  
