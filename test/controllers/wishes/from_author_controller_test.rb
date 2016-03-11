@@ -35,6 +35,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
    
     assert_response :redirect
     assert_redirected_to user_my_wishes_url(@current_user)
+    assert_equal "Nakukování k sousedům není dovoleno!", flash[:error]
   end
 
   def test_create_my_wish

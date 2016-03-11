@@ -11,7 +11,6 @@ Kontext:
 Scénář: Registrace uživatele jen přes aplikaci
   Když kliknu v menu na "Registrovat"
   A zapíšu do položky "Hlavní e-mail" text "prvni@rybickazlata.cz"
-  #A ukaž mi stránku
   A zapíšu do položky "Heslo" text "NeznáméHeslo328"
   A zapíšu do položky "Heslo pro kontrolu" text "NeznáméHeslo328"
   A vyberu "Čeština" z nabídky "Jazyk"

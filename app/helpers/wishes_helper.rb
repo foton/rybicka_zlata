@@ -106,4 +106,16 @@ module WishesHelper
     end  
   end  
 
+  def icon_of_wish_sharing(wish)
+    if wish.is_shared?
+      icon="group"
+      tooltip=I18n.t("wishes.shared_icon_tooltip.shared")
+    else  
+      icon="person"
+      tooltip=I18n.t("wishes.shared_icon_tooltip.personal")
+    end  
+    w_id=wish.anchor+"_shared_icon"
+    raw "<i class=\"material-icons shared-wish-icon\" id=\"#{w_id}\" >#{icon}</i><span class=\"mdl-tooltip\" for=\"#{w_id}\" >#{tooltip}</span>"
+  end  
+
 end

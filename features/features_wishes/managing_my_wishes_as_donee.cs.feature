@@ -8,15 +8,15 @@ Požadavek: Práce s přáními jako obdarovaný
 
 Kontext:
   Pokud existují standardní testovací uživatelé
-  A u "pepika" existuje konexe "Karel"
-  A u "pepika" existuje konexe "Mařenka" s adresou "marenka@rybickazlata.cz"
+  A u "pepika" existuje kontakt "Karel"
+  A u "pepika" existuje kontakt "Mařenka" s adresou "marenka@rybickazlata.cz"
   A u "pepika" existuje skupina "Kámoši" se členy ["Hynek", "Vilda","Jarka"]
   A u "pepika" existuje skupina "Rodina" se členy ["Máma", "Táta" , "Mařenka"]
 
-  A u "Mařenky" existuje konexe "KarelM"
-  A u "Mařenky" existuje konexe "Jana"
-  A u "Mařenky" existuje konexe "Hana"
-  A u "Mařenky" existuje konexe "Pepík" s adresou "pepik@rybickazlata.cz"
+  A u "Mařenky" existuje kontakt "KarelM"
+  A u "Mařenky" existuje kontakt "Jana"
+  A u "Mařenky" existuje kontakt "Hana"
+  A u "Mařenky" existuje kontakt "Pepík" s adresou "pepik@rybickazlata.cz"
   A u "Mařenky" existuje skupina "Kámarádi" se členy ["Tom", "Bob"]
   A u "Mařenky" existuje skupina "Rodina" se členy ["Máma", "Táta", "Pepík"]
 
@@ -44,10 +44,10 @@ Scénář: Úprava sdíleného přání
 
   Pak jsem na stránce přání "Pračka"
   A vidím text "Seznam potenciálních dárců pro 'Pračka' byl úspěšně aktualizován."
-  A vidím konexi "Jana" v "Dárci"
-  A vidím konexi "KarelM" v "Dárci"
-  A vidím konexi "Autor přání [pepik]" v "Obdarovaní"
-  A vidím konexi "Maruška [Mařenka]" v "Obdarovaní"
+  A vidím kontakt "Jana" v "Dárci"
+  A vidím kontakt "KarelM" v "Dárci"
+  A vidím kontakt "Autor přání [pepik]" v "Obdarovaní"
+  A vidím kontakt "Maruška [Mařenka]" v "Obdarovaní"
 
   Pokud kliknu na editaci
 
@@ -60,9 +60,9 @@ Scénář: Úprava sdíleného přání
 
   Pak jsem na stránce přání "Pračka"
   A vidím text "Seznam potenciálních dárců pro 'Pračka' byl úspěšně aktualizován."
-  A nevidím konexi "Jana" v "Dárci"
-  A vidím konexi "Hana" v "Dárci"
-  A vidím konexi "KarelM" v "Dárci"
+  A nevidím kontakt "Jana" v "Dárci"
+  A vidím kontakt "Hana" v "Dárci"
+  A vidím kontakt "KarelM" v "Dárci"
   
 @javascript
 Scénář: Smazání sdíleného přání

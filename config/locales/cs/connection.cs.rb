@@ -2,8 +2,8 @@
     activerecord: {
         models: {
             connection: {
-                one: "Přátelství",
-                other: "Přátelství"
+                one: "Kontakt",
+                other: "Kontakty"
             }
         },
         attributes: {
@@ -45,7 +45,7 @@
 
         },
         views: {
-            header: "Přátelé",
+            header: "Kontakty",
             add: {
                 name: "Jméno",
                 email: "E-mail"
@@ -57,8 +57,8 @@
             deleted: "Kontakt '%{fullname}' byl úspěšně smazán.",
             not_deleted: "Kontakt '%{fullname}' nebyl smazán.",
             list: {
-                header: "Seznam přátel",
-                none: "Zatím žádní přátelé"
+                header: "Seznam kontaktů",
+                none: "Zatím žádné kontakty"
             },
             delete: {
                 confirm: {

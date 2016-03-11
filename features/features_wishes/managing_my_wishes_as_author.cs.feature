@@ -8,14 +8,14 @@ Požadavek: Práce s přáními jako autor
 
 Kontext:
   Pokud existují standardní testovací uživatelé
-  A u "pepika" existuje konexe "Karel"
-  A u "pepika" existuje konexe "Mařenka" s adresou "marenka@rybickazlata.cz"
+  A u "pepika" existuje kontakt "Karel"
+  A u "pepika" existuje kontakt "Mařenka" s adresou "marenka@rybickazlata.cz"
   A u "pepika" existuje skupina "Kámoši" se členy ["Hynek", "Vilda","Jarka"]
   A u "pepika" existuje skupina "Rodina" se členy ["Máma", "Táta" , "Mařenka"]
 
-  A u "Mařenky" existuje konexe "Karel"
-  A u "Mařenky" existuje konexe "Jana"
-  A u "Mařenky" existuje konexe "Pepík" s adresou "pepik@rybickazlata.cz"
+  A u "Mařenky" existuje kontakt "Karel"
+  A u "Mařenky" existuje kontakt "Jana"
+  A u "Mařenky" existuje kontakt "Pepík" s adresou "pepik@rybickazlata.cz"
   A u "Mařenky" existuje skupina "Kámarádi" se členy ["Tom", "Bob"]
   A u "Mařenky" existuje skupina "Rodina" se členy ["Máma", "Táta", "Pepík"]
 
@@ -36,11 +36,11 @@ Scénář: Přidání přání
 
   Pak jsem na stránce přání "Kalhoty s kapsami"
   A vidím text "Přání 'Kalhoty s kapsami' bylo úspěšně přidáno."
-  #A vidím konexi "Máma" v "Dárci"
-  #A vidím konexi "Táta" v "Dárci"
-  #A vidím konexi "Mařenka" v "Dárci"
-  A vidím konexi "Karel" v "Dárci"
-  A vidím konexi "Autor přání [pepik]" v "Obdarovaní"
+  #A vidím kontakt "Máma" v "Dárci"
+  #A vidím kontakt "Táta" v "Dárci"
+  #A vidím kontakt "Mařenka" v "Dárci"
+  A vidím kontakt "Karel" v "Dárci"
+  A vidím kontakt "Autor přání [pepik]" v "Obdarovaní"
 
 
   Pokud jsem na stránce "Má přání" 
@@ -63,13 +63,13 @@ Scénář: Přidání sdíleného přání
 
   Pak jsem na stránce přání "Pračka"
   A vidím text "Přání 'Pračka' bylo úspěšně přidáno."
-  A vidím konexi "Máma" v "Dárci"
-  A vidím konexi "Táta" v "Dárci"
-  A vidím konexi "Karel" v "Dárci"
+  A vidím kontakt "Máma" v "Dárci"
+  A vidím kontakt "Táta" v "Dárci"
+  A vidím kontakt "Karel" v "Dárci"
  #A vidím lidi ze skupiny "Kámoši" v Dárci
   
-  A vidím konexi "Autor přání [pepik]" v "Obdarovaní"
-  A vidím konexi "Mařenka" v "Obdarovaní"
+  A vidím kontakt "Autor přání [pepik]" v "Obdarovaní"
+  A vidím kontakt "Mařenka" v "Obdarovaní"
 
   Pokud jsem na stránce "Má přání" 
   A v seznamu přání je přání "Pračka" se 1 potenciálními dárci
@@ -93,9 +93,9 @@ Scénář: Úprava přání
 
   Pak jsem na stránce přání "Kalhoty s velkými kapsami"
   A vidím text "Přání 'Kalhoty s velkými kapsami' bylo úspěšně aktualizováno."
-  A nevidím konexi "Máma" v "Dárci"
-  A vidím konexi "Táta" v "Dárci"
-  A vidím konexi "Karel" v "Dárci"
+  A nevidím kontakt "Máma" v "Dárci"
+  A vidím kontakt "Táta" v "Dárci"
+  A vidím kontakt "Karel" v "Dárci"
 
 
 @javascript
@@ -120,11 +120,11 @@ Scénář: Úprava sdíleného přání
 
   Pak jsem na stránce přání "Automatická pračka"
   A vidím text "Přání 'Automatická pračka' bylo úspěšně aktualizováno."
-  A nevidím konexi "Máma" v "Dárci"
-  A vidím konexi "Táta" v "Dárci"
-  A vidím konexi "Karel" v "Dárci"
-  A nevidím konexi "Maruška" v "Obdarovaní"
-  A vidím konexi "Máma" v "Obdarovaní"
+  A nevidím kontakt "Máma" v "Dárci"
+  A vidím kontakt "Táta" v "Dárci"
+  A vidím kontakt "Karel" v "Dárci"
+  A nevidím kontakt "Maruška" v "Obdarovaní"
+  A vidím kontakt "Máma" v "Obdarovaní"
 
 @javascript
 Scénář: Smazání přání
@@ -153,8 +153,6 @@ Scénář: Smazání sdíleného přání
   A vidím text "Přání 'Pračka' bylo úspěšně smazáno."
   A v seznamu přání není přání "Pračka"
 
-# Scénář: Vyřazení přání
-# Scénář: Vyřazení sdíleného přání
 @javascript
 Scénář: Vyřazení/Splnění přání
   Pokud existuje moje přání "Kalhoty s kapsami"

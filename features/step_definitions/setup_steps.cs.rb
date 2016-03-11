@@ -41,7 +41,7 @@ Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
   end
 end
 
-Pokud(/^existuje konexe "(.*?)"$/) do |connection_name|
+Pokud(/^existuje kontakt "(.*?)"$/) do |connection_name|
   make_connection_for(@current_user,{ name: connection_name})  
 end
 
@@ -106,7 +106,7 @@ Pokud(/^zaloguju text "(.*?)"$/) do |text|
 end  
 
 
-Pokud(/^u "(.*?)" existuje konexe "(.*?)"(?: s adresou "(.*?)")?$/) do |user_name, conn_name, conn_email|
+Pokud(/^u "(.*?)" existuje kontakt "(.*?)"(?: s adresou "(.*?)")?$/) do |user_name, conn_name, conn_email|
   user=User.find_by_name(formalize_user_name(user_name))
   raise "User with name '#{user_name}' not found" if user.blank?
 

@@ -12,7 +12,7 @@ Kontext:
   A přepnu na češtinu  
 
 Scénář: Přidání kontaktu
-  Pokud jsem na stránce "Přátelé"
+  Pokud jsem na stránce "Kontakty"
   A otevřu si formulář pro přidání
   A zapíšu do položky "Jméno" text "Ježíšek"
   A zapíšu do položky "E-mail" text "jezisek@rybickazlata.cz"
@@ -22,7 +22,7 @@ Scénář: Přidání kontaktu
 
 Scénář: Úprava přítele
   Pokud existuje přítel "Ježíšek [???]: jezisek@rybickazlata.cz"
-  A jsem na stránce "Přátelé"
+  A jsem na stránce "Kontakty"
   A kliknu na editaci u "Ježíšek"
 
   Pak jsem na stránce editace kontaktu "Ježíšek"
@@ -30,7 +30,7 @@ Scénář: Úprava přítele
   A změním "jezisek@rybickazlata.cz" na "jezisek2@rybickazlata.cz"
   A kliknu na uložení
 
-  Pak jsem na stránce "Přátelé"
+  Pak jsem na stránce "Kontakty"
   A vidím text "Kontakt 'Ježíšek2 [???]: jezisek2@rybickazlata.cz' byl úspěšně aktualizován."
   A v seznamu přátel je kontakt "Ježíšek2" s adresou "jezisek2@rybickazlata.cz"
   A v seznamu přátel není kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
@@ -38,11 +38,11 @@ Scénář: Úprava přítele
 @javascript
 Scénář: Odstranění přítele
   Pokud existuje přítel "Ježíšek [???]: jezisek@rybickazlata.cz"
-  A jsem na stránce "Přátelé"
+  A jsem na stránce "Kontakty"
   A kliknu na smazání u "Ježíšek"
   A smazání potvrdím
   
-  Pak jsem na stránce "Přátelé"
+  Pak jsem na stránce "Kontakty"
   A vidím text "Kontakt 'Ježíšek [???]: jezisek@rybickazlata.cz' byl úspěšně smazán."
   A v seznamu přátel není kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
 

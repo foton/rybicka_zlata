@@ -28,10 +28,14 @@
     },
 
     wishes: {
+        shared_icon_tooltip: {
+            shared: "Sdílené přání má více obdarovaných",
+            personal: "Osobní přání pouze jediného obdarovaného"
+            },
         errors: {
             same_donor_and_donee: {
-                by_connection: "Mezi obdarovanými je stejná konexe jako v dárcích: '%{conn_fullname}'.",
-                by_email: "Mezi obdarovanými je konexe se stejným emailem jako jiná v dárcích: '%{email}'",
+                by_connection: "Mezi obdarovanými je stejná kontakt jako v dárcích: '%{conn_fullname}'.",
+                by_email: "Mezi obdarovanými je kontakt se stejným emailem jako jiná v dárcích: '%{email}'",
                 by_user: "Mezi obdarovanými je stejný uživatel '%{donee_fullname}'  jako v dárcích '%{donor_fullname}'."
             },
             cannot_be_booked_by_donee: "Nemůže být rezervováno obdarovaným!",
@@ -103,7 +107,7 @@
                   },
                   unused_connections: {
                     header: "Nevyužití",
-                    help: "Přátelé, kteří toto přání vůbec neuvidí. Pokud tu žádní nejsou, je možné že jste zatím žádné nezadali nebo už jsou v ostatních blocích."
+                    help: "Kontakty, kteří toto přání vůbec neuvidí. Pokud tu žádní nejsou, je možné že jste zatím žádné nezadali nebo už jsou v ostatních blocích."
                   }  
                 },
                 added: "Přání '%{title}' bylo úspěšně přidáno.",

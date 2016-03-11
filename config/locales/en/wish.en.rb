@@ -27,6 +27,10 @@
     },
 
    wishes: {
+        shared_icon_tooltip: {
+            shared: "Shared wish wit more donees",
+            personal: "Personal wish with only one donee"
+            },    
         errors: {
             same_donor_and_donee: {
                 by_connection: "There is same connection between donees and donors: '%{conn_fullname}'.",

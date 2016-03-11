@@ -13,17 +13,17 @@ Kontext:
   A "Karel" má kontakt "karel@example.com"
   A "Karel" má kontakt "karel_maly@example.com"
   
-  A u "pepika" existuje konexe "Karel"
-  A u "pepika" existuje konexe "Mařenka" s adresou "marenka@rybickazlata.cz"
+  A u "pepika" existuje kontakt "Karel"
+  A u "pepika" existuje kontakt "Mařenka" s adresou "marenka@rybickazlata.cz"
   #A u "pepika" existuje skupina "Kámoši" se členy ["Hynek", "Vilda","Jarka"]
   A u "pepika" existuje skupina "Rodina" se členy ["Máma", "Táta" , "Mařenka"]
 
-  A u "Mařenky" existuje konexe "Karel Malý" s adresou "karel_maly@example.com"
-  A u "Mařenky" existuje konexe "Pepík" s adresou "pepik@rybickazlata.cz"
+  A u "Mařenky" existuje kontakt "Karel Malý" s adresou "karel_maly@example.com"
+  A u "Mařenky" existuje kontakt "Pepík" s adresou "pepik@rybickazlata.cz"
   #A u "Mařenky" existuje skupina "Kámarádi" se členy ["Tom", "Bob"]
   A u "Mařenky" existuje skupina "Rodina" se členy ["Máma", "Táta", "Pepík"]
   
-  #visible wish which is not visible to Karel
+  #wish which is not visible to Karel
   Pokud existuje přání "Pračka" uživatele "pepik"
   A to má dárce ["Máma", "Táta"]
   A má v obdarovaných ["Maruška"]

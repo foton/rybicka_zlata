@@ -21,7 +21,7 @@ module NavigationHelpers
         new_user_session_path(locale: @locale)
       when "Profil", "mé profilové stránce", "své stránce nastavení", "své stránce", "my profile"
         my_profile_path(locale: @locale)
-      when "Lidé", "stránce Lidé", "Přátelé"
+      when "Kontakty"
         user_connections_path(current_user, locale: @locale)
       when "Skupiny"
         user_groups_path(current_user, locale: @locale)

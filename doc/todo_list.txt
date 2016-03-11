@@ -1,5 +1,5 @@
 - from_donee wish.show  -> make it more beautifull (halfdone)
-- actions on wish are performed by ajax
+- actions on wish are performed by ajax (action which do not use forms)
 - groups were hidden, so make them usable
 - if author delete donee from wish, all donees connection should be gone
 

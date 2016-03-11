@@ -13,7 +13,7 @@ Pak(/^změním "(.*?)" na "(.*?)"$/) do |old_value, new_value|
 end
 
 Když(/^zadám další adresu "(.*?)"$/) do |adr|
-  fill_in("Další adresa", with: adr)
+  fill_in("Vaše další emailová adresa", with: adr)
 end
 
 Pokud(/^otevřu si formulář pro přidání$/) do

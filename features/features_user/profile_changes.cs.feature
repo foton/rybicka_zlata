@@ -44,5 +44,4 @@ Scénář: Změna jména
  
   Pak bych měl vidět "Váš účet byl úspěšně aktualizován."
   A měl bych vidět "Jozífek"
-  #mezera za pepik je tam kvuli emailu pepik@..."
   A neměl bych vidět "pepik" v nadpisech

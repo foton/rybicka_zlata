@@ -76,17 +76,17 @@ Pak(/^v seznamu skupin není skupina "(.*?)"$/) do |name|
   end  
 end
 
-Pak(/^vidím konexi "([^"]*)"$/) do |name|
+Pak(/^vidím kontakt "([^"]*)"$/) do |name|
   find('li', text: name)
 end
 
-Pak(/^vidím konexi "([^"]*)" v "([^"]*)"$/) do |name, block_name|
+Pak(/^vidím kontakt "([^"]*)" v "([^"]*)"$/) do |name, block_name|
   within(:css, block_selector_for(block_name)) do
     find('li', text: name)
   end
 end
 
-Pak(/^nevidím konexi "([^"]*)" v "([^"]*)"$/) do |name, block_name|
+Pak(/^nevidím kontakt "([^"]*)" v "([^"]*)"$/) do |name, block_name|
   within(:css, block_selector_for(block_name)) do
     assert_no_text(name)
   end

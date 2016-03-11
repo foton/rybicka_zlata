@@ -27,6 +27,13 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
     refute @wish.is_donor?(@stranger)
   end  
 
+  def test_know_if_it_shared
+    assert @wish.is_shared?
+    @wish.donee_conn_ids=[] #author will persist
+    @wish.valid?
+    refute @wish.is_shared?
+  end  
+
   def test_can_short_description
     limit=100
     description_in_limit="č"*limit

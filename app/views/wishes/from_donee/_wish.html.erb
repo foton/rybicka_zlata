@@ -1,6 +1,7 @@
 <li class="wish mdl-list__item mdl-list__item--three-line" id="<%= wish.anchor %>">
 
   <span class="mdl-list__item-primary-content">
+    <%= icon_of_wish_sharing(wish) %>
     <%= link_to user_my_wish_url(@user, wish), name:  wish.anchor do %>
       <span><%= wish.title %></span>
       <span class="mdl-list__item-text-body">

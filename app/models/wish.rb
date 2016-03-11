@@ -60,6 +60,10 @@ class Wish < ActiveRecord::Base
     "wish_#{self.id}"
   end  
 
+  def is_shared?
+    (@donee_user_ids || donee_links).count > 1
+  end  
+
   private
     def donor_user_ids
       @donor_user_ids ||=(donor_connections.collect {|conn| conn.friend_id}).uniq.compact

@@ -1,9 +1,9 @@
 # encoding: utf-8
 # language: en
 Feature:  Registrace do aplikace EN
-  Jako neregistrovaný a nepřihlášený uživatel
-  se chci zaregistrovat
-  abych se mohl následně přihlásit a používat Rybičku
+  As nonregistered and no signed in user
+  I want to sign up
+  ao I can sign in and use Rybicka
 Background:   
   Given I am on home page
   And I switch locale to "en"

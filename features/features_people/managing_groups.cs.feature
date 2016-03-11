@@ -15,8 +15,8 @@
 #   A přepnu na češtinu  
 
 # Scénář: Přidání skupiny
-#   Pokud  existuje konexe "Máma"
-#   A existuje konexe "Táta"
+#   Pokud  existuje kontakt "Máma"
+#   A existuje kontakt "Táta"
 
 #   Pokud jsem na stránce "Skupiny"
 #   A otevřu si formulář pro přidání
@@ -31,15 +31,15 @@
 
 #   Pak jsem na stránce "Skupina Rodina"
 #   A vidím text "Skupina 'Rodina' byla úspěšně nastavena."
-#   A vidím konexi "Máma"
-#   A vidím konexi "Táta"
+#   A vidím kontakt "Máma"
+#   A vidím kontakt "Táta"
 
 #   Pokud jsem na stránce "Skupiny" 
 #   A v seznamu skupin je skupina "Rodina" se 2 členy
 
 # Scénář: Úprava skupiny
 #   Pokud existuje skupina "Kámoši" se členy ["Hynek", "Vilda","Jarka"]
-#   A existuje konexe "Karel"
+#   A existuje kontakt "Karel"
 
 #   A jsem na stránce "Skupiny"
 #   A kliknu na editaci u "Kámoši"
@@ -53,8 +53,8 @@
 
 #   Pak jsem na stránce "Skupina Kemoši"
 #   A vidím text "Skupina 'Kemoši' byla úspěšně nastavena."
-#   A vidím konexi "Jarka"
-#   A vidím konexi "Karel"
+#   A vidím kontakt "Jarka"
+#   A vidím kontakt "Karel"
   
 #   Pokud jsem na stránce "Skupiny" 
 #   Pak v seznamu skupin není skupina "Kámoši"

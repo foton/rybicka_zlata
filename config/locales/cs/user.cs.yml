@@ -24,9 +24,9 @@ cs:
         delete:
           button: "Smazat"
         new: 
-          button: "Přidat"
+          button: "Přidat adresu"
           submit_button: "Zapsat"
-          label: "Další adresa"
+          label: "Vaše další emailová adresa"
       none: "Nemáte evidovány žádné adresy" 
       list: "Vaše adresy"
       deleted: "Kontakt '%{contact}' byl smazán"
@@ -40,6 +40,6 @@ cs:
         header: "Profil"
       actions:
         edit: 
-          button: "Upravit"  
+          button: "Upravit profil"  
 
 

@@ -45,20 +45,20 @@
 
         },        
         views: {
-            header: "Friends",
+            header: "Connections",
             add: {
                 name: "Name",
                 email: "E-mail"
             },
-            added: "Friend '%{fullname}' was successfully added.",
-            not_added: "Friend '%{fullname}' was not added.",
-            updated: "Friend '%{fullname}' was successfully updated.",
-            not_updated: "Friend '%{fullname}' was not updated.",
-            deleted: "Friend '%{fullname}' was successfully deleted.",
-            not_deleted: "Friend '%{fullname}' was not deleted.",
+            added: "Connection '%{fullname}' was successfully added.",
+            not_added: "Connection '%{fullname}' was not added.",
+            updated: "Connection '%{fullname}' was successfully updated.",
+            not_updated: "Connection '%{fullname}' was not updated.",
+            deleted: "Connection '%{fullname}' was successfully deleted.",
+            not_deleted: "Connection '%{fullname}' was not deleted.",
             list: {
-                header: "Friends list",
-                none: "No friends yet"
+                header: "Connections list",
+                none: "No connections yet"
             },
             delete: {
                 confirm: {

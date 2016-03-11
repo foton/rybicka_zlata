@@ -24,9 +24,9 @@ en:
         delete:
           button: "Delete"
         new: 
-          button: "Add"
+          button: "Add address"
           submit_button: "Submit"
-          label: "Another address"
+          label: "Another your email address"
       none: "You have no address in evidence" 
       list: "Your addresses"
       deleted: "Contact '%{contact}' was deleted"
@@ -40,5 +40,5 @@ en:
         header: "Profile"
       actions:  
         edit:
-          button: "Edit"
+          button: "Edit profile"
 

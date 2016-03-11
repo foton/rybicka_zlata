@@ -74,8 +74,8 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     @wish.merge_donor_conn_ids(([conn1,conn3].collect {|c| c.id}),@author)
     
     refute @wish.valid?
-    assert_equal ["Mezi obdarovanými je stejná konexe jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donor_conn_ids]
-    assert_equal ["Mezi obdarovanými je stejná konexe jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donee_conn_ids]
+    assert_equal ["Mezi obdarovanými je stejná kontakt jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donor_conn_ids]
+    assert_equal ["Mezi obdarovanými je stejná kontakt jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donee_conn_ids]
   end
 
   def test_cannot_have_same_email_for_donee_and_donor
@@ -86,8 +86,8 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     @wish.merge_donor_conn_ids(([conn2,conn3].collect {|c| c.id}),@author)
     
     refute @wish.valid?
-    assert_equal ["Mezi obdarovanými je konexe se stejným emailem jako jiná v dárcích: '#{conn3.email}'"], @wish.errors[:donor_conn_ids]
-    assert_equal ["Mezi obdarovanými je konexe se stejným emailem jako jiná v dárcích: '#{conn3.email}'"], @wish.errors[:donee_conn_ids]
+    assert_equal ["Mezi obdarovanými je kontakt se stejným emailem jako jiná v dárcích: '#{conn3.email}'"], @wish.errors[:donor_conn_ids]
+    assert_equal ["Mezi obdarovanými je kontakt se stejným emailem jako jiná v dárcích: '#{conn3.email}'"], @wish.errors[:donee_conn_ids]
   end
 
   def test_cannot_have_same_user_for_donee_and_donor
