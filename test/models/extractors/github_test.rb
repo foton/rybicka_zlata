@@ -1,16 +1,10 @@
 require 'test_helper'
+require 'omni_auth_helper'
 
 class GithubExtractorTest < ActiveSupport::TestCase
 
   def setup
-     @auth_data = OmniAuth::AuthHash.new({ provider: "github", uid: "123456",
-      info: OmniAuth::AuthHash.new({ 
-         email: "john.doe@gmail.com", 
-         name: "John Doe",
-         nickname: "John_doe",
-         image: "https://avatars.githubusercontent.com/u/483873?v=3"
-        }),
-    })     
+    @auth_data = github_oauth_hash
     @extractor=User::Identity::Extractor::Github.new(@auth_data)
   end
 

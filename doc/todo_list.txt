@@ -1,12 +1,15 @@
 - from_donee wish.show  -> make it more beautifull (halfdone)
-- actions on wish are performed by ajax (action which do not use forms)
 - groups were hidden, so make them usable
-- if author delete donee from wish, all donees connection should be gone
 
 - display wish from list as popup paper
+
 - loging wish changes , diplaying them to user after sign in or throught feed
 - user can choose to "receive changes by email"
+
 - chat for friends/donors/donnies for wish
+
 - when adding local identity there must be verification by sending email
+
+-use scss and coffeescript
 
 

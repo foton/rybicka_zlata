@@ -1,16 +1,10 @@
 require 'test_helper'
+require 'omni_auth_helper'
 
 class LinkedinExtractorTest < ActiveSupport::TestCase
 
   def setup
-     @auth_data = OmniAuth::AuthHash.new({ provider: "linkedin", uid: "123456",
-      info: OmniAuth::AuthHash.new({ 
-         email: "john.doe@gmail.com", 
-         name: "John Doe",
-         nickname: "John_doe",
-         image: "https://media.licdn.com/mpr/mprx/0_fDcXEjwcCo3FeyuXDfXBEYedCHnoeyuXS7iUEYWcgDCVB4Uk_IFHXOjJuQ9zIUSHaazV5JUgVJ65"
-        }),
-    })     
+    @auth_data = linkedin_oauth_hash
     @extractor=User::Identity::Extractor::Linkedin.new(@auth_data)
   end
 

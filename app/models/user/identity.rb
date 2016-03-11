@@ -8,6 +8,7 @@ class User::Identity < ActiveRecord::Base
   OAUTH_PROVIDERS=["google", "github", "facebook", "twitter", "linkedin"]
   ALLOWED_PROVIDERS = [LOCAL_PROVIDER, "test"]+OAUTH_PROVIDERS
   EMAIL_REGEXP =/[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?/ # from http://regexlib.com/Search.aspx?k=email&c=1&m=-1&ps=20
+  TWITTER_FAKE_EMAIL_REGEXP=/change@me-\d+-twitter.com/
 
   attr_accessor :auth_data
 
@@ -21,7 +22,12 @@ class User::Identity < ActiveRecord::Base
   validates :email, format: { with: EMAIL_REGEXP , allow_nil: true}, unless: "local?"
   validate :same_email_same_user
   validates :user, presence: true
-  
+
+
+  scope(:local, -> { where( provider: User::Identity::LOCAL_PROVIDER) })
+  scope(:oauth, -> { where( provider: User::Identity::OAUTH_PROVIDERS) })
+
+
   def self.find_for_auth(auth)
     i=find_by(uid: auth.uid, provider: auth.provider.to_sym)
     i.auth_data=auth if i
@@ -137,9 +143,7 @@ class User::Identity < ActiveRecord::Base
     s+=" [#{provider}]" unless local?
     s
   end  
-
-  scope(:local, -> { where( provider: User::Identity::LOCAL_PROVIDER) })
-  
+   
   private
   
     def fill_local_uid

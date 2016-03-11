@@ -26,6 +26,19 @@ class UserWishTest < ActiveSupport::TestCase
      assert_equal [@tata_wish.id, @mama_wish.id].sort , (@user.donor_wishes.collect {|w| w.id} ).sort
   end  
 
+  def test_deletes_all_authors_wishes_on_destroy
+    a_wish_ids=@user.author_wishes.pluck(:id).to_a
+    shared_wish_ids=(@user.donee_wishes.pluck(:id).to_a - a_wish_ids).sort
+
+    assert a_wish_ids.present?
+    assert shared_wish_ids.present?
+
+    @user.destroy
+
+    assert Wish.where(id: a_wish_ids).blank?
+    sh_ws_ids=Wish.where(id: shared_wish_ids).pluck(:id).to_a.sort
+    assert_equal shared_wish_ids, sh_ws_ids
+  end  
 
   private
     def setup_user_wishes

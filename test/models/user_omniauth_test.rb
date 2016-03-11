@@ -22,7 +22,7 @@ class UserTest < ActiveSupport::TestCase
     non_verified_email="change@me-#{auth.uid}-#{auth.provider}.com"
     current_user =nil 
 
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
     assert_equal non_verified_email, u.email
@@ -46,7 +46,7 @@ class UserTest < ActiveSupport::TestCase
 
     current_user =nil 
     
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
     assert_equal nv_user_email, u.email
@@ -69,7 +69,7 @@ class UserTest < ActiveSupport::TestCase
 
     current_user =nil 
 
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
     assert_equal @user_email, u.email
@@ -94,7 +94,7 @@ class UserTest < ActiveSupport::TestCase
    
     current_user =nil 
 
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
     assert_equal @user_email, u.email
@@ -116,7 +116,7 @@ class UserTest < ActiveSupport::TestCase
 
     current_user =nil 
     
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
     assert_equal nv_user_email, u.email
@@ -140,7 +140,7 @@ class UserTest < ActiveSupport::TestCase
 
     current_user =nil 
 
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
     assert_equal @user_email, u.email
@@ -155,19 +155,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal @user_email, i.email
   end
 
-  def test_create_user_from_twitter_without_verified_email
-    nv_user_email="not_verified@twitter.com"
+  def test_create_user_from_twitter_without_email
+    #twitter do not serve email of user
     auth = OmniAuth::AuthHash.new({ provider: "twitter", uid: "123456",
-      info: OmniAuth::AuthHash.new({ email: nv_user_email, name: @user_name, nickname: 'Johnny'  }),
-      extra: OmniAuth::AuthHash.new({  raw_info: OmniAuth::AuthHash.new({   email: nv_user_email,  lang: 'cs',  name: @user_name, time_zone: 'Chicago', verified: "!true" })   })
+      info: OmniAuth::AuthHash.new({ name: @user_name, nickname: 'Johnny'  }),
+      extra: OmniAuth::AuthHash.new({  raw_info: OmniAuth::AuthHash.new({   lang: 'cs',  name: @user_name, time_zone: 'Chicago', verified: "!true" })   })
     }) 
 
     current_user =nil 
     
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
-    assert_equal nv_user_email, u.email
+    #assert_equal nv_user_email, u.email
     assert_equal @user_name, u.name
     assert_equal auth.extra.raw_info.lang, u.locale
     #timezone -3 hours from UTC is assigned to 
@@ -176,33 +176,11 @@ class UserTest < ActiveSupport::TestCase
     i=u.identities.where(provider: :twitter).first
     assert i.present?
     assert_equal auth.uid, i.uid
-    assert_equal nv_user_email, i.email
+    #assert_equal nv_user_email, i.email
 
   end
 
-  def test_create_user_from_twitter_with_verified_email
-    auth = OmniAuth::AuthHash.new({ provider: "twitter", uid: "123456",
-      info: OmniAuth::AuthHash.new({ email: @user_email, name: @user_name, nickname: 'Johnny' }),
-      extra: OmniAuth::AuthHash.new({  raw_info: OmniAuth::AuthHash.new({   email: @user_email,  lang: 'en',  name: @user_name, time_zone: 'Chicago', verified: "true" })  })
-    }) 
-
-    current_user =nil 
-
-    u=User.find_or_create_from_omniauth!(auth, current_user)
-
-    assert u.persisted?
-    assert_equal @user_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal auth.extra.raw_info.lang, u.locale
-    #timezone -3 hours from UTC is assigned to 
-    assert_equal auth.extra.raw_info.time_zone, u.time_zone
-
-    i=u.identities.where(provider: :twitter).first
-    assert i.present?
-    assert_equal auth.uid, i.uid
-    assert_equal @user_email, i.email
-  end
-
+  
   def test_create_user_from_linkedin
     auth = OmniAuth::AuthHash.new({ provider: "linkedin", uid: "123456",
       info: OmniAuth::AuthHash.new({ 
@@ -215,7 +193,7 @@ class UserTest < ActiveSupport::TestCase
    
     current_user =nil 
 
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
     assert_equal @user_email, u.email
@@ -243,7 +221,7 @@ class UserTest < ActiveSupport::TestCase
 
     current_user =nil 
 
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
     assert u.persisted?
     assert_equal orig_user, u
@@ -273,7 +251,7 @@ class UserTest < ActiveSupport::TestCase
     current_user =nil 
 
 
-    u=User.find_or_create_from_omniauth!(auth, current_user)
+    u,passwd=User.find_or_create_from_omniauth!(auth, current_user)
 
 
     assert u.persisted?

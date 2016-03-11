@@ -35,6 +35,12 @@
 		<ul class="list-with-actions">
 		  <%= render( partial: "/profiles/contact", collection: @user.identities.order(:email)) || t("user.contacts.none") %>
 	  </ul>
+
+    <p><%= I18n.t("user.identities.add_sign_in_to_this_account_through") %>:
+    <% for provider in ( User::Identity::OAUTH_PROVIDERS - @user.identities.oauth.pluck(:provider) )%>
+      <%= sign_in_button_for(provider.to_sym) %></ br>
+    <% end %>
+  </p>
 	</div>
 </div>       
        

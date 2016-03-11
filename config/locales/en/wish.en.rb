@@ -128,11 +128,9 @@
             views: {
                 index: {
                     header: "My wishes",
-                    header_fulfilled: "My fulfilled wishes"
-                },
-                list: {
-                    none: "You do not have any wish, add some!",
-                    none_fulfilled: "You do not have any fulfilled wish. Are you wishing World Peace only?"
+                    header_fulfilled: "My fulfilled wishes",
+                    no_wishes: "You do not have any wish, add some!",
+                    no_fulfilled_wishes: "You do not have any fulfilled wish. Are you wishing World Peace only?"
                 },
                 show: {
                     name_for_author_connection: "Author of the wish",
@@ -155,7 +153,8 @@
         from_donor: {
             views: {
                 index: {
-                    header: "Can fulfill"
+                    header: "Can fulfill",
+                    no_wishes: "Nobody set you as potencial donor. Are they all afraid of You or what?"
                 },
                 show: {
                     donees_list_header: "Donees"

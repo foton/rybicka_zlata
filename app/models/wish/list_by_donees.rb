@@ -17,7 +17,7 @@ class Wish::ListByDonees
     for donee in @donees
     	h={user: donee, wishes: []}
     	#conversion from Wish:FromDonee to Wish::FromDonor needed
-    	donee_wishes=Wish::FromDonor.find(donee.donee_wishes.collect {|w| w.id})
+    	donee_wishes=Wish::FromDonor.where(id: (donee.donee_wishes.collect {|w| w.id})).order("updated_at DESC")
       h[:wishes]= wishes.to_a & donee_wishes.to_a
     	@wish_list << h
     end	

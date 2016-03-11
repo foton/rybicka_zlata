@@ -4,7 +4,7 @@ class Wishes::FromDonorControllerTest < ActionController::TestCase
   include Devise::TestHelpers
 
   def setup
-    @request.env["devise.mapping"] = Devise.mappings[:admin]
+    @request.env["devise.mapping"] = Devise.mappings[:user]
     @bart=create_test_user!(name: "Bart")
     @bart.confirm
 

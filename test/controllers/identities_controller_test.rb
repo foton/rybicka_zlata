@@ -4,7 +4,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 	include Devise::TestHelpers
 
 	def setup
-	  @request.env["devise.mapping"] = Devise.mappings[:admin]
+	  @request.env["devise.mapping"] = Devise.mappings[:user]
 	  @current_user=User.create!(name: "Pepík", email: "pepik@josef.cz",password:"nezalezi")
 	  @current_user.confirm
 	  sign_in @current_user

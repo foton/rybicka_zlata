@@ -11,7 +11,7 @@
 <div id="wishes">
   <div id="donor_wishes_list" class="lists">
     <ul class="mdl-list">
-      <%= render( partial: "donee_wishes", collection: @wishes_by_donees.all) || t("wishes.from_donor.views.list.none") %>
+      <%= render( partial: "donee_wishes", collection: @wishes_by_donees.all) || t("wishes.from_donor.views.index.no_wishes") %>
     </ul>
   </div>
 </div>       

@@ -129,12 +129,9 @@
             views: {
                 index: {
                     header: "Má přání",
-                    header_fulfilled: "Má splněná přání"
-                },
-                list: {
-                    header: "Seznam mých přání",
-                    none: "Nemáte žádné přání. Přidejte si nějaké!",
-                    none_fulfilled: "Nemáte žádné splněné přání. Co si to, proboha, vlastně přejete?"
+                    header_fulfilled: "Má splněná přání",
+                    no_wishes: "Nemáte žádné přání. Přidejte si nějaké!",
+                    no_fulfilled_wishes: "Nemáte žádné splněné přání. Co si to, proboha, vlastně přejete?"
                 },
                 show: {
                     name_for_author_connection: "Autor přání",
@@ -157,7 +154,8 @@
         from_donor: {
             views: {
                 index: {
-                    header: "Můžu splnit"
+                    header: "Můžu splnit",
+                    no_wishes: "Nikdo Vás zatím neuvedl jako potenciálního dárce u přání. To se Vás všichni bojí?"
                 },
                 show: {
                     donees_list_header: "Obdarovaní"

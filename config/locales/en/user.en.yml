@@ -19,6 +19,7 @@ en:
         admin: "Administrator"
         last_sign_in: "Last sign in"
   user:
+    temporary_password_is_set_to: "During registration, the temporary password is set to '%{password}' for Your account. Please, change it. Password is needed when profile is edited."
     contacts: 
       actions:
         delete:
@@ -35,6 +36,8 @@ en:
       not_added: "Contact '%{contact}' was not added"
     identities:
       email_is_owned_by_another_user: "E-mail address '%{email}' is already assigned to another user!"
+      add_sign_in_to_this_account_through: "Here you can add sign in to this account through"
+      twitter_do_not_send_email_address: "Twitter unfortunatelly do not serve Your real email. Setup Your primary-email, please."
     profile:
       my:
         header: "Profile"

@@ -59,7 +59,7 @@ class DoneeWishListTest < ActiveSupport::TestCase
   	list=Wish::ListByDonees.new(@segra).all
 
     #list is ordered by donee.name ASC
-    #wishes are ordered by id ASC
+    #wishes are ordered by updated_at DESC
     assert_equal 3 , list.size
   	assert_equal @bracha, list.first[:user]
   	assert_equal @mama, list.second[:user]
@@ -70,8 +70,8 @@ class DoneeWishListTest < ActiveSupport::TestCase
     assert_equal  @wish_bracha.id , list.first[:wishes].last.id
 
     assert_equal  2, list.second[:wishes].size
-  	assert_equal  @wish_mama.id, list.second[:wishes].first.id
-  	assert_equal  @wish_mama_tata.id, list.second[:wishes].last.id
+  	assert_equal  @wish_mama_tata.id, list.second[:wishes].first.id
+    assert_equal  @wish_mama.id, list.second[:wishes].last.id
 
     assert_equal  1, list.last[:wishes].size
     assert_equal  @wish_mama_tata.id, list.last[:wishes].last.id

@@ -15,7 +15,11 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friend_connections, source: :friend
   has_many :connections_as_friend, -> { order("name ASC, email ASC") }, {class_name: "Connection", foreign_key: 'friend_id'}
   has_many :groups, -> { order("name ASC") }, {dependent: :destroy, inverse_of: :user}
+
+  #wishes where user is author
+  has_many :author_wishes,  -> { order("updated_at DESC") }, {class_name: 'Wish::FromAuthor', foreign_key: 'author_id', dependent: :destroy, inverse_of: :author}
   
+    
   #has_many :friends, -> { order("name ASC") }, class_name: 'User'
   #has_many :registered_connections, -> { order("name ASC") }, class_name: 'Connection', dependent: :destroy
 
@@ -48,7 +52,7 @@ class User < ActiveRecord::Base
   #https://www.digitalocean.com/community/tutorials/how-to-configure-devise-and-omniauth-for-your-rails-application
   #inspired from http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/
   def self.find_or_create_from_omniauth!(auth, signed_in_resource = nil)
-    
+    password = nil
     # Get the identity and user if they exist
     identity = User::Identity.find_for_auth(auth)
     identity = User::Identity.create_from_auth(auth) unless identity.present?
@@ -71,12 +75,12 @@ class User < ActiveRecord::Base
       # Get the existing user by email if the provider gives us a verified email.
       # If no verified email was provided we assign a temporary email and ask the
       # user to verify it on the next step via UsersController.finish_signup
-      
+      password=Devise.friendly_token[0,20]
       user = User.new(
           name: identity.name,
           #username: auth.info.nickname || auth.uid,
           email: email ? email : identity.temp_email,
-          password: Devise.friendly_token[0,20],
+          password: password,
           locale: identity.locale||User.new.locale,
           time_zone: identity.time_zone||User.new.time_zone
         )
@@ -90,7 +94,7 @@ class User < ActiveRecord::Base
       identity.user = user
     end
     identity.save!
-    user
+    return user, password
   end
 
   def base_connection
@@ -100,21 +104,17 @@ class User < ActiveRecord::Base
   #wishes where user is between donees
   def donee_wishes
     dls=DoneeLink.where(connection_id: (connections_as_friend.collect{|c| c.id}) )
-    Wish::FromDonee.where(id: (dls.collect {|dl| dl.wish_id}).uniq )
+    Wish::FromDonee.where(id: (dls.collect {|dl| dl.wish_id}).uniq ).order("updated_at DESC")
   end  
 
   #wishes where user is between donees
   def donor_wishes
     conns=connections_as_friend-[base_connection]
     dls=DonorLink.where(connection_id: (conns.collect{|c| c.id}) )
-    Wish::FromDonor.where(id: (dls.collect {|dl| dl.wish_id}).uniq )
+    Wish::FromDonor.where(id: (dls.collect {|dl| dl.wish_id}).uniq ).order("updated_at DESC")
   end  
 
-  #wishes where user is author
-  def author_wishes
-    Wish::FromAuthor.where(author_id: self.id)
-  end 
-  
+
   def is_author_of?(wish)
     wish.is_author?(self)
   end  

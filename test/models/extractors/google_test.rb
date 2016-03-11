@@ -1,22 +1,10 @@
 require 'test_helper'
+require 'omni_auth_helper'
 
 class GoogleExtractorTest < ActiveSupport::TestCase
 
   def setup
-     @auth_data = OmniAuth::AuthHash.new({ provider: "google", uid: "123456",
-      info: OmniAuth::AuthHash.new({ 
-         email: "john.doe@gmail.com", 
-         first_name: "John",
-         image: "https://lh5.googleusercontent.com/-K-FYMfCDazg/AAAAAAAAAAI/AAAAAAAATug/WPHCQlEc-xM/photo.jpg",
-         last_name: "Doe",
-        }),
-      extra: OmniAuth::AuthHash.new({
-        raw_info: OmniAuth::AuthHash.new({
-          email: "john.doe@gmail.com",  
-          email_verified: "true",
-          locale: 'en'})
-        })
-    })     
+    @auth_data = google_oauth_hash
     @extractor=User::Identity::Extractor::Google.new(@auth_data)
   end
 

@@ -1,25 +1,10 @@
 require 'test_helper'
+require 'omni_auth_helper'
 
 class TwitterExtractorTest < ActiveSupport::TestCase
 
   def setup
-     @auth_data = OmniAuth::AuthHash.new({ provider: "twitter", uid: "123456",
-      info: OmniAuth::AuthHash.new({ 
-         email: "john.doe@gmail.com", 
-         name: "John Doe",
-         nickname: "john_doe",
-         image: "http://si0.twimg.com/sticky/default_profile_images/default_profile_2_normal.png",
-        }),
-      extra: OmniAuth::AuthHash.new({
-        raw_info: OmniAuth::AuthHash.new({
-          email: "john.doe@gmail.com",  
-          lang: 'en',
-          time_zone: 'Chicago',
-          name: "John Doe",
-          verified: "true"
-          })
-        })
-    })     
+    @auth_data = twitter_oauth_hash
     @extractor=User::Identity::Extractor::Twitter.new(@auth_data)
   end
 

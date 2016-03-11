@@ -4,7 +4,7 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
 	include Devise::TestHelpers
 
 	def setup
-	  @request.env["devise.mapping"] = Devise.mappings[:admin]
+	  @request.env["devise.mapping"] = Devise.mappings[:user]
 	  @current_user=User.create!(name: "Pepík", email: "pepik@josef.cz",password:"nezalezi")
 	  @current_user.confirm
 	  sign_in @current_user
@@ -25,7 +25,7 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
   	get :index, {user_id: @current_user.id}
 
     assert assigns(:wishes).present?
-  	assert_equal [aw,sw], assigns(:wishes).to_a
+  	assert_equal [sw,aw], assigns(:wishes).to_a
     assert_template "index"
     assert_not_nil assigns(:user)
   end	

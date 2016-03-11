@@ -1,7 +1,7 @@
 class Wish < ActiveRecord::Base
-  belongs_to :author, class_name:"User"
-  belongs_to :booked_by_user, class_name:"User", foreign_key: "booked_by_id"
-  belongs_to :called_for_co_donors_by_user, class_name:"User", foreign_key: "called_for_co_donors_by_id"
+  belongs_to :author, class_name: "User"
+  belongs_to :booked_by_user, class_name: "User", foreign_key: "booked_by_id"
+  belongs_to :called_for_co_donors_by_user, class_name: "User", foreign_key: "called_for_co_donors_by_id"
   
   has_many :donor_links, dependent: :delete_all, inverse_of: :wish
   has_many :donor_connections, through: :donor_links, source: :connection

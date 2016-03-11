@@ -1,24 +1,10 @@
 require 'test_helper'
+require 'omni_auth_helper'
 
 class FacebookExtractorTest < ActiveSupport::TestCase
 
   def setup
-     @auth_data = OmniAuth::AuthHash.new({ provider: "facebook", uid: "123456",
-      info: OmniAuth::AuthHash.new({ 
-         email: "john.doe@gmail.com", 
-         name: "John Doe",
-         image: "http://graph.facebook.com/117054972007161/picture",
-        }),
-      extra: OmniAuth::AuthHash.new({
-        raw_info: OmniAuth::AuthHash.new({
-          email: "john.doe@gmail.com",  
-          locale: 'cs_CZ',
-          name: "John Doe",
-          timezone: 1,  #Prague/Amsterdam?  FB-dev: float (min: -24) (max: 24) The person's current timezone offset from UTC
-          verified: "true"
-          })
-        })
-    })     
+    @auth_data = facebook_oauth_hash
     @extractor=User::Identity::Extractor::Facebook.new(@auth_data)
   end
 
