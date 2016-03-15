@@ -18,6 +18,12 @@ function move_on_change($chkbx){
   
 }
 
+function check_group_connection() {
+  //find all connections in this list, which belong to group
+
+  //and change theirs state to same as group have
+}
+
 $( document ).ready(function() {
 	$(".lists-of-checkboxes").find("[type=checkbox]").on( "change", function() {
 	  move_on_change( $(this));

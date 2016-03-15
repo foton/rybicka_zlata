@@ -10,6 +10,7 @@
   </div>
 
   <div class=" mdl-grid" id="user_connections">
+    <p class="help mdl-cell--12-col"><%= t("wishes.from_author.views.edit.groups_are_good_for") %></p>
     <%= render partial: "/wishes/unused_connections_form", locals: {wish: @wish} %>
 
     <%= render partial: "/wishes/donor_connections_form", locals: {wish: @wish} %>
@@ -17,6 +18,7 @@
 
 <% end %>
 
+<%= render partial: "/wishes/groups_for_js" %>
 <script type="text/javascript">
 $( document ).ready(function() {
   var selectors_hash = {};
@@ -24,11 +26,6 @@ $( document ).ready(function() {
   selectors_hash['unused_list']="#unused_connections";
   selectors_hash['other_lists_arr']=["#donor_connections"];
   
-  if($(selectors_hash['lists_container']).length != 0) {
-    create_three_panels(selectors_hash);
-    move_unchecked_items_to_unused(selectors_hash);
-    remove_duplicates_between_lists(selectors_hash);
-    hide_checkboxes(selectors_hash);
-  }
+  create_3_panel_selection(selectors_hash);
 });
 </script>

@@ -120,6 +120,7 @@ class Wishes::FromDoneeController < ApplicationController
 
     def load_user_groups
       @user_groups=@user.groups.includes(:connections)
+      @available_donor_groups=@wish.available_user_groups_from(@user, @available_donor_connections)
     end 
 
     def updated_message

@@ -46,6 +46,7 @@
         },        
         views: {
             header: "Connections",
+            help: "You share/show your wishes with other users through connections (donees/donors). If email address is registerd by another user, You will see his/hers account name in square brackets. If there is '???', it means that i Rybička Zlatá there is no user with it. But when he/she will register, connection become usefull instantly. So no-user contacts are good for future.",
             add: {
                 name: "Name",
                 email: "E-mail"

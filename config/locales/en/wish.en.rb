@@ -97,6 +97,7 @@
                 edit: { 
                   title: " Title of wish",
                   description: "Description",
+                  groups_are_good_for: "Groups below can be used to move more connections at once. If you drop group on block, all connections from it, no matter where they are now, are moved to the same block.",
                   donees: {
                     header: "Other donees",
                     help: "Author of wish is it's first donee. You can add more donees and create shared wish. Other donees can only add more donors from theirs friends."

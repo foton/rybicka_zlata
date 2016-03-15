@@ -117,4 +117,59 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
     expected_conns=[@donor_conn, donor_for_donee_conn]
     assert_equal expected_conns.to_a.sort, @wish.available_donor_connections_from(conns).to_a.sort
   end    
+
+  def test_find_whole_groups_in_donors
+    bart_conn=create_connection_for(@author, {name: "Bart"})  
+    lisa_conn=create_connection_for(@author, {name: "Lisa"})  
+    homer_conn=create_connection_for(@author, {name: "Homer"})  
+    paul_conn=create_connection_for(@author, {name: "Paul"})  
+
+    group_simpsons=Group.new(name: "Simpsons", user: @author)
+    group_simpsons.connections = [bart_conn, lisa_conn, homer_conn]
+    group_simpsons.save!
+
+    @wish.merge_donor_conn_ids([bart_conn.id], @author)
+    @wish.save!
+    assert_equal [], @wish.donor_groups_for(@author)
+
+    @wish.merge_donor_conn_ids([bart_conn.id, lisa_conn.id], @author)
+    @wish.save!
+    assert_equal [], @wish.donor_groups_for(@author)
+
+    @wish.merge_donor_conn_ids([bart_conn.id, lisa_conn.id, homer_conn.id], @author)
+    @wish.save!
+    assert_equal [group_simpsons], @wish.donor_groups_for(@author)
+
+    @wish.merge_donor_conn_ids([bart_conn.id, lisa_conn.id, homer_conn.id, paul_conn.id], @author)
+    @wish.save!
+    assert_equal [group_simpsons], @wish.donor_groups_for(@author)
+
+  end  
+
+  def test_find_whole_groups_in_donees
+    bart_conn=create_connection_for(@author, {name: "Bart"})  
+    lisa_conn=create_connection_for(@author, {name: "Lisa"})  
+    homer_conn=create_connection_for(@author, {name: "Homer"})  
+    paul_conn=create_connection_for(@author, {name: "Paul"})  
+
+    group_simpsons=Group.new(name: "Simpsons", user: @author)
+    group_simpsons.connections = [bart_conn, lisa_conn, homer_conn]
+    group_simpsons.save!
+
+    @wish.donee_conn_ids=[bart_conn.id]
+    @wish.save!
+    assert_equal [], @wish.donee_groups_for(@author)
+
+    @wish.donee_conn_ids=[bart_conn.id, lisa_conn.id]
+    @wish.save!
+    assert_equal [], @wish.donee_groups_for(@author)
+
+    @wish.donee_conn_ids=[bart_conn.id, lisa_conn.id, homer_conn.id]
+    @wish.save!
+    assert_equal [group_simpsons], @wish.donee_groups_for(@author)
+
+    @wish.donee_conn_ids=[bart_conn.id, lisa_conn.id, homer_conn.id, paul_conn.id]
+    @wish.save!
+    assert_equal [group_simpsons], @wish.donee_groups_for(@author)
+  end  
 end

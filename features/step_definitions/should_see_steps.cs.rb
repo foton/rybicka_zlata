@@ -92,6 +92,13 @@ Pak(/^nevidím kontakt "([^"]*)" v "([^"]*)"$/) do |name, block_name|
   end
 end
 
+Pak(/^vidím lidi ze skupiny "([^"]*)" v "([^"]*)"$/) do |grp_name, block_name|
+  grp=Group.where(user: @current_user).find_by_name(grp_name)
+  for conn in grp.connections
+    step "vidím kontakt \"#{conn.name}\" v \"#{block_name}\""
+  end  
+end
+
 
 Pak(/^je v seznamu mých e\-mailových adres vidět i "(.*?)"$/) do |adr|
   within(:css, "#contacts_list") do

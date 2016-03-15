@@ -1,0 +1,6 @@
+<script type="text/javascript">
+  var groups_of_connections = new Object();
+  <% @user.groups.each do |grp| %>
+    <%= raw "groups_of_connections[\"#{grp.id}\"] = [#{grp.connections.order("id ASC").pluck(:id).map {|conn| "\"#{conn}\""}.join(',')}];" %>
+  <% end %>
+</script>

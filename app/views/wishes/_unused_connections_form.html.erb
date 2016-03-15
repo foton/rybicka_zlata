@@ -2,8 +2,14 @@
   <!-- this div is not visible by default -->
   <h4><%= t("wishes.from_author.views.edit.unused_connections.header") %></h4>
   <p class="help"><%= t("wishes.from_author.views.edit.unused_connections.help") %></p>
+  
   <div class="list-of-checkboxes">
     <ul id="unused_conn_ids">
+      <% for group in (@user_groups-wish.donee_groups_for(@user)-@available_donor_groups) %>
+        <li class="group" >
+              <%= checkbox_mdl_tag( "groups[#{group.id}]", group.name, false, group.id, "0") %>
+        </li>
+      <% end %>
        <!-- <li><label><input type="hidden" name="wish[unused_conn_ids][]" id="wish[unused_conn_ids][0]" />TEST</li> -->
     </ul>
   </div>    

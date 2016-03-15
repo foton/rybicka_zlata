@@ -1,5 +1,4 @@
 - from_donee wish.show  -> make it more beautifull (halfdone)
-- groups were hidden, so make them usable
 
 - display wish from list as popup paper
 

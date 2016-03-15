@@ -32,6 +32,10 @@ class Wish < ActiveRecord::Base
     (connections.reject {|conn| (emails_of_donees.include?(conn.email) || user_ids_of_donees.include?(conn.friend_id)) } )
   end  
 
+  def available_user_groups_from(user, connections)
+    only_whole_groups_in_collection(user.groups, connections)   
+  end  
+
   def description_shortened
     if description.to_s.size > 100
       description[0..95].gsub(/ \S*\z/,"")+" ..."
@@ -56,6 +60,15 @@ class Wish < ActiveRecord::Base
     @donee_user_ids ||=(donee_connections.collect {|conn| conn.friend_id}).uniq.compact
   end  
 
+  def donor_groups_for(user)
+    only_whole_groups_in_collection(user.groups, donor_connections)
+  end  
+
+  def donee_groups_for(user)
+    only_whole_groups_in_collection(user.groups, donee_connections)
+  end  
+
+
   def anchor
     "wish_#{self.id}"
   end  
@@ -67,6 +80,26 @@ class Wish < ActiveRecord::Base
   private
     def donor_user_ids
       @donor_user_ids ||=(donor_connections.collect {|conn| conn.friend_id}).uniq.compact
+    end  
+
+    def only_whole_groups_in_collection(groups, collection)
+      whole_groups=[]
+      groups.each do |grp|
+        whole_groups << grp if whole_group_in_collection?(grp, collection)
+      end
+      whole_groups  
+    end  
+
+
+    def whole_group_in_collection?(group, conn_collection)
+      if conn_collection.kind_of?(Array)
+        wish_conn_ids=conn_collection.to_a.collect {|conn| conn.id}
+      else  #probably association proxy aro scope
+        wish_conn_ids=conn_collection.pluck(:id)  
+      end  
+      grp_conn_ids=group.connections.pluck(:id)
+
+      (grp_conn_ids == (grp_conn_ids & wish_conn_ids))
     end  
 
 

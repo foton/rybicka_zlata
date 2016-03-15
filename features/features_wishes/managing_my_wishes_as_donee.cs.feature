@@ -54,6 +54,7 @@ Scénář: Úprava sdíleného přání
   Pak jsem na stránce editace přání "Pračka"
   A ze seznamu dárců odeberu "Jana"
   A do seznamu dárců přidám "Hana"
+  A do seznamu dárců přidám "Rodina"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
   A počkám si 1 vteřinu 
@@ -63,6 +64,9 @@ Scénář: Úprava sdíleného přání
   A nevidím kontakt "Jana" v "Dárci"
   A vidím kontakt "Hana" v "Dárci"
   A vidím kontakt "KarelM" v "Dárci"
+  # 'pepik' je obdarovany, tudiž by v seznamu nebyl:  A vidím lidi ze skupiny "Rodina" v "Dárci"
+  A vidím kontakt "Máma" v "Dárci"
+  A vidím kontakt "Táta" v "Dárci"
   
 @javascript
 Scénář: Smazání sdíleného přání

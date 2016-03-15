@@ -3,11 +3,17 @@
   <p class="help"><%= t("wishes.from_author.views.edit.donees.help") %></p>
   <div class="list-of-checkboxes">
     <ul id="donee_conn_ids" >
-    <% for conn in (@user_connections) %>
-      <li>
-        <%= checkbox_mdl_tag( "wish[donee_conn_ids][#{conn.id}]", conn.fullname, wish.donee_connections.include?(conn), conn.id, "0", { name: "wish[donee_conn_ids][]"}) %>
-      </li>
-    <% end %>
+      <% for group in (wish.donee_groups_for(@user)) %>
+        <li class="group" >
+              <%= checkbox_mdl_tag( "groups[#{group.id}]", group.name, true, group.id, "0") %>
+        </li>
+      <% end %>
+
+      <% for conn in (@user_connections) %>
+        <li class="connection">
+          <%= checkbox_mdl_tag( "wish[donee_conn_ids][#{conn.id}]", conn.fullname, wish.donee_connections.include?(conn), conn.id, "0", { name: "wish[donee_conn_ids][]"}) %>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>

@@ -15,12 +15,12 @@ Kontext:
   
   A u "pepika" existuje kontakt "Karel"
   A u "pepika" existuje kontakt "Mařenka" s adresou "marenka@rybickazlata.cz"
-  #A u "pepika" existuje skupina "Kámoši" se členy ["Hynek", "Vilda","Jarka"]
+  A u "pepika" existuje skupina "Kámoši" se členy ["Hynek", "Vilda","Jarka"]
   A u "pepika" existuje skupina "Rodina" se členy ["Máma", "Táta" , "Mařenka"]
 
   A u "Mařenky" existuje kontakt "Karel Malý" s adresou "karel_maly@example.com"
   A u "Mařenky" existuje kontakt "Pepík" s adresou "pepik@rybickazlata.cz"
-  #A u "Mařenky" existuje skupina "Kámarádi" se členy ["Tom", "Bob"]
+  A u "Mařenky" existuje skupina "Kámarádi" se členy ["Tom", "Bob"]
   A u "Mařenky" existuje skupina "Rodina" se členy ["Máma", "Táta", "Pepík"]
   
   #wish which is not visible to Karel

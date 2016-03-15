@@ -1,5 +1,7 @@
 <h3><%= t("groups.views.header") %></h3>
 
+<p class="help mdl-cell--12-col"><%= t("groups.views.help") %></p>
+
 <div id="groups">
  	<div id="add_group" class="form-add">
 	  <%= form_for([@user,@group], html: {class: "mdl-shadow--2dp"} ) do |f| %>

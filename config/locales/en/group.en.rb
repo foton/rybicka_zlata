@@ -43,6 +43,7 @@
         },        
         views: {
             header: "Groups",
+            help: "Groups are usefull when You edit the wish. They allows You to move more connections at once. And they are optional.",
             add: { 
               name: "Name of new group"
             },

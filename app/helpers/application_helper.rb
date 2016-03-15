@@ -42,9 +42,16 @@ module ApplicationHelper
   end
 
   def checkbox_mdl_tag( tag_id, label_text, check_status, checked_value = "1", unchecked_value = "0", options ={})
-    label_tag( nil, options.merge({class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"}) ) do
-      concat(check_box_tag( tag_id, checked_value, check_status, options.merge(options.merge({class: "mdl-checkbox__input"}) )) )
-      concat(content_tag(:span, label_text, class:"mdl-checkbox__label") )  
+    labl_opt=options.dup
+    labl_opt[:class]="#{options[:class]} mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+    check_opt=options.dup
+    check_opt[:class]="#{options[:class]} mdl-checkbox__input"
+    span_opt=options.dup
+    span_opt[:class]="#{options[:class]} mdl-checkbox__label"
+
+    label_tag( nil, labl_opt) do
+      concat(check_box_tag( tag_id, checked_value, check_status, check_opt ) )
+      concat(content_tag(:span, label_text, span_opt ) )  
     end
   end
 

@@ -43,6 +43,7 @@
         },
         views: {
             header: "Skupiny",
+            help: "Skupiny slouží při editaci přání pro přetahování více kontaktů najednou. Tj. zrychlují práci. A nejsou povinné.",
             add: { 
               name: "Název nové skupiny"
             },

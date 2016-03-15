@@ -98,16 +98,17 @@
                 edit: { 
                   title: "Titulek přání",
                   description: "Širší popis",
+                  groups_are_good_for: "Skupiny níže slouží jako pomocné položky pro přetahování více kontaktů najednou. Pokud přesunete skupinu, okamžitě se všechny její kontakty, ať jsou kde jsou, přesunou do stejného bloku.",
                   donees: {
                     header: "Další obdarovaní",
-                    help: "Jako první obdarovaný jste automaticky Vy (jako autor). Můžete ale přidat i další spoluobdarované z Vašich přátel. Ti pak budou moci přidat potenciální dárce ze svých přátel."
+                    help: "Jako první obdarovaný jste automaticky Vy (jako autor). Můžete ale přidat i další spoluobdarované z Vašich kontaktů. Ti pak budou moci přidat další potenciální dárce."
                   },
                   donors: {
-                    help: "Zde můžete vybrat potenciální dárce. Tedy ty z Vašich přátel, kdo toto konkrétní přání uvidí a budou ho moci splnit. Případné neaktivní položky již figurují jako obdarovaní, proto je nelze vybrat."
+                    help: "Sem můžete přidat potenciální dárce. Tedy ty z Vašich kontaktů, kdo toto konkrétní přání uvidí a budou ho moci splnit."
                   },
                   unused_connections: {
                     header: "Nevyužití",
-                    help: "Kontakty, kteří toto přání vůbec neuvidí. Pokud tu žádní nejsou, je možné že jste zatím žádné nezadali nebo už jsou v ostatních blocích."
+                    help: "Kontakty, kteřé toto přání vůbec neuvidí. Pokud tu žádné nejsou, je možné že jste zatím žádné nezadali nebo už jsou v ostatních blocích nebo už jsou uvedeni jako obdarovaní autorem přání."
                   }  
                 },
                 added: "Přání '%{title}' bylo úspěšně přidáno.",

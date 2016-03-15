@@ -46,6 +46,7 @@
         },
         views: {
             header: "Kontakty",
+            help: "Svá přání sdílíte s ostatními prostřednictvím kontaktů (obdarovaní/dárci). Pokud je uživatel s odpovídající emailovou adresou registrován na Rybičce, je jméno jeho účtu v hranatých závorkách. Pokud není, jsou tam tři otazníky. Jméno se tam pak objeví po jeho registraci. Kontakty bez uživatele jsou tedy dobré 'do foroty'.",
             add: {
                 name: "Jméno",
                 email: "E-mail"

@@ -4,8 +4,14 @@
         <p class="help"><%= t("wishes.from_author.views.edit.donors.help") %></p>
         <div class="list-of-checkboxes">
           <ul id="donor_conn_ids">
+          <% for group in (@available_donor_groups) %>
+            <li class="group" >
+              <%= checkbox_mdl_tag( "groups[#{group.id}]", group.name, wish.donor_groups_for(@user).include?(group), group.id, "0") %>
+            </li>
+          <% end %>
+            
           <% for conn in (@available_donor_connections) %>
-            <li>
+            <li class="connection" >
               <%= checkbox_mdl_tag( "wish[donor_conn_ids][#{conn.id}]", conn.fullname, wish.donor_connections.include?(conn), conn.id, "0", { name: "wish[donor_conn_ids][]"}) %>
             </li>
           <% end %>

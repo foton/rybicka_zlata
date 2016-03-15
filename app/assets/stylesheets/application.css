@@ -87,11 +87,6 @@
   border-top: 1px solid gray;
 }
 
-.available_conns {
-	background-color: rgb(200, 200, 255);
-	border: 1px solid gray;
-}
-
 .info, .help {
 	font-size: 80%;
 	font-style: italic;
@@ -101,6 +96,12 @@
 
 #unused_connections {
 	display: none;
+  border: 1px solid gray;
+}
+
+#donor_connections, #donee_connections {
+  background-color: rgb(255, 204, 102);
+  border: 1px solid gray;
 }
 
 .sortbox {
@@ -121,9 +122,21 @@
 	min-height: 2em;
 	border: 1px solid gray;
   padding: 0.3em;  
+  padding-left: 0.5em;  
   margin: 0.1em;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   cursor: grab;
+  border-radius: 7px;
+}
+
+.sortable-list li.group {
+  background-color: rgb(63,81,181);
+  color: white;
+  font-weight: bold;
+}
+
+.sortable-list li.group.group_incomplete {
+  background-color: gray;
 }
 
 .sortable-list li input {
@@ -156,4 +169,16 @@
 
 #delete_registration {
   margin-top: 1em;
+}
+
+.list-of-checkboxes .group {
+	background-color: #aaa;
+}
+
+.group_incomplete {
+  color: gray;
+}
+
+.group_complete {
+  color: white;
 }

@@ -29,16 +29,16 @@ Scénář: Přidání přání
   A zapíšu do položky "Titulek nového přání" text "Kalhoty s kapsami"
   A zapíšu do položky "Širší popis" text "Ale velkými! Takové jako má Krteček. Třeba zde: http://img.csfd.cz/files/images/film/photos/157/911/157911911_df971a.jpg?w700"
   A do seznamu dárců přidám "Karel"
-  #TODO: groups are not yet ready A do seznamu dárců přidám "Rodina"
+  A do seznamu dárců přidám "Rodina"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
   A počkám si 1 vteřinu 
 
   Pak jsem na stránce přání "Kalhoty s kapsami"
   A vidím text "Přání 'Kalhoty s kapsami' bylo úspěšně přidáno."
-  #A vidím kontakt "Máma" v "Dárci"
-  #A vidím kontakt "Táta" v "Dárci"
-  #A vidím kontakt "Mařenka" v "Dárci"
+  A vidím kontakt "Máma" v "Dárci"
+  A vidím kontakt "Táta" v "Dárci"
+  A vidím kontakt "Mařenka" v "Dárci"
   A vidím kontakt "Karel" v "Dárci"
   A vidím kontakt "Autor přání [pepik]" v "Obdarovaní"
 
@@ -55,7 +55,7 @@ Scénář: Přidání sdíleného přání
   A do seznamu dárců přidám "Karel"
   A do seznamu dárců přidám "Máma"
   A do seznamu dárců přidám "Táta"
-  #TODO: groups are not yet ready A do seznamu dárců přidám "Kámoši"
+  A do seznamu dárců přidám "Kámoši"
   A do seznamu obdarovaných přidám "Mařenka"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
@@ -66,7 +66,7 @@ Scénář: Přidání sdíleného přání
   A vidím kontakt "Máma" v "Dárci"
   A vidím kontakt "Táta" v "Dárci"
   A vidím kontakt "Karel" v "Dárci"
- #A vidím lidi ze skupiny "Kámoši" v Dárci
+  A vidím lidi ze skupiny "Kámoši" v "Dárci"
   
   A vidím kontakt "Autor přání [pepik]" v "Obdarovaní"
   A vidím kontakt "Mařenka" v "Obdarovaní"
