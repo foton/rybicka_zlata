@@ -138,8 +138,18 @@ function get_ids_of_checked_connections_from(collection) {
   return ids.sort();
 }
 
+function get_ids_of_connections_from(collection) {
+  var ids=[];
+  
+  collection.find(".connection input").each(function(){
+    ids.push( get_object_id_from($(this)));
+  });
+
+  return ids.sort();
+}
+
 function are_all_group_connections_checked_in_collection(group_conn_ids, collection) {
-  var checked_conn_ids = get_ids_of_checked_connections_from(collection);
+  var checked_conn_ids = get_ids_of_connections_from(collection);
   console.log("group "+group_conn_ids+" is checked against:"+checked_conn_ids);
   for (var i = 0; i < group_conn_ids.length; i++) {
        if($.inArray(group_conn_ids[i], checked_conn_ids) == -1) {return false;}  
