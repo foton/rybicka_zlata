@@ -12,3 +12,21 @@
 -use scss and coffeescript
 
 
+
+
+#video tutorial
+- show that there are ENG captions!
+- show registration through providers
+- show adding authorization through other providers
+- mention NAME of registration and role of main email
+
+- create connection to existing user (Mom/Maggie)
+- create connection to non existing user (Apu)
+- create group
+- create personal wish and show that it is -/not wisible to other user
+- create shared wish and show that it is -/not wisible to other user
+- point out that donne cannot add donors which are in donees
+- point out group usage
+
+- show process of fullfiling
+ 
