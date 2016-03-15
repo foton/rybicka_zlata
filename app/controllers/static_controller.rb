@@ -2,9 +2,13 @@ class StaticController < ApplicationController
 	def home
     # flash[:alert] ="Alert me!"
     # flash[:notice] ="Notice me!"
+    # flash[:warning] ="Warn me!"
     # flash[:success] ="Success me!"
     # flash[:error] ="Error me!"
 	end
+
+  def about
+  end  
 
   def change_locale
     redirect_to localize_referer(params[:locale])

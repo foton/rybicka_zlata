@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
 
   get "/change_locale" => "static#change_locale", :as => "change_locale"
+  get "/about" => "static#about", :as => "about"
   root to: "static#home"
   
   # The priority is based upon order of creation: first created -> highest priority.

@@ -4,6 +4,7 @@ en:
     title: "could make your wishes true"
     static:
       about: "About"
+      contact_us: "Contact us"
   confirm:
     "yes": "Yes"
     "no": "No"

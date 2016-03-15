@@ -1,12 +1,5 @@
-<div class="mdl-grid">
-	<div class="mdl-cell">
 		<%= link_to t("devise.sessions.new.sign_in"), new_user_session_path, class: "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" %>
-	</div>
-  <div class="mdl-cell mdl-cell--1-col"></div>
-	<div class="mdl-cell">
 		<%= link_to t("devise.registrations.new.sign_up"), new_user_registration_path, class: "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" %>
-	</div>
-</div>
 
 <main>
 <%= render partial:  "home_article" %>

@@ -3,8 +3,8 @@
 <h3><%= t("wishes.from_donor.views.index.header") %></h3>
 
 <div id="donees_list" class="lists">
-  <ul class="mdl-list">
-    <%= render( partial: "donee", collection: @wishes_by_donees.donees) %>
+	<ul>
+    <%= render( partial: "donee_shortcut", collection: @wishes_by_donees.donees, as: 'donee') %>
   </ul>
 </div>
 

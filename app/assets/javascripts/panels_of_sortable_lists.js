@@ -21,7 +21,7 @@ function create_3_panels(selectors_hash){
     containment: selectors_hash['lists_container'],
     receive: function( event, ui ) {
     	    	
-      //console.log("UI.ITEM:"+ui.item.attr("id")+ui.item.prop("tagName"));
+      ////console.log("UI.ITEM:"+ui.item.attr("id")+ui.item.prop("tagName"));
       if (ui.item.hasClass("connection")) {
         assign_connection_to_target_list(ui.item,$(event.target),selectors_hash);
       } else {
@@ -57,9 +57,9 @@ function remove_duplicates_between_lists(selectors_hash){
   var other_list_items =$(selectors_hash['other_lists_arr'].join(", ")).find("li");
   $(selectors_hash['unused_list']).find('li').each(function(){
     unused_conn=$(this);
-    console.log("TESTING: "+unused_conn.text()+" is in collections"+is_connection_already_in_collection(unused_conn, $(selectors_hash['other_lists_arr'].join(", ")) ));
+    //console.log("TESTING: "+unused_conn.text()+" is in collections"+is_connection_already_in_collection(unused_conn, $(selectors_hash['other_lists_arr'].join(", ")) ));
     if(is_connection_already_in_collection(unused_conn,  other_list_items) ) {
-      console.log("removing"+unused_conn.attr("id"));
+      //console.log("removing"+unused_conn.attr("id"));
       unused_conn.remove();
     }
   });  
@@ -93,7 +93,7 @@ function set_new_conn_name_and_id(item, replacement, selectors_hash) {
     new_name=new_name.replace(replaced, replacement);
   } 
 
-  console.log(item.attr("id")+" => "+new_id );
+  //console.log(item.attr("id")+" => "+new_id );
   item.attr("id", new_id);
   item.attr("name", new_name);
 }
@@ -112,13 +112,13 @@ function get_object_id_from(item) {
 
 //search for item with same conn.id in list
 function is_connection_already_in_collection(conn, collection){
-  //console.log("looking for :"+conn.attr("id")+" in "+collection );
+  ////console.log("looking for :"+conn.attr("id")+" in "+collection );
   var look_for_conn_id= get_object_id_from(conn);
   var this_conn_id;
   var result=false;
   collection.each(function(){
     this_conn_id=get_object_id_from($(this));
-    console.log("comparing:"+this_conn_id+" == "+look_for_conn_id+" => "+(this_conn_id == look_for_conn_id) );
+    //console.log("comparing:"+this_conn_id+" == "+look_for_conn_id+" => "+(this_conn_id == look_for_conn_id) );
     if(this_conn_id == look_for_conn_id){
       result=true;
     };
@@ -150,7 +150,7 @@ function get_ids_of_connections_from(collection) {
 
 function are_all_group_connections_checked_in_collection(group_conn_ids, collection) {
   var checked_conn_ids = get_ids_of_connections_from(collection);
-  console.log("group "+group_conn_ids+" is checked against:"+checked_conn_ids);
+  //console.log("group "+group_conn_ids+" is checked against:"+checked_conn_ids);
   for (var i = 0; i < group_conn_ids.length; i++) {
        if($.inArray(group_conn_ids[i], checked_conn_ids) == -1) {return false;}  
   }
@@ -159,7 +159,7 @@ function are_all_group_connections_checked_in_collection(group_conn_ids, collect
 
 
 function check_and_move_group_to(conn_list, group){
-  console.log("Moving "+group.attr("id")+" to "+conn_list.attr("id"));
+  //console.log("Moving "+group.attr("id")+" to "+conn_list.attr("id"));
   group.closest("li").prependTo(conn_list.find("ul"));
   group.prop("checked", true);
   group.find('input[type="checkbox"]').prop("checked", true);
@@ -177,14 +177,14 @@ function move_and_check_groups(selectors_hash) {
 
   for (grp_id in groups_of_connections) {
     if (groups_of_connections.hasOwnProperty(grp_id)) {
-      console.log("checking group:"+groups_of_connections[grp_id]);
+      //console.log("checking group:"+groups_of_connections[grp_id]);
       
       //check all 'nonused' panels for it's connections (only checked conns!)
       for (var i = 0; i < other_lists.length; i++) {
         conn_list = $(selectors_hash['other_lists_arr'][i]);
-        console.log("checking list:"+conn_list.attr("id"));
+        //console.log("checking list:"+conn_list.attr("id"));
         if (are_all_group_connections_checked_in_collection(groups_of_connections[grp_id], conn_list)) {
-          console.log("group "+groups_of_connections[grp_id]+" is in  list:"+conn_list.attr("id"));
+          //console.log("group "+groups_of_connections[grp_id]+" is in  list:"+conn_list.attr("id"));
           group_sort_item=$("#groups_"+grp_id);
           check_and_move_group_to(conn_list, group_sort_item);
         };
@@ -215,7 +215,7 @@ function move_item_to(li_item, target_ul ){
 function update_groups_according_to_connections(selectors_hash) {
   var grp_li, grp_chbx, grp_conns, cons_in_list;
 
-  console.log("grpsel: "+selectors_hash['lists_container']+" li.group");
+  //console.log("grpsel: "+selectors_hash['lists_container']+" li.group");
   
   $(selectors_hash['lists_container']+" li.group").each(function(){
     update_group_according_to_connections_in_its_list($(this));
@@ -224,13 +224,13 @@ function update_groups_according_to_connections(selectors_hash) {
 
 function update_group_according_to_connections_in_its_list(grp_li){
   grp_chbx=grp_li.find('input');
-  console.log("updatig group: "+grp_chbx.val()+"    "+grp_chbx.attr("id"));
+  //console.log("updatig group: "+grp_chbx.val()+"    "+grp_chbx.attr("id"));
 
   group_conn_ids=groups_of_connections[grp_chbx.val()];
-  console.log("grp_conns: "+group_conn_ids);
+  //console.log("grp_conns: "+group_conn_ids);
 
   var all_conns_are_here=are_all_group_connections_checked_in_collection(group_conn_ids, grp_li.parent());
-  console.log("all_conns_are_here: "+all_conns_are_here);
+  //console.log("all_conns_are_here: "+all_conns_are_here);
 
   if(all_conns_are_here){
     //complete group
@@ -265,17 +265,17 @@ function move_all_group_connections_to_target_list(li_item, target_ul, selectors
   })
     
 
-  console.log("connections "+group_conn_ids+" are moved to:"+target_ul.attr("id")+"from "+remove_conns_from_uls);
+  //console.log("connections "+group_conn_ids+" are moved to:"+target_ul.attr("id")+"from "+remove_conns_from_uls);
   var regexp_for_id; 
   $(remove_conns_from_uls.join(", ")).find("li.connection input").each(function(){
-    console.log("input "+$(this).attr("id"));    
+    //console.log("input "+$(this).attr("id"));    
 
     for (var i = 0; i < group_conn_ids.length; i++) {
-      console.log("input "+$(this).attr("id")+": "+group_conn_ids[i]);    
+      //console.log("input "+$(this).attr("id")+": "+group_conn_ids[i]);    
       
       regexp= new RegExp("_"+group_conn_ids[i]+"$");
       if (regexp.test($(this).attr("id"))) {
-        console.log("input "+$(this).attr("id")+" matched "+group_conn_ids[i]);    
+        //console.log("input "+$(this).attr("id")+" matched "+group_conn_ids[i]);    
         assign_connection_to_target_list($(this).closest("li"), target_ul, selectors_hash )
         move_item_to( $(this).closest("li"), target_ul )  
       }

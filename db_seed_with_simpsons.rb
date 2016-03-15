@@ -112,7 +112,7 @@ w.donee_conn_ids=[lisa_to_bart_conn.id]
 w.merge_donor_conn_ids([lisa_to_marge_conn.id, lisa_to_homer_conn.id], lisa)
 w.save
 
-w=Wish::FromAuthor.new(author: bart, title: "bart wish (shown only to homer)", description: "Motorbike, HD Electra Glide ideally (http://www.autoevolution.com/news/2015-harley-davidson-electra-glide-ultra-classic-low-rumored-85470.html). bart is donee, homer is donor")
+w=Wish::FromAuthor.new(author: bart, title: "bart wish (shown only to homer)", description: "Motorbike, HD Electra Glide ideally ( http://www.autoevolution.com/news/2015-harley-davidson-electra-glide-ultra-classic-low-rumored-85470.html ). bart is donee, homer is donor")
 w.merge_donor_conn_ids([bart_to_homer_conn.id], bart)
 w.save
 

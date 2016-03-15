@@ -1,6 +1,12 @@
 .mdl-layout {
   align-items: center;
-  justify-content: center;
+
+ /* justify-content: center; */
+}
+
+
+.mdl-mini-footer .mdl-logo {
+    margin-left: 1em;
 }
 
 

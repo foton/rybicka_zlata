@@ -21,14 +21,8 @@
 <body>
   <div class="mdl-layout mdl-js-layout ">
     <%= render partial: "/header" %>
-    <%= render partial: "/content" %>
-    <%= render partial: "/footer" %>
-    
-    <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
-      <div class="mdl-snackbar__text"></div>
-      <button class="mdl-snackbar__action" type="button"></button>
-    </div>
-
+    <%= render partial: "/content" %> <!-- footer is inside content -->
   </div>  
+  
 </body>
 </html>

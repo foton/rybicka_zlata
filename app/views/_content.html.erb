@@ -1,9 +1,15 @@
 <main class="mdl-layout__content">
 	<div class="mdl-grid">
 		<div class="page-content mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-    <%= flash_messages %>
-    <%= yield %> 
+      <%= flash_messages %>
+      <%= yield %> 
+    </div>
   </div>
-</div>
-  
+   
+  <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+  </div>
+
+  <%= render partial: "/footer" %>  
 </main>

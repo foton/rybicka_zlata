@@ -15,3 +15,7 @@
 .shared-wish-icon {
  vertical-align: bottom;
 }
+
+.actions .as_menus {
+	display: none;
+}
