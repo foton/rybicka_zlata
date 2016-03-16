@@ -16,7 +16,7 @@ class Users::IdentitiesController < ApplicationController
 
   def create
     build_identity
-    save_identity or render template: "profiles/my"
+    save_identity or render template: "profiles/show"
 	end
 
   # def edit

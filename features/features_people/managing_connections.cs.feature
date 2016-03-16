@@ -11,6 +11,7 @@ Kontext:
   A jsem přihlášen jako "pepik"
   A přepnu na češtinu  
 
+@javascript
 Scénář: Přidání kontaktu
   Pokud jsem na stránce "Kontakty"
   A otevřu si formulář pro přidání
@@ -20,6 +21,7 @@ Scénář: Přidání kontaktu
   Pak vidím text "Kontakt 'Ježíšek [???]: jezisek@rybickazlata.cz' byl úspěšně přidán."
   A v seznamu přátel je kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
 
+@javascript
 Scénář: Úprava přítele
   Pokud existuje přítel "Ježíšek [???]: jezisek@rybickazlata.cz"
   A jsem na stránce "Kontakty"

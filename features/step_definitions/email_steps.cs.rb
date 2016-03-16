@@ -29,3 +29,14 @@ end
 Pak(/^uživatelům, kteří ji používali o tom přijde e\-mail$/) do
   pending # express the regexp above with the code you wish you had
 end
+
+
+Pak(/^jeho předmět by měl být "([^"]*)"$/) do |subject|
+  assert_equal subject, @email.subject, "Subject expected: #{subject}, actual: #{@email.subject}"
+  
+end
+
+Pak(/^v jeho obsahu by mělo být "([^"]*)"$/) do |text|
+  assert @email.body.include?(text), "Expected: #{text} in email.body: #{@email.body}"
+end
+

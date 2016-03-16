@@ -61,7 +61,12 @@ class UserTest < ActiveSupport::TestCase
   def test_got_admin
     assert User.new(email: "porybny@rybickazlata.cz").admin?
     refute User.new(email: "orybny@rybickazlata.cz").admin?
+
+    adm =create_test_user!(email: "porybny@rybickazlata.cz")
+    assert_equal adm, User.admin
   end  
+
+
 
   def test_create_local_identity_on_local_registration
     email="jonh.doe@example.com"

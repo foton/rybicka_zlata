@@ -1,3 +1,17 @@
-<h2><%= t("rybickazlata.static.about") %></h2>
-<h2><%= t("rybickazlata.static.contact_us") %></h2>
-<p><%= mail_to("porybny@rybickazlata.cz") %></p>
+<h2><%= t("rybickazlata.static.about.title") %></h2>
+<h2><%= t("rybickazlata.static.contact_us.title") %></h2>
+<p>
+  <%= form_for(@message, as: :message, url: message_to_admin_url, method: :post ) do |f| %>
+    <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+      <%= f.label(:body, I18n.t("rybickazlata.static.contact_us.message.to_admin.body_title"),  class: "mdl-textfield__label") %>
+      <%= f.text_area(:body, size: "25x10", class: "mdl-textfield__input") %>
+    </div>
+
+    <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+      <%= f.label(:reply_to, I18n.t("rybickazlata.static.contact_us.message.to_admin.reply_to_title"),  class: "mdl-textfield__label") %>
+      <%= f.email_field(:reply_to,  class: "mdl-textfield__input") %>
+    </div>
+   
+   <%= button_tag( I18n.t("rybickazlata.static.contact_us.message.to_admin.send_button"), class: "send "+button_mdl_classes) %> 
+  <% end %>
+</p>

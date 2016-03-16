@@ -45,6 +45,10 @@ class User < ActiveRecord::Base
     self.email.parameterize
   end    
 
+  def self.admin
+     User.find_by_email("porybny@rybickazlata.cz")
+  end  
+
   def admin?
     (email == "porybny@rybickazlata.cz")
   end  

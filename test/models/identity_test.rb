@@ -4,7 +4,7 @@ require "minitest/mock"
 class UserIdentityTest < ActiveSupport::TestCase
 
   #stubbing extractors
-  Extractor = Struct.new(:name, :verified_email, :email, :locale, :time_zone, :auth_data,)
+  Extractor = Struct.new(:name, :verified_email, :email, :locale, :time_zone, :auth_data)
 
   def setup
     @user_name="John Doe"

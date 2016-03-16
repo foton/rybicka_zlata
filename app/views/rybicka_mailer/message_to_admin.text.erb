@@ -1,0 +1,5 @@
+<%= @message.body %>
+<%= I18n.t("rybickazlata.static.contact_us.message.to_admin.reply_to_text", reply_to: @message.reply_to ) %>
+<% if @user %>
+ <%= I18n.t("rybickazlata.static.contact_us.message.to_admin.link_to_user", user_name: @user.name, profile_url: profile_url(user_id: @user.id)) %>
+<% end %>  

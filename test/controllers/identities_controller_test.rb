@@ -62,7 +62,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
 	  end			
 		
 		assert_response :success
-		assert_template "profiles/my"
+		assert_template "profiles/show"
 		assert_not_nil assigns(:new_contact)
 		assert_not_nil assigns(:user)
 		assert (assigns(:new_contact).errors[:email].size > 0)

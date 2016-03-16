@@ -1,5 +1,10 @@
 class StaticController < ApplicationController
-	def home
+	
+  skip_before_filter :authenticate_user!
+  
+  Message = Struct.new(:subject, :body, :reply_to)
+
+  def home
     # flash[:alert] ="Alert me!"
     # flash[:notice] ="Notice me!"
     # flash[:warning] ="Warn me!"
@@ -8,6 +13,15 @@ class StaticController < ApplicationController
 	end
 
   def about
+    @message= Message.new("", "", "");
+  end  
+
+  def message_to_admin
+    @message=Message.new(params[:message][:subject], params[:message][:body], params[:message][:reply_to])
+    RybickaMailer.message_to_admin(@message, current_user).deliver_now
+    flash[:notice]=t("rybickazlata.static.contact_us.message.to_admin.sent")
+    @message= Message.new("", "", "");
+    redirect_to about_url
   end  
 
   def change_locale
@@ -39,4 +53,5 @@ class StaticController < ApplicationController
 
     reff
   end 
+
 end

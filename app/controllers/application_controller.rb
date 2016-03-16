@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
 
     def set_user
       @user=User.find(params[:user_id])
-      if (current_user != @user)
+      if !(current_user == @user || current_user.admin?)
         flash[:error]=I18n.t("peeking_is_not_allowed")
         redirect_to(not_peeking_url) 
       end

@@ -3,8 +3,22 @@ cs:
     name: "Rybička zlatá"
     title: "možná splní vaše přání"
     static:
-      about: "O Rybičce"
-      contact_us: "Kontaktujte nás"
+
+      about: 
+        title: "O Rybičce"
+
+      contact_us: 
+        title: "Kontaktujte nás"
+        message:
+          to_admin:
+            link_to_user: "Profil uživatele '%{user_name}': %{profile_url}"
+            subject: "Zpráva pro Porybného od uživatele '%{user_name}'"
+            reply_to_title: "Kam má přijít případná reakce?"
+            reply_to_text: "Odpověď poslat na '%{reply_to}'"
+            body_title: "Vaše zpráva pro Porybného"
+            sent: "Zpráva pro Porybného odeslána."
+            send_button: "Odeslat"
+
   confirm:
     "yes": "Ano"
     "no": "Ne"

@@ -15,10 +15,12 @@ Rails.application.routes.draw do
 
   
   get "/my_profile" => "profiles#my", :as => "my_profile"
+  get "/profiles/:user_id" => "profiles#show", :as => "profile"
 
 
   get "/change_locale" => "static#change_locale", :as => "change_locale"
   get "/about" => "static#about", :as => "about"
+  post "/message_to_admin" => "static#message_to_admin", :as => "message_to_admin"
   root to: "static#home"
   
   # The priority is based upon order of creation: first created -> highest priority.

@@ -11,6 +11,8 @@
 
 -use scss and coffeescript
 
+- extract Porybny to config file
+
 
 
 

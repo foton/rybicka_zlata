@@ -3,11 +3,27 @@ en:
     name: "The Golden fish"
     title: "could make your wishes true"
     static:
-      about: "About"
-      contact_us: "Contact us"
+
+      about: 
+        title: "About"
+
+      contact_us: 
+        title: "Contact us"
+        message:
+          to_admin:
+            link_to_user: "Profile of '%{user_name}' user: %{profile_url}"
+            subject: "Message for admin of RybickaZlata from user '%{user_name}'"
+            reply_to_title: "Your address, if you want to reply from admin"
+            reply_to_text: "Response should be send to '%{reply_to}'"
+            body_title: "Your message for admin"
+            sent: "Message to admin was sent."
+            send_button: "Send"
+
   confirm:
     "yes": "Yes"
     "no": "No"
   uri_shortened: "%{uri_short}...(shortened)"
   peeking_is_not_allowed: "Peeking to other accounts is not allowed!"
+  about:
+    
 
