@@ -90,7 +90,9 @@ class User < ActiveRecord::Base
           time_zone: identity.time_zone||User.new.time_zone
         )
       user.skip_confirmation!
-      user.save!
+      unless user.save
+        raise "User.not saved: #{user.errors.full_messages}  [#{user.to_json}]"
+      end  
       
     end
 
