@@ -186,3 +186,8 @@ a {
 .group_complete {
   color: white;
 }
+
+#video_tutorial {
+  width: 560px;
+  height: 315px;
+}
