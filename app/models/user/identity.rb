@@ -147,7 +147,9 @@ class User::Identity < ActiveRecord::Base
   private
   
     def fill_local_uid
-      self.uid=User::Identity.local.maximum(:uid).to_i+1 if local?
+      if local? && self.uid.blank?
+        self.uid="%010d" % (User::Identity.local.maximum(:uid).to_i+1) 
+      end  
     end 
 
     def same_email_same_user

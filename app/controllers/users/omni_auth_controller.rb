@@ -31,7 +31,6 @@ class Users::OmniAuthController < Devise::OmniauthCallbacksController
     end
 
     def set_user_from_omniauth(provider_id, provider_name)
-      logger.info(provider_id+"omniauth.auth=#{request.env["omniauth.auth"]}")
       @user, password = User.find_or_create_from_omniauth!(request.env["omniauth.auth"], current_user)
       
       if @user.persisted?

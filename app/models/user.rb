@@ -56,7 +56,6 @@ class User < ActiveRecord::Base
   #https://www.digitalocean.com/community/tutorials/how-to-configure-devise-and-omniauth-for-your-rails-application
   #inspired from http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/
   def self.find_or_create_from_omniauth!(auth, signed_in_resource = nil)
-    logger.error("User.create_from_omni: omniauth.auth=#{auth}")
     password = nil
     # Get the identity and user if they exist
     identity = User::Identity.find_for_auth(auth)
