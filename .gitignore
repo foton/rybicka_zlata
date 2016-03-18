@@ -21,3 +21,6 @@
 
 #secrets do not belong to source control
 /.env
+
+/code_metrics*
+/rybicka4*

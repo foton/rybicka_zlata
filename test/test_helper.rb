@@ -4,6 +4,8 @@
 #RUN ALL TESTS IN FILE?
 #rake test TEST=test/models/identity_test.rb 
 
+require 'simplecov' #using global config file .simplecov
+
 require "minitest/reporters"
 require "rake_rerun_reporter"
 
