@@ -72,6 +72,10 @@ class User::Identity < ActiveRecord::Base
     end
   end  
 
+  def available_actions_for(user)
+    user.id == self.user_id ? [:show, :delete] : []
+  end  
+
   def data
     unless defined? @extractor
       @extractor=self.class.extractor_for(provider)
@@ -137,7 +141,11 @@ class User::Identity < ActiveRecord::Base
   def local?
     LOCAL_PROVIDER == self.provider.to_s
   end  
-
+  
+  def displayed_name
+    to_s
+  end 
+  
   def to_s
     s="#{email}"
     s+=" [#{provider}]" unless local?

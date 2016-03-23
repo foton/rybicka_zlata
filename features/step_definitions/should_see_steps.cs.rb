@@ -66,7 +66,7 @@ end
 
 Pak(/^v seznamu skupin je skupina "(.*?)" se? (\d+) členy$/) do |name, count|
   within(:css, "#groups_list") do
-    find('li', text: name+"[#{count}]")
+    find('li', text: name)  #+"[#{count}]")
   end  
 end
 

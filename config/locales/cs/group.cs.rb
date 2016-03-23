@@ -38,14 +38,17 @@
             button: "Upravit"
           },
           delete: {
-            button: "Smazat"
+            button: "Smazat",
+            confirm: {
+              message: "Opravdu chcete skupinu '%{object_title}' smazat?"
+            }
           }
         },
         views: {
             header: "Skupiny",
             help: "Skupiny slouží při editaci přání pro přetahování více kontaktů najednou. Tj. zrychlují práci. A nejsou povinné.",
             add: { 
-              name: "Název nové skupiny"
+              name: "Název skupiny"
             },
             added: "Skupina '%{name}' byla úspěšně přidána. Nyní ji, prosím, naplňte lidmi.",
             not_added: "Skupina '%{name}' nebyla přidána.",

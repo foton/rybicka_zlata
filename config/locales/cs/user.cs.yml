@@ -20,10 +20,12 @@ cs:
         last_sign_in: "Poslední přihlášení"
   user:
     temporary_password_is_set_to: "Při registraci Vám bylo nastaveno heslo '%{password}'. Prosím změnte si jej v editaci profilu, neboť je potřeba k potvrzení budoucích změn profilu."
-    contacts: 
+    identities: 
       actions:
         delete:
           button: "Smazat"
+          confirm: 
+            message: "Opravdu chcete kontakt '%{object_title}' smazat?"
         new: 
           button: "Přidat adresu"
           submit_button: "Zapsat"
@@ -34,7 +36,6 @@ cs:
       added: "Kontakt '%{contact}' byl přidán"
       not_deleted: "Kontakt '%{contact}' nebyl smazán"
       not_added: "Kontakt '%{contact}' nebyl přidán"
-    identities:
       email_is_owned_by_another_user: "E-mailová adresa '%{email}' je již přiřazena jinému uživateli!"
       add_sign_in_to_this_account_through: "Můžete přidat přihlášení k tomuto účtu přes"
       twitter_do_not_send_email_address: "Twitter bohužel neposkytuje Váš skutečný email, prosím nastavte si použitelný hlavní email."

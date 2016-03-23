@@ -17,6 +17,8 @@ class Wish < ActiveRecord::Base
   validate :validate_booked_by
   validate :validate_called_for_co_donors
   
+  SHORT_DESCRIPTION_LENGTH=200
+
   include Wish::State
 
   public
@@ -37,8 +39,9 @@ class Wish < ActiveRecord::Base
   end  
 
   def description_shortened
-    if description.to_s.size > 100
-      description[0..95].gsub(/ \S*\z/,"")+" ..."
+    if description.to_s.size > SHORT_DESCRIPTION_LENGTH
+      dot_dot_dot=" ..."
+      description[0..(SHORT_DESCRIPTION_LENGTH-dot_dot_dot.length)].gsub(/ \S*\z/,"")+dot_dot_dot
     else
       description 
     end 
@@ -66,11 +69,6 @@ class Wish < ActiveRecord::Base
 
   def donee_groups_for(user)
     only_whole_groups_in_collection(user.groups, donee_connections)
-  end  
-
-
-  def anchor
-    "wish_#{self.id}"
   end  
 
   def is_shared?
@@ -167,7 +165,7 @@ class Wish < ActiveRecord::Base
           self.errors.add(:called_for_co_donors_by_id, I18n.t("wishes.errors.must_have_calling_by_user"))
         else    
           cu=self.called_for_co_donors_by_user
-          self.errors.add(:called_for_co_donors_by_id, I18n.t("wishes.errors.donne_cannot_call_for_co_donors")) if self.is_donee?(cu)
+          self.errors.add(:called_for_co_donors_by_id, I18n.t("wishes.errors.donee_cannot_call_for_co_donors")) if self.is_donee?(cu)
         end    
       elsif STATE_AVAILABLE == self.state
         self.errors.add(:called_for_co_donors_by_id, I18n.t("wishes.errors.cannot_be_called_in_this_state")) if self.called_for_co_donors_by_user.present?

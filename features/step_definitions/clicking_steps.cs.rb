@@ -66,12 +66,31 @@ end
 
 Pak(/^(?:ze seznamu )?vyřadím "(.*?)"$/) do |label|
   #find checkbox and if checked, uncheck it
-  uncheck label
+  #uncheck label  #does not work, because checkbox itself is not visible. Only modified label.
+  
+  if has_field?(label, checked: true)
+    begin
+      uncheck label    
+    rescue  #Capybara::Webkit::ClickFailed
+      find("label", text: label).click()
+    end  
+  else
+    raise Capybara::ElementNotFound.new("Checked field with label/id '#{label}' was not found")
+  end  
 end
 
 Pak(/^(?:do seznamu )?přidám "(.*?)"$/) do |label|
   #find checkbox and if unchecked, check it
-  check label
+  
+  if has_field?(label, checked: false)
+    begin
+      check label
+    rescue  
+      find("label", text: label).click()
+    end  
+  else
+    raise Capybara::ElementNotFound.new("Unchecked field with label/id '#{label}' was not found")
+  end  
 end
 
 Když(/^kliknu v menu na "(.*?)"$/) do |text|

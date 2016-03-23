@@ -7,17 +7,25 @@ module Wish::State
   STATE_FULFILLED=10
   
   def available_actions_for(user)
-    if  !defined?(@available_user_actions) || @available_user_actions.nil? 
+    unless defined?(@available_users_actions)
+      @available_users_actions={}
+    end  
+
+    if  @available_users_actions[user].nil? 
       if user.is_donee_of?(self)
-        @available_user_actions=actions_for_donee(user)
+        @available_users_actions[user]=actions_for_donee(user)
       elsif user.is_donor_of?(self)
-        @available_user_actions=actions_for_donor(user)
+        @available_users_actions[user]=actions_for_donor(user)
       else
-        @available_user_actions=[]
+        @available_users_actions[user]=[]
       end  
     end
-    @available_user_actions
+    @available_users_actions[user]
   end  
+
+  def available_state_actions_for(user)
+    (available_actions_for(user)-[:show, :edit,:delete])
+  end
 
   def booked_by?(user)
     self.booked_by_id == user.id
@@ -36,7 +44,7 @@ module Wish::State
     if user.is_donor_of?(self)
       self.state= STATE_RESERVED
       self.booked_by_user=user
-      @available_user_actions=nil
+      @available_users_actions={}
       I18n.t("wishes.actions.book.message", wish_title: self.title, user_name: user.name)
     end  
   end  
@@ -49,7 +57,7 @@ module Wish::State
     if self.booked_by?(user)
       self.state= STATE_AVAILABLE
       self.booked_by_id=nil
-      @available_user_actions=nil
+      @available_users_actions={}
       I18n.t("wishes.actions.unbook.message", wish_title: self.title, user_name: user.name)
     end  
   end  
@@ -58,7 +66,7 @@ module Wish::State
     if user.is_donor_of?(self)
       self.state= STATE_CALL_FOR_CO_DONORS
       self.called_for_co_donors_by_id=user.id
-      @available_user_actions=nil
+      @available_users_actions={}
       I18n.t("wishes.actions.call_for_co_donors.message", wish_title: self.title, user_name: user.name)
     end  
   end  
@@ -67,7 +75,7 @@ module Wish::State
     if self.called_by?(user)
       self.state= STATE_AVAILABLE
       self.called_for_co_donors_by_id=nil
-      @available_user_actions=nil
+      @available_users_actions={}
       I18n.t("wishes.actions.withdraw_call.message", wish_title: self.title, user_name: user.name)
     end  
   end
@@ -80,7 +88,7 @@ module Wish::State
     if self.booked_by?(user)
       self.state= STATE_GIFTED
       #self.booked_by_user=user
-      @available_user_actions=nil
+      @available_users_actions={}
       I18n.t("wishes.actions.gifted.message", wish_title: self.title, user_name: user.name)
     end  
   end  
@@ -92,7 +100,7 @@ module Wish::State
   def fulfilled!(user)
     if user.is_donee_of?(self)
       self.state= STATE_FULFILLED
-      @available_user_actions=nil
+      @available_users_actions={}
       self.donor_links.destroy_all #they are no longer needed
       I18n.t("wishes.actions.fulfilled.message", wish_title: self.title)
     end

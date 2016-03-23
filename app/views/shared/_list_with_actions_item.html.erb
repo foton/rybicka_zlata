@@ -1,0 +1,31 @@
+<li class="<%= classes_for(object,@user) %> " id="<%= anchor_for(object) %>">
+  <div class="list-with-actions__item" >
+
+    <div class="primary_content">
+      <%= render partial: "list_item_primary_content", locals: {object: object} %>
+    </div>
+   
+   
+    <div class="actions"> 
+      <div class="as_list mdl-cell--hide-phone">
+        <ul>
+        <% for action in (object.available_actions_for(@user)-[:show]) %>
+          <li><%= tag_to_object_action(:button, action, @user, object, remote, {state_action: action}) %></li>
+        <% end %>
+        </ul>
+      </div> 
+
+      <div class="as_menu mdl-cell--hide-desktop mdl-cell--hide-tablet">
+        <button id="<%= menu_button_anchor_for(object)%>" class="mdl-button mdl-js-button mdl-button--icon">
+           <i class="material-icons">more_vert</i>
+        </button>
+
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="<%= menu_button_anchor_for(object)%>">
+          <% for action in object.available_actions_for(@user)-[:show] %>
+            <li class="mdl-menu__item"><%= tag_to_object_action(:a, action, @user, object, false, {state_action: action})  %></li>
+          <% end %>  
+        </ul>
+      </div>
+    </div>
+ </div>
+</li>

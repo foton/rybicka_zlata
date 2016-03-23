@@ -1,6 +1,6 @@
 /*
  * replace two panels with checkboxes for connections ("donees" and "donors"; "unused" is hidden)
- * with three panels (donnes | unused | donors)
+ * with three panels (donees | unused | donors)
  * allowing user to drag and drop connections on these list
  * donors_list and donee_lists aare the send with submit
  */

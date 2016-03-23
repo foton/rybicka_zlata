@@ -35,7 +35,7 @@
             same_donor_and_donee: {
                 by_connection: "There is same connection between donees and donors: '%{conn_fullname}'.",
                 by_email: "There is connection with same email between donees and donors: '%{email}'",
-                by_user: "There is same user in donnes: '%{donee_fullname}' as in donors: '%{donor_fullname}'."
+                by_user: "There is same user in donees: '%{donee_fullname}' as in donors: '%{donor_fullname}'."
             },
             cannot_be_booked_by_donee: "Can not be booked by donee!",
             cannot_be_booked_in_this_state: "In this state, wish can not be booked by user!",
@@ -44,6 +44,9 @@
         actions: {
             new: {
                 button: "Add wish"
+            },
+            show: {
+                button: "Show"
             },
             edit: {
                 button: "Edit"
@@ -63,14 +66,15 @@
             },
             unbook: {
                 button: "Unbook",
-                message: "Wish '%{wish_title}' was unbooked."
+                message: "Wish '%{object_title}' was unbooked."
             },
             call_for_co_donors: {
                 button: "Call for donors",
-                message: "User '%{user_name}' looking for another donors for wish '%{wish_title}'."
+                message: "User '%{user_name}' looking for another donors for wish '%{wish_title}'.",
+                notice: "User '%{user_name}' looking for another donors for this wish."
             } ,   
             withdraw_call: {
-                button: "Withdraw call for co-donors",
+                button: "Withdraw call",
                 message: "User '%{user_name}' withdraw his/hers call for co-donors for wish '%{wish_title}'."
             } ,   
             gifted: {

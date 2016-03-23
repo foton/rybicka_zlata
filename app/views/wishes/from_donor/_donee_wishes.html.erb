@@ -1,7 +1,7 @@
   <div id="<%= donee_wishes[:user].anchor%>" class="lists wishes-list">
   	<h4><%= donee_wishes[:user].displayed_name_for(@user) %> [<%= donee_wishes[:user].displayed_name %>]</h4>
   	<a name="<%= donee_wishes[:user].anchor %>"></a>
-    <ul class="list-with-actions  mdl-list">
-      <%= render( partial: "wish", collection: donee_wishes[:wishes]) || t("wishes.from_donor.views.list.none") %>
-    </ul>
+
+    <%= render( partial: "/shared/list_with_actions", locals: { collection: donee_wishes[:wishes], none_text: t("wishes.from_donor.views.list.none"), remote: true} ) %>
+    
   </div>

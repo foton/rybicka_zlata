@@ -2,9 +2,7 @@
 
 <div id="wishes">
   <div id="donee_wishes_list" class="wishes-list">
-    <ul class="list-with-actions  mdl-list">
-      <%= render( partial: "wish", collection: @wishes) || t("wishes.from_donee.views.index.no_fulfilled_wishes") %>
-    </ul>
+    <%= render( partial: "/shared/list_with_actions", locals: { collection: @wishes, none_text: t("wishes.from_donee.views.index.no_fulfilled_wishes"), remote: true} ) %>
   </div>
 
 </div>       

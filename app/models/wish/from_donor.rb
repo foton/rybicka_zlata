@@ -8,7 +8,7 @@ class Wish::FromDonor < Wish
   	return false
   end	
 
-  #return array of strings (names) of donnes, which are known to user
+  #return array of strings (names) of donees, which are known to user
   # if donee_connection have friend user => displayed_name
   # if donee_connection do not have friend user
   #   if user have between it's connection same email => name from user connection

@@ -1,0 +1,10 @@
+<ul>
+<% for action in (wish.available_actions_for(@user)-[:show]) %>
+  <li><%= button_to_wish_action(action, @user, wish, remote, {state_action: action}) %></li>
+<% end %>
+</ul>
+  
+
+
+
+ 

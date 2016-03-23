@@ -52,6 +52,6 @@ class Wish::FromDonee < Wish
     end	
 
     def set_updated_by_donee_at
-    	self.updated_by_donee_at=Time.zone.now
+    	self.updated_by_donee_at=Time.zone.now if self.changed?
     end	
 end

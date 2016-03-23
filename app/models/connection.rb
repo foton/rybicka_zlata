@@ -25,7 +25,13 @@ class Connection < ActiveRecord::Base
   
   before_validation :assign_friend
 
-  
+  def available_actions_for(user)
+    user.id == self.owner_id ? [:show, :edit, :delete] : []
+  end  
+
+  def displayed_name
+    fullname
+  end  
 
   def fullname
     conn_name=name

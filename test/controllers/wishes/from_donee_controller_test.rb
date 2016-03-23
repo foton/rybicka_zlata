@@ -248,6 +248,21 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     assert shared_wish.fulfilled?
   end
 
+  def test_no_other_state_action_than_fulfilled
+    shared_wish=create_shared_wish
+    other_actions=[:book, :unbook, :call_for_co_donors, :withdraw_call, :gifted] 
+    orig_updated_at=shared_wish.updated_at.to_s
+    sleep 1.second
+
+    for action in other_actions
+      patch :update, {user_id: @current_user.id, id: shared_wish.id, state_action: action }
+
+      shared_wish.reload
+      assert_equal orig_updated_at, shared_wish.updated_at.to_s, "For action '#{action}' wish was changed! #{orig_updated_at} => #{ shared_wish.updated_at}"
+    end
+
+  end
+
   private
 
     def create_author_wish

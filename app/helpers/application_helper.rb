@@ -76,15 +76,15 @@ module ApplicationHelper
 
   def button_link_to(title, url, options={} )
     opt={method: :get, class: ""}.merge(options)
-    opt_4_helper={method: opt[:method], data: opt[:data], remote: opt[:remote]}
-    html_opt=opt.dup
-    html_opt.delete(:method)
-    html_opt.delete(:data)
-    html_opt.delete(:remote)
-    html_opt[:class]=html_opt[:class]+" mdl-list__item-secondary-action "+button_mdl_classes
+    #opt_4_helper={method: opt[:method], data: opt[:data], remote: opt[:remote]}
+    #html_opt=opt.dup
+    #html_opt.delete(:method)
+    #html_opt.delete(:data)
+    #html_opt.delete(:remote)
+    opt[:class]=opt[:class]+" mdl-list__item-secondary-action "+button_mdl_classes
 
     #link_to( title, url, method: opt[:method], data: opt[:data], id: opt[:id], class: opt[:html_class]+" mdl-list__item-secondary-action "+button_mdl_classes)    
-    link_to(title, url, opt_4_helper.merge(html_opt) )
+    link_to(title, url, opt )
   end  
 
   #convert char '\n' to '<br />'
@@ -119,6 +119,8 @@ module ApplicationHelper
     link_to(text, uri)
   end  
    
+
+ 
 
   private
     def button_mdl_classes

@@ -9,6 +9,15 @@
      <% end %>
     </ul>
   </div>
-  <%= render partial: "actions", locals: {wish: @wish, remote: false} %>
 
+  <div class="actions"> 
+    <span class="as_list">
+      <ul>
+      <% for action in (@wish.available_actions_for(@user)-[:show]) %>
+        <li><%= tag_to_object_action(:button, action, @user, @wish, false, {state_action: action}) %></li>
+      <% end %>
+      </ul>
+    </span>
+  </div>
+  
 </div>  

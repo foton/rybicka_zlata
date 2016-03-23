@@ -2,7 +2,7 @@ def create_test_user!(attrs={})
   default_email="john.doe@test.com"
   if attrs[:email].blank?
     if attrs[:name].present?
-      attrs[:email]=default_email.gsub("john.doe",attrs[:name].parameterize)
+      attrs[:email]=default_email.gsub("john.doe",attrs[:name].parameterize.dasherize.downcase)
     else
       attrs[:email]=default_email
     end

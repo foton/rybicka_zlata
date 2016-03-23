@@ -19,3 +19,24 @@
 .actions .as_menus {
 	display: none;
 }
+
+
+.wish .title {
+  display: block;
+}
+
+.wish .title .shared-wish-icon {
+  margin-right: 0.2em;
+}
+
+.wish .description {
+  color: #666;  
+}
+
+
+
+
+.donor_infos {
+  color: rgb(255, 160, 0);
+}
+

@@ -14,10 +14,24 @@
  *= require_self
  */
 
+/* main { width: 100%} */
+
 a {
   color: rgb(63,81,181) ;
 }
 
+footer {
+  width: 96%;
+  padding: 16px ;
+}
+.mdl-mini-footer {
+  padding: 16px ; 
+}
+
+.page-content {
+  width: 96%;
+  padding: 1em;
+}
 .divider-h {
 	border-left: 1px solid #ddd;
 	width: 1px;

@@ -63,9 +63,11 @@ require 'capybara/webkit'
 # use the following web driver to run tests
 Capybara.javascript_driver = :webkit
 Capybara::Webkit.configure do |config|
+  config.block_unknown_urls
   config.allow_url("storage.googleapis.com")
   config.allow_url("fonts.googleapis.com")
   config.allow_url("ajax.googleapis.com")
+  #config.allow_url("www.youtube.com")
 end
 
 def logger

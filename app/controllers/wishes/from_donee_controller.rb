@@ -54,8 +54,12 @@ class Wishes::FromDoneeController < ApplicationController
 
     def build_wish
       @wish||=wish_scope.build
-      if params[:state_action].present?
-        msg=@wish.send("#{params[:state_action]}!", @user) 
+      action=params[:state_action]
+      if action 
+        if @wish.available_state_actions_for(@user).include?(action.to_sym)
+          msg=@wish.send("#{action}!", @user)
+        end
+        #if action is not alowed do nothig  
       else
         donor_conn_ids=wish_params.delete(:donor_conn_ids)
         @wish.attributes=wish_params    

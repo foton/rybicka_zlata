@@ -8,4 +8,13 @@ class Group < ActiveRecord::Base
   #and not the foreign key used to map the association.
   validates :user, presence: true
 
+
+
+  def available_actions_for(user)
+    user.id == self.user_id ? [:show, :edit, :delete] : []
+  end  
+
+  def displayed_name
+    name
+  end  
 end

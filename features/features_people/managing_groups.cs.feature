@@ -37,6 +37,7 @@ Scénář: Přidání skupiny
   Pokud jsem na stránce "Skupiny" 
   A v seznamu skupin je skupina "Rodina" se 2 členy
 
+@javascript
 Scénář: Úprava skupiny
   Pokud existuje skupina "Kámoši" se členy ["Hynek", "Vilda","Jarka"]
   A existuje kontakt "Karel"
@@ -50,6 +51,7 @@ Scénář: Úprava skupiny
   A vyřadím "Vilda"
   A přidám "Karel"
   A kliknu na uložení
+  A počkám 1 sekundu
 
   Pak jsem na stránce "Skupina Kemoši"
   A vidím text "Skupina 'Kemoši' byla úspěšně nastavena."

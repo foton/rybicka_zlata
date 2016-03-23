@@ -5,8 +5,8 @@ document.querySelector('#snackbar').MaterialSnackbar.showSnackbar(
 );
 
 
-$("#<%= @wish.anchor %>").bind('ajax:success', function() { 
-  $("#<%= @wish.anchor %>").effect("blind", 500).remove();
+$("#<%= anchor_for(@wish) %>").bind('ajax:success', function() { 
+  $("#<%= anchor_for(@wish) %>").effect("blind", 500).remove();
 });
 
 

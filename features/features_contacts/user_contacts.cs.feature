@@ -18,10 +18,12 @@ Scénář: Přidání kontaktu
   Pak je v seznamu mých e-mailových adres vidět i "cucky.pracky@kotrmelci.cz"
   A vidím text "Kontakt 'cucky.pracky@kotrmelci.cz' byl přidán"
 
+@javascript
 Scénář: Smazání kontaktu
   Pokud mám mezi kontakty adresu "basama@fousama.cz"
   A jsem na mé profilové stránce
   A kliknu na smazání u "basama@fousama.cz"
+  A smazání potvrdím
   Pak v seznamu kontaktů už není adresa "basama@fousama.cz"
   A vidím text "Kontakt 'basama@fousama.cz' byl smazán"
   A uživatelům, kteří ji používali o tom přijde e-mail

@@ -1,0 +1,15 @@
+<%= link_to path_to_wish_action_for_user(:show, @user, object), name:  anchor_for(object) do %>
+  <span class="title">
+    <%= icon_of_wish_sharing(object) %>
+    <%= object.title %>
+    <%= donor_infos_for(object) %>
+  </span>
+  <span class="description">
+    <%= raw to_html(object.description_shortened) %>
+    <br />
+    <span class="info" id="<%= anchor_for(object)+"_updated_by_donee_at" %>" title="<%=I18n.t("activerecord.attributes.wish.updated_by_donee_at") %>" >
+      <%= I18n.l(object.updated_by_donee_at) %>
+    </span>
+    <div class="mdl-tooltip" for="<%= anchor_for(object)+"_updated_by_donee_at" %>"><%= I18n.t("activerecord.attributes.wish.updated_by_donee_at") %></div>
+  </span>
+<%end%>

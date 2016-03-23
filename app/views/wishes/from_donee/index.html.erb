@@ -3,12 +3,10 @@
 <h3><%= t("wishes.from_donee.views.index.header") %></h3>
 
 <div id="wishes">
-  <%= button_to_wish_action(:new, @user) %>
+  <%= tag_to_object_action(:button, :new, @user, Wish::FromAuthor.new, false, {}) %>
 
 	<div id="donee_wishes_list" class="wishes-list">
-		<ul class="list-with-actions  mdl-list">
-		  <%= render( partial: "wish", collection: @wishes) || t("wishes.from_donee.views.index.no_wishes") %>
-	  </ul>
+    <%= render( partial: "/shared/list_with_actions", locals: { collection: @wishes, none_text: t("wishes.from_donee.views.index.no_wishes"), remote: true} ) %>
 	</div>
 
   <div>

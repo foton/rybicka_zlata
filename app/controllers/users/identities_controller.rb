@@ -54,11 +54,11 @@ class Users::IdentitiesController < ApplicationController
 
     def save_identity
       if @identity.save
-        flash[:notice]=t("user.contacts.added", contact: @identity.to_s)
+        flash[:notice]=t("user.identities.added", contact: @identity.to_s)
         redirect_to my_profile_url
         true
       else  
-        flash[:error]=t("user.contacts.not_added", contact: @identity.to_s)
+        flash[:error]=t("user.identities.not_added", contact: @identity.to_s)
         @new_contact=@identity
         @user=@identity.user
         false
@@ -67,9 +67,9 @@ class Users::IdentitiesController < ApplicationController
 
     def destroy_identity
       if @identity.destroy
-        flash[:notice]=t("user.contacts.deleted", contact: @identity.to_s)
+        flash[:notice]=t("user.identities.deleted", contact: @identity.to_s)
       else  
-        flash[:error]=t("user.contacts.not_deleted", contact: @identity.to_s)
+        flash[:error]=t("user.identities.not_deleted", contact: @identity.to_s)
       end
     end  
 

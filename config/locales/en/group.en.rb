@@ -38,14 +38,17 @@
             button: "Edit"
           },
           delete: {
-            button: "Delete"
+            button: "Delete",
+            confirm: {
+              message: "Do You really want to delete the '%{object_title}' group?"
+            }
           }
         },        
         views: {
             header: "Groups",
             help: "Groups are usefull when You edit the wish. They allows You to move more connections at once. And they are optional.",
             add: { 
-              name: "Name of new group"
+              name: "Name of group"
             },
             added: "Group '%{name}' was successfully added. Fill it with friends, please.",
             not_added: "Group '%{name}' was not added.",

@@ -1,6 +1,6 @@
 <h3><%= t("connections.views.header") %></h3>
 
-<p class="help mdl-cell--12-col"><%= t("connections.views.help") %></p>
+<p class="help mdl-cell--12-col"><%=raw to_html(t("connections.views.help")) %></p>
 
 <div id="connections">
  	<div id="add_connection" class="form-add">
@@ -8,10 +8,8 @@
 		  <%= add_new_button(t("connections.actions.new.button")) if @connection.errors.empty? %>
 	</div>
 
-	<div id="connections_list" class="list">
-		<ul class="list-with-actions mdl-list">
-		  <%= render( partial: "connection", collection: current_user.friend_connections) || t("connections.views.list.none") %>
-	  </ul>
+	<div id="connections_list">
+    <%= render( partial: "/shared/list_with_actions", locals: { collection: @user.friend_connections, none_text: t("connections.views.list.none"), remote: false} ) %>
 	</div>
 </div>       
        

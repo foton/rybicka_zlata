@@ -3,7 +3,7 @@ class Wish::ListByDonees
 	  wishes = donor.donor_wishes if wishes.blank?
 	  wishes = wishes.not_fulfilled unless include_fulfilled
 
-	  #we need to set wishes to group by donne name
+	  #we need to set wishes to group by donee name
     #one wish can be at many donees (shared wish)
     @wish_list =[]
 

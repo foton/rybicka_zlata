@@ -1,5 +1,7 @@
-$("#<%= @wish.anchor %>").replaceWith("<%= escape_javascript( render( partial: "wish", locals: {wish: @wish}) ) %>");
-$("#<%= @wish.anchor %>").effect("highlight", 500);
+$(".<%= anchor_for(@wish) %>").each(function(){ 
+  $(this).replaceWith("<%= escape_javascript( render(  partial: "/shared/list_with_actions_item", locals: { object: @wish, remote: true}) ) %>");
+  $(this).effect("highlight", 500);
+ }); 
 
 document.querySelector('#snackbar').MaterialSnackbar.showSnackbar(
   {

@@ -1,7 +1,9 @@
 require 'test_helper'
-
+require 'application_helper'
 
 class WishesHelperTest < ActionView::TestCase
+
+ include ApplicationHelper
 
   def setup
     setup_wish
@@ -88,4 +90,6 @@ class WishesHelperTest < ActionView::TestCase
     @wish.state=Wish::State::STATE_FULFILLED
     assert_equal "wish_fulfilled", class_for_state(@wish,@donor)
   end  
+
+ 
 end  

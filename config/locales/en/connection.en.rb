@@ -40,7 +40,10 @@
             button: "Edit"
           },
           delete: {
-            button: "Delete"
+            button: "Delete",
+            confirm: {
+              message: "Do You really want to delete the '%{object_title}' connection?"
+            }
           }
 
         },        

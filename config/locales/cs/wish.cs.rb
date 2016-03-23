@@ -10,7 +10,7 @@
             wish: {
                 title: "Titulek",
                 description: "Popis",
-                updated_by_donne_at: "Čas poslední změny obdarovaným"
+                updated_by_donee_at: "Čas poslední změny obdarovaným"
             }
         },
         errors: {
@@ -46,6 +46,9 @@
             new: {
                 button: "Přidat přání"
             },
+            show: {
+                button: "Zobrazit"
+            },
             edit: {
                 button: "Upravit"
             },
@@ -55,7 +58,7 @@
             delete: {
                 button: "Smazat",
                 confirm: {
-                  message: "Opravdu chcete přání '%{wish_title}' smazat?"
+                  message: "Opravdu chcete přání '%{object_title}' smazat?"
                 }
             },
             book: {
@@ -68,10 +71,11 @@
             },
             call_for_co_donors: {
                 button: "Vyzvat ke spoluúčasti",
-                message: "Uživatel '%{user_name}' hledá spoludárce pro přání '%{wish_title}'."
+                message: "Uživatel '%{user_name}' hledá spoludárce pro přání '%{wish_title}'.",
+                notice: "Uživatel '%{user_name}' hledá spoludárce pro toto přání."
             } ,   
             withdraw_call: {
-                button: "Zrušit výzvu ke spoluúčasti",
+                button: "Zrušit výzvu",
                 message: "Uživatel '%{user_name}' zrušil svoji výzvu ke spoluúčasti u přání '%{wish_title}'."
             } ,   
             gifted: {

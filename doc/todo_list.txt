@@ -28,7 +28,7 @@
 - create group
 - create personal wish and show that it is -/not wisible to other user
 - create shared wish and show that it is -/not wisible to other user
-- point out that donne cannot add donors which are in donees
+- point out that donee cannot add donors which are in donees
 - point out group usage
 - clickable links
 

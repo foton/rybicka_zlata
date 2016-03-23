@@ -35,7 +35,7 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
   end  
 
   def test_can_short_description
-    limit=100
+    limit=Wish::SHORT_DESCRIPTION_LENGTH
     description_in_limit="č"*limit
     description_over_limit="č"*(limit+1)
     description_over_limit_with_space_part1=("ž"*(limit-10))
@@ -46,7 +46,7 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
     
     #nospace in description, size with dots aligned to limit
     @wish.description=description_over_limit
-    assert_equal (description_over_limit[0..(limit-5)]+" ..."), @wish.description_shortened     
+    assert_equal (description_over_limit[0..(limit-4)]+" ..."), @wish.description_shortened     
     
     #should be shortened to last space + dots
     @wish.description=description_over_limit_with_space
@@ -90,7 +90,7 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
 
   def test_know_available_donor_connections_when_matching_emails_in_different_connections
 
-    #when donne have connection with same email (without user) as author assigned as donee connection
+    #when donee have connection with same email (without user) as author assigned as donee connection
     # Author :   mama [a_mama@email.cz]  friend_id: nil
     # Donee :    authors_mama [a_mama@email.cz] friend_id: nil
     #no MamaUser
