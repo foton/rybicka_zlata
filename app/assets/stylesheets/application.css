@@ -32,6 +32,10 @@ footer {
   width: 96%;
   padding: 1em;
 }
+
+.home {
+  margin: 0 auto;
+}
 .divider-h {
 	border-left: 1px solid #ddd;
 	width: 1px;
