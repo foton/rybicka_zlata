@@ -1,15 +1,18 @@
   <div class="mdl-grid">
-    <div class="home mdl-cell mdl-cell--9-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
-
+    <div class= "mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
       <%= link_to t("devise.sessions.new.sign_in"), new_user_session_path, class: "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" %>
       <%= link_to t("devise.registrations.new.sign_up"), new_user_registration_path, class: "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" %>
+    </div>  
 
+    <div id="wishes_links_image" class= "mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+      <%= image_tag("wishes_links_optimized.svg") %>
+    </div>
+
+    <div class="home mdl-cell mdl-cell--9-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
       <%= render partial:  "home_article" %>
       
     </div>
-    <div id="wishes_links_image" class= "mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--4-col-phone">
-      <%= image_tag("wishes_links_optimized.svg") %>
-    </div>
+
     <div id="" class= "mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
       <iframe id="video_tutorial" width="530" height="315" src="https://www.youtube.com/embed/qH6ZwUEs-Es" frameborder="0" allowfullscreen></iframe>
     </div> 
