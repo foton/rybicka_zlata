@@ -42,6 +42,7 @@
             must_have_booking_user: "In this state, wish must have booking user!"
         },
         actions: {
+            no_action_available: "This wish is booked. You can do nothing with it.",
             new: {
                 button: "Add wish"
             },

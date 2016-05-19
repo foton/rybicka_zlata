@@ -43,6 +43,7 @@
             must_have_booking_user: "Musí mít, v tomto stavu, přřazeného rezervujícího uživatele!"
         },
         actions: {
+            no_action_available: "S tímhle přáním už neuděláte nic. Asi je již zadáno.",
             new: {
                 button: "Přidat přání"
             },

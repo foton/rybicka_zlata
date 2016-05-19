@@ -1,9 +1,15 @@
+
+<% 
+  actions = wish.available_actions_for(@user)-[:show]
+  if actions.blank? %>
+    <%= t("wishes.actions.no_action_available") %>
+  <% else  %>
 <ul>
-<% for action in (wish.available_actions_for(@user)-[:show]) %>
+  <% actions.each do |action| %>
   <li><%= button_to_wish_action(action, @user, wish, remote, {state_action: action}) %></li>
-<% end %>
+  <% end %>
 </ul>
-  
+<% end %>  
 
 
 
