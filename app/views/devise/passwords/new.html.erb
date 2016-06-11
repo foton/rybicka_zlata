@@ -1,0 +1,14 @@
+<h2><%= t('.forgot_your_password') %></h2>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <%= f.label :email, class: "mdl-textfield__label" %>
+    <%= f.email_field :email, autofocus: true,  autocomplete: "on", class: "mdl-textfield__input" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit t('.send_me_reset_password_instructions'), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"  %>
+  </div>
+<% end %>

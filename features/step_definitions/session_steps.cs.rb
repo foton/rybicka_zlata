@@ -31,7 +31,9 @@ Pokud(/^jsem přihlášen jako "(.*?)"$/) do |name|
 end
 
 Given /(?:odhlásím se|se odhlásím)/ do
-  visit logout_path
+  if page.has_link?("Odhlásit")
+    step "kliknu v menu na \"Odhlásit\""  
+  end  
   @current_user=nil
 end
 

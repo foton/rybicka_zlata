@@ -48,12 +48,18 @@
       </div>
     <% end -%>
 
+
     <br />
 
     <div class="actions">
       <%= f.submit(t("devise.sessions.new.sign_in"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
     </div>
   <% end %>
+
+  <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <%= link_to t("devise.shared.links.forgot_your_password"), new_password_path(resource_name) %><br />
+  <% end -%>
+
   </div>
 
 </div>
