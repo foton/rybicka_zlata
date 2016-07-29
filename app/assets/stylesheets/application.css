@@ -205,7 +205,24 @@ footer {
   color: white;
 }
 
-#video_tutorial {
-  width: 560px;
-  height: 315px;
+.video_responsive_frame{
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    height: 0;
+    overflow:hidden;
 }
+
+.video_responsive_frame iframe{
+ position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+#video_tutorial {
+    height: 100%;
+    width: 100%;
+} 
