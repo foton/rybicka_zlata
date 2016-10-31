@@ -115,5 +115,13 @@ class ActiveSupport::TestCase
     @wish.save!    
   end
 
+  def setup_donor2
+    @donor2=create_test_user!(name: "donor2")
+    @donor2_conn=create_connection_for(@author, {name: "donor2_conn", email: @donor2.email})  
+    
+    @wish.merge_donor_conn_ids([@donor_conn.id,@donor2_conn.id], @author)
+    @wish.save!
+  end  
+
 end
 

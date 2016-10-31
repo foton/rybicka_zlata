@@ -66,6 +66,23 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     assert_equal "Uživatel 'donor' hledá spoludárce pro přání 'My first wish'.", msg
   end
 
+  def test_wish_in_call_for_co_donors_can_be_booked_by_some_else
+binding.pry
+    setup_donor2
+
+    msg=@wish.call_for_co_donors!(@donor)
+    assert @wish.call_for_co_donors?
+    assert_equal @donor,@wish.called_for_co_donors_by_user 
+    assert_equal "Uživatel 'donor' hledá spoludárce pro přání 'My first wish'.", msg
+
+    msg=@wish.book!(@donor2)
+   
+    assert @wish.booked?
+    assert_equal @donor2,@wish.booked_by_user 
+    assert_equal "Přání 'My first wish' bylo zarezervováno pro 'donor2'", msg
+
+  end
+
   def test_only_booked_by_user_can_set_gifted
     @wish.book!(@donor)
     assert_equal @donor, @wish.booked_by_user

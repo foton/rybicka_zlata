@@ -19,6 +19,7 @@ Kontext:
   A u "pepika" existuje skupina "Rodina" se členy ["Máma", "Táta" , "Mařenka"]
 
   A u "Mařenky" existuje kontakt "Karel Malý" s adresou "karel_maly@example.com"
+  A u "Mařenky" existuje kontakt "Mojmír" s adresou "mojmir@rybickazlata.cz"
   A u "Mařenky" existuje kontakt "Pepík" s adresou "pepik@rybickazlata.cz"
   A u "Mařenky" existuje skupina "Kámarádi" se členy ["Tom", "Bob"]
   A u "Mařenky" existuje skupina "Rodina" se členy ["Máma", "Táta", "Pepík"]
@@ -33,7 +34,7 @@ Kontext:
   A má v obdarovaných ["Maruška"]
 
   Pokud existuje přání "Překvapení pro Pepu" uživatele "Mařenka"
-  A to má dárce ["Máma", "Táta", "Karel Malý"]
+  A to má dárce ["Máma", "Táta", "Karel Malý","Mojmír"]
   
   A přepnu na češtinu
   A jsem přihlášen jako "Karel"
@@ -80,6 +81,25 @@ Scénář: Vyzvu ke spoluúčasti
 
   Pak bych měl vidět "Uživatel 'Karel' zrušil svoji výzvu ke spoluúčasti u přání 'Překvapení pro Pepu'."
   A u přání "Překvapení pro Pepu" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
+
+@javascript
+Scénář: Reaguji na výzvu ke spoluúčasti
+  Pokud jsem na stránce "Můžu splnit"
+  A kliknu na výzvu ke spoluúčasti u přání "Překvapení pro Pepu"
+  
+  Pak bych měl vidět "Uživatel 'Karel' hledá spoludárce pro přání 'Překvapení pro Pepu'."
+  A u přání "Překvapení pro Pepu" jsou akce ["Zrušit výzvu","Rezervovat"]
+
+  Pokud jsem na stránce "Profil"
+  Pokud se odhlásím
+  A jsem přihlášen jako "Mojmír"
+  
+  Pokud jsem na stránce "Můžu splnit"
+  A kliknu na rezerveci u přání "Překvapení pro Pepu"
+
+  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro 'Mojmír'"
+  A u přání "Překvapení pro Pepu" jsouw akce ["Uvolnit","Darováno"]
+
 
 @javascript
 Scénář: Splním rezervované přání

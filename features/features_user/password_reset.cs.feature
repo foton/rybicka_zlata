@@ -21,7 +21,7 @@ Scénář: Reset hesla
   Pokud si otevřu poslední email pro adresu "pepik@rybickazlata.cz"
   A kliknu v emailu na odkaz "Změnit mé heslo"
   
-  Pak bych měl vidět "Změna Vašeho heslaA"
+  Pak bych měl vidět "Změna Vašeho hesla"
   A zapíšu do položky "Nové heslo" text "NeznáméHeslo328"
   A zapíšu do položky "Potvrdit nové heslo" text "NeznáméHeslo328"
   A kliknu na tlačítko "Změnit mé heslo"

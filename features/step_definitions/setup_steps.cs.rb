@@ -29,6 +29,7 @@ Pokud /^existují standardní testovací uživatelé$/ do
         | pepik       |pepik@rybickazlata.cz    | cs      | #{DEFAULTS[:password]}  |  false  |
         | Mařenka     |marenka@rybickazlata.cz  | cs      | #{DEFAULTS[:password]}  |  false  |
         | Karel       |karel@rybickazlata.cz    | cs      | #{DEFAULTS[:password]}  |  false  |
+        | Mojmír      |mojmir@rybickazlata.cz   | cs      | #{DEFAULTS[:password]}  |  false  |
         })
   )
 end
