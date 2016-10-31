@@ -44,6 +44,7 @@ module Wish::State
     if user.is_donor_of?(self)
       self.state= STATE_RESERVED
       self.booked_by_user=user
+      self.called_for_co_donors_by_id=nil
       @available_users_actions={}
       I18n.t("wishes.actions.book.message", wish_title: self.title, user_name: user.name)
     end  

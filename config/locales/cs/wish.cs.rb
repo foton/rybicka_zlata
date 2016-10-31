@@ -72,8 +72,8 @@
             },
             call_for_co_donors: {
                 button: "Vyzvat ke spoluúčasti",
-                message: "Uživatel '%{user_name}' hledá spoludárce pro přání '%{wish_title}'.",
-                notice: "Uživatel '%{user_name}' hledá spoludárce pro toto přání."
+                message: "Uživatel '%{user_name}' hledá spoludárce pro přání '%{wish_title}'. Ozvěte se mu.",
+                notice: "Uživatel '%{user_name}' hledá spoludárce pro toto přání. Ozvěte se mu."
             } ,   
             withdraw_call: {
                 button: "Zrušit výzvu",

@@ -71,8 +71,8 @@
             },
             call_for_co_donors: {
                 button: "Call for donors",
-                message: "User '%{user_name}' looking for another donors for wish '%{wish_title}'.",
-                notice: "User '%{user_name}' looking for another donors for this wish."
+                message: "User '%{user_name}' looking for another donors for wish '%{wish_title}'. Contact him/her.",
+                notice: "User '%{user_name}' looking for another donors for this wish. Contact him/her."
             } ,   
             withdraw_call: {
                 button: "Withdraw call",

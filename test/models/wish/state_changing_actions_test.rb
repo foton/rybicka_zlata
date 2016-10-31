@@ -67,7 +67,6 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
   end
 
   def test_wish_in_call_for_co_donors_can_be_booked_by_some_else
-binding.pry
     setup_donor2
 
     msg=@wish.call_for_co_donors!(@donor)
@@ -78,8 +77,16 @@ binding.pry
     msg=@wish.book!(@donor2)
    
     assert @wish.booked?
-    assert_equal @donor2,@wish.booked_by_user 
+    assert_equal nil, @wish.called_for_co_donors_by_user 
+    assert_equal @donor2, @wish.booked_by_user 
     assert_equal "Přání 'My first wish' bylo zarezervováno pro 'donor2'", msg
+
+    msg=@wish.unbook!(@donor2)
+   
+    refute @wish.booked?
+    assert_equal nil, @wish.called_for_co_donors_by_user 
+    assert_equal nil, @wish.booked_by_user 
+    assert_equal "Přání 'My first wish' bylo uvolněno pro ostatní dárce.", msg
 
   end
 
