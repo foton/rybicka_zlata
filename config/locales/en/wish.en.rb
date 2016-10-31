@@ -164,7 +164,10 @@
                 },
                 show: {
                     donees_list_header: "Donees"
-                }
+                },
+                updated: "Wish '%{title}' was successfully updated.",
+                not_updated: "Wish '%{title}' was not updated.",
+
             }
         }    
 

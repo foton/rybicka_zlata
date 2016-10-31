@@ -45,6 +45,8 @@ gem 'omniauth-linkedin-oauth2'
 #TODO: maybe? gem 'i18n-tasks', '~> 0.9.2'
 
 #gem 'active_type'  #not yet used, but may be VERY usefull
+gem 'sendgrid' #for sending emails
+
 
 
 group :development, :test do

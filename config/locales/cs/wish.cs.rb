@@ -165,7 +165,10 @@
                 },
                 show: {
                     donees_list_header: "Obdarovaní"
-                }
+                },
+                updated: "Přání '%{title}' bylo aktualizováno.",
+                not_updated: "Přání '%{title}' nebylo aktualizováno.",
+
             }
         }    
 
