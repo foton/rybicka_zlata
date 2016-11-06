@@ -35,14 +35,22 @@ module ActionsHelper
  #  end 
 
   def tag_to_object_action(tag, action, user, obj=nil, remote=false, params={})
+    #bt_content= I18n.t("#{controller_prefix(obj)}.actions.#{action}.button")
+    #tooltip=I18n.t("#{controller_prefix(obj)}.actions.#{action}.button")
+    text=I18n.t("#{controller_prefix(obj)}.actions.#{action}.button")
+    action= :new if action == :another_new
+    tag_to_object_action_with_text(tag, action, user, text, obj, remote, params)
+  end
+
+  def tag_to_object_action_with_text(tag, action, user, text, obj=nil, remote=false, params={})
+  
     method, remote, data, params = prepare_params(action, user, obj, remote, params)
     
     id = controller_prefix(obj)+"_"+action.to_s 
     id+="_#{obj.id}" if obj.present?
 
-    bt_content= I18n.t("#{controller_prefix(obj)}.actions.#{action}.button")
-    tooltip=I18n.t("#{controller_prefix(obj)}.actions.#{action}.button")
-    
+    tooltip=bt_content=text
+        
     url=path_to_action_for_user(action, user, obj, params)
     
     case tag
@@ -56,7 +64,7 @@ module ActionsHelper
   
     content_tag(:span) do
       concat send(mtd, bt_content, url, {method: method, id: id, remote: remote, class: action.to_s, data: data } )
-      concat content_tag(:span, class: "mdl-tooltip", for: id) { I18n.t("#{controller_prefix(obj)}.actions.#{action}.button") }  if bt_content != tooltip
+      concat content_tag(:span, class: "mdl-tooltip", for: id) { bt_content }  if bt_content != tooltip
     end  
   end  
 

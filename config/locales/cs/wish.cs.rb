@@ -47,6 +47,9 @@
             new: {
                 button: "Přidat přání"
             },
+            another_new: {
+                button: "Přidat další přání"
+            },
             show: {
                 button: "Zobrazit"
             },

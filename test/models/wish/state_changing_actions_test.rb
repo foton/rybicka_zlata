@@ -63,7 +63,7 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     msg=@wish.call_for_co_donors!(@donor)
     assert @wish.call_for_co_donors?
     assert_equal @donor,@wish.called_for_co_donors_by_user 
-    assert_equal "Uživatel 'donor' hledá spoludárce pro přání 'My first wish'.", msg
+    assert_equal "Uživatel 'donor' hledá spoludárce pro přání 'My first wish'. Ozvěte se mu.", msg
   end
 
   def test_wish_in_call_for_co_donors_can_be_booked_by_some_else
@@ -72,7 +72,7 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     msg=@wish.call_for_co_donors!(@donor)
     assert @wish.call_for_co_donors?
     assert_equal @donor,@wish.called_for_co_donors_by_user 
-    assert_equal "Uživatel 'donor' hledá spoludárce pro přání 'My first wish'.", msg
+    assert_equal "Uživatel 'donor' hledá spoludárce pro přání 'My first wish'. Ozvěte se mu.", msg
 
     msg=@wish.book!(@donor2)
    
@@ -126,8 +126,7 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     #all_donor_links_are_deleted_on_fulfilling
     assert @wish.donor_links.empty?
   end
-
-  
+ 
 
   private
   

@@ -41,7 +41,7 @@ Scénář: Přidání přání
   A vidím kontakt "Mařenka" v "Dárci"
   A vidím kontakt "Karel" v "Dárci"
   A vidím kontakt "Autor přání [pepik]" v "Obdarovaní"
-
+  A můžu rovnou přidat další přání
 
   Pokud jsem na stránce "Má přání" 
   A v seznamu přání je přání "Kalhoty s kapsami" se 1 potenciálními dárci

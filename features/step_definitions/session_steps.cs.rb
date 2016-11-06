@@ -30,7 +30,7 @@ Pokud(/^jsem přihlášen jako "(.*?)"$/) do |name|
   step "přihlásím se jako \"#{current_user.email}\" s heslem \"#{DEFAULTS[:password]}\""
 end
 
-Given /(?:odhlásím se|se odhlásím)/ do
+Given /^(?:odhlásím se|se odhlásím)$/ do
   if page.has_link?("Odhlásit")
     step "kliknu v menu na \"Odhlásit\""  
   end  

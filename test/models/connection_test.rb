@@ -114,4 +114,9 @@ class ConnectionTest < ActiveSupport::TestCase
     assert_equal "Autor přání [Ford]: hitchhiker@galaxy.museum", @user_to.base_connection.fullname
   end 
 
+  def test_do_downcase_email
+    connection=Connection.new(name: "Simon", email: "Simon@SayS.com", owner_id: @owner.id)
+    assert_equal "simon@says.com", connection.email
+  end 
+
 end

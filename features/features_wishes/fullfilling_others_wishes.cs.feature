@@ -95,10 +95,10 @@ Scénář: Reaguji na výzvu ke spoluúčasti
   A jsem přihlášen jako "Mojmír"
   
   Pokud jsem na stránce "Můžu splnit"
-  A kliknu na rezerveci u přání "Překvapení pro Pepu"
+  A kliknu na rezervaci u přání "Překvapení pro Pepu"
 
   Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro 'Mojmír'"
-  A u přání "Překvapení pro Pepu" jsouw akce ["Uvolnit","Darováno"]
+  A u přání "Překvapení pro Pepu" jsou akce ["Uvolnit","Darováno"]
 
 
 @javascript

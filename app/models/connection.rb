@@ -25,6 +25,10 @@ class Connection < ActiveRecord::Base
   
   before_validation :assign_friend
 
+  def email=(email)
+    write_attribute(:email,email.kind_of?(String) ? email.downcase : email)
+  end  
+
   def available_actions_for(user)
     user.id == self.owner_id ? [:show, :edit, :delete] : []
   end  

@@ -46,6 +46,9 @@
             new: {
                 button: "Add wish"
             },
+            another_new: {
+                button: "Add another wish"
+            },
             show: {
                 button: "Show"
             },
@@ -58,7 +61,7 @@
             delete: {
                 button: "Delete",
                 confirm: {
-                  message: "Do you really want to delete wish '%{wish_title}'?"
+                  message: "Do you really want to delete wish '%{object_title}'?"
                 }
             },
             book: {

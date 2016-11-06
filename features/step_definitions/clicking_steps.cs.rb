@@ -95,7 +95,11 @@ end
 
 Když(/^kliknu v menu na "(.*?)"$/) do |text|
   within("div#main_menu") do
-    click_link_or_button(text)  
+    begin
+      click_link_or_button(text)  
+    rescue Capybara::Webkit::ClickFailed => e
+      js_click_link(text)
+    end  
   end  
 end
 

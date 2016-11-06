@@ -11,7 +11,7 @@ FileUtils.rm_rf(FAILED_DIR_PATH)
 
 After do |scenario|
   if scenario.failed?
-    #filename = "#{FAILED_DIR_PATH}/failed--#{scenario.file.gsub("features/","").gsub("/","-")}--#{scenario.line}.html"
+  	#filename = "#{FAILED_DIR_PATH}/failed--#{scenario.file.gsub("features/","").gsub("/","-")}--#{scenario.line}.html"
     filename = "#{FAILED_DIR_PATH}/failed--#{scenario.location.file.gsub("features/","").gsub("/","-")}--#{scenario.location.line}.html"
     Capybara.save_page filename
   end

@@ -8,8 +8,16 @@
       <% for action in (@wish.available_actions_for(@user)-[:show]) %>
         <li><%= tag_to_object_action(:button, action, @user, @wish, false, {state_action: action}) %></li>
       <% end %>
+
       </ul>
     </span>
+
+    <span class="as_list">
+      <ul>
+        <li><%= tag_to_object_action(:button, :another_new, @user, Wish::FromAuthor.new, false, {}) %></li>
+      </ul>
+    </span>
+
   </div>
   
   <div class="mdl-grid" id="wish_connections">
