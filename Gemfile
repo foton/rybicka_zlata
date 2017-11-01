@@ -2,19 +2,19 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails' #, '4.2.5'
 gem 'pg' #PostgreSQL kvuli Heroku
 
 
 #Material theme for Bootstrap
 #gem 'bootstrap-material-design'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails' #, '~> 5.0'
 
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier' #, '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails' #, '~> 4.1.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -34,8 +34,8 @@ gem 'jquery-rails'
 
 #authorization
 gem 'devise'
-gem 'devise-i18n', github: "tigrish/devise-i18n"  #direct from github beacause of very good changes, which  are not in gem https://github.com/tigrish/devise-i18n.git
-gem 'omniauth-oauth2', '~> 1.3.1'  #version 1.4.0 have 'uri_mismatch error'
+gem 'devise-i18n' #, github: "tigrish/devise-i18n"  #direct from github beacause of very good changes, which  are not in gem https://github.com/tigrish/devise-i18n.git
+gem 'omniauth-oauth2' #, '~> 1.3.1'  #version 1.4.0 have 'uri_mismatch error'
 #gem 'omniauth-gplus'
 gem "omniauth-google-oauth2"
 gem 'omniauth-facebook'
@@ -58,7 +58,6 @@ group :development, :test do
 
   # using minitest which commes with rails         gem "rspec-rails"
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
   gem "pry-rails" # pry misto IRB v rails console
   gem "pry-byebug" #debugging with pry on ruby 2 ('step','next','finish','continue')
   gem "minitest-reporters" #better formatted output of Minitest
@@ -70,10 +69,13 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'web-console' #, '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  # style check,always learning best practicies
+  gem 'rubocop', require: false
 end
 
 group :test do
