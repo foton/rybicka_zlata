@@ -1,16 +1,15 @@
-#this class connects wish with donors
-class DonorLink < ActiveRecord::Base
-	belongs_to :connection , inverse_of: :donor_links
-	belongs_to :wish , inverse_of: :donor_links
+# frozen_string_literal: true
 
-	ROLE_AS_POTENCIAL_DONOR=0
-	ROLE_AS_REAL_DONOR=1
+# this class connects wish with donors
+class DonorLink < ApplicationRecord
+  belongs_to :connection, inverse_of: :donor_links
+  belongs_to :wish, inverse_of: :donor_links
 
-	def user
-		connection.user
-	end	
+  ROLE_AS_POTENCIAL_DONOR = 0
+  ROLE_AS_REAL_DONOR = 1
 
-	scope :for_wish, -> (wish) { where(wish_id: wish.id) }
-	scope :for_connection, -> (conn) { where(connection_id: conn.id) }
+  delegate :user, to: :connection
 
+  scope :for_wish, ->(wish) { where(wish_id: wish.id) }
+  scope :for_connection, ->(conn) { where(connection_id: conn.id) }
 end

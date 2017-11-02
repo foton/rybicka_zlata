@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -125,6 +127,9 @@ Devise.setup do |config|
   # db field (see migrations). Until confirmed, new email is stored in
   # unconfirmed_email column, and copied to email column on successful confirmation.
   config.reconfirmable = true
+
+  # Send a notification to the original email when the user's email is changed.
+  config.send_email_changed_notification = true
 
   # Defines which key will be used when confirming an account
   # config.confirmation_keys = [:email]
@@ -263,36 +268,36 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-  #config.omniauth :gplus, ENV['GPLUS_CLIENTID'], ENV['GPLUS_SECRET'], scope: 'userinfo.email, userinfo.profile', access_type: 'online' redirect_uri: 'http://localhost/auth/google_oauth2/callback'
-  #config.omniauth :google_oauth2, ENV['GPLUS_CLIENTID'], ENV['GPLUS_SECRET'], scope: 'userinfo.email, userinfo.profile', access_type: 'online' #, redirect_uri: 'http://localhost/auth/google_oauth2/callback'
-  config.omniauth :google_oauth2, 
-    Rails.application.secrets.google_client_id, 
-    Rails.application.secrets.google_client_secret,  
-    scope: 'userinfo.email, userinfo.profile', 
-    access_type: 'online',
-    name: 'google',
-    skip_jwt: true
-    #, redirect_uri: 'http://localhost:3000/users/auth/google/callback?locale=cs'
+  # config.omniauth :gplus, ENV['GPLUS_CLIENTID'], ENV['GPLUS_SECRET'], scope: 'userinfo.email, userinfo.profile', access_type: 'online' redirect_uri: 'http://localhost/auth/google_oauth2/callback'
+  # config.omniauth :google_oauth2, ENV['GPLUS_CLIENTID'], ENV['GPLUS_SECRET'], scope: 'userinfo.email, userinfo.profile', access_type: 'online' #, redirect_uri: 'http://localhost/auth/google_oauth2/callback'
+  config.omniauth :google_oauth2,
+                  Rails.application.secrets.google_client_id,
+                  Rails.application.secrets.google_client_secret,
+                  scope: 'userinfo.email, userinfo.profile',
+                  access_type: 'online',
+                  name: 'google',
+                  skip_jwt: true
+  # , redirect_uri: 'http://localhost:3000/users/auth/google/callback?locale=cs'
 
-  config.omniauth :github, 
-    Rails.application.secrets.github_client_id, 
-    Rails.application.secrets.github_client_secret,  
-    scope: 'user' 
+  config.omniauth :github,
+                  Rails.application.secrets.github_client_id,
+                  Rails.application.secrets.github_client_secret,
+                  scope: 'user'
 
-  config.omniauth :facebook, 
-    Rails.application.secrets.facebook_client_id, 
-    Rails.application.secrets.facebook_client_secret,  
-    scope: 'email,public_profile',
-    info_fields: 'name,email,locale,timezone,verified'
+  config.omniauth :facebook,
+                  Rails.application.secrets.facebook_client_id,
+                  Rails.application.secrets.facebook_client_secret,
+                  scope: 'email,public_profile',
+                  info_fields: 'name,email,locale,timezone,verified'
 
-  config.omniauth :twitter, 
-    Rails.application.secrets.twitter_client_id, 
-    Rails.application.secrets.twitter_client_secret,  
-    x_auth_access_type: 'read',
-    scope: 'email,public_profile',
-    info_fields: 'name,email,locale,timezone,verified'
+  config.omniauth :twitter,
+                  Rails.application.secrets.twitter_client_id,
+                  Rails.application.secrets.twitter_client_secret,
+                  x_auth_access_type: 'read',
+                  scope: 'email,public_profile',
+                  info_fields: 'name,email,locale,timezone,verified'
 
-  config.omniauth :linkedin, 
-    Rails.application.secrets.linkedin_client_id, 
-    Rails.application.secrets.linkedin_client_secret  
+  config.omniauth :linkedin,
+                  Rails.application.secrets.linkedin_client_id,
+                  Rails.application.secrets.linkedin_client_secret
 end

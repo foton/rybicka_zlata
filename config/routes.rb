@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
- 
-  devise_for :users, controllers: { registrations: "users/registrations", omniauth_callbacks: 'users/omni_auth' }
+  devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omni_auth' }
 
   resources :users do
     scope module: :users do
@@ -11,18 +12,16 @@ Rails.application.routes.draw do
     resources :others_wishes, controller: 'wishes/from_donor'
     resources :my_wishes, controller: 'wishes/from_donee'
     resources :author_wishes, controller: 'wishes/from_author'
-  end  
+  end
 
-  
-  get "/my_profile" => "profiles#my", :as => "my_profile"
-  get "/profiles/:user_id" => "profiles#show", :as => "profile"
+  get '/my_profile' => 'profiles#my', :as => 'my_profile'
+  get '/profiles/:user_id' => 'profiles#show', :as => 'profile'
 
+  get '/change_locale' => 'static#change_locale', :as => 'change_locale'
+  get '/about' => 'static#about', :as => 'about'
+  post '/message_to_admin' => 'static#message_to_admin', :as => 'message_to_admin'
+  root to: 'static#home'
 
-  get "/change_locale" => "static#change_locale", :as => "change_locale"
-  get "/about" => "static#about", :as => "about"
-  post "/message_to_admin" => "static#message_to_admin", :as => "message_to_admin"
-  root to: "static#home"
-  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

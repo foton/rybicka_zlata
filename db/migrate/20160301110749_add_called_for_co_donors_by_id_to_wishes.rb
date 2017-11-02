@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCalledForCoDonorsByIdToWishes < ActiveRecord::Migration
   def change
     add_column :wishes, :called_for_co_donors_by_id, :integer, null: true, index: true

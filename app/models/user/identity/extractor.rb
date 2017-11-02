@@ -1,32 +1,31 @@
-#Interface class for providing data from auth hashes
-#for every provider implement subclass !
-class User::Identity::Extractor
-  
-  def initialize(auth_data={})
-    @auth_data=auth_data
-  end  
+# frozen_string_literal: true
 
-  def auth_data=(a)
-    @auth_data=a
-  end  
-  
+# Interface class for providing data from auth hashes
+# for every provider implement subclass !
+class User::Identity::Extractor
+  def initialize(auth_data = {})
+    @auth_data = auth_data
+  end
+
+  attr_writer :auth_data
+
   def name
     nil
   end
 
   def locale
     nil
-  end  
+  end
 
   def time_zone
     nil
-  end  
+  end
 
   def email
     nil
   end
-  
+
   def verified_email
     nil
-  end  
+  end
 end

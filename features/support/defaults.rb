@@ -1,13 +1,5 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-DEFAULTS= {
-	password: "Abcd1234"
-}
-
-def current_user=(user)
-	@current_user=user
-end	
-
-def current_user
-	@current_user
-end	
+DEFAULTS = {
+  password: 'Abcd1234'
+}.freeze

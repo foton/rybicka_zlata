@@ -1,12 +1,12 @@
-#encoding: utf-8
+# frozen_string_literal: true
 
 Then /^(?:I )?should see (?:text )?"([^"]*)"$/ do |regexp|
   regexp = Regexp.new(regexp)
 
   if page.respond_to? :should
-    page.should have_xpath('//*', :text => regexp)
+    page.should have_xpath('//*', text: regexp)
   else
-    assert page.has_xpath?('//*', :text => regexp)
+    assert page.has_xpath?('//*', text: regexp)
   end
 end
 

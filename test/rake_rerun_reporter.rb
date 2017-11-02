@@ -1,22 +1,23 @@
-require "minitest/reporters"
+# frozen_string_literal: true
+
+require 'minitest/reporters'
 
 module Minitest
   module Reporters
     class RakeRerunReporter < Minitest::Reporters::DefaultReporter
-
       def initialize(options = {})
-        @rerun_user_prefix=options.fetch(:rerun_prefix, "")
+        @rerun_user_prefix = options.fetch(:rerun_prefix, '')
         super
       end
 
       def report
         super
-      
+
         puts
-      
+
         unless @fast_fail
-          #print rerun commands
-          failed_or_error_tests=(tests.select {|t| t.failure && !t.skipped? })
+          # print rerun commands
+          failed_or_error_tests = (tests.select { |t| t.failure && !t.skipped? })
 
           if failed_or_error_tests.present?
             puts red("You can rerun failed/error test by commands (you can add rerun prefix with 'rerun_prefix' option):")
@@ -26,48 +27,46 @@ module Minitest
             end
           end
         end
-        
-        #summary for all suite again
+
+        # summary for all suite again
         puts
         print colored_for(suite_result, result_line)
         puts
-        
-      end  
+      end
 
       private
 
-        def print_rerun_command(test)
-          message = rerun_message_for(test)
-          unless message.nil? || message.strip == ''
-            puts
-            puts colored_for(result(test), message)
-          end
+      def print_rerun_command(test)
+        message = rerun_message_for(test)
+        unless message.nil? || message.strip == ''
+          puts
+          puts colored_for(result(test), message)
+        end
+      end
+
+      def rerun_message_for(test)
+        file_path = location(test.failure).gsub(/(\:\d*)\z/, '')
+        msg = "#{@rerun_user_prefix} rake test TEST=#{file_path} TESTOPTS=\"--name=#{test.name} -v\""
+        if test.skipped?
+          "Skipped: \n#{msg}"
+        elsif test.error?
+          "Error:\n#{msg}"
+        else
+          "Failure:\n#{msg}"
+        end
+      end
+
+      def location(exception)
+        last_before_assertion = ''
+
+        exception.backtrace.reverse_each do |ss|
+          break if ss.match?(/in .(assert|refute|flunk|pass|fail|raise|must|wont)/)
+          last_before_assertion = ss
+          break if ss.match?(/_test.rb\:/)
         end
 
-        def rerun_message_for(test)
-          file_path=location(test.failure).gsub(/(\:\d*)\z/,"")
-          msg="#{@rerun_user_prefix} rake test TEST=#{file_path} TESTOPTS=\"--name=#{test.name} -v\""
-          if test.skipped?
-            "Skipped: \n#{msg}"
-          elsif test.error?
-            "Error:\n#{msg}"
-          else
-            "Failure:\n#{msg}"
-          end
-        end
-
-        def location(exception)
-          last_before_assertion = ''
-
-          exception.backtrace.reverse_each do |ss|
-            break if ss =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
-            last_before_assertion = ss
-            break if ss=~ /_test.rb\:/
-          end
-
-          last_before_assertion.sub(/:in .*$/, '')
-        end  
-
+        last_before_assertion.sub(/:in .*$/, '')
+      end
     end
   end
 end

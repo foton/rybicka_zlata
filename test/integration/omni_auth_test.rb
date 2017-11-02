@@ -1,26 +1,28 @@
+# frozen_string_literal: true
+
 require 'test_helper'
- 
+
 class OmniAuthController < ActionDispatch::IntegrationTest
   #  include Devise::TestHelpers
 
   def setup
-    #OmniAuth.config.full_host = Rails.env.production? ? 'https://domain.com' : 'http://localhost:3000'
-    #OmniAuth.config.full_host = 'http://localhost:3000'
+    # OmniAuth.config.full_host = Rails.env.production? ? 'https://domain.com' : 'http://localhost:3000'
+    # OmniAuth.config.full_host = 'http://localhost:3000'
     OmniAuth.config.test_mode = true
-    
-    @user_name="John Doe"
+
+    @user_name = 'John Doe'
   end
 
   def oauth_path_for(provider, params = {})
-    Rails.application.routes.url_helpers.user_omniauth_authorize_path(provider,params: params) 
+    Rails.application.routes.url_helpers.user_omniauth_authorize_path(provider, params: params)
   end
 
   def oauth_callback_path_for(provider, params = {})
-    Rails.application.routes.url_helpers.user_omniauth_callback_path(provider,params: params) 
+    Rails.application.routes.url_helpers.user_omniauth_callback_path(provider, params: params)
   end
-   
-  def test_can_sign_in_with_google 
-    skip("do not know how to get current user")
+
+  def test_can_sign_in_with_google
+    skip('do not know how to get current user')
 
     # user_email="john.doe@gmail.com"
     # OmniAuth.config.mock_auth[:google] = OmniAuth::AuthHash.new({
@@ -34,9 +36,8 @@ class OmniAuthController < ActionDispatch::IntegrationTest
 
     # assert User.find_by_email(user_email).blank?
     # assert_nil goo_user.current_user
-    
 
-    # get oauth_path_for(:google,params: {}) 
+    # get oauth_path_for(:google,params: {})
 
     # #after succesfull (mocked) authorization
     # assert_redirected_to oauth_callback_path_for(:google)
@@ -47,11 +48,9 @@ class OmniAuthController < ActionDispatch::IntegrationTest
     # assert_equal user_created ,current_user
   end
 
-
   def new_session
     open_session do |sess|
       yield sess if block_given?
     end
   end
 end
-

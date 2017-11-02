@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBookedByIdToWishes < ActiveRecord::Migration
   def change
     add_column :wishes, :booked_by_id, :integer, null: true, index: true

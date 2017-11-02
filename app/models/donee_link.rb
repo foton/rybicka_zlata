@@ -1,13 +1,12 @@
-#this class connects wish with donees
-class DoneeLink < ActiveRecord::Base
-	belongs_to :connection , inverse_of: :donee_links
-	belongs_to :wish , inverse_of: :donee_links
+# frozen_string_literal: true
 
-	def user
-		connection.user
-	end	
+# this class connects wish with donees
+class DoneeLink < ApplicationRecord
+  belongs_to :connection, inverse_of: :donee_links
+  belongs_to :wish, inverse_of: :donee_links
 
-  scope :for_wish, -> (wish) { where(wish_id: wish.id) }
-	scope :for_connection, -> (conn) { where(connection_id: conn.id) }
+  delegate :user, to: :connection
 
+  scope :for_wish, ->(wish) { where(wish_id: wish.id) }
+  scope :for_connection, ->(conn) { where(connection_id: conn.id) }
 end

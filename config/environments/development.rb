@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  config.app_domain="localhost"
+  config.app_domain = 'localhost'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -40,20 +42,20 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  #Devise requirement
+  # Devise requirement
   config.action_mailer.default_url_options = { host: config.app_domain, port: 3000 }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
-   address:              "smtp.sendgrid.net",
-   port:                 587,
-   user_name:            ENV['SENDGRID_USERNAME'],
-   password:             ENV['SENDGRID_PASSWORD'],
-   domain:               "rybickazlata.cz",
-   authentication:       "plain",
-   enable_starttls_auto: true
+    address:              'smtp.sendgrid.net',
+    port:                 587,
+    user_name:            ENV['SENDGRID_USERNAME'],
+    password:             ENV['SENDGRID_PASSWORD'],
+    domain:               'rybickazlata.cz',
+    authentication:       'plain',
+    enable_starttls_auto: true
   }
 
-  #OmniAuth.config.full_host = 'http://localhost:3000'
+  # OmniAuth.config.full_host = 'http://localhost:3000'
 end

@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 class MoveOAuthIdentityToIdentityModel < ActiveRecord::Migration
   def up
     create_table(:identities) do |t|
-      t.string :provider, null: false, default: ""
-      t.string :uid, null: false, default: ""
+      t.string :provider, null: false, default: ''
+      t.string :uid, null: false, default: ''
       t.belongs_to :user
-    end    
-    
+    end
+
     add_index :identities, :provider
     add_index :identities, :uid
-    add_index :identities, [:provider,:uid], {name: "oauth_index", unique: true}
-    
-    #transfer User -> Identity
-    oa_users=User.where("provider IS NOT NULL AND provider <> ''")
+    add_index :identities, %i[provider uid], name: 'oauth_index', unique: true
+
+    # transfer User -> Identity
+    oa_users = User.where("provider IS NOT NULL AND provider <> ''")
     oa_users.each do |user|
       Identity.create!(user: user, provider: user.provider, uid: user.uid)
     end
@@ -27,15 +29,15 @@ class MoveOAuthIdentityToIdentityModel < ActiveRecord::Migration
     add_index :users, :provider
     add_column :users, :uid, :string
     add_index :users, :uid
-    
-    #transfer Identity -> User
+
+    # transfer Identity -> User
     Identity.all.each do |idnt|
-      u=idnt.user
-      u.provider=idnt.provider
+      u = idnt.user
+      u.provider = idnt.provider
       u.uid = idnt.uid
-      u.save! 
+      u.save!
     end
 
     drop_table :identities
-  end  
+  end
 end

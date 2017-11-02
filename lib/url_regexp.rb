@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Regexp
   # from https://gist.github.com/dperini/729294
   PERFECT_URL_PATTERN = %r{
@@ -43,5 +45,4 @@ class Regexp
     (?:/[^\s]*)?
 
   }xi
-
 end

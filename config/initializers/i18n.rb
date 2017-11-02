@@ -1,1 +1,3 @@
-I18n.available_locales = [:en, :cs]
+# frozen_string_literal: true
+
+I18n.available_locales = %i[en cs]
