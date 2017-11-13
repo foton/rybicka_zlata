@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     resources :author_wishes, controller: 'wishes/from_author'
   end
 
+  namespace :discussions do
+    resources :posts
+  end
+
   get '/my_profile' => 'profiles#my', :as => 'my_profile'
   get '/profiles/:user_id' => 'profiles#show', :as => 'profile'
 
