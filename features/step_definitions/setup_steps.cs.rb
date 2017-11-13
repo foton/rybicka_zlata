@@ -45,23 +45,6 @@ Pokud(/^existuje kontakt "(.*?)"$/) do |connection_name|
   make_connection_for(@current_user, name: connection_name)
 end
 
-# Pokud(/^existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |grp_name, grp_members_to_s|
-#   grp=@current_user.groups.find_by_name(grp_name)
-#   if grp.blank?
-#     grp=@current_user.groups.create!( name: grp_name)
-#   end
-
-#   members=[]
-#   for mem_name in grp_members_to_s.split(",")
-#     mem_name=mem_name.gsub("\"","").strip
-#     conn=@current_user.connections.find_by_name(mem_name)
-#     conn=@current_user.connections.create!(name: mem_name, email: "#{mem_name}@example.com") if conn.blank?
-#     members << conn
-#   end
-#   grp.connections = members
-#   grp.save!
-# end
-
 Pokud(/^(?:u "(.*?)" )?existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |user_name, grp_name, grp_members_to_s|
   if user_name.present?
     user = User.find_by(name: formalize_user_name(user_name))
@@ -114,8 +97,7 @@ end
 
 Pokud(/^existuje přání "(.*?)" uživatele "(.*?)"$/) do |title, user_name|
   user = User.find_by(name: user_name)
-  @wish = Wish::FromAuthor.new(author: user, title: title, description: "Description of přání #{title}")
-  @wish.save!
+  @wish = Wish::FromAuthor.find_or_create_by!(author_id: user.id, title: title, description: "Description of přání #{title}")
 end
 
 Pokud(/^to má dárce \[(.*?)\]$/) do |donor_names_str|
@@ -173,8 +155,14 @@ def formalize_user_name(user_name)
   case user_name
   when 'pepika', 'Pepika'
     'pepik'
-  when 'Mařenky'
+  when 'Mařenky', 'Marušky'
     'Mařenka'
+  when 'Karla'
+    'Karel'
+  when 'Mámy'
+    'Máma'
+  when 'charlese'
+    'charles'
   else
     user_name
   end
