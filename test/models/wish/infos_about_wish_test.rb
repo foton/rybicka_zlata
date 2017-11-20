@@ -55,6 +55,13 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
     assert_equal (description_over_limit_with_space_part1 + ' ...'), @wish.description_shortened
   end
 
+  def test_correct_styling_in_description
+    url_with_comma = 'http://something.cz/path/to/file_with,should_be_safe'
+    @wish.description = "Something,that should be fixed, right now. Or maybe,maybe not? #{url_with_comma}"
+    assert @wish.valid?
+    assert_equal "Something, that should be fixed, right now. Or maybe, maybe not? #{url_with_comma}", @wish.description
+  end
+
   def test_know_available_donor_connections
     conns = @author.connections.to_a
     expected_conns = conns - ([@author.base_connection] + @wish.donee_connections.to_a)

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'url_regexp.rb'
+
 class Wish < ApplicationRecord
   belongs_to :author, class_name: 'User'
   belongs_to :booked_by_user, class_name: 'User', foreign_key: 'booked_by_id'
@@ -14,6 +16,7 @@ class Wish < ApplicationRecord
   validates :author, presence: true
 
   before_validation :ensure_no_connections_from_ex_donees
+  before_validation :ensure_good_styling_of_description
 
   validate :no_same_donor_and_donee
   validate :validate_booked_by
@@ -141,6 +144,14 @@ class Wish < ApplicationRecord
     connection_ids_of_current_donees = ::Connection.where(owner_id: donee_user_ids).pluck(:id)
     dls_to_delete = donor_links.where.not(connection_id: connection_ids_of_current_donees)
     dls_to_delete.destroy_all
+  end
+
+  def ensure_good_styling_of_description
+    # add space after comma, unless it is in URL
+    description.gsub!(/([^\s]+),([^\s]+)/) do
+      m = Regexp.last_match
+      m[0].match(::Regexp::PERFECT_URL_PATTERN) ? m[0] : "#{m[1]}, #{m[2]}"
+    end
   end
 
   def validate_booked_by

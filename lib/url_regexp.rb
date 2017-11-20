@@ -42,7 +42,7 @@ class Regexp
     rgx_str += '(:\d{2,5})?' # port number
     rgx_str += '((?:\/[\w\-]+)+\/)?' # path without file
     rgx_str += '([\w\-\.]+[^\#\?\s]+)?' # file
-    rgx_str += '(\?(?:(?:[\w\-]+=[^\&\#]*)\&?)+)?' # query
+    rgx_str += '(\?(?:(?:[\w\-]+=[^\&\#\s]*)\&?)+)?' # query
     rgx_str += '(\#[\w\-]+)?' # anchor (should be last)
 
     Regexp.new(rgx_str, Regexp::EXTENDED | Regexp::IGNORECASE)

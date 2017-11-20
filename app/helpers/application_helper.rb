@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'url_regexp.rb'
+
 module ApplicationHelper
   def set_page_title(page_title) # version page_title=(pg) does not work, it set local variable instead in view
     content_for(:title) { page_title }
@@ -90,7 +92,6 @@ module ApplicationHelper
 
   # convert char '\n' to '<br />'
   # and  URIs to clickable links
-  require 'url_regexp.rb'
   def to_html(str)
     # cutoff URIs
     uri_placeholder = 'LINK_PLAC3HOLD3R_HERE'
@@ -104,8 +105,8 @@ module ApplicationHelper
     htmls = htmls.gsub("\n", '<br />')
 
     # put URIs back as clickable links
-    for uri in uris
-      htmls = htmls.sub(uri_placeholder, short_link_from_uri(uri))
+    uris.each do |uri|
+      htmls = htmls.sub(uri_placeholder, short_link_from_uri(uri.join('')))
     end
 
     htmls
