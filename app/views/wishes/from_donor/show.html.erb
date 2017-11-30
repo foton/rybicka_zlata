@@ -10,7 +10,7 @@
     </ul>
   </div>
 
-  <div class="actions"> 
+  <div class="actions">
     <span class="as_list">
       <ul>
       <% for action in (@wish.available_actions_for(@user)-[:show]) %>
@@ -19,5 +19,7 @@
       </ul>
     </span>
   </div>
-  
-</div>  
+
+  <%= render partial: 'discussions/show' %>
+
+</div>

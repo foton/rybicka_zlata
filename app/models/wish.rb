@@ -12,6 +12,8 @@ class Wish < ApplicationRecord
   has_many :donee_links, dependent: :delete_all, inverse_of: :wish
   has_many :donee_connections, through: :donee_links, source: :connection
 
+  has_many :posts, class_name: 'Discussion::Post', dependent: :delete_all, inverse_of: :wish
+
   validates :title, presence: true
   validates :author, presence: true
 

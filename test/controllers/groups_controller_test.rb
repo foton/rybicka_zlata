@@ -30,7 +30,6 @@ class GroupsControllerTest < ActionController::TestCase
     assert assigns(:groups).present?
     assert_equal @current_user.groups.to_a.sort, assigns(:groups).to_a.sort
 
-
     assert assigns(:group).present?
     assert_not_nil assigns(:user)
     assert assigns(:group).is_a?(Group)
