@@ -23,7 +23,9 @@ Pak(/^přihlásím se jako "(.*?)" s heslem "(.*?)"$/) do |email, password|
 end
 
 Pokud(/^jsem přihlášen jako "(.*?)"$/) do |name|
-  @current_user = @users.find { |u| u.name == name }
+  user = @users.find { |u| u.name == name }
+  step 'odhlásím se'
+  @current_user = user
   step "přihlásím se jako \"#{@current_user.email}\" s heslem \"#{DEFAULTS[:password]}\""
 end
 

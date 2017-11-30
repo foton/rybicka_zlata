@@ -1,1 +1,21 @@
-    <a href="#"><%= t("discussion.start_discussion")%></a>
+  <% if @discussion_service.can_add_post? %>
+  <% post = @discussion_service.build_post %>
+    <%= form_for(post, url: discussions_posts_path, html: { class: 'form_dark' }) do |f| %>
+      <%= f.hidden_field :wish_id %>
+      <div class="field mdl-textfield mdl-js-textfield mdl-cell--12-col">
+        <%= f.text_area :content,
+                        class: "mdl-textfield__input",
+                        placeholder: t("discussion.post_placeholder.#{@discussion_service.user_role}",
+                                        show_to_donees_label: t('discussion.show_to_donees_label')) %>
+      </div>
+      <% unless @discussion_service.forced_visibility_for_posts? %>
+        <%= checkbox_mdl_tag('discussion_post[show_to_anybody]',
+                             t('discussion.show_to_donees_label'),
+                             post.show_to_anybody) %>
+      <% end %>
+      <div class="actions">
+        <%= form_submit_button(I18n.t("discussion.add_post.button")) %>
+      </div>
+
+    <% end %>
+  <% end %>

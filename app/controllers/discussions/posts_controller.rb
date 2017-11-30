@@ -41,12 +41,12 @@ module Discussions
 
     def load_post
       load_wish
-      @post ||= @wish.discussion.post_available_for(current_user).find(params[:id])
+      @post ||= discussion_service.post_available_for(current_user).find(params[:id])
     end
 
     def build_post
       load_wish
-      @post ||= @wish.discussion.add_post()
+      @post ||= discussion_service.add_post()
       @post.post_attributes = post_params
       @post.user = current_user
     end
@@ -86,7 +86,7 @@ module Discussions
     # end
 
     def post_params
-      params[:post].permit(:content, :show_to_anybody, :wish_id)
+      params[:discussion_post].permit(:content, :show_to_anybody, :wish_id)
     end
 
     def post_hash

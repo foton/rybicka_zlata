@@ -1,0 +1,12 @@
+<li>
+  <div class="post_content<%= ' visible_to_anybody' if post.show_to_anybody? %>">
+    <%= post.content %>
+  </div>
+  <div class="post_info">
+    <span class="visible_to_anybody">
+      <%= t('discussion.this_posts_is_visible_to_donees') if post.show_to_anybody? %>
+    </span>
+    <%= post.author.displayed_name %>
+    [<%= l(post.created_at) %>]
+  </div>
+</li>

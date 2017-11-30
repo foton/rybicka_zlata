@@ -16,6 +16,7 @@ class Wishes::FromDoneeController < ApplicationController
 
   def show
     load_wish
+    @discussion_service = DiscussionService.new(@wish, current_user)
   end
 
   def edit

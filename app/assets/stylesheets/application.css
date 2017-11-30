@@ -25,7 +25,7 @@ footer {
   padding: 16px ;
 }
 .mdl-mini-footer {
-  padding: 16px ; 
+  padding: 16px ;
 }
 
 .page-content {
@@ -54,7 +54,7 @@ footer {
 }
 */
 
-/* JAVAscript should hide form-add and enable this button 
+/* JAVAscript should hide form-add and enable this button
    by default this button is hided and form-add is visible
 */
 .button-add {
@@ -63,7 +63,7 @@ footer {
 }
 
 .form-add {
-  width: 95%;	
+  width: 95%;
 }
 
 .form-add form {
@@ -76,7 +76,7 @@ footer {
 .list-of-checkboxes ul, .list-of-unchecked ul, .list-of-checked ul{
 	list-style-type: none;
 	list-style-position: inside;
-	padding-left:0;   
+	padding-left:0;
 }
 
 
@@ -86,7 +86,7 @@ footer {
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: space-between;
-	align-items: flex-start;  
+	align-items: flex-start;
 	align-content: space-between;
 	padding: 0.3em;
 }
@@ -143,8 +143,8 @@ footer {
 	background-color: white;
 	min-height: 2em;
 	border: 1px solid gray;
-  padding: 0.3em;  
-  padding-left: 0.5em;  
+  padding: 0.3em;
+  padding-left: 0.5em;
   margin: 0.1em;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   cursor: grab;
@@ -225,4 +225,24 @@ footer {
 #video_tutorial {
     height: 100%;
     width: 100%;
-} 
+}
+
+#discussion #posts li {
+  border-bottom: 1px solid lightgray;
+}
+
+#discussion #posts li:first-child{
+  border-top: 1px solid lightgray;
+}
+
+#discussion .visible_to_anybody {
+  color: rgb(179, 45, 0);
+}
+
+#discussion .post_info {
+  font-size: 80%;
+  font-style: italic;
+  color: gray;
+  line-height: 1.2em;
+  text-align: right;
+}

@@ -161,6 +161,8 @@ def formalize_user_name(user_name)
     'Karel'
   when 'Mámy'
     'Máma'
+  when 'Mojmíra'
+    'Mojmír'
   when 'charlese'
     'charles'
   else

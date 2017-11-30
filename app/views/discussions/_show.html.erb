@@ -1,7 +1,9 @@
  <div id="discussion">
-    <div id="posts">
-    </div>
+    <h4><%= t('discussion.header') %></h3>
+    <ul id="posts" class="mdl-list">
+      <%= render partial: 'discussions/post', collection: @discussion_service.posts %>
+    </ul>
     <div id="post_form">
-      <%= render partial: 'discussion/form' %>
+      <%= render partial: 'discussions/form' %>
     </div>
   </div>

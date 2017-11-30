@@ -1,8 +1,8 @@
 <div id="donee_wish_show">
   <h3><%= @wish.title %></h3>
   <p><%= raw to_html(@wish.description) %></p>
-  
-  <div class="actions"> 
+
+  <div class="actions">
     <span class="as_list">
       <ul>
       <% for action in (@wish.available_actions_for(@user)-[:show]) %>
@@ -19,7 +19,7 @@
     </span>
 
   </div>
-  
+
   <div class="mdl-grid" id="wish_connections">
 
     <div class="donees mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet"  id="donee_connections">
@@ -32,9 +32,9 @@
         <% end %>
         </ul>
     </div>
-    
+
     <div class="mdl-layout-spacer"></div>
-    
+
     <div class="donors mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet" id="donor_connections">
       <h4><%= t("wishes.donors.header") %></h4>
       <p><%= t("wishes.from_donee.views.show.donors.count", total: @wish.donor_connections.count , owns: @wish.donor_connections.owned_by(current_user).count ) %>
@@ -48,4 +48,6 @@
     </div>
 
   </div>
-</div>  
+
+  <%= render partial: 'discussions/show' %>
+</div>

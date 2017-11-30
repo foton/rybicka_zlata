@@ -17,31 +17,43 @@ class DiscussionService
                end
   end
 
+  def build_post
+    post_class.new(wish_id: @wish.id, author_id: @user.id)
+  end
+
   def add_post(attributes)
-    raise NotAuthorizedError unless user_can_add?
+    raise NotAuthorizedError unless can_add_post?
     post_class.create!(modify_visibility(attributes).merge(wish_id: @wish.id, author_id: @user.id))
   end
 
   def update_post(attributes, post)
-    raise NotAuthorizedError unless user_can_update?(post)
+    raise NotAuthorizedError unless can_update?(post)
     post.update!(modify_visibility(attributes))
   end
 
   def delete_post(post)
-    raise NotAuthorizedError unless user_can_destroy?(post)
+    raise NotAuthorizedError unless can_destroy?(post)
     post.destroy
   end
 
-  def user_can_add?
+  def can_add_post?
     user_is_donor? || !posts.empty?
   end
 
-  def user_can_update?(post)
+  def can_update?(post)
     @user == post.author || @user.admin?
   end
 
-  def user_can_destroy?(post)
+  def can_destroy?(post)
     @user == post.author || @user.admin?
+  end
+
+  def forced_visibility_for_posts?
+    !user_is_donor?
+  end
+
+  def user_role
+    user_is_donor? ? 'donor' : 'donee'
   end
 
   private
