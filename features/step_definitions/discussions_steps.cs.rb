@@ -53,3 +53,30 @@ Pak('můžu diskutovat') do
   assert page.has_selector?('#post_form form')
   step('měl bych vidět text "Přidat příspěvek"')
 end
+
+Pak("můžu smazat příspěvek {string} od {string}") do |comment, username|
+  post = find('#posts li', text: comment)
+  within post do
+    find('div', text: username)
+    find('.delete_button').click
+    #binding.pry
+
+  #  click_on('Smazat')
+  end
+  assert_no_text(comment)
+end
+
+Pokud("někdo jiný přidá svůj příspěvek") do
+  donor = (@wish.donor_connections.detect { |dc| dc.friend != @current_user }).friend
+  ds = DiscussionService.new(@wish, donor)
+  ds.add_post(content: 'donor other post')
+  visit user_others_wish_path(@current_user, @wish, locale: @locale)
+end
+
+Pak("už nemůžu smazat příspěvek {string} od {string}") do |comment, username|
+  post = find('#posts li', text: comment)
+  within post do
+    find('div', text: username)
+    assert_no_text('delete_forever')
+  end
+end

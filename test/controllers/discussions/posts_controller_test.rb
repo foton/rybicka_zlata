@@ -47,6 +47,18 @@ module Discussions
       assert_redirected_to user_my_wish_path(@donee, wish, anchor: anchor)
     end
 
+    def test_delete_post
+      sign_in @donor
+      ds = DiscussionService.new(wish, @donor)
+      new_post = ds.add_post(content: 'donor other post')
+
+      delete :destroy, params: { id: new_post.id }
+
+      assert_response :redirect
+      assert_redirected_to user_others_wish_path(@donor, wish, anchor: 'discussion')
+      refute ds.posts.include?(new_post)
+    end
+
     private
 
     def open_discussion_to_donees

@@ -3,6 +3,9 @@
 ruby '2.4.2'
 source 'https://rubygems.org'
 
+# webserver https://devcenter.heroku.com/articles/ruby-default-web-server
+# gem 'puma'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg', '0.21.0'
 gem 'rails', '5.1.4'

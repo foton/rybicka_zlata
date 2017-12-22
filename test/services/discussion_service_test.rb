@@ -61,6 +61,22 @@ class DiscussionServiceTest < ActiveSupport::TestCase
     assert service.posts.select { |p| p.content == 'donor secret post' }.empty?
   end
 
+  def test_know_which_post_can_be_deleted
+    open_discussion_to_donees
+
+    service = DiscussionService.new(@wish, @donee)
+    assert service.add_post(content: 'donee post')
+    last_post = service.posts.last
+
+    assert service.can_delete_post?(last_post)
+
+    add_secret_post_from_donor
+
+    refute service.can_delete_post?(last_post)
+  end
+
+  private
+
   def open_discussion_to_donees
     service = DiscussionService.new(@wish, @donor)
     assert service.add_post(content: 'donor non secret post',
@@ -72,4 +88,6 @@ class DiscussionServiceTest < ActiveSupport::TestCase
     service = DiscussionService.new(@wish, @donor)
     assert service.add_post(content: 'donor secret post')
   end
+
+
 end

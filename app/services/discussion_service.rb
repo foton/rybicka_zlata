@@ -4,6 +4,12 @@
 class DiscussionService
   class NotAuthorizedError < StandardError; end
 
+  POST_CLASS = Discussion::Post
+
+  def self.find_post(id)
+    POST_CLASS.find(id)
+  end
+
   def initialize(wish, user)
     @wish = wish
     @user = user
@@ -18,34 +24,30 @@ class DiscussionService
   end
 
   def build_post
-    post_class.new(wish_id: @wish.id, author_id: @user.id)
+    POST_CLASS.new(wish_id: @wish.id, author_id: @user.id)
   end
 
   def add_post(attributes)
     raise NotAuthorizedError unless can_add_post?
-    post_class.create!(modify_visibility(attributes).merge(wish_id: @wish.id, author_id: @user.id))
-  end
-
-  def update_post(attributes, post)
-    raise NotAuthorizedError unless can_update?(post)
-    post.update!(modify_visibility(attributes))
+    POST_CLASS.create!(modify_visibility(attributes).merge(wish_id: @wish.id, author_id: @user.id))
   end
 
   def delete_post(post)
-    raise NotAuthorizedError unless can_destroy?(post)
+    raise NotAuthorizedError unless can_delete_post?(post)
     post.destroy
+    @posts = nil
+    posts.last
   end
 
   def can_add_post?
     user_is_donor? || !posts.empty?
   end
 
-  def can_update?(post)
-    @user == post.author || @user.admin?
-  end
-
-  def can_destroy?(post)
-    @user == post.author || @user.admin?
+  def can_delete_post?(post)
+    @user.admin? \
+    || (@user == post.author \
+        && all_posts.last == post \
+        && post.created_at > (Time.zone.now - 1.day))
   end
 
   def forced_visibility_for_posts?
@@ -63,15 +65,11 @@ class DiscussionService
   end
 
   def all_posts
-    post_class.where(wish_id: @wish.id)
+    POST_CLASS.where(wish_id: @wish.id)
   end
 
   def user_is_donor?
     @user_is_donor ||= @wish.is_donor?(@user)
-  end
-
-  def post_class
-    Discussion::Post
   end
 
   # if author is donee/author of wish, visibility is set to true

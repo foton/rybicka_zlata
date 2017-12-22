@@ -10,5 +10,6 @@
     show_to_donees_label: 'Show also to donees',
     this_posts_is_visible_to_donees: 'vissible to donees',
     add_post: { button: 'Create post' }
+    delete_post: { button: 'Delete' }
   }
 } }

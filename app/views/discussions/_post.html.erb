@@ -1,4 +1,4 @@
-<li>
+<li id="<%= post.anchor %>">
   <div class="post_content<%= ' visible_to_anybody' if post.show_to_anybody? %>">
     <%= post.content %>
   </div>
@@ -6,6 +6,21 @@
     <span class="visible_to_anybody">
       <%= t('discussion.this_posts_is_visible_to_donees') if post.show_to_anybody? %>
     </span>
+    <% if DiscussionService.new(post.wish, current_user).can_delete_post?(post) %>
+    <span class="post_action">
+      <span id="delete_<%= post.anchor %>" class="mdl-button mdl-button--icon mdl-button--colored">
+        <%= link_to('<i class="material-icons">delete_forever</i>'.html_safe,
+                    discussions_post_path(post),
+                    method: :delete,
+                    class: 'delete_button') %>
+      </span>
+
+      <span class="mdl-tooltip", for="delete_<%= post.anchor %>">
+        <%= t('discussion.delete_post.button') %>
+      </span>
+    </span>
+    <% end %>
+
     <%= post.author.displayed_name %>
     [<%= l(post.created_at) %>]
   </div>

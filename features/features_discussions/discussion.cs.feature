@@ -55,8 +55,17 @@ Scénář: Jako obdarovaný můžu reagovat na příspěvek z diskuze
   A otevřu si svoje přání "Pračka"
   Pak můžu diskutovat
 
- # TODO: zobrazit počet postů a čas posledního u přání v jejich přehledu?
- # jak to oříznout pro donees?
- #   def discussion_info(wish)
- #   raw "<i class=\"material-icons \" >forum</i> [3]"
- # end
+Scénář: Můžu smazat svůj poslední příspěvek, pokud je poslední v řadě
+  Pokud jsem přihlášen jako "Karel"
+  A otevřu si přání "Pračka" u "Josef"
+  A přidám příspěvek "komentář pro dárce"
+  A přidám příspěvek "komentář pro obdarované" s označením "Zobrazit i obdarovaným"
+  Pak bych měl vidět příspěvek "komentář pro dárce" od "Karel"
+  A měl bych vidět příspěvek "komentář pro obdarované" od "Karel"
+  A můžu smazat příspěvek "komentář pro obdarované" od "Karel"
+  A můžu smazat příspěvek "komentář pro dárce" od "Karel"
+
+  Pokud přidám příspěvek "druhý komentář pro dárce"
+  A někdo jiný přidá svůj příspěvek
+  Pak už nemůžu smazat příspěvek "druhý komentář pro dárce" od "Karel"
+

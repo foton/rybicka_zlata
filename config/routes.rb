@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   namespace :discussions do
-    resources :posts
+    resources :posts, only: %i[create destroy]
   end
 
   get '/my_profile' => 'profiles#my', :as => 'my_profile'
