@@ -9,7 +9,7 @@ Požadavek: Správa kontaktů na mé známé
 Kontext:
   Pokud existují standardní testovací uživatelé
   A jsem přihlášen jako "pepik"
-  A přepnu na češtinu  
+  A přepnu na češtinu
 
 @javascript
 Scénář: Přidání kontaktu
@@ -43,8 +43,16 @@ Scénář: Odstranění přítele
   A jsem na stránce "Kontakty"
   A kliknu na smazání u "Ježíšek"
   A smazání potvrdím
-  
+
   Pak jsem na stránce "Kontakty"
   A vidím text "Kontakt 'Ježíšek [???]: jezisek@rybickazlata.cz' byl úspěšně smazán."
   A v seznamu přátel není kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
 
+@javascript
+Scénář: Zobrazení rozšířených informací
+  Pokud existuje přítel "Ježíšek [???]: jezisek@rybickazlata.cz"
+  A jsem na stránce "Kontakty"
+  A kliknu na "rozšířené informace" u "Ježíšek"
+
+  Pak jsem na stránce "Ježíšek"
+  A vidím text "jeho rozšířené informaca"
