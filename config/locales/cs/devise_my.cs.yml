@@ -4,6 +4,8 @@ cs:
       user:
         confirmed: Váš účet byl úspěšně potvrzen. Nyní jste přihlášen(a).
     sessions:
+      new:
+        sign_in: Přihlásit
       destroy:
         sign_out: 'Odhlásit'
     passwords:

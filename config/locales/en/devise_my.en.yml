@@ -4,6 +4,8 @@ en:
       user:
         confirmed: Your account was successfully confirmed. You are now signed in.
     sessions:
+      new:
+        sign_in: Sign in
       destroy:
         sign_out: Sign out
     passwords:
@@ -12,5 +14,5 @@ en:
     registrations:
       delete:
         confirm:
-          message: "Really delete?"      
- 
+          message: "Really delete?"
+

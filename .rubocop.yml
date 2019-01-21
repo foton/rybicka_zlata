@@ -1,0 +1,14 @@
+AllCops:
+  Include:
+    - '**/Gemfile'
+    - '**/Rakefile'
+  Exclude:
+   - 'bin/*'
+   - 'db/schema.rb'
+   - 'node_modules/**/*'
+   - 'vendor/gems/**/*'
+   - 'vendor/bundle/**/*'
+Rails:
+  Enabled: true
+Metrics/LineLength:
+  Max: 100

@@ -6,8 +6,6 @@
 # RUN ALL TESTS IN FILE?
 # rake test TEST=test/models/identity_test.rb
 
-require 'simplecov' # using global config file .simplecov
-
 require 'minitest/reporters'
 require 'rake_rerun_reporter'
 
@@ -16,7 +14,7 @@ reporter_options = { color: true, slow_count: 5, verbose: false, rerun_prefix: '
 Minitest::Reporters.use! [Minitest::Reporters::RakeRerunReporter.new(reporter_options)]
 
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 
 # fast truncation of all tables that need truncations (select is 10x faster then truncate)
