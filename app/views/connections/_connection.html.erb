@@ -3,32 +3,32 @@
     <div class="primary_content">
       <%= connection.fullname %>
     </div>
-    
-    <div class="actions"> 
+
+    <div class="actions">
       <div class="as_list mdl-cell--hide-phone">
         <ul>
           <li>
             <%= button_link_to(I18n.t("connections.actions.edit.button"), edit_user_connection_path(@user,connection), {method: :get, class: "edit"} ) %>
           </li>
-          <li>  
-            <%= button_link_to(I18n.t("connections.actions.delete.button"), user_connection_path(@user,connection), 
+          <li>
+            <%= button_link_to(I18n.t("connections.actions.delete.button"), user_connection_path(@user,connection),
                   {
-                    method: :delete, 
-                    class: "delete", 
+                    method: :delete,
+                    class: "delete",
                     remote: false,
-                    data: { 
-                      confirm: t("connections.views.delete.confirm.message"), 
+                    data: {
+                      confirm: t("connections.views.delete.confirm.message"),
                       #keys are with '-', for consistency
                       #if underscore is used 'confirm_yes', still dashed 'data-confirm-yes = "YES"' is generated in html
-                      "confirm-yes": t("confirm.yes"), 
+                      "confirm-yes": t("confirm.yes"),
                       "confirm_no": t("confirm.no")
                     }
                   }
                 )
             %>
           </li>
-        </ul>  
-      </div> 
+        </ul>
+      </div>
 
       <div class="as_menu mdl-cell--hide-desktop mdl-cell--hide-tablet">
         <button id="connection-actions-menu-<%= connection.id %>" class="mdl-button mdl-js-button mdl-button--icon">
@@ -40,16 +40,16 @@
             <%= link_to(I18n.t("connections.actions.edit.button"), edit_user_connection_path(@user,connection), {method: :get, class: "edit"} ) %>
           </li>
           <li class="mdl-menu__item">
-            <%= link_to(I18n.t("connections.actions.delete.button"), user_connection_path(@user,connection), 
+            <%= link_to(I18n.t("connections.actions.delete.button"), user_connection_path(@user,connection),
                   {
-                    method: :delete, 
-                    class: "delete", 
+                    method: :delete,
+                    class: "delete",
                     remote: false,
-                    data: { 
-                      confirm: t("connections.views.delete.confirm.message"), 
+                    data: {
+                      confirm: t("connections.views.delete.confirm.message"),
                       #keys are with '-', for consistency
                       #if underscore is used 'confirm_yes', still dashed 'data-confirm-yes = "YES"' is generated in html
-                      "confirm-yes": t("confirm.yes"), 
+                      "confirm-yes": t("confirm.yes"),
                       "confirm_no": t("confirm.no")
                     }
                   }
@@ -61,5 +61,5 @@
       </div>
 
     </div>
-  </div>    
+  </div>
 </li>

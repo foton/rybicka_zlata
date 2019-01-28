@@ -34,11 +34,19 @@ Pokud /^existují standardní testovací uživatelé$/ do
 end
 
 Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
-  if m = connection_fullname.strip.match(/\A(.*) \[.*\]: (.*)\z/)
-    make_connection_for(@current_user, name: m[1], email: m[2])
-  else
-    raise "Unable to parse connection from fullname '#{connection_fullname}'"
-  end
+  raise "Unable to parse connection from fullname '#{connection_fullname}'" unless (m = connection_fullname.strip.match(/\A(.*) \[(.*)\]: (.*)\z/))
+
+  @friend_connection = make_connection_for(@current_user, name: m[1], email: m[3])
+  User.create!(name: m[2], email: m[3], password: 'password')
+  @friend_connection.reload
+end
+
+Pokud('ten má v oblibě {string}') do |likes_what|
+  raise 'Missing @friend_connection' unless @friend_connection
+
+  u = @friend_connection.friend
+  u.likes = likes_what
+  u.save!
 end
 
 Pokud(/^existuje kontakt "(.*?)"$/) do |connection_name|
@@ -133,7 +141,7 @@ end
 def make_connection_for(user, conn_hash)
   conns = user.connections.where(name: conn_hash[:name])
   if conn_hash[:email].present?
-    conns = conns.select { |_conn| con.email == conn_hash[:email] } if conns.present?
+    conns = conns.select { |conn| conn.email == conn_hash[:email] } if conns.present?
   else
     conn_hash[:email] = "#{conn_hash[:name].parameterize}@example.com"
   end

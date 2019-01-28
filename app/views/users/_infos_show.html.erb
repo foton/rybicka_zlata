@@ -1,0 +1,14 @@
+<div id="user_info">
+  <h4><%= t("user.profile.my.infos_for_donors") %></h4>
+  <% %i[body_height
+        body_weight
+        tshirt_size
+        trousers_waist_size
+        trousers_leg_size
+        shoes_size
+        other_sizes_and_dimensions
+        likes
+        dislikes].each do |att| %>
+    <p><%= label_and_value(t("activerecord.attributes.user.#{att}"), user.send(att)) %></p>
+  <% end %>
+</div>

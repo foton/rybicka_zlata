@@ -114,15 +114,15 @@ class UserIdentityTest < ActiveSupport::TestCase
 
   def test_recognize_local_provider
     assert User::Identity.new(provider: User::Identity::LOCAL_PROVIDER).local?
-    refute User::Identity.new(provider: 'xxx').local?
+    assert_not User::Identity.new(provider: 'xxx').local?
   end
 
   def test_cannot_have_invalid_email
-    refute User::Identity.new(email: 'email_@invalid').valid?
+    assert_not User::Identity.new(email: 'email_@invalid').valid?
   end
 
   def test_local_identity_must_have_email
-    refute User::Identity.new(email: nil, provider: User::Identity::LOCAL_PROVIDER, user_id: @user.id).valid?
+    assert_not User::Identity.new(email: nil, provider: User::Identity::LOCAL_PROVIDER, user_id: @user.id).valid?
     assert User::Identity.new(email: 'me@home.at', provider: User::Identity::LOCAL_PROVIDER, user_id: @user.id).valid?
   end
 
@@ -131,7 +131,7 @@ class UserIdentityTest < ActiveSupport::TestCase
   end
 
   def test_can_accept_only_allowed_providers
-    refute User::Identity.new(email: nil, provider: 'xxx', uid: 'yyyy').valid?
+    assert_not User::Identity.new(email: nil, provider: 'xxx', uid: 'yyyy').valid?
   end
 
   def test_user_must_be_valid
@@ -141,7 +141,7 @@ class UserIdentityTest < ActiveSupport::TestCase
                                                                                                       rescue
                                                                                                         1
                                                                                                       end))
-    refute idnt1.valid?
+    assert_not idnt1.valid?
     assert ['není'], idnt1.errors[:user]
   end
 
@@ -154,7 +154,7 @@ class UserIdentityTest < ActiveSupport::TestCase
     second_user = create_test_user!(email: 'john@thesecond.com')
 
     idnt2 = User::Identity.new(email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: second_user.id)
-    refute idnt2.valid?
+    assert_not idnt2.valid?
     assert_equal idnt2.errors[:email], ["E-mailová adresa '#{same_email}' je již přiřazena jinému uživateli!"]
   end
 

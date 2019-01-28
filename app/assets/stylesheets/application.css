@@ -246,3 +246,7 @@ footer {
   line-height: 1.2em;
   text-align: right;
 }
+
+.field_value {
+  font-weight: bold;
+}

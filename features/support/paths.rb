@@ -71,6 +71,13 @@ module NavigationHelpers
         raise "wish '#{m[1]}' was not found between wishes of user #{@current_user.displayed_name}" if wishes.blank?
         user_my_wish_path(@current_user, wishes.first, locale: @locale)
 
+      elsif m = page_name.match(/info pro "(.*)"/)
+        user = User.find_by_name(m[1])
+        raise "User with name '#{m[1]}' was not found between users" if user.blank?
+
+        profile_infos_path(user, locale: @locale)
+
+
       #   if m=page_name.match(/přehledu? (.*)/) # melo by zachytit "přehled "Moje dárky " i "přehledu mých přání"
       #     case m[1]
       #       when "\"Moje přání\"", "mých přání"

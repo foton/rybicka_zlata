@@ -39,23 +39,19 @@ class Connection < ApplicationRecord
   end
 
   def fullname
-    conn_name = name
-    friend_uname = '???' # friend (as registered user) was not assigned
-    if base?
-      conn_name = I18n.t('connections.base_cover_name')
-      friend_uname = owner.displayed_name
-    else
-      if friend_id.present?
-        if friend.blank?
-          # friend (as registered user) was assigned, but now it does not exists (deleted)
-          friend_uname = I18n.t('connections.friend_deleted')
-        else
-          # friend (as registered user) is assigned
-          friend_uname = friend.displayed_name
-        end
-      end
-    end
     "#{conn_name} [#{friend_uname}]: #{email}"
+  end
+
+  def conn_name
+    base? ? I18n.t('connections.base_cover_name') : name
+  end
+
+  def friend_uname
+    return owner.displayed_name if base?
+    return '???' if friend_id.blank? # friend (as registered user) was not assigned  unless fre
+    return I18n.t('connections.friend_deleted') if friend.blank?
+
+    friend.displayed_name
   end
 
   def base?

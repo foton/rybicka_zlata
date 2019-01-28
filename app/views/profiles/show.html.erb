@@ -1,11 +1,13 @@
 <h3><%= @user.displayed_name %></h3>
 
-<p><%= t("activerecord.attributes.user.email") %>: <%= @user.email %><br/>
-<%= t("activerecord.attributes.user.last_sign_in") %>: <%= @user.last_sign_in_at.present? ? l(@user.last_sign_in_at) : ""%> [<%= @user.last_sign_in_ip.present? ? @user.last_sign_in_ip : "" %>]
+<p>
+  <%= label_and_value(t('activerecord.attributes.user.email'), @user.email) %><br />
+  <%= label_and_value(t('activerecord.attributes.user.last_sign_in'), "#{ @user.last_sign_in_at ? l(@user.last_sign_in_at) : ''} [#{@user.last_sign_in_ip}]") %>
 </p>
+
   <div class="actions">
-    <%= button_link_to(I18n.t("user.profile.actions.edit.button"), edit_user_registration_path(@user), {method: :get, class: "edit"} ) %>
-  </div>  
+    <%= button_link_to(I18n.t("user.profile.actions.edit.button"), edit_user_registration_path(), {method: :get, class: "edit"} ) %>
+  </div>
 
 
 <div id="my_contacts">
@@ -27,20 +29,21 @@
           <div class="actions">
             <%= form_submit_button(t("user.identities.actions.new.submit_button")) %>
           </div>
-        </div>  
+        </div>
       <% end %>
       <%= add_new_button(t("user.identities.actions.new.button")) if @new_contact.errors.empty?%>
     </div>
 
     <%= render( partial: "/shared/list_with_actions", locals: { collection: @user.identities.order(:email), none_text: t("user.identities.none"), remote: false} ) %>
 
-    <p><%= I18n.t("user.identities.add_sign_in_to_this_account_through") %>:
+    <p><%= I18n.t("user.identities.add_sign_in_to_this_account_through") %>:<br />
     <% for provider in ( User::Identity::OAUTH_PROVIDERS - @user.identities.oauth.pluck(:provider) )%>
-      <%= sign_in_button_for(provider.to_sym) %></ br>
+      <%= sign_in_button_for(provider.to_sym) %>
     <% end %>
-   </p>
+    </p>
 	</div>
+</div>
 
-</div>       
-       
+<%= render(partial: '/users/infos_show', locals: { user: @user })%>
+
 

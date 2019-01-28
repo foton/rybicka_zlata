@@ -19,3 +19,17 @@ end
 Pokud(/^otevřu si formulář pro přidání$/) do
   click_button('Přidat')
 end
+
+Pokud(/^doplním podrobnější info do položky "Další míry"$/) do
+  text = 'Obvod hlavy: 60; Dolní obvod krku: 85cm; Obvod hrudníku přes prsa 185cm; ' \
+         'Podprsenky - obvod pod prsy 165cm; ' \
+         'Obvod v pase přes pupík 165cm; ' \
+         'Obvod v bocích přes zadek 165cm; ' \
+         'Délka mezi rameními švy zadem za krkem 165cm; '\
+         'Délka rukávu od ramenního švu po zápěstí 165cm; ' \
+         'Délka košile/trička vzadu od krku dolů 165cm; ' \
+         'Vnější délka nohavice od boku do konci nohavice 165cm; ' \
+         'Délka vnitřního švu nohavice (od rozkroku ke konci nohavice) 165cm; ' \
+         'Délka chodidla od paty po palec 165cm'
+  fill_in('Další míry', with: text)
+end

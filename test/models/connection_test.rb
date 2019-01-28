@@ -11,62 +11,62 @@ class ConnectionTest < ActiveSupport::TestCase
   end
 
   def test_cannot_be_without_email
-    refute Connection.new.valid?
+    assert_not Connection.new.valid?
     @connection.email = nil
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['je povinná položka', 'není platná hodnota'], @connection.errors[:email]
 
     @connection.email = ''
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['je povinná položka', 'není platná hodnota'], @connection.errors[:email]
 
     @connection.email = 'not_valid@email_adress'
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['není platná hodnota'], @connection.errors[:email]
   end
 
   def test_cannot_be_without_owner
     @connection.owner_id = nil
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['je povinná položka'], @connection.errors[:owner]
 
     @connection.owner_id = (User.last.id + 1)
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['je povinná položka'], @connection.errors[:owner]
   end
 
   def test_cannot_be_without_name
     @connection.name = nil
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['je povinná položka', 'není platná hodnota'], @connection.errors[:name]
 
     @connection.name = ''
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['je povinná položka', 'není platná hodnota'], @connection.errors[:name]
 
     @connection.name = 'ak'
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['není platná hodnota'], @connection.errors[:name]
 
     @connection.name = 'ako' # three chars is enough
     assert @connection.valid?
 
     @connection.name = ' ak'
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['není platná hodnota'], @connection.errors[:name]
 
     @connection.name = 'ak '
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['není platná hodnota'], @connection.errors[:name]
 
     @connection.name = 'a k' # three chars is enough, space between is OK
     assert @connection.valid?
   end
 
-  def test_basename_cannot_be_used_fo_non_base_connection
+  def test_basename_cannot_be_used_for_non_base_connection
     # base name, non base conn
     @connection.name = Connection::BASE_CONNECTION_NAME
-    refute @connection.valid?
+    assert_not @connection.valid?
     assert_equal ['není platná hodnota'], @connection.errors[:name]
 
     # make it base connection

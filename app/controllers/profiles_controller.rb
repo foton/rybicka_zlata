@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProfilesController < ApplicationController
-  before_action :set_user, except: [:my]
+  before_action :set_user, except: [:my, :infos]
 
   def my
     @user = current_user
@@ -19,9 +19,21 @@ class ProfilesController < ApplicationController
     render :show
   end
 
+  def infos
+    @user = User.find(params[:user_id])
+    unless current_user_can_see_infos
+      flash[:error] = I18n.t('peeking_is_not_allowed')
+      redirect_to(not_peeking_url)
+    end
+  end
+
   private
 
   def not_peeking_url
     url_for(action: :my, params: { locale: I18n.locale })
+  end
+
+  def current_user_can_see_infos
+    current_user == @user || current_user.connections.pluck(:friend_id).include?(@user.id) || current_user.admin?
   end
 end

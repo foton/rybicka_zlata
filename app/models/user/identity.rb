@@ -166,7 +166,7 @@ class User::Identity < ApplicationRecord
     end
   end
 
-  # search if there are unasigned Connections with one of the user mails
+  # search if there are unasigned Connections with one of the user emails
   # if they are, make connection
   def bind_connections_as_friend
     connections.where(friend_id: nil).find_each { |fshp| bind_connection(fshp) }

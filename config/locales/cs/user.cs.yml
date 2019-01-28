@@ -18,19 +18,28 @@ cs:
         display_name: "Zobrazované jméno"
         admin: "Administrátor"
         last_sign_in: "Poslední přihlášení"
+        body_height: 'Výška'
+        body_weight: 'Váha'
+        tshirt_size: 'Velikost trička'
+        trousers_waist_size: 'Kalhoty - šířka v pase'
+        trousers_leg_size: 'Kalhoty - délka nohavice'
+        shoes_size: 'Velikost bot [EU/UK/US]'
+        other_sizes_and_dimensions: 'Další míry'
+        likes: 'Mám rád(a)'
+        dislikes: 'Nemám rád(a)'
   user:
     temporary_password_is_set_to: "Při registraci Vám bylo nastaveno heslo '%{password}'. Prosím změnte si jej v editaci profilu, neboť je potřeba k potvrzení budoucích změn profilu."
-    identities: 
+    identities:
       actions:
         delete:
           button: "Smazat"
-          confirm: 
+          confirm:
             message: "Opravdu chcete kontakt '%{object_title}' smazat?"
-        new: 
+        new:
           button: "Přidat adresu"
           submit_button: "Zapsat"
           label: "Vaše další emailová adresa"
-      none: "Nemáte evidovány žádné adresy" 
+      none: "Nemáte evidovány žádné adresy"
       list: "Vaše adresy"
       deleted: "Kontakt '%{contact}' byl smazán"
       added: "Kontakt '%{contact}' byl přidán"
@@ -42,8 +51,9 @@ cs:
     profile:
       my:
         header: "Profil"
+        infos_for_donors: "Informace pro dárce"
       actions:
-        edit: 
-          button: "Upravit profil"  
+        edit:
+          button: "Upravit profil"
 
 

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get '/my_profile' => 'profiles#my', :as => 'my_profile'
   get '/profiles/:user_id' => 'profiles#show', :as => 'profile'
+  get '/profiles/:user_id/infos' => 'profiles#infos', :as => 'profile_infos'
 
   get '/change_locale' => 'static#change_locale', :as => 'change_locale'
   get '/about' => 'static#about', :as => 'about'

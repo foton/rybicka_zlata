@@ -17,7 +17,7 @@
       </div>
 
       <br />
-      
+
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
          <div><%= t("devise.registrations.waiting_for_confirmation", email: resource.unconfirmed_email) %></div>
          <br />
@@ -25,26 +25,24 @@
 
       <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <%= f.label :password, class: "mdl-textfield__label" %>
-        <% 
+        <%
            html_atts= {class: "mdl-textfield__input", autocomplete: "off"}
            if @minimum_password_length
              html_atts[:pattern]= ".{#{@minimum_password_length},}"
              err_msg=t("devise.passwords.minimum_length", min: @minimum_password_length)
-           end 
+           end
         %>
         <%= f.password_field :password, html_atts %>
         <span class="mdl-textfield__error"><%= err_msg %></span>
       </div>
 
       <br />
-
       <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <%= f.label :password_confirmation, class: "mdl-textfield__label" %>
         <%= f.password_field :password_confirmation, autocomplete: "off", class: "mdl-textfield__input" %>
       </div>
 
       <br />
-
       <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <%= f.label :current_password, class: "mdl-textfield__label" %>
         <%= f.password_field :current_password, autocomplete: "off", class: "mdl-textfield__input", required: true  %>
@@ -52,39 +50,38 @@
       </div>
 
       <br />
-      
       <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
         <%= f.label :locale, class: "mdl-selectfield__label" %>
         <%= f.select :locale, RybickaZlata4::Application.available_locales, {}, {class: "mdl-selectfield__select"} %>
       </div>
 
       <br />
-
       <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
         <%= f.label :time_zone, class: "mdl-selectfield__label" %>
         <%= f.time_zone_select("time_zone", nil, {}, {class: "mdl-selectfield__select"} ) %>
       </div>
 
       <br />
+      <%= render(partial: '/users/infos_form', locals: { f: f }) %>
 
+      <br />
       <div class="actions">
         <%= f.submit(t("devise.registrations.edit.update"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ) %>
       </div>
-
     <% end %>
 
     <div id="delete_registration">
       <p>
         <%= t('.unhappy', :default => 'Unhappy') %>?
-        <%= button_link_to(I18n.t("devise.registrations.edit.cancel_my_account"), registration_path(resource_name), 
+        <%= button_link_to(I18n.t("devise.registrations.edit.cancel_my_account"), registration_path(resource_name),
               {
-                method: :delete, 
-                class: "delete", 
-                data: { 
-                  confirm: t("devise.registrations.delete.confirm.message"), 
+                method: :delete,
+                class: "delete",
+                data: {
+                  confirm: t("devise.registrations.delete.confirm.message"),
                   #keys are with '-', for consistency
                   #if underscore is used 'confirm_yes', still dashed 'data-confirm-yes = "YES"' is generated in html
-                  "confirm-yes": t("confirm.yes"), 
+                  "confirm-yes": t("confirm.yes"),
                   "confirm_no": t("confirm.no")
                 }
               }

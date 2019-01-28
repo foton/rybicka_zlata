@@ -1,1 +1,4 @@
-<%= object.displayed_name %>
+<%= object.conn_name %>
+[<%= object.friend.blank? ? object.friend_uname : link_to(object.friend_uname, profile_infos_path(object.friend))%>]:
+<%= object.email %>
+

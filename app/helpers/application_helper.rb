@@ -121,6 +121,11 @@ module ApplicationHelper
     link_to(text, uri)
   end
 
+  def label_and_value(label, value)
+    ('<span class= "label">' + html_escape(label.to_s) + '</span>: ' \
+    '<span class="field_value">' + html_escape(value.to_s) + '</span>').html_safe
+  end
+
   private
 
   def button_mdl_classes
