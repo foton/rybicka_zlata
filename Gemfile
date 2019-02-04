@@ -36,6 +36,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-rails_csrf_protection'
 
 gem 'sendgrid' # for sending emails in production
+gem 'activity_notification'
 #gem 'nokogiri', '1.10.5'
 
 group :development, :test do
