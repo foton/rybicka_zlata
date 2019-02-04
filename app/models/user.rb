@@ -40,6 +40,8 @@ class User < ApplicationRecord
   BASE_CONNECTION_NAME = '--base--'
   ADMIN_EMAIL = 'porybny@rybickazlata.cz'
 
+  acts_as_target # for notifications
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

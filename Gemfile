@@ -37,6 +37,8 @@ gem 'omniauth-twitter'
 
 gem 'sendgrid' # for sending emails in production
 # gem 'nokogiri', '1.10.5'
+gem 'activity_notification'
+
 
 group :development, :test do
   # Coffee-rails and Uglifier demands ExecJS, which require JS runtime.
