@@ -25,6 +25,16 @@ class Wish < ApplicationRecord
   validate :validate_called_for_co_donors
 
   before_validation :ensure_good_styling_of_description
+  acts_as_notifiable :users, {
+    # Notification targets as :targets is a necessary option
+    # Set to notify to author and users commented to the article, except comment owner self
+    targets: ->(wish, _key) { wish.notified_users }
+    # Path to move when the notification is opened by the target user
+    # This is an optional configuration since activity_notification uses polymorphic_path as default
+    # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
+  }
+
+  SHORT_DESCRIPTION_LENGTH = 200
 
   after_initialize do
     @donors_changed = false
@@ -205,5 +215,9 @@ class Wish < ApplicationRecord
     elsif STATE_AVAILABLE == state
       errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.cannot_be_called_in_this_state')) if called_for_co_donors_by_user.present?
     end
+  end
+
+  def wish_notifiable_path(user)
+    user_others_wish(user, self) # TODO modify accordingly tu user
   end
 end
