@@ -6,3 +6,10 @@ Pak(/^můžu rovnou přidat další přání$/) do
   # should take me to New wish
   find('#new_wish')
 end
+
+Pokud("{string} změní přání {string}") do |user_name, wish_title|
+  @wish = Wish.find_by(title: wish_title)
+  @wish.description += ' and others'
+  @wish.save!
+end
+

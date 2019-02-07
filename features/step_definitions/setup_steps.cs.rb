@@ -75,7 +75,7 @@ Pokud(/^(?:u "(.*?)" )?existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |us
   for mem_name in grp_members_to_s.split(',')
     mem_name = mem_name.delete('"').strip
     conn = user.connections.find_by(name: mem_name)
-    conn = user.connections.create!(name: mem_name, email: "#{mem_name}@example.com") if conn.blank?
+    conn = user.connections.create!(name: mem_name, email: "#{mem_name}@rybickazlata.cz") if conn.blank?
     members << conn
   end
   grp.connections = members

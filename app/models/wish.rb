@@ -17,12 +17,13 @@ class Wish < ApplicationRecord
   validates :title, presence: true
   validates :author, presence: true
 
-  before_validation :ensure_no_connections_from_ex_donees
-  before_validation :ensure_good_styling_of_description
-
   validate :no_same_donor_and_donee
   validate :validate_booked_by
   validate :validate_called_for_co_donors
+
+  before_validation :ensure_no_connections_from_ex_donees
+  before_validation :ensure_good_styling_of_description
+  after_save :notify_users
 
   acts_as_notifiable :users, {
     # Notification targets as :targets is a necessary option
@@ -39,6 +40,13 @@ class Wish < ApplicationRecord
 
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
+
+  attr_accessor :updated_by
+
+  def notified_users
+    #(donors + donees - updated_by).uniq.compact
+    (donors + donees).uniq.compact
+  end
 
   def available_donor_connections_from(connections)
     emails_of_donees = donee_connections.collect(&:email).uniq.compact
@@ -101,6 +109,14 @@ class Wish < ApplicationRecord
 
   def donor_user_ids
     @donor_user_ids ||= donor_connections.collect(&:friend_id).uniq.compact
+  end
+
+  def donors
+    User.find(donor_user_ids)
+  end
+
+  def donees
+    User.find(donee_user_ids)
   end
 
   def only_whole_groups_in_collection(groups, collection)
@@ -197,7 +213,17 @@ class Wish < ApplicationRecord
     end
   end
 
-  def wish_notifiable_path(user)
-    user_others_wish(user, self) # TODO modify accordingly tu user
+  def notify_users
+    return if monitored_changes.blank?
+
+    notify(:users, key: 'wish.notifications.updated')
+  end
+
+  def monitored_changes
+    saved_changes.slice(*monitored_attributes)
+  end
+
+  def monitored_attributes
+    %w[title description state] #booked_by_id, called_for_co_donors_by_id
   end
 end
