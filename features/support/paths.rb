@@ -31,6 +31,8 @@ module NavigationHelpers
       user_my_wishes_path(@current_user, locale: @locale, fulfilled: 1)
     when 'Můžu splnit'
       user_others_wishes_path(@current_user, locale: @locale)
+    when 'Notifikace'
+      user_notifications_path(@current_user)
 
     else
       if (m = page_name.match(/stránce editace (.*)/) || (m = page_name.match(/editace (.*)/)) || m = page_name.match(/editaci (.*)/))
@@ -84,21 +86,6 @@ module NavigationHelpers
         raise "User with name '#{m[1]}' was not found between users" if user.blank?
 
         profile_infos_path(user, locale: @locale)
-
-      #   if m=page_name.match(/přehledu? (.*)/) # melo by zachytit "přehled "Moje dárky " i "přehledu mých přání"
-      #     case m[1]
-      #       when "\"Moje přání\"", "mých přání"
-      #       my_wishes_path(locale: @locale)
-      #     when "pro dárce", "cizích přání", "přání co mohu splnit"
-      #       others_wishes_path(locale: @locale)
-      #     end
-      #   elsif (m=page_name.match(/stránce editace (.*)/) || m=page_name.match(/editaci (.*)/) )
-      #     if m1=m[1].match(/kontaktu "([^"]*)"/)
-      #       name=m1[1].to_s
-      #       contact= FriendContact.find_by_name(name)
-      #       raise "Contact #{name} not found!" if contact.blank?
-      #       edit_friend_contact_path(contact,{locale: @locale})
-      #     end
       else
         raise 'Path not identified'
       end

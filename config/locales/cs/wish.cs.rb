@@ -28,6 +28,11 @@
     }
 
   },
+  wish: {
+    notifications: {
+      updated: 'Aktualizováno kým'
+    }
+  },
 
   wishes: {
     shared_icon_tooltip: {

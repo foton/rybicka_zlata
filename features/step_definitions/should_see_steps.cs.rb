@@ -149,6 +149,16 @@ Pak(/^u přání "([^"]*)" nejsou žádné akce$/) do |wish_title|
   end
 end
 
+
+Pak("bych neměl vidět žádnou notifikaci k přání {string}") do |wish_title|
+  assert_no_text(wish_title)
+end
+
+Pak("bych měl vidět notifikaci {string}") do |change_text|
+  assert_text(change_text)
+end
+
+
 def block_selector_for(block_name)
   case block_name
   when 'Dárci'
