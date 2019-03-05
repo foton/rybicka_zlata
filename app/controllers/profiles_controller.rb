@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProfilesController < ApplicationController
-  before_action :set_user, except: [:my, :infos]
+  before_action :set_user, except: %i[my infos]
 
   def my
     @user = current_user
@@ -10,8 +10,6 @@ class ProfilesController < ApplicationController
 
   def show
     if @user.email.match?(User::Identity::TWITTER_FAKE_EMAIL_REGEXP)
-      flash[:notice] = flash[:notice]
-      flash[:warning] = flash[:warning]
       flash[:error] = flash[:error].to_s + " \n" + I18n.t('user.identities.twitter_do_not_send_email_address')
       redirect_to edit_user_registration_url(@user)
     end
@@ -21,10 +19,10 @@ class ProfilesController < ApplicationController
 
   def infos
     @user = User.find(params[:user_id])
-    unless current_user_can_see_infos
-      flash[:error] = I18n.t('peeking_is_not_allowed')
-      redirect_to(not_peeking_url)
-    end
+    return if current_user_can_see_infos
+
+    flash[:error] = I18n.t('peeking_is_not_allowed')
+    redirect_to(not_peeking_url)
   end
 
   private

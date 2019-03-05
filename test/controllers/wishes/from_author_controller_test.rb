@@ -30,7 +30,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-  def test_work_on_behalf_of_other_user_account
+  def test_work_on_behalf_of_other_user_account_is_not_allowed
     other_user = create_test_user!(name: 'OtherGuy')
     get :new, params: { user_id: other_user.id }
 
@@ -44,7 +44,9 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     donee_conns = [@conn_segra]
     wish_h = { title: 'A special wish', description: 'wish me luck for tomorow!', donee_conn_ids: donee_conns.collect(&:id), donor_conn_ids: donor_conns.collect(&:id) }
 
-    post :create, params: { user_id: @current_user.id, wish: wish_h }
+    assert_difference('ActivityNotification::Notification.count') do
+      post :create, params: { user_id: @current_user.id, wish: wish_h }
+    end
 
     # redirect to edit, where donee and donors are added
 
@@ -59,6 +61,15 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to user_my_wish_path(@current_user, new_wish)
     assert_equal "Přání '#{wish_h[:title]}' bylo úspěšně přidáno.", flash[:notice]
+
+    assert_notified(users: donee_conns.collect(&:friend),
+                    key: 'wish.created.you_as_donee',
+                    notifier: @current_user,
+                    notifiable: new_wish)
+    assert_notified(users: donor_conns.collect(&:friend),
+                    key: 'wish.created.you_as_donor',
+                    notifier: @current_user,
+                    notifiable: new_wish)
   end
 
   def test_edit_my_wish
@@ -155,5 +166,15 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     @wish.reload
     assert_equal [@conn_mama, @conn_tata, @current_user.base_connection].sort, @wish.donee_connections.to_a.sort
     assert_equal [@conn_segra].sort, @wish.donor_connections.to_a.sort
+  end
+
+  private
+
+  def assert_notified(users:, key:, notifier:, notifiable:)
+    binding.pry
+    users.each do |target|
+      assert target.notifications.with_notifiable(notifiable).with_notifier(notifier).filtered_by_key(key).exists?,
+             "Notification for #{target} for #{key} not found between #{target.notifications}"
+    end
   end
 end
