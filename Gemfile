@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg', '1.1.4'
-gem 'rails', '5.2.2'
+gem 'rails', '5.2.2.1'
 
 # Use Puma as the app server
 gem 'puma', '3.12.0', '~> 3.11'
@@ -25,8 +25,8 @@ gem 'coffee-rails', '4.2.2'
 gem 'jquery-rails', '4.3.3'
 
 # authorization
-gem 'devise', '4.5.0'
-gem 'devise-i18n', '1.7.1'
+gem 'devise', '4.6.2'
+gem 'devise-i18n', '1.8.1'
 gem 'omniauth-facebook', '5.0.0'
 gem 'omniauth-github', '1.3.0'
 gem 'omniauth-google-oauth2', '0.6.0'

@@ -299,5 +299,6 @@ Devise.setup do |config|
 
   config.omniauth :linkedin,
                   Rails.application.secrets.linkedin_client_id,
-                  Rails.application.secrets.linkedin_client_secret
+                  Rails.application.secrets.linkedin_client_secret,
+                  scope: 'r_liteprofile'
 end

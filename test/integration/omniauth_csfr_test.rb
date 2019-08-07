@@ -10,12 +10,12 @@ class OmniauthCsrfTest < ActionDispatch::IntegrationTest
     @oauth_path = Rails.application.routes.url_helpers.user_google_omniauth_authorize_path
   end
 
-  test "should not accept GET requests to OmniAuth endpoint" do
+  test 'should not accept GET requests to OmniAuth endpoint' do
     get @oauth_path
     assert_response :missing
   end
 
-  test "should not accept POST requests with invalid CSRF tokens to OmniAuth endpoint" do
+  test 'should not accept POST requests with invalid CSRF tokens to OmniAuth endpoint' do
     assert_raises ActionController::InvalidAuthenticityToken do
       post @oauth_path
     end

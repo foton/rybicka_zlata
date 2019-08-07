@@ -167,27 +167,27 @@ class UserTest < ActiveSupport::TestCase
     # assert_equal nv_user_email, i.email
   end
 
-  def test_create_user_from_linkedin
-    auth = OmniAuth::AuthHash.new(provider: 'linkedin', uid: '123456',
-                                  info: OmniAuth::AuthHash.new(email: @user_email,
-                                                               name: @user_name,
-                                                               nickname: 'John_doe',
-                                                               image: 'https://media.licdn.com/mpr/mprx/0_fDcXEjwcCo3FeyuXDfXBEYedCHnoeyuXS7iUEYWcgDCVB4Uk_IFHXOjJuQ9zIUSHaazV5JUgVJ65'))
+  # def test_create_user_from_linkedin
+  #   auth = OmniAuth::AuthHash.new(provider: 'linkedin', uid: '123456',
+  #                                 info: OmniAuth::AuthHash.new(email: @user_email,
+  #                                                              name: @user_name,
+  #                                                              nickname: 'John_doe',
+  #                                                              image: 'https://media.licdn.com/mpr/mprx/0_fDcXEjwcCo3FeyuXDfXBEYedCHnoeyuXS7iUEYWcgDCVB4Uk_IFHXOjJuQ9zIUSHaazV5JUgVJ65'))
 
-    current_user = nil
+  #   current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+  #   u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal @user_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal User.new.locale, u.locale
+  #   assert u.persisted?
+  #   assert_equal @user_email, u.email
+  #   assert_equal @user_name, u.name
+  #   assert_equal User.new.locale, u.locale
 
-    i = u.identities.where(provider: :linkedin).first
-    assert i.present?
-    assert_equal auth.uid, i.uid
-    assert_equal @user_email, i.email
-  end
+  #   i = u.identities.where(provider: :linkedin).first
+  #   assert i.present?
+  #   assert_equal auth.uid, i.uid
+  #   assert_equal @user_email, i.email
+  # end
 
   def test_merge_identity_with_existing_user_according_to_user_main_email
     auth = OmniAuth::AuthHash.new(provider: 'github', uid: '123456',

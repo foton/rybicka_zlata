@@ -17,6 +17,19 @@ module SocialHelper
 
 HTML
     html.html_safe
+
+    logo_text = <<~LOGO
+      <span class="sc-icon" id="#{provider}_icon">
+        <svg viewBox="#{PROVIDER_BUTTONS[provider][:svg_view_box]}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g><path d="#{PROVIDER_BUTTONS[provider][:svg_path]}"></path></g>
+        </svg>
+      </span>
+      <span class="sc-text">#{PROVIDER_BUTTONS[provider][:text]}</span>
+    LOGO
+
+    link_to(send("user_#{provider}_omniauth_authorize_path", params: {}), method: :post, class: "sc-btn sc--#{provider} mdl-button") do
+      logo_text.html_safe
+    end
   end
 
   # paths are from www.mattboldt.com/demos/social-buttons/

@@ -7,7 +7,7 @@ class User::Identity < ApplicationRecord
   self.table_name = 'identities'
 
   LOCAL_PROVIDER = 'localy_added'
-  OAUTH_PROVIDERS = %w[google github facebook twitter linkedin].freeze
+  OAUTH_PROVIDERS = %w[google github facebook twitter].freeze
   ALLOWED_PROVIDERS = [LOCAL_PROVIDER, 'test'] + OAUTH_PROVIDERS
   EMAIL_REGEXP = /[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?/ # from http://regexlib.com/Search.aspx?k=email&c=1&m=-1&ps=20
   TWITTER_FAKE_EMAIL_REGEXP = /change@me-\d+-twitter.com/
