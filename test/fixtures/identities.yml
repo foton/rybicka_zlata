@@ -1,0 +1,39 @@
+_fixture:
+  model_class: User::Identity
+marge_identity:
+  email: marge@simpsons.com
+  provider: <%= User::Identity::LOCAL_PROVIDER %>
+  user: marge
+  uid: marge
+
+homer_identity:
+  email: homer@simpsons.com
+  provider: <%= User::Identity::LOCAL_PROVIDER %>
+  user: homer
+  uid: homer
+
+bart_identity_1:
+  email: bart@simpsons.com
+  provider: <%= User::Identity::LOCAL_PROVIDER %>
+  user: bart
+  uid: bart
+
+bart_identity_2:
+  email: bartman@simpsons.com
+  provider: test
+  user: bart
+  uid: bart
+
+lisa_identity:
+  email: lisa@simpsons.com
+  provider: <%= User::Identity::LOCAL_PROVIDER %>
+  user: lisa
+  uid: lisa
+
+maggie_identity:
+  email: maggie@simpsons.com
+  provider: <%= User::Identity::LOCAL_PROVIDER %>
+  user: maggie
+  uid: maggie
+
+

@@ -28,8 +28,6 @@ class Wish < ApplicationRecord
 
   include Wish::State
 
-  public
-
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
 
@@ -150,6 +148,8 @@ class Wish < ApplicationRecord
 
   def ensure_good_styling_of_description
     # add space after comma, unless it is in URL
+    return if description.blank?
+
     description.gsub!(/([^\s]+),([^\s]+)/) do
       m = Regexp.last_match
       m[0].match(::Regexp::PERFECT_URL_PATTERN) ? m[0] : "#{m[1]}, #{m[2]}"

@@ -59,10 +59,10 @@ class Connection < ApplicationRecord
   end
 
   # sorting method
-  def <=>(conn2)
-    s_by_name = (name <=> conn2.name)
-    if s_by_name == 0
-      email <=> conn2.email
+  def <=>(other)
+    s_by_name = (name <=> other.name)
+    if s_by_name.zero?
+      email <=> other.email
     else
       s_by_name
     end
@@ -75,6 +75,10 @@ class Connection < ApplicationRecord
   private
 
   def assign_friend
-    self.friend = identities.first.user if identities.present?
+    if friend.blank?
+      self.friend = identities.first.user if identities.present?
+    elsif identities.blank?
+      self.friend = nil
+    end
   end
 end

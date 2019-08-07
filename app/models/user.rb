@@ -24,8 +24,8 @@ class User < ApplicationRecord
   # has_many :friends, -> { order("name ASC") }, class_name: 'User'
   # has_many :registered_connections, -> { order("name ASC") }, class_name: 'Connection', dependent: :destroy
 
-  after_save :sure_main_identity
-  after_save :sure_base_connection
+  after_save :ensure_main_identity
+  after_save :ensure_base_connection
 
   def displayed_name
     name || email
@@ -35,11 +35,7 @@ class User < ApplicationRecord
   # with connection watchman-> user , connection.name is used
   def displayed_name_for(watchman)
     conns = watchman.friend_connections.where(friend: self)
-    if conns.present?
-      conns.first.name
-    else
-      displayed_name
-    end
+    conns.present? ? conns.first.name : displayed_name
   end
 
   def anchor
@@ -71,7 +67,7 @@ class User < ApplicationRecord
     if user.blank?
       email = identity.verified_email
       email = identity.email if email.blank?
-      user = User.where(email: email).first if email
+      user = User.find_by(email: email) if email
     end
 
     # Create the user if needed
@@ -84,16 +80,13 @@ class User < ApplicationRecord
       user = User.new(
         name: identity.name,
         # username: auth.info.nickname || auth.uid,
-        email: email ? email : identity.temp_email,
+        email: email || identity.temp_email,
         password: password,
         locale: identity.locale || User.new.locale,
         time_zone: identity.time_zone || User.new.time_zone
       )
       user.skip_confirmation!
-      unless user.save
-        raise "User.not saved: #{user.errors.full_messages}  [#{user.to_json}]"
-      end
-
+      raise "User.not saved: #{user.errors.full_messages}  [#{user.to_json}]" unless user.save
     end
 
     # Associate the identity with the user if needed
@@ -133,32 +126,26 @@ class User < ApplicationRecord
   end
 
   def main_identity
-    sure_main_identity
+    ensure_main_identity
     existing_local_idnts = identities.where(email: email, provider: User::Identity::LOCAL_PROVIDER).order('id ASC')
-    if existing_local_idnts.present?
-      return existing_local_idnts.first
-    else
-      return identities.where(email: email).order('id ASC').first
-    end
+    return existing_local_idnts.first if existing_local_idnts.present?
+
+    identities.where(email: email).order('id ASC').first
   end
 
   private
 
-  def sure_main_identity
+  def ensure_main_identity
     existing_idnts = identities.where(email: email)
     if existing_idnts.blank?
       User::Identity.create_for_user!(self)
     else
       idnt = existing_idnts.first
-      if idnt.user != self
-        raise "E-mail #{email} belongs to user #{idnt.user.id}"
-      end
+      raise "E-mail #{email} belongs to user #{idnt.user.id}" if idnt.user != self
     end
   end
 
-  def sure_base_connection
-    if base_connection.blank?
-      con = Connection.create!(name: Connection::BASE_CONNECTION_NAME, email: email, friend: self, owner: self)
-    end
+  def ensure_base_connection
+    Connection.create!(name: Connection::BASE_CONNECTION_NAME, email: email, friend: self, owner: self) if base_connection.blank?
   end
 end

@@ -1,0 +1,19 @@
+marge:
+  email: marge@simpsons.com
+  name: Marjorie Jacqueline Simpson
+
+homer:
+  email: homer@simpsons.com
+  name: Homer Jay Simpson
+
+bart:
+  email: bart@simpsons.com
+  name: Bartholomew JoJo Simpson
+
+lisa:
+  email: lisa@simpsons.com
+  name: Lisa Marie Simpson
+
+maggie:
+  email: maggie@simpsons.com
+  name: Margaret Evelyn Simpson

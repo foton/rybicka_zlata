@@ -21,46 +21,34 @@ class UserTest < ActiveSupport::TestCase
     assert_equal name, u.displayed_name
   end
 
-  def test_displayed_name_for_show_name_from_connection_or_user_displayed_name
-    donee = create_test_user!(name: 'donee')
-    donor = create_test_user!(name: 'donor')
+  def test_displayed_name_preffer_name_from_connection
+    assert_equal connections(:bart_to_marge).name, users(:marge).displayed_name_for(users(:bart))
 
-    # without connection, user.displayed_name is used
-    assert_equal donee.displayed_name, donee.displayed_name_for(donor)
+    connections(:bart_to_marge).destroy!
 
-    conn_donor_to_donee = create_connection_for(donor, name: 'donor2donee', email: donee.email)
-
-    assert donor.friends.include?(donee)
-    # with connection connection.name is used
-    assert_equal conn_donor_to_donee.name, donee.displayed_name_for(donor)
+    assert_equal users(:marge).displayed_name, users(:marge).displayed_name_for(users(:bart))
   end
 
   def test_delete_identities_on_destroy
-    u = create_test_user!(email: 'testme@dot.com')
-    i0 = u.identities.first # created on creation of user
-    i1 = User::Identity.create(uid: '123456', provider: 'test')
-    i2 = User::Identity.create(uid: '123456', provider: User::Identity::LOCAL_PROVIDER, email: 'my@email.cz')
-    i1.user = u
-    i1.save!
-    i2.user = u
-    i2.save!
-    u = User.find(u.id)
+    identity_ids = users(:bart).identities.pluck(:id)
+    assert 2, identities.size
 
-    assert_equal [i0.id, i1.id, i2.id].sort, u.identities.map(&:id).sort
-    u.destroy
-    assert User::Identity.where(id: [i0.id, i1.id, i2.id]).blank?, "defined identities not destroyed: #{User::Identity.where(id: [i0.id, i1.id, i2.id]).to_yaml}"
-    assert User::Identity.where(user_id: u.id).blank?, "User's identities not destroyed: #{User::Identity.where(user_id: u.id).to_yaml}"
+    users(:bart).destroy
+
+    assert User::Identity.where(id: identity_ids).blank?,
+           "Defined identities not destroyed: #{User::Identity.where(id: identity_ids).to_yaml}"
+    assert User::Identity.where(user_id: users(:bart).id).blank?,
+           "Not all user's identities not destroyed: #{User::Identity.where(user_id: users(:bart).id).to_yaml}"
   end
 
   def test_get_main_idenity
-    u = create_test_user!(email: 'testme@dot.com')
-    mi = u.identities.where(email: u.email, provider: User::Identity::LOCAL_PROVIDER).order('id ASC').first
-    assert_equal mi, u.main_identity
+    bart_base_identity = identities(:bart_identity_1)
+    assert_equal bart_base_identity, users(:bart).main_identity
   end
 
   def test_got_admin
-    assert User.new(email: 'porybny@rybickazlata.cz').admin?
-    refute User.new(email: 'orybny@rybickazlata.cz').admin?
+    assert User.new(email: 'porybny@rybickazlata.cz').admin? # admin is based on email (uniq)
+    assert_not User.new(email: 'orybny@rybickazlata.cz').admin?
 
     adm = create_test_user!(email: 'porybny@rybickazlata.cz')
     assert_equal adm, User.admin
@@ -68,14 +56,12 @@ class UserTest < ActiveSupport::TestCase
 
   def test_create_local_identity_on_local_registration
     email = 'jonh.doe@example.com'
-
     assert User::Identity.local.where(email: email).blank?
 
     user = User.new(name: 'John Doe', email: email, password: 'my_Password10')
-    # user.skip_confirmation!
     user.save!
 
-    assert user.identities.local.where(email: email).present?
+    assert_equal email, user.identities.local.first.email
   end
 
   def test_create_base_connection
@@ -84,36 +70,25 @@ class UserTest < ActiveSupport::TestCase
     assert Connection.base.where(email: email).blank?
 
     user = User.new(name: 'John Doe', email: email, password: 'my_Password10')
-    # user.skip_confirmation!
     user.save!
 
-    assert user.connections.where(email: email).present?
-    assert user.base_connection.present?
+    assert email, user.base_connection.email
   end
 
-  def test_know_his_connections
-    u = create_test_user!
-    p0 = u.base_connection
-    p1 = Connection.new(email: 'first@connection.cz', name: 'First')
-    p2 = Connection.new(email: 'second@connection.cz', name: 'second connection')
-    # inserting in reverse order!
-    u.connections << p2
-    u.connections << p1
-    u.reload
-
-    assert_equal [p0, p1, p2], u.connections.to_a # connections are ordered by name
+  def test_know_all_connections
+    ordered_connections = [connections(:bart_to_homer),
+                           connections(:bart_to_lisa),
+                           connections(:bart_to_marge),
+                           connections(:bart_to_milhouse),
+                           connections(:bart_base)].sort_by(&:name)
+    assert_equal ordered_connections, users(:bart).connections.to_a
   end
 
-  def test_know_his_friend_connections
-    u = create_test_user!
-    p0 = u.base_connection
-    p1 = Connection.new(email: 'first@connection.cz', name: 'First')
-    p2 = Connection.new(email: 'second@connection.cz', name: 'second connection')
-    # inserting in reverse order!
-    u.connections << p2
-    u.connections << p1
-    u.reload
-
-    assert_equal [p1, p2], u.friend_connections.to_a # connections are ordered by name
+  def test_knows_which_connections_are_friend_connections
+    ordered_connections = [connections(:bart_to_homer),
+                           connections(:bart_to_lisa),
+                           connections(:bart_to_milhouse),
+                           connections(:bart_to_marge)].sort_by(&:name)
+    assert_equal ordered_connections, users(:bart).friend_connections.to_a
   end
 end
