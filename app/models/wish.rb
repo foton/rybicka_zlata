@@ -52,16 +52,24 @@ class Wish < ApplicationRecord
     end
   end
 
-  def is_author?(user)
-    author_id == user.id
+  def author?(user)
+    author == user
   end
 
-  def is_donor?(user)
-    donor_user_ids.include?(user.id)
+  def donor?(user)
+    donor_users.include?(user)
   end
 
-  def is_donee?(user)
-    is_author?(user) || donee_user_ids.include?(user.id)
+  def donee?(user)
+    donee_users.include?(user)
+  end
+
+  def donor_users
+    @donor_users ||= User.find(donor_user_ids)
+  end
+
+  def donee_users
+    @donee_users ||= User.find(donee_user_ids)
   end
 
   def donee_user_ids
@@ -76,7 +84,7 @@ class Wish < ApplicationRecord
     only_whole_groups_in_collection(user.groups, donee_connections)
   end
 
-  def is_shared?
+  def shared?
     (@donee_user_ids || donee_links).count > 1
   end
 
@@ -161,8 +169,7 @@ class Wish < ApplicationRecord
       if booked_by_user.blank?
         errors.add(:booked_by_id, I18n.t('wishes.errors.must_have_booking_user'))
       else
-        bu = booked_by_user
-        errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_by_donee')) if is_donee?(bu)
+        errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_by_donee')) if donee?(booked_by_user)
       end
     elsif STATE_AVAILABLE == state
       errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_in_this_state')) if booked_by_user.present?
@@ -174,8 +181,7 @@ class Wish < ApplicationRecord
       if called_for_co_donors_by_user.blank?
         errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.must_have_calling_by_user'))
       else
-        cu = called_for_co_donors_by_user
-        errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.donee_cannot_call_for_co_donors')) if is_donee?(cu)
+        errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.donee_cannot_call_for_co_donors')) if donee?(called_for_co_donors_by_user)
       end
     elsif STATE_AVAILABLE == state
       errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.cannot_be_called_in_this_state')) if called_for_co_donors_by_user.present?

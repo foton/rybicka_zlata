@@ -11,9 +11,9 @@ module Wish::State
     @available_users_actions = {} unless defined?(@available_users_actions)
 
     if @available_users_actions[user].nil?
-      @available_users_actions[user] = if user.is_donee_of?(self)
+      @available_users_actions[user] = if user.donee_of?(self)
                                          actions_for_donee(user)
-                                       elsif user.is_donor_of?(self)
+                                       elsif user.donor_of?(self)
                                          actions_for_donor(user)
                                        else
                                          []
@@ -39,7 +39,7 @@ module Wish::State
   end
 
   def book!(user)
-    return unless user.is_donor_of?(self)
+    return unless user.donor_of?(self)
 
     self.state = STATE_RESERVED
     self.booked_by_user = user
@@ -62,7 +62,7 @@ module Wish::State
   end
 
   def call_for_co_donors!(user)
-    if user.is_donor_of?(self)
+    if user.donor_of?(self)
       self.state = STATE_CALL_FOR_CO_DONORS
       self.called_for_co_donors_by_id = user.id
       @available_users_actions = {}
@@ -97,7 +97,7 @@ module Wish::State
   end
 
   def fulfilled!(user)
-    if user.is_donee_of?(self)
+    if user.donee_of?(self)
       self.state = STATE_FULFILLED
       @available_users_actions = {}
       donor_links.destroy_all # they are no longer needed

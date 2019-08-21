@@ -113,16 +113,16 @@ class User < ApplicationRecord
     Wish::FromDonor.where(id: dls.collect(&:wish_id).uniq).order('updated_at DESC')
   end
 
-  def is_author_of?(wish)
-    wish.is_author?(self)
+  def author_of?(wish)
+    wish.author?(self)
   end
 
-  def is_donee_of?(wish)
-    wish.is_donee?(self)
+  def donee_of?(wish)
+    wish.donee?(self)
   end
 
-  def is_donor_of?(wish)
-    wish.is_donor?(self)
+  def donor_of?(wish)
+    wish.donor?(self)
   end
 
   def main_identity

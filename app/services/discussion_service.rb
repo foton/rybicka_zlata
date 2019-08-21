@@ -69,7 +69,7 @@ class DiscussionService
   end
 
   def user_is_donor?
-    @user_is_donor ||= @wish.is_donor?(@user)
+    @user_is_donor ||= @wish.donor?(@user)
   end
 
   # if author is donee/author of wish, visibility is set to true

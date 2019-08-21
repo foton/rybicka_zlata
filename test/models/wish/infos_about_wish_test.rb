@@ -12,33 +12,33 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
   end
 
   def test_know_its_author
-    assert @wish.is_author?(@author)
-    assert_not @wish.is_author?(@donee)
-    assert_not @wish.is_author?(@donor)
-    assert_not @wish.is_author?(@stranger)
+    assert @wish.author?(@author)
+    assert_not @wish.author?(@donee)
+    assert_not @wish.author?(@donor)
+    assert_not @wish.author?(@stranger)
   end
 
   def test_know_its_donees
-    assert @wish.is_donee?(@author)
-    assert @wish.is_donee?(@donee)
-    assert_not @wish.is_donee?(@donor)
-    assert_not @wish.is_donee?(@stranger)
+    assert @wish.donee?(@author)
+    assert @wish.donee?(@donee)
+    assert_not @wish.donee?(@donor)
+    assert_not @wish.donee?(@stranger)
   end
 
   def test_know_its_donors
-    assert_not @wish.is_donor?(@author)
-    assert_not @wish.is_donor?(@donee)
-    assert @wish.is_donor?(@donor)
-    assert_not @wish.is_donor?(@stranger)
+    assert_not @wish.donor?(@author)
+    assert_not @wish.donor?(@donee)
+    assert @wish.donor?(@donor)
+    assert_not @wish.donor?(@stranger)
   end
 
   def test_know_if_it_shared
-    assert @wish.is_shared?
+    assert @wish.shared?
 
     @wish.donee_connections = [] # author will persist
     assert @wish.valid?
 
-    assert_not @wish.is_shared?
+    assert_not @wish.shared?
   end
 
   def test_can_have_short_description

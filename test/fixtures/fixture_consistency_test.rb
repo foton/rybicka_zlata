@@ -9,6 +9,15 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
     @marge = users(:marge)
     @homer = users(:homer)
     @maggie = users(:maggie)
+
+    @wishes = {
+      'Bart wish (shown only to Homer)' => { donors: [@homer], donees: [@bart] },
+      'B: New faster skateboard' => { donors: [@homer, @marge, @lisa], donees: [@bart] },
+      'M: Taller hairs ' => { donors: [@lisa, @homer, @bart], donees: [@marge] },
+      'M+H: Your parents on holiday' => { donors: [@lisa, @bart], donees: [@marge, @homer] },
+      'L+B: Bigger family car' => { donors: [@homer, @marge], donees: [@bart, @lisa] },
+      'Lisa wish (shown only to Bart)' => { donors: [@bart], donees: [@lisa] }
+    }
   end
 
   test 'required users exists' do
@@ -88,31 +97,22 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
   end
 
   test 'Wishes are binded to other users' do
-    wishes = {
-      'Bart wish (shown only to Homer)' => { donors: [@homer], donees: [@bart] },
-      'B: New faster skateboard' => { donors: [@homer, @marge, @lisa], donees: [@bart] },
-      'M: Taller hairs ' => { donors: [@lisa, @homer, @bart], donees: [@marge] },
-      'M+H: Your parents on holiday' => { donors: [@lisa, @bart], donees: [@marge, @homer] },
-      'L+B: Bigger family car' => { donors: [@homer, @marge], donees: [@bart, @lisa] },
-      'Lisa wish (shown only to Bart)' => { donors: [@bart], donees: [@lisa] }
-    }
+    assert_equal @wishes.size, Wish.count
 
-    assert_equal wishes.size, Wish.count
-
-    wishes.each_pair do |wish_title, users_hash|
+    @wishes.each_pair do |wish_title, users_hash|
       wish = Wish.find_by(title: wish_title)
       assert wish.present?, "Wish with name #{wish_title} was not found between wishes"
 
       assert_not users_hash[:donors].size.zero?
       assert_equal users_hash[:donors].size, wish.donor_links.size, "Wish '#{wish_title}' should have #{users_hash[:donors].size} donor links"
       users_hash[:donors].each do |donor_user|
-        assert wish.is_donor?(donor_user), "Wish '#{wish_title}' should have `#{donor_user.name}` between donors"
+        assert wish.donor?(donor_user), "Wish '#{wish_title}' should have `#{donor_user.name}` between donors"
       end
 
       assert_not users_hash[:donees].size.zero?
       assert_equal users_hash[:donees].size, wish.donee_links.size, "Wish '#{wish_title}' should have #{users_hash[:donees].size} donee links"
       users_hash[:donees].each do |donee_user|
-        assert wish.is_donee?(donee_user), "Wish '#{wish_title}' should have `#{donee_user.name}` between donees"
+        assert wish.donee?(donee_user), "Wish '#{wish_title}' should have `#{donee_user.name}` between donees"
       end
     end
   end
