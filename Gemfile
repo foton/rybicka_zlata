@@ -25,7 +25,7 @@ gem 'coffee-rails', '4.2.2'
 gem 'jquery-rails', '4.3.3'
 
 # authorization
-gem 'devise', '4.6.2'
+gem 'devise', '4.7.1'
 gem 'devise-i18n', '1.8.1'
 gem 'omniauth-facebook', '5.0.0'
 gem 'omniauth-github', '1.3.0'
