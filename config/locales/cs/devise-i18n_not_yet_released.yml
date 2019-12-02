@@ -3,7 +3,7 @@ cs:
     attributes:
       user:
         current_password: Současné heslo
-        email: Email
+        email: Hlavní e-mail
         password: Heslo
         password_confirmation: Potvrzení hesla
         remember_me: Zapamatuj si mě
@@ -33,9 +33,9 @@ cs:
         instruction: Můžete potvrdit svůj účet pomocí odkazu níže
         subject: Instrukce k potvrzení účtu
       password_change:
-        greeting: 
-        message: 
-        subject: 
+        greeting:
+        message:
+        subject:
       reset_password_instructions:
         action: Změnit mé heslo
         greeting: Ahoj %{recipient}!
