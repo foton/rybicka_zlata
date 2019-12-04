@@ -11,12 +11,25 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
     @maggie = users(:maggie)
 
     @wishes = {
-      'Bart wish (shown only to Homer)' => { donors: [@homer], donees: [@bart] },
-      'B: New faster skateboard' => { donors: [@homer, @marge, @lisa], donees: [@bart] },
-      'M: Taller hairs ' => { donors: [@lisa, @homer, @bart], donees: [@marge] },
-      'M+H: Your parents on holiday' => { donors: [@lisa, @bart], donees: [@marge, @homer] },
-      'L+B: Bigger family car' => { donors: [@homer, @marge], donees: [@bart, @lisa] },
-      'Lisa wish (shown only to Bart)' => { donors: [@bart], donees: [@lisa] }
+      'Bart wish (shown only to Homer)' => { donors: { @bart => [@homer] },
+                                             donees: [@bart] },
+      'B: New faster skateboard' => { donors: { @bart => [@homer, @marge, @lisa] },
+                                      donees: [@bart] },
+      'M: Taller hairs ' => { donors: { @marge => [@lisa, @homer, @bart] },
+                              donees: [@marge] },
+      'M+H: Your parents on holiday' => { donors: { @marge => [@lisa], @homer =>[@bart] },
+                                          donees: [@marge, @homer] },
+      'L+B: Bigger family car' => { donors: { @bart => [@homer], @lisa => [@homer, @marge] },
+                                    donees: [@bart, @lisa] },
+      'Lisa wish (shown only to Bart)' => { donors: { @lisa => [@bart] },
+                                            donees: [@lisa] }
+    }
+    @connections = {
+      @bart => { 'Liiiisaaa' => @lisa, 'Dad' => @homer, 'Mom' => @marge, 'Milhouse' => nil },
+      @lisa => { 'Misfit' => @bart, 'Dad' => @homer, 'Mom' => @marge },
+      @marge => { 'Son' => @bart, 'Daughter' => @lisa, 'Husband' => @homer, 'Little one' => @maggie },
+      @homer => { 'MiniMe' => @bart },
+      @maggie => { 'Mom' => @marge }
     }
   end
 
@@ -66,15 +79,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
   end
 
   test 'Connections are present' do
-    conns = {
-      @bart => { 'Liiiisaaa' => @lisa, 'Dad' => @homer, 'Mom' => @marge, 'Milhouse' => nil },
-      @lisa => { 'Misfit' => @bart, 'Dad' => @homer, 'Mom' => @marge },
-      @marge => { 'Son' => @bart, 'Daughter' => @lisa, 'Husband' => @homer, 'Little one' => @maggie },
-      @homer => { 'MiniMe' => @bart },
-      @maggie => { 'Mom' => @marge }
-    }
-
-    conns.each_pair do |user, conns_hash|
+    @connections.each_pair do |user, conns_hash|
       all_cons = conns_hash.dup
       all_cons[Connection::BASE_CONNECTION_NAME] = user
 
@@ -103,10 +108,17 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
       wish = Wish.find_by(title: wish_title)
       assert wish.present?, "Wish with name #{wish_title} was not found between wishes"
 
-      assert_not users_hash[:donors].size.zero?
-      assert_equal users_hash[:donors].size, wish.donor_links.size, "Wish '#{wish_title}' should have #{users_hash[:donors].size} donor links"
-      users_hash[:donors].each do |donor_user|
-        assert wish.donor?(donor_user), "Wish '#{wish_title}' should have `#{donor_user.name}` between donors"
+      all_donors = users_hash[:donors].values.flatten
+      assert_not all_donors.size.zero?
+      assert_equal all_donors.size, wish.donor_links.size, "Wish '#{wish_title}' should have #{users_hash[:donors].size} donor links"
+      users_hash[:donors].each_pair do |donee_user, donor_users|
+        donor_users.each do |donor_user|
+          assert wish.donor?(donor_user), "Wish '#{wish_title}' should have `#{donor_user.name}` between donors"
+          correct_connection = donee_user.connections.detect { |con| con.friend == donor_user }
+          correct_link = wish.donor_links.detect { |link| link.connection == correct_connection }
+          assert correct_link.present?,
+                 "There should be donor link to connection between donee: #{donee_user.name}[#{donee_user.id}] and donor: #{donor_user.name}[#{donor_user.id}] for wish #{wish.title}, but we have #{wish.donor_links.collect {|link| link.connection.to_json }}"
+        end
       end
 
       assert_not users_hash[:donees].size.zero?

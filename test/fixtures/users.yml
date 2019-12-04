@@ -2,23 +2,28 @@ marge:
   email: marge@simpsons.com
   name: Marjorie Jacqueline Simpson
   confirmed_at: '2018-08-08 08:08:08'
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>
 
 homer:
   email: homer@simpsons.com
   name: Homer Jay Simpson
   confirmed_at: '2018-08-08 08:08:08'
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>
 
 bart:
   email: bart@simpsons.com
   name: Bartholomew JoJo Simpson
   confirmed_at: '2018-08-08 08:08:08'
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>
 
 lisa:
   email: lisa@simpsons.com
   name: Lisa Marie Simpson
   confirmed_at: '2018-08-08 08:08:08'
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>
 
 maggie:
   email: maggie@simpsons.com
   name: Margaret Evelyn Simpson
   confirmed_at: '2018-08-08 08:08:08'
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>

@@ -7,8 +7,8 @@ Požadavek: Operace s vlastními kontakty
 
 Kontext:
   Pokud existují standardní testovací uživatelé
-  A jsem přihlášen jako "pepik"
-  A přepnu na češtinu  
+  A jsem přihlášen jako "bart@simpsons.com"
+  A přepnu na češtinu
 
 Scénář: Přidání kontaktu
   Když jsem na mé profilové stránce
