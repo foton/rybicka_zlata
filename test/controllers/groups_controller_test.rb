@@ -16,7 +16,7 @@ class GroupsControllerTest < ActionController::TestCase
     @connections << Connection.create!(owner: @current_user, name: 'second', email: 'group@my.two')
     @connections << Connection.create!(owner: @current_user, name: 'Third', email: 'group@my.three')
     @connections << Connection.create!(owner: @current_user, name: 'FourMan', email: 'group@my.four')
-   end
+  end
 
   def test_index
     Group.create!(user: @current_user, name: 'My group 1')

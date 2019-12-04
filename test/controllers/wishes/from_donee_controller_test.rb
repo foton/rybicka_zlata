@@ -255,7 +255,7 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     orig_updated_at = shared_wish.updated_at.to_s
     sleep 1.second
 
-    for action in other_actions
+    other_actions.each do |action|
       patch :update, params: { user_id: @current_user.id, id: shared_wish.id, state_action: action }
 
       shared_wish.reload
@@ -269,14 +269,14 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     author_wish = Wish::FromAuthor.new(author: @current_user, title: 'My first wish', description: 'This is my first wish I am trying')
     author_wish.merge_donor_conn_ids([@conn_mama.id, @conn_tata.id], @current_user)
     author_wish.save!
-    author_wish = Wish::FromDonee.find(author_wish.id)
+    Wish::FromDonee.find(author_wish.id)
   end
 
   def create_shared_wish
     shared_wish = Wish::FromAuthor.new(author: @other_user, donee_conn_ids: [@conn_to_current_user.id], title: 'My shared wish', description: 'I am sharing this wish with Pepa (aka current_user)')
     shared_wish.merge_donor_conn_ids([@conn_tata_from_other_user.id], @other_user)
     shared_wish.save!
-    shared_wish = Wish::FromDonee.find(shared_wish.id)
+    Wish::FromDonee.find(shared_wish.id)
   end
 
   def create_nonshared_wish

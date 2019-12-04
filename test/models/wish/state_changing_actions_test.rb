@@ -114,10 +114,10 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     @wish.gifted!(@donor)
     assert @wish.gifted?
 
-    msg = @wish.fulfilled!(@donor)
+    @wish.fulfilled!(@donor)
     assert_not @wish.fulfilled?
 
-    msg = @wish.fulfilled!(@stranger)
+    @wish.fulfilled!(@stranger)
     assert_not @wish.fulfilled?
 
     msg = @wish.fulfilled!(@donee)

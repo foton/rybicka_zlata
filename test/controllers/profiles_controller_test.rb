@@ -10,7 +10,7 @@ class ProfilesControllerTest < ActionController::TestCase
     @current_user = User.create!(name: 'Pepík', email: 'pepik@josef.cz', password: 'nezalezi')
     @current_user.confirm
     sign_in @current_user
-   end
+  end
 
   def test_my_page_is_setup_correctly
     get :my
