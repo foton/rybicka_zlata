@@ -27,3 +27,9 @@ maggie:
   name: Margaret Evelyn Simpson
   confirmed_at: '2018-08-08 08:08:08'
   encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>
+
+porybny:
+  email: <%= User::ADMIN_EMAIL %>
+  name: Porybný
+  confirmed_at: '2018-08-08 08:08:08'
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>

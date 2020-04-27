@@ -47,7 +47,7 @@ module Discussions
 
       assert_response :redirect
       anchor = discussion_service.posts.last.anchor
-      assert_redirected_to user_my_wish_path(donee, wish, anchor: anchor)
+      assert_redirected_to user_author_wish_path(donee, wish, anchor: anchor)
     end
 
     def test_delete_post

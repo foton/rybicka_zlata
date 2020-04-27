@@ -1,5 +1,6 @@
 # encoding: utf-8
 # language: cs
+
 Požadavek:  Registrace do aplikace
   Jako neregistrovaný a nepřihlášený uživatel
   se chci zaregistrovat

@@ -7,7 +7,7 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
     @wish = wishes(:lisa_bart_bigger_car)
     @author = @wish.author
     @donor = users(:marge)
-    @donee = users(:bart)
+    @donee = users(:lisa)
     @stranger = users(:maggie)
   end
 
@@ -125,32 +125,33 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
    end
 
   def test_discover_complete_group_in_donors
+    lisa = @donee
     marge_conn = connections(:lisa_to_marge)
     homer_conn = connections(:lisa_to_homer)
     bart_conn = connections(:lisa_to_bart)
-    paul_conn = create_connection_for(@author, name: 'Paul')
+    paul_conn = create_connection_for(lisa, name: 'Paul')
 
-    group_simpsons = Group.new(name: 'Simpsons', user: @author)
+    group_simpsons = Group.new(name: 'Simpsons', user: lisa)
     group_simpsons.connections = [bart_conn, marge_conn, homer_conn]
     group_simpsons.save!
 
-    @wish = Wish::FromDonee.create!(title: 'A wish', author: @author, description: 'is needed?')
+    @wish = Wish::FromDonee.create!(title: 'A wish', author: lisa, description: 'is needed?')
 
-    @wish.merge_donor_conn_ids([bart_conn.id], @author)
+    @wish.merge_donor_conn_ids([bart_conn.id], lisa)
     @wish.save!
-    assert_equal [], @wish.donor_groups_for(@author), 'Group is founded just for Bart'
+    assert_equal [], @wish.donor_groups_for(lisa), 'Group is founded just for Bart'
 
-    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id], @author)
+    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id], lisa)
     @wish.save!
-    assert_equal [], @wish.donor_groups_for(@author), 'Group is founded just for Bart and Marge'
+    assert_equal [], @wish.donor_groups_for(lisa), 'Group is founded just for Bart and Marge'
 
-    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id, homer_conn.id], @author)
+    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id, homer_conn.id], lisa)
     @wish.save!
-    assert_equal [group_simpsons], @wish.donor_groups_for(@author), 'Group Simpsons should be found in donors'
+    assert_equal [group_simpsons], @wish.donor_groups_for(lisa), 'Group Simpsons should be found in donors'
 
-    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id, homer_conn.id, paul_conn.id], @author)
+    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id, homer_conn.id, paul_conn.id], lisa)
     @wish.save!
-    assert_equal [group_simpsons], @wish.donor_groups_for(@author), 'Group Simpsons should be found in donors. Even with extra Paul.'
+    assert_equal [group_simpsons], @wish.donor_groups_for(lisa), 'Group Simpsons should be found in donors. Even with extra Paul.'
   end
 
   def test_find_whole_groups_in_donees

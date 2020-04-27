@@ -80,6 +80,10 @@ Pak(/^vidím kontakt "([^"]*)"$/) do |name|
   find('li', text: name)
 end
 
+Pak(/^nevidím kontakt "([^"]*)"$/) do |name|
+  assert_no_text(name)
+end
+
 Pak(/^vidím kontakt "([^"]*)" v "([^"]*)"$/) do |name, block_name|
   within(:css, block_selector_for(block_name)) do
     find('li', text: name)

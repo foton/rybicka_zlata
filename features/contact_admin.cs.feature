@@ -7,24 +7,24 @@ Požadavek:  Poslání hlášení porybnému
 Kontext:
   Pokud existují standardní testovací uživatelé
   A jsem na úvodní stránce
-  A přepnu na češtinu  
+  A přepnu na češtinu
 
 Scénář: Nepřihlášený uživatel posílá vzkaz
   Když kliknu na "Kontaktujte nás"
   A zapíšu do položky "Vaše zpráva pro Porybného" text "Prostě něco strašlivě důležitého."
-  #A zapíšu do položky "recpatcha" text "NeznáméHeslo328"
+  # A zapíšu do položky "recpatcha" text "NeznáméHeslo328"
   A zapíšu do položky "Kam má přijít případná reakce?" text "muj@email.cz"
   A kliknu na tlačítko "Odeslat"
 
   Pak bych měl vidět "Zpráva pro Porybného odeslána."
-    
+
   Pokud si otevřu poslední email pro adresu "porybny@rybickazlata.cz"
-  Pak jeho předmět by měl být "Zpráva pro Porybného od uživatele ''" 
-  A v jeho obsahu by mělo být "Prostě něco strašlivě důležitého." 
-  A v jeho obsahu by mělo být "Odpověď poslat na 'muj@email.cz'" 
+  Pak jeho předmět by měl být "Zpráva pro Porybného od uživatele ''"
+  A v jeho obsahu by mělo být "Prostě něco strašlivě důležitého."
+  A v jeho obsahu by mělo být "Odpověď poslat na 'muj@email.cz'"
 
 Scénář: Přihlášený uživatel posílá vzkaz
-  A jsem přihlášen jako "pepik"
+  A jsem přihlášen jako "Bart"
   A kliknu na "Kontaktujte nás"
   A zapíšu do položky "Vaše zpráva pro Porybného" text "Prostě něco strašlivě důležitého."
   #A zapíšu do položky "recpatcha" text "NeznáméHeslo328"
@@ -32,9 +32,9 @@ Scénář: Přihlášený uživatel posílá vzkaz
   A kliknu na tlačítko "Odeslat"
 
   Pak bych měl vidět "Zpráva pro Porybného odeslána."
-    
+
   Pokud si otevřu poslední email pro adresu "porybny@rybickazlata.cz"
-  Pak jeho předmět by měl být "Zpráva pro Porybného od uživatele 'pepik'" 
-  A v jeho obsahu by mělo být "Prostě něco strašlivě důležitého." 
-  A v jeho obsahu by mělo být "Profil uživatele 'pepik': http://localhost:3000/profiles/"
- 
+  Pak jeho předmět by měl být "Zpráva pro Porybného od uživatele 'Bartholomew JoJo Simpson'"
+  A v jeho obsahu by mělo být "Prostě něco strašlivě důležitého."
+  A v jeho obsahu by mělo být "Profil uživatele 'Bartholomew JoJo Simpson': http://localhost:3000/profiles/"
+

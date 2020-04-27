@@ -1,5 +1,6 @@
 # encoding: utf-8
 # language: cs
+
 Požadavek: Operace s vlastními kontakty
   Jako přihlášený uživatel
   chci měnit seznam kontaktů na mě

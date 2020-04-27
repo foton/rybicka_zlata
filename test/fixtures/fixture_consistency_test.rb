@@ -126,6 +126,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
       users_hash[:donees].each do |donee_user|
         assert wish.donee?(donee_user), "Wish '#{wish_title}' should have `#{donee_user.name}` between donees"
       end
+      assert wish.author?(users_hash[:donees].first), "Wish '#{wish_title}' should have `#{users_hash[:donees].first.name}` as author"
     end
   end
 end

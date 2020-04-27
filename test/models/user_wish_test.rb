@@ -11,7 +11,7 @@ class UserWishTest < ActiveSupport::TestCase
 
   def test_know_his_all_kind_of_wishes
     # author wishes
-    assert_equal [wishes(:bart_skateboard).id, wishes(:bart_motorbike).id].sort,
+    assert_equal [wishes(:bart_skateboard).id, wishes(:bart_motorbike).id, wishes(:lisa_bart_bigger_car).id].sort,
                  @bart.author_wishes.collect(&:id).sort
     # donee wishes
     assert_equal [wishes(:bart_skateboard).id, wishes(:bart_motorbike).id, wishes(:lisa_bart_bigger_car).id].sort,

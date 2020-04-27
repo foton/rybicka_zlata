@@ -14,9 +14,9 @@ Kontext:
   A u "Homera" existuje kontakt "MiniMe" s adresou "bart@simpsons.com"
   A u "Marge" existuje kontakt "Son" s adresou "bart@simpsons.com"
 
-  Pokud existuje přání "L+B: Bigger family car" uživatele "Líza"
-  A má v obdarovaných ["Bart"]
-  A to má dárce { "Líza" => ["Dad", "Mom"], "Bart" => ["Dad"] }
+  Pokud existuje přání "L+B: Bigger family car" uživatele "Bart"
+  A má v obdarovaných ["Liiiisaaa"]
+  A to má dárce { "Lisa" => ["Dad", "Mom"], "Bart" => ["Dad"] }
 
   A přepnu na češtinu
 

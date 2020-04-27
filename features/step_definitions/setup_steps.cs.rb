@@ -35,6 +35,19 @@ Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
   @friend_connection.reload
 end
 
+Pokud(/^přidám přítele "(.*?)"$/) do |connection_fullname|
+  raise "Unable to parse connection from fullname '#{connection_fullname}'" unless (m = connection_fullname.strip.match(/\A(.*) \[(.*)\]: (.*)\z/))
+
+  conn_name = m[1]
+  user_name = m[2]
+  email = m[3]
+
+  User.create!(name: user_name, email: email, password: 'password')
+
+  @friend_connection = Connection.new(name: m[1], email: m[3])
+  @current_user.connections << @friend_connection
+end
+
 Pokud('ten má v oblibě {string}') do |likes_what|
   raise 'Missing @friend_connection' unless @friend_connection
 
@@ -93,6 +106,7 @@ Pokud(/^u "(.*?)" existuje kontakt "(.*?)"(?: s adresou "(.*?)")?$/) do |user_na
 end
 
 Pokud(/^existuje moje přání "(.*?)"$/) do |title|
+  raise 'do not use'
   @wish = Wish::FromAuthor.new(author: @current_user, title: title, description: "Description of přání #{title}")
   @wish.save!
 end
@@ -145,5 +159,6 @@ def check_connection(user, conn_hash)
     conns = conns.select { |conn| conn.email == conn_hash[:email] } if conns.present?
   end
   assert_equal 1, conns.size
+  conns.first
 end
 

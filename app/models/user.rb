@@ -4,6 +4,7 @@ class User < ApplicationRecord
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
   BASE_CONNECTION_NAME = '--base--'
+  ADMIN_EMAIL = 'porybny@rybickazlata.cz'
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -43,11 +44,11 @@ class User < ApplicationRecord
   end
 
   def self.admin
-    User.find_by(email: 'porybny@rybickazlata.cz')
+    User.find_by(email: ADMIN_EMAIL)
   end
 
   def admin?
-    (email == 'porybny@rybickazlata.cz')
+    (email == ADMIN_EMAIL)
   end
 
   # https://www.digitalocean.com/community/tutorials/how-to-configure-devise-and-omniauth-for-your-rails-application
