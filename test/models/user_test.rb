@@ -79,6 +79,7 @@ class UserTest < ActiveSupport::TestCase
     ordered_connections = [connections(:bart_to_homer),
                            connections(:bart_to_lisa),
                            connections(:bart_to_marge),
+                           connections(:bart_to_maggie),
                            connections(:bart_to_milhouse),
                            connections(:bart_base)].sort_by(&:name)
     assert_equal ordered_connections, users(:bart).connections.to_a
@@ -87,6 +88,7 @@ class UserTest < ActiveSupport::TestCase
   def test_knows_which_connections_are_friend_connections
     ordered_connections = [connections(:bart_to_homer),
                            connections(:bart_to_lisa),
+                           connections(:bart_to_maggie),
                            connections(:bart_to_milhouse),
                            connections(:bart_to_marge)].sort_by(&:name)
     assert_equal ordered_connections, users(:bart).friend_connections.to_a

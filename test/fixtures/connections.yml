@@ -61,7 +61,7 @@ homer_to_bart:
   email: bart@simpsons.com
   friend: bart
 
-# Bart have connections to Lisa, Homer and Marge + Milhouse (not user)
+# Bart have connections to Lisa, Homer, Marge and Maggie + Milhouse (not user)
 bart_to_lisa:
   owner: bart
   name: Liiiisaaa
@@ -80,12 +80,17 @@ bart_to_marge:
   email: marge@simpsons.com
   friend: marge
 
+bart_to_maggie:
+  owner: bart
+  name: Meg
+  email: maggie@simpsons.com
+  friend: maggie
+
 bart_to_milhouse:
   owner: bart
   name: Milhouse
   email: milhouse@gmail.com
   friend:
-
 
 # Lisa have connections to Bart, Homer an Marge
 # using second identity of bart

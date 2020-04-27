@@ -25,7 +25,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
                                             donees: [@lisa] }
     }
     @connections = {
-      @bart => { 'Liiiisaaa' => @lisa, 'Dad' => @homer, 'Mom' => @marge, 'Milhouse' => nil },
+      @bart => { 'Liiiisaaa' => @lisa, 'Dad' => @homer, 'Mom' => @marge, 'Meg' => @maggie, 'Milhouse' => nil },
       @lisa => { 'Misfit' => @bart, 'Dad' => @homer, 'Mom' => @marge },
       @marge => { 'Son' => @bart, 'Daughter' => @lisa, 'Husband' => @homer, 'Little one' => @maggie },
       @homer => { 'MiniMe' => @bart },
