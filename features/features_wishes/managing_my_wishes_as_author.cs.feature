@@ -20,7 +20,7 @@ Kontext:
   A u "Mařenky" existuje skupina "Rodina" se členy ["Máma", "Táta", "Pepík"]
 
   A jsem přihlášen jako "pepik"
-  A přepnu na češtinu  
+  A přepnu na češtinu
 
 @javascript
 Scénář: Přidání přání
@@ -32,7 +32,7 @@ Scénář: Přidání přání
   A do seznamu dárců přidám "Rodina"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
-  A počkám si 1 vteřinu 
+  A počkám si 1 vteřinu
 
   Pak jsem na stránce přání "Kalhoty s kapsami"
   A vidím text "Přání 'Kalhoty s kapsami' bylo úspěšně přidáno."
@@ -43,7 +43,7 @@ Scénář: Přidání přání
   A vidím kontakt "Autor přání [pepik]" v "Obdarovaní"
   A můžu rovnou přidat další přání
 
-  Pokud jsem na stránce "Má přání" 
+  Pokud jsem na stránce "Má přání"
   A v seznamu přání je přání "Kalhoty s kapsami" se 1 potenciálními dárci
 
 @javascript
@@ -59,7 +59,7 @@ Scénář: Přidání sdíleného přání
   A do seznamu obdarovaných přidám "Mařenka"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
-  A počkám si 1 vteřinu 
+  A počkám si 1 vteřinu
 
   Pak jsem na stránce přání "Pračka"
   A vidím text "Přání 'Pračka' bylo úspěšně přidáno."
@@ -67,17 +67,17 @@ Scénář: Přidání sdíleného přání
   A vidím kontakt "Táta" v "Dárci"
   A vidím kontakt "Karel" v "Dárci"
   A vidím lidi ze skupiny "Kámoši" v "Dárci"
-  
+
   A vidím kontakt "Autor přání [pepik]" v "Obdarovaní"
   A vidím kontakt "Mařenka" v "Obdarovaní"
 
-  Pokud jsem na stránce "Má přání" 
+  Pokud jsem na stránce "Má přání"
   A v seznamu přání je přání "Pračka" se 1 potenciálními dárci
 
 @javascript
 Scénář: Úprava přání
   Pokud existuje moje přání "Kalhoty s kapsami"
-  A to má dárce ["Máma", "Táta"]
+  A to má dárce { "Líza" => ["Dad", "Mom"], "Bart" => ["Dad"] }
 
   Pokud jsem na stránce "Má přání"
   A kliknu na editaci u přání "Kalhoty s kapsami"
@@ -89,7 +89,7 @@ Scénář: Úprava přání
   A ze seznamu dárců odeberu "Máma"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
-  A počkám si 1 vteřinu 
+  A počkám si 1 vteřinu
 
   Pak jsem na stránce přání "Kalhoty s velkými kapsami"
   A vidím text "Přání 'Kalhoty s velkými kapsami' bylo úspěšně aktualizováno."
@@ -101,9 +101,9 @@ Scénář: Úprava přání
 @javascript
 Scénář: Úprava sdíleného přání
   Pokud existuje moje přání "Pračka"
-  A to má dárce ["Máma", "Táta"]
+  A to má dárce { "Líza" => ["Dad", "Mom"], "Bart" => ["Dad"] }
   A má v obdarovaných ["Maruška"]
-  
+
   Pokud jsem na stránce "Má přání"
   A kliknu na editaci u přání "Pračka"
 
@@ -116,7 +116,7 @@ Scénář: Úprava sdíleného přání
   A ze seznamu obdarovaných odeberu "Maruška"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
-  A počkám si 1 vteřinu 
+  A počkám si 1 vteřinu
 
   Pak jsem na stránce přání "Automatická pračka"
   A vidím text "Přání 'Automatická pračka' bylo úspěšně aktualizováno."
@@ -129,7 +129,8 @@ Scénář: Úprava sdíleného přání
 @javascript
 Scénář: Smazání přání
   Pokud existuje moje přání "Kalhoty s kapsami"
-  A to má dárce ["Máma", "Táta"]
+  #A to má dárce ["Máma", "Táta"]
+  A to má dárce { "Líza" => ["Dad", "Mom"], "Bart" => ["Dad"] }
 
   Pokud jsem na stránce "Má přání"
   A kliknu na smazání u přání "Kalhoty s kapsami"
@@ -142,9 +143,9 @@ Scénář: Smazání přání
 @javascript
 Scénář: Smazání sdíleného přání
   Pokud existuje moje přání "Pračka"
-  A to má dárce ["Máma", "Táta"]
+  A to má dárce { "Líza" => ["Dad", "Mom"], "Bart" => ["Dad"] }
   A má v obdarovaných ["Maruška"]
-  
+
   Pokud jsem na stránce "Má přání"
   A kliknu na smazání u přání "Pračka"
   A smazání potvrdím

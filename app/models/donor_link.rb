@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# this class connects wish with donors
+# Connects wish with connections. `Connection.friend` then became donors for wish.
 class DonorLink < ApplicationRecord
   belongs_to :connection, inverse_of: :donor_links
   belongs_to :wish, inverse_of: :donor_links

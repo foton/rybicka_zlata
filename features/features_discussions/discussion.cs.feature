@@ -16,7 +16,7 @@ Kontext:
 
   Pokud existuje přání "L+B: Bigger family car" uživatele "Líza"
   A má v obdarovaných ["Bart"]
-  A to má dárce { 'Líza' => ["Dad", "Mom"], 'Bart' => ["Dad"] }
+  A to má dárce { "Líza" => ["Dad", "Mom"], "Bart" => ["Dad"] }
 
   A přepnu na češtinu
 

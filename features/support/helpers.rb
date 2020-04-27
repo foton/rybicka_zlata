@@ -1,6 +1,6 @@
 def find_user_by(user_identificator)
   email = user_email_for_(user_identificator)
-  @users.find { |u| u.email == email}
+  @users.find { |u| u.email == email }
 end
 
 def user_email_for_(user_identificator)

@@ -23,15 +23,8 @@ Pokud /^existují tito uživatelé\:$/ do |table|
 end
 
 Pokud /^existují standardní testovací uživatelé$/ do
-  step('existují tito uživatelé:', table(%(
-        | name        | email                   | locale  | password                |  admin  |
-        | porybny     |porybny@rybickazlata.cz  | cs      | #{DEFAULTS[:password]}  |  true   |
-        | charles     |charles@rybickazlata.cz  | en      | #{DEFAULTS[:password]}  |  false  |
-        | pepik       |pepik@rybickazlata.cz    | cs      | #{DEFAULTS[:password]}  |  false  |
-        | Mařenka     |marenka@rybickazlata.cz  | cs      | #{DEFAULTS[:password]}  |  false  |
-        | Karel       |karel@rybickazlata.cz    | cs      | #{DEFAULTS[:password]}  |  false  |
-        | Mojmír      |mojmir@rybickazlata.cz   | cs      | #{DEFAULTS[:password]}  |  false  |
-        )))
+  @users = User.all.to_a
+  # see test/fixtures/fixture_consistency_test.rb  for users, identities, wishes and other fixtures
 end
 
 Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
@@ -104,6 +97,25 @@ Pokud(/^existuje moje přání "(.*?)"$/) do |title|
   @wish.save!
 end
 
+
+Pokud(/^přidám přání "(.*?)" uživatele "(.*?)" pro dárce \{(.*?)\}$/) do |title, user_name, donee_donors_hash_str|
+  user = find_user_by(user_name)
+  @wish = Wish::FromAuthor.new(author: user, title: title, description: "Description of přání #{title}")
+
+  donee_donors_pairs = donee_donors_hash_str.scan(/"([[:word:]]+)"\s*=>\s*\[([^\]]+)\]/)
+  assert donee_donors_pairs.present?
+
+  donee_donors_pairs.each do |donee_name, connection_names_csv|
+    donee = find_user_by(donee_name)
+    conn_names = connection_names_csv.delete('"').split(',').collect(&:strip)
+    named_donee_connection_ids = donee.connections.where(name: conn_names).pluck(:id)
+
+    @wish.merge_donor_conn_ids(named_donee_connection_ids, donee)
+  end
+
+  @wish.save!
+end
+
 Pokud(/^existuje přání "(.*?)" uživatele "(.*?)"$/) do |title, user_name|
   user = find_user_by(user_name)
   @wish = user.author_wishes.find_by(title: title)
@@ -111,7 +123,9 @@ Pokud(/^existuje přání "(.*?)" uživatele "(.*?)"$/) do |title, user_name|
 end
 
 Pokud(/^to má dárce \{(.*?)\}$/) do |donee_donors_hash_str|
-  expected_donee_donors_pairs = donee_donors_hash_str.scan(/"([[:word:]]+)"=>\[([^\]]+)\]/)
+  expected_donee_donors_pairs = donee_donors_hash_str.scan(/"([[:word:]]+)"\s*=>\s*\[([^\]]+)\]/)
+  assert expected_donee_donors_pairs.present?
+
   expected_donee_donors_pairs.each do |donee_name, connection_names_csv|
     donee = find_user_by(donee_name)
     conn_names = connection_names_csv.delete('"').split(',').collect(&:strip)

@@ -21,13 +21,14 @@ Kontext:
   A u "Mařenky" existuje skupina "Rodina" se členy ["Máma", "Táta", "Pepík"]
 
   A "Mařenka" má kontakt "maruska@example.com"
-  
-  A přepnu na češtinu  
+
+  A přepnu na češtinu
 
   Pokud existuje přání "Pračka" uživatele "pepik"
-  A to má dárce ["Máma", "Táta"]
+  # A to má dárce ["Máma", "Táta"]
+  A to má dárce { "Líza" => ["Dad", "Mom"], "Bart" => ["Dad"] }
   A má v obdarovaných ["Maruška"]
-  
+
   A jsem přihlášen jako "Mařenka"
 
 @javascript
@@ -40,7 +41,7 @@ Scénář: Úprava sdíleného přání
   A do seznamu dárců přidám "KarelM"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
-  A počkám si 1 vteřinu 
+  A počkám si 1 vteřinu
 
   Pak jsem na stránce přání "Pračka"
   A vidím text "Seznam potenciálních dárců pro 'Pračka' byl úspěšně aktualizován."
@@ -57,7 +58,7 @@ Scénář: Úprava sdíleného přání
   A do seznamu dárců přidám "Rodina"
   A kliknu na uložení
   # without this the (next) next step is done before wish is saved
-  A počkám si 1 vteřinu 
+  A počkám si 1 vteřinu
 
   Pak jsem na stránce přání "Pračka"
   A vidím text "Seznam potenciálních dárců pro 'Pračka' byl úspěšně aktualizován."
@@ -67,7 +68,7 @@ Scénář: Úprava sdíleného přání
   # 'pepik' je obdarovany, tudiž by v seznamu nebyl:  A vidím lidi ze skupiny "Rodina" v "Dárci"
   A vidím kontakt "Máma" v "Dárci"
   A vidím kontakt "Táta" v "Dárci"
-  
+
 @javascript
 Scénář: Smazání sdíleného přání
   Pokud jsem na stránce "Má přání"
