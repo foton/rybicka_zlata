@@ -9,9 +9,6 @@ Požadavek: Práce s přáními jako dárce
 Kontext:
   Pokud existují standardní testovací uživatelé
 
-  # wish which is not visible to Bart aka 'Son'
-  Pokud přidám přání "Pračka" uživatele "Marge" pro dárce { "Marge" => ["Husband", "Daughter"] }
-
   Pokud existuje přání "M+H: Your parents on holiday" uživatele "Marge"
   A to má dárce { "Homer" => ["MiniMe"], "Marge" => ["Bart"] }
   A má v obdarovaných ["Homer"]
@@ -25,9 +22,9 @@ Kontext:
 Scénář: Vidím jen přání, kde jsem dárcem
   Pokud jsem na stránce "Můžu splnit"
   Pak bych měl vidět přání "M+H: Your parents on holiday"
-  A měl bych vidět přání "Lisa wish (shown only to Bart) Tatoo at my spine!"
+  A měl bych vidět přání "Lisa wish (shown only to Bart)"
   A měl bych vidět přání "M: Taller hairs"
-  A neměl bych vidět přání "Pračka"
+  A neměl bych vidět přání "Lisa wish (shown only to Marge)"
 
   A pokud si otevřu přání "M+H: Your parents on holiday" u "Mom"
 

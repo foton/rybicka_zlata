@@ -43,3 +43,7 @@ homer_for_bart_motorbike:
 bart_for_lisa_tatoo:
   wish: lisa_tatoo
   connection: lisa_to_bart
+
+marge_for_lisa_guitar:
+  wish: lisa_guitar
+  connection: lisa_to_marge

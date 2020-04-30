@@ -27,3 +27,8 @@ lisa_tatoo:
   author: lisa
   title: 'Lisa wish (shown only to Bart)'
   description: 'Tatoo at my spine! Parents will not allow it.'
+
+lisa_guitar:
+  author: lisa
+  title: 'Lisa wish (shown only to Marge)'
+  description: 'Electric guitar! To enhance my music art.'

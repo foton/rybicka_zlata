@@ -22,11 +22,14 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
       'L+B: Bigger family car' => { donors: { @bart => [@homer], @lisa => [@homer, @marge] },
                                     donees: [@bart, @lisa] },
       'Lisa wish (shown only to Bart)' => { donors: { @lisa => [@bart] },
+                                            donees: [@lisa] },
+      'Lisa wish (shown only to Marge)' => { donors: { @lisa => [@marge] },
                                             donees: [@lisa] }
     }
+
     @connections = {
       @bart => { 'Liiiisaaa' => @lisa, 'Dad' => @homer, 'Mom' => @marge, 'Meg' => @maggie, 'Milhouse' => nil },
-      @lisa => { 'Misfit' => @bart, 'Dad' => @homer, 'Mom' => @marge },
+      @lisa => { 'Misfit' => @bart, 'Dad' => @homer, 'Mom' => @marge, 'Rachel C' => nil },
       @marge => { 'Son' => @bart, 'Daughter' => @lisa, 'Husband' => @homer, 'Little one' => @maggie },
       @homer => { 'MiniMe' => @bart },
       @maggie => { 'Mom' => @marge }

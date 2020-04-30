@@ -27,3 +27,7 @@ bart_for_bart_motorbike:
 lisa_for_lisa_tatoo:
   wish: lisa_tatoo
   connection: lisa_base
+
+lisa_for_lisa_guitar:
+  wish: lisa_guitar
+  connection: lisa_base

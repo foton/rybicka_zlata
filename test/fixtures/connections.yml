@@ -112,6 +112,12 @@ lisa_to_marge:
   email: marge@simpsons.com
   friend: marge
 
+lisa_to_rachel:
+  owner: lisa
+  name: Rachel C
+  email: rachel.cohen@simpsons.com
+  friend:
+
 #Maggie have connection only to Marge
 maggie_to_marge:
   owner: maggie
