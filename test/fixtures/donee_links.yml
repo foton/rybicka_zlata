@@ -1,0 +1,33 @@
+marge_for_marge_hairs:
+  wish: marge_hairs
+  connection: marge_base
+
+marge_for_marge_homer_holidays:
+  wish: marge_homer_holidays
+  connection: marge_base
+homer_for_marge_homer_holidays:
+  wish: marge_homer_holidays
+  connection: marge_to_homer
+
+bart_for_bart_skateboard:
+  wish: bart_skateboard
+  connection: bart_base
+
+lisa_for_lisa_bart_bigger_car:
+  wish: lisa_bart_bigger_car
+  connection: lisa_base
+bart_for_lisa_bart_bigger_car:
+  wish: lisa_bart_bigger_car
+  connection: lisa_to_bart
+
+bart_for_bart_motorbike:
+  wish: bart_motorbike
+  connection: bart_base
+
+lisa_for_lisa_tatoo:
+  wish: lisa_tatoo
+  connection: lisa_base
+
+lisa_for_lisa_guitar:
+  wish: lisa_guitar
+  connection: lisa_base

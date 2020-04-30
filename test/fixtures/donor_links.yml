@@ -1,0 +1,49 @@
+lisa_for_marge_hairs:
+  wish: marge_hairs
+  connection: marge_to_lisa
+bart_for_marge_hairs:
+  wish: marge_hairs
+  connection: marge_to_bart
+homer_for_marge_hairs:
+  wish: marge_hairs
+  connection: marge_to_homer
+
+
+lisa_for_marge_homer_holidays:
+  wish: marge_homer_holidays
+  connection: marge_to_lisa
+bart_for_marge_homer_holidays:
+  wish: marge_homer_holidays
+  connection: homer_to_bart
+
+lisa_for_bart_skateboard:
+  wish: bart_skateboard
+  connection: bart_to_lisa
+marge_for_bart_skateboard:
+  wish: bart_skateboard
+  connection: bart_to_marge
+homer_for_bart_skateboard:
+  wish: bart_skateboard
+  connection: bart_to_homer
+
+homer_for_lisa_bart_bigger_car_from_bart:
+  wish: lisa_bart_bigger_car
+  connection: bart_to_homer
+homer_for_lisa_bart_bigger_car_from_lisa:
+  wish: lisa_bart_bigger_car
+  connection: lisa_to_homer
+marge_for_lisa_bart_bigger_car:
+  wish: lisa_bart_bigger_car
+  connection: lisa_to_marge
+
+homer_for_bart_motorbike:
+  wish: bart_motorbike
+  connection: bart_to_homer
+
+bart_for_lisa_tatoo:
+  wish: lisa_tatoo
+  connection: lisa_to_bart
+
+marge_for_lisa_guitar:
+  wish: lisa_guitar
+  connection: lisa_to_marge

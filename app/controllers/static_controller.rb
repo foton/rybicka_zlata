@@ -19,7 +19,8 @@ class StaticController < ApplicationController
 
   def message_to_admin
     @message = Message.new(params[:message][:subject], params[:message][:body], params[:message][:reply_to])
-    RybickaMailer.message_to_admin(@message, current_user).deliver_now
+    RybickaMailer.with(message: @message, user: current_user).message_to_admin.deliver_now
+
     flash[:notice] = t('rybickazlata.static.contact_us.message.to_admin.sent')
     @message = Message.new('', '', '')
     redirect_to about_url

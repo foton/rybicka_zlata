@@ -3,48 +3,45 @@
 require 'test_helper'
 
 class WishFromDonorTest < ActiveSupport::TestCase
-  def setup
-    @author = create_test_user!(name: 'author')
-    @donor = create_test_user!(name: 'donor')
-    @donee = create_test_user!(name: 'donee')
+  # IF donee_connection links to user (aka friend)?
+  #    a) user (donor) have it's own connection to that friend => display connection.name
+  #    b) user (donor) do not have such connection => display friend.displayed_name
+  # ELSE # donee_connection do not have friend
+  #    c) user (donor) have it's own connection with same email as in donee_connection => display connection.name
+  #    d) user (donor) do not have such connection => display donee_connection.name
 
-    assert @author != @donor
-    assert @author != @donee
-    assert @donee != @donor
+  def test_donor_see_displayed_names_if_no_connection_between
+    # a) and b) form above
+    shared_wish = Wish::FromDonor.find(wishes(:lisa_bart_bigger_car).id)
+    donor = users(:homer) # have connection only to Bart
 
-    @donor_conn = create_connection_for(@author, name: 'donor_conn', email: @donor.email)
-    @donee_conn = create_connection_for(@author, name: 'donee_conn', email: @donee.email)
-    # now connection without users
-    @donee2_conn = create_connection_for(@author, name: 'donee2_conn')
-    @donee3_conn = create_connection_for(@author, name: 'donee3_conn')
-
-    @wish = Wish::FromAuthor.new(
-      author: @author,
-      title: 'My first wish',
-      description: 'This is my first wish I am trying',
-      donee_conn_ids: [@donee_conn.id, @donee2_conn.id, @donee3_conn.id]
-    )
-    @wish.merge_donor_conn_ids([@donor_conn.id], @author)
-    @wish.save!
-
-    # donor do not have it's own connection to @auhtor, @donee (but they are users)
-    # donor do have connection with same email as @donee2_conn
-    @donor_to_donee2_conn = create_connection_for(@donor, name: 'donor_to_donee2', email: @donee2_conn.email)
-    # donor do not know or have connection with same email as @donee3_conn
-
-    @shared_wish = Wish::FromDonor.find(@wish.id)
+    expected_names = [users(:lisa).displayed_name, connections(:homer_to_bart).name].sort
+    assert_equal expected_names, shared_wish.donee_names_for(donor)
   end
 
-  def test_get_right_donee_names
-    expected_names = []
-    # donor do not have it's own connection to @auhtor, @donee (but they are users) => use user.displayed_name
-    expected_names << @author.displayed_name
-    expected_names << @donee.displayed_name
+  def test_donor_see_connection_names_if_there_are_connections_to_donnees
+    # c) and d) from above =>  Milhouse is not user
+    wish = wishes(:marge_hairs)
+    wish_from_donor = Wish::FromDonor.find(add_milhouse_as_donee_to(wish).id)
 
-    # donor do have connection with same email as @donee2_conn => use donor name for connection
-    expected_names << @donor_to_donee2_conn.name
-    expected_names.sort!
+    # Bart have connection to Milhouse
+    expected_names = [connections(:bart_to_marge).name, connections(:bart_to_milhouse).name].sort
+    assert_equal expected_names, wish_from_donor.donee_names_for(users(:bart))
 
-    assert_equal expected_names, @shared_wish.donee_names_for(@donor)
+    # Lisa do not have connection to Milhouse, so no Milhouse between donees
+    expected_names = [connections(:lisa_to_marge).name]
+    assert_equal expected_names, wish_from_donor.donee_names_for(users(:lisa))
+  end
+
+  private
+
+  def add_milhouse_as_donee_to(wish)
+    milhouses_email = connections(:bart_to_milhouse).email
+    marge_to_milhouse_conn = create_connection_for(wish.author, name: 'Milhouse junior', email: milhouses_email)
+    # add milhouse as second donee to :marge_hairs
+    wish_from_donor = Wish::FromAuthor.find(wish.id)
+    wish_from_donor.donee_connections << marge_to_milhouse_conn
+
+    wish_from_donor
   end
 end

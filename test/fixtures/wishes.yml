@@ -1,0 +1,34 @@
+marge_hairs:
+  author: marge
+  title: 'M: Taller hairs'
+  description: 'And deep bluish too!'
+
+marge_homer_holidays:
+  author: marge
+  title: 'M+H: Your parents on holiday'
+  description: 'Nice holiday without children. (Donors: M:Lisa, H:Bart)'
+
+bart_skateboard:
+  author: bart
+  title: 'B: New faster skateboard'
+  description: 'The old one is slooooooooooooow! (Donors: B:Lisa, B:Marge, B:Homer )'
+
+lisa_bart_bigger_car:
+  author: bart
+  title: 'L+B: Bigger family car'
+  description: 'If you want us to go with You (Donors: L:Marge, L:Homer )'
+
+bart_motorbike:
+  author: bart
+  title: 'Bart wish (shown only to Homer)'
+  description: 'Motorbike, HD Electra Glide ideally '
+
+lisa_tatoo:
+  author: lisa
+  title: 'Lisa wish (shown only to Bart)'
+  description: 'Tatoo at my spine! Parents will not allow it.'
+
+lisa_guitar:
+  author: lisa
+  title: 'Lisa wish (shown only to Marge)'
+  description: 'Electric guitar! To enhance my music art.'

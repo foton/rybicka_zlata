@@ -21,14 +21,14 @@ class UserTest < ActiveSupport::TestCase
     non_verified_email = "change@me-#{auth.uid}-#{auth.provider}.com"
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal non_verified_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal auth.extra.raw_info.locale, u.locale
+    assert user.persisted?
+    assert_equal non_verified_email, user.email
+    assert_equal @user_name, user.name
+    assert_equal auth.extra.raw_info.locale, user.locale
 
-    i = u.identities.where(provider: :google).first
+    i = user.identities.where(provider: :google).first
     assert i.present?
     assert_equal auth.uid, i.uid
     assert_nil i.email
@@ -43,14 +43,14 @@ class UserTest < ActiveSupport::TestCase
 
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal nv_user_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal auth.extra.raw_info.locale, u.locale
+    assert user.persisted?
+    assert_equal nv_user_email, user.email
+    assert_equal @user_name, user.name
+    assert_equal auth.extra.raw_info.locale, user.locale
 
-    i = u.identities.where(provider: :google).first
+    i = user.identities.where(provider: :google).first
     assert i.present?
     assert_equal auth.uid, i.uid
     assert_equal nv_user_email, i.email
@@ -64,14 +64,14 @@ class UserTest < ActiveSupport::TestCase
 
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal @user_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal auth.extra.raw_info.locale, u.locale
+    assert user.persisted?
+    assert_equal @user_email, user.email
+    assert_equal @user_name, user.name
+    assert_equal auth.extra.raw_info.locale, user.locale
 
-    i = u.identities.where(provider: :google).first
+    i = user.identities.where(provider: :google).first
     assert i.present?
     assert_equal auth.uid, i.uid
     assert_equal @user_email, i.email
@@ -86,14 +86,14 @@ class UserTest < ActiveSupport::TestCase
 
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal @user_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal User.new.locale, u.locale
+    assert user.persisted?
+    assert_equal @user_email, user.email
+    assert_equal @user_name, user.name
+    assert_equal User.new.locale, user.locale
 
-    i = u.identities.where(provider: :github).first
+    i = user.identities.where(provider: :github).first
     assert i.present?
     assert_equal auth.uid, i.uid
     assert_equal @user_email, i.email
@@ -107,16 +107,16 @@ class UserTest < ActiveSupport::TestCase
 
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal nv_user_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal auth.extra.raw_info.locale.split('_').first, u.locale
+    assert user.persisted?
+    assert_equal nv_user_email, user.email
+    assert_equal @user_name, user.name
+    assert_equal auth.extra.raw_info.locale.split('_').first, user.locale
     # timezone -3 hours from UTC is assigned to
-    assert_equal 'Brasilia', u.time_zone
+    assert_equal 'Brasilia', user.time_zone
 
-    i = u.identities.where(provider: :facebook).first
+    i = user.identities.where(provider: :facebook).first
     assert i.present?
     assert_equal auth.uid, i.uid
     assert_equal nv_user_email, i.email
@@ -129,16 +129,16 @@ class UserTest < ActiveSupport::TestCase
 
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal @user_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal auth.extra.raw_info.locale.split('_').first, u.locale
+    assert user.persisted?
+    assert_equal @user_email, user.email
+    assert_equal @user_name, user.name
+    assert_equal auth.extra.raw_info.locale.split('_').first, user.locale
     # timezone -3 hours from UTC is assigned to
-    assert_equal 'Brasilia', u.time_zone
+    assert_equal 'Brasilia', user.time_zone
 
-    i = u.identities.where(provider: :facebook).first
+    i = user.identities.where(provider: :facebook).first
     assert i.present?
     assert_equal auth.uid, i.uid
     assert_equal @user_email, i.email
@@ -152,16 +152,16 @@ class UserTest < ActiveSupport::TestCase
 
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    # assert_equal nv_user_email, u.email
-    assert_equal @user_name, u.name
-    assert_equal auth.extra.raw_info.lang, u.locale
+    assert user.persisted?
+    # assert_equal nv_user_email, user.email
+    assert_equal @user_name, user.name
+    assert_equal auth.extra.raw_info.lang, user.locale
     # timezone -3 hours from UTC is assigned to
-    assert_equal auth.extra.raw_info.time_zone, u.time_zone
+    assert_equal auth.extra.raw_info.time_zone, user.time_zone
 
-    i = u.identities.where(provider: :twitter).first
+    i = user.identities.where(provider: :twitter).first
     assert i.present?
     assert_equal auth.uid, i.uid
     # assert_equal nv_user_email, i.email
@@ -176,14 +176,14 @@ class UserTest < ActiveSupport::TestCase
 
   #   current_user = nil
 
-  #   u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+  #   user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-  #   assert u.persisted?
-  #   assert_equal @user_email, u.email
-  #   assert_equal @user_name, u.name
-  #   assert_equal User.new.locale, u.locale
+  #   assert user.persisted?
+  #   assert_equal @user_email, user.email
+  #   assert_equal @user_name, user.name
+  #   assert_equal User.new.locale, user.locale
 
-  #   i = u.identities.where(provider: :linkedin).first
+  #   i = user.identities.where(provider: :linkedin).first
   #   assert i.present?
   #   assert_equal auth.uid, i.uid
   #   assert_equal @user_email, i.email
@@ -201,10 +201,10 @@ class UserTest < ActiveSupport::TestCase
 
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal orig_user, u
+    assert user.persisted?
+    assert_equal orig_user, user
     assert_equal (idnt_count + 1), orig_user.identities.count, orig_user.identities.to_yaml
 
     i = orig_user.identities.where(provider: :github).first
@@ -227,10 +227,10 @@ class UserTest < ActiveSupport::TestCase
 
     current_user = nil
 
-    u, passwd = User.find_or_create_from_omniauth!(auth, current_user)
+    user, _passwd = User.find_or_create_from_omniauth!(auth, current_user)
 
-    assert u.persisted?
-    assert_equal orig_user, u
+    assert user.persisted?
+    assert_equal orig_user, user
     assert_equal (idnt_count + 1), orig_user.identities.count, orig_user.identities.to_yaml
 
     i = orig_user.identities.where(provider: :github).first

@@ -57,7 +57,7 @@ class UserIdentityTest < ActiveSupport::TestCase
     User::Identity.stub(:extractor_for, @extractor_verified) do
       User::Identity.create_from_auth!(@auth.merge(provider: 'test', uid: 'sss'), @user) # create first identity
 
-      # no user given, second identity should find it by email in first
+      # no user given, second identity should find it by email in first one
       i = User::Identity.create_from_auth!(@auth)
       assert i.persisted?
       assert_equal @auth, i.auth_data
@@ -108,7 +108,8 @@ class UserIdentityTest < ActiveSupport::TestCase
 
   def test_get_correct_extractors
     User::Identity::OAUTH_PROVIDERS.each do |provider|
-      assert_equal "User::Identity::Extractor::#{provider.to_s.capitalize}".constantize, User::Identity.extractor_for(provider.to_s).class
+      assert_equal "User::Identity::Extractor::#{provider.to_s.capitalize}".constantize,
+                   User::Identity.extractor_for(provider.to_s).class
     end
   end
 
@@ -136,54 +137,46 @@ class UserIdentityTest < ActiveSupport::TestCase
 
   def test_user_must_be_valid
     same_email = 'common@email.cz'
-    idnt1 = User::Identity.new(email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: (begin
-                                                                                                        User.last.id + 1
-                                                                                                      rescue
-                                                                                                        1
-                                                                                                      end))
+    idnt1 = User::Identity.new(email: same_email,
+                               provider: User::Identity::LOCAL_PROVIDER,
+                               user_id: User.last.id + 1)
     assert_not idnt1.valid?
     assert ['není'], idnt1.errors[:user]
   end
 
   def test_one_email_cannot_belong_to_more_users
-    same_email = 'common@email.cz'
-    idnt1 = User::Identity.new(email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: @user.id)
-    assert idnt1.valid?
-    idnt1.save!
+    same_email = identities(:maggie_identity).email
 
-    second_user = create_test_user!(email: 'john@thesecond.com')
-
-    idnt2 = User::Identity.new(email: same_email, provider: User::Identity::LOCAL_PROVIDER, user_id: second_user.id)
+    idnt2 = User::Identity.new(user: users(:bart),
+                               email: same_email,
+                               provider: User::Identity::LOCAL_PROVIDER)
     assert_not idnt2.valid?
-    assert_equal idnt2.errors[:email], ["E-mailová adresa '#{same_email}' je již přiřazena jinému uživateli!"]
+    assert_equal ["E-mailová adresa '#{same_email}' je již přiřazena jinému uživateli!"],
+                 idnt2.errors[:email]
   end
 
   # not needed: def test_main_idenity_cannot_be_deleted
 
   #---------- FRIENDSHIP UPDATES --------
 
-  def setup_connection
-    @owner = create_test_user!
-    @user_to = create_test_user!(name: 'Ford', email: 'hitchhiker@galaxy.museum')
-    @connection = Connection.new(name: 'Simon', email: 'simon@says.com', owner_id: @owner.id)
-    assert @connection.save
-  end
-
   def test_binding_user_to_connection
-    setup_connection
+    marge = users(:marge)
+    maggie = users(:maggie)
+    maggie_new_email = 'little_maggie@example.com'
+    connection = Connection.create!(name: 'The little one', email: maggie_new_email, owner: marge)
 
-    assert_nil @connection.friend, "@connection.friend should be blank, but is #{@connection.friend}"
-    # now add indentiti to @user to with email mentioned in @connection
-    idnt = User::Identity.new(email: @connection.email, provider: User::Identity::LOCAL_PROVIDER)
-    assert @user_to.identities << idnt
+    assert_nil connection.friend, "connection.friend should be blank, but is #{connection.friend}"
 
-    # should be binded aftre_save
-    @connection.reload
-    assert_equal @user_to, @connection.friend
+    # now add identity with such email to Maggie
+    idnt = User::Identity.new(email: maggie_new_email, provider: User::Identity::LOCAL_PROVIDER)
+    assert maggie.identities << idnt
 
+    # should be binded after_save
+    assert_equal maggie, connection.reload.friend
+
+    # when identity is destroyed, friend is set nil
     idnt.destroy
 
-    @connection.reload
-    assert_nil @connection.friend_id
+    assert_nil connection.reload.friend_id
   end
 end

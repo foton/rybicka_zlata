@@ -10,27 +10,33 @@ class Wish::FromDonor < Wish
   end
 
   # return array of strings (names) of donees, which are known to user
-  # if donee_connection have friend user => displayed_name
-  # if donee_connection do not have friend user
-  #   if user have between it's connection same email => name from user connection
-  #   else donee_connection do not get in array
   def donee_names_for(user)
-    @donee_names = [] unless defined? @donee_names
+    @donee_names = {} unless defined? @donee_names
 
-    if @donee_names[user.id].nil?
-      names = []
-      donee_connections.each do |conn|
-        if conn.friend
-          names << conn.friend.displayed_name
-        else
-          user_conns_with_email = user.connections.where(email: conn.email)
-          if user_conns_with_email.present?
-            names << user_conns_with_email.first.name
-          end
-        end
-      end
-      @donee_names[user.id] = names.sort
-    end
+    @donee_names[user.id] = collect_donee_names_for(user) if @donee_names[user.id].nil?
+
     @donee_names[user.id]
+  end
+
+  # IF donee_connection links to user (aka friend)?
+  #    a) user (donor) have it's own connection to that friend => display connection.name
+  #    b) user (donor) do not have such connection => display friend.displayed_name
+  # ELSE # donee_connection do not have friend
+  #    a) user (donor) have it's own connection with same email as in donee_connection => display connection.name
+  #    b) user (donor) do not have such connection => display donee_connection.name
+
+
+  def collect_donee_names_for(user)
+    donee_connections.collect do |conn|
+      if conn.friend # donee is user of app
+        if (user_conn = user.connections.find_by(friend_id: conn.friend_id))
+          user_conn.name
+        else
+          conn.friend.displayed_name
+        end
+      elsif (user_conn = user.connections.find_by(email: conn.email))
+        user_conn.name
+      end
+    end.compact.sort
   end
 end

@@ -11,11 +11,11 @@ class Wish::FromDonee < Wish
   def merge_donor_conn_ids(conn_ids, user)
     conn_ids = [] unless conn_ids.is_a?(Array)
 
-    user_conn_ids = user.connections.select(:id).collect(&:id)
+    user_conn_ids = user.connections.pluck(:id)
     conn_ids_to_add = conn_ids & user_conn_ids
     conn_ids_to_remove = user_conn_ids - conn_ids_to_add
 
-    @donor_conn_ids ||= donor_connections.select(:id).collect(&:id)
+    @donor_conn_ids ||= donor_connections.pluck(:id)
     @donor_conn_ids += conn_ids_to_add
     @donor_conn_ids -= conn_ids_to_remove
     @donor_conn_ids.uniq!

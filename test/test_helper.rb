@@ -17,32 +17,34 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 
-# fast truncation of all tables that need truncations (select is 10x faster then truncate)
-# http://grosser.it/2012/07/03/rubyactiverecord-fastest-way-to-truncate-test-database/
-def truncate_all_tables
-  config = ActiveRecord::Base.configurations[::Rails.env]
-  connection = ActiveRecord::Base.connection
-  connection.disable_referential_integrity do
-    connection.tables.each do |table_name|
-      next if  table_name == 'schema_migrations'
-      next if connection.select_value("SELECT count(*) FROM #{table_name}") == 0
-      case config['adapter']
-      when 'mysql', 'mysql2', 'postgresql'
-        connection.execute("TRUNCATE #{table_name} CASCADE")
-      when 'sqlite', 'sqlite3'
-        connection.execute("DELETE FROM #{table_name}")
-        connection.execute("DELETE FROM sqlite_sequence where name='#{table_name}'")
-      end
-    end
-    connection.execute('VACUUM') if config['adapter'] == 'sqlite3'
-  end
-end
+# # fast truncation of all tables that need truncations (select is 10x faster then truncate)
+# # http://grosser.it/2012/07/03/rubyactiverecord-fastest-way-to-truncate-test-database/
+# def truncate_all_tables
+#   config = ActiveRecord::Base.configurations[::Rails.env]
+#   connection = ActiveRecord::Base.connection
+#   connection.disable_referential_integrity do
+#     connection.tables.each do |table_name|
+#       next if  table_name == 'schema_migrations'
+#       next if connection.select_value("SELECT count(*) FROM #{table_name}") == 0
+#       case config['adapter']
+#       when 'mysql', 'mysql2', 'postgresql'
+#         connection.execute("TRUNCATE #{table_name} CASCADE")
+#       when 'sqlite', 'sqlite3'
+#         connection.execute("DELETE FROM #{table_name}")
+#         connection.execute("DELETE FROM sqlite_sequence where name='#{table_name}'")
+#       end
+#     end
+#     connection.execute('VACUUM') if config['adapter'] == 'sqlite3'
+#   end
+# end
 
 class ActiveSupport::TestCase
-  truncate_all_tables
+#  truncate_all_tables
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+
   fixtures :all
+  #fixtures %w[users identities wishes connections donor_links donee_links]# groups]
 
   # Add more helper methods to be used by all tests here...
   def create_test_user!(attrs = {})

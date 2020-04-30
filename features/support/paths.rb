@@ -49,7 +49,7 @@ module NavigationHelpers
           wishes = (@current_user.donee_wishes.where(title: m[1]).to_a + @current_user.donor_wishes.where(title: m[1]).to_a)
           raise "wish '#{m[1]}' was not found between wishes of user #{@current_user.displayed_name}" if wishes.blank?
           @wish = wishes.first
-          if @current_user.is_author_of?(@wish)
+          if @current_user.author_of?(@wish)
             edit_user_author_wish_path(@current_user, @wish, locale: @locale)
           else
             edit_user_my_wish_path(@current_user, @wish, locale: @locale)

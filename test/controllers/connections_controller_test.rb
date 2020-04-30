@@ -10,7 +10,7 @@ class ConnectionsControllerTest < ActionController::TestCase
     @current_user = User.create!(name: 'Pepík', email: 'pepik@josef.cz', password: 'nezalezi')
     @current_user.confirm
     sign_in @current_user
-   end
+  end
 
   def test_index
     Connection.create!(owner: @current_user, name: 'One', email: 'connection@my.one')

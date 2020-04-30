@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# this class connects wish with donees
+# Connects wish with connections. `Connection.friend` then became donee for wish.
 class DoneeLink < ApplicationRecord
   belongs_to :connection, inverse_of: :donee_links
   belongs_to :wish, inverse_of: :donee_links

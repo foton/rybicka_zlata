@@ -2,58 +2,59 @@
 # language: cs
 
 Požadavek: Správa kontaktů na mé známé
-Jako přihlášený uživatel
-chci mít možnost spravovat seznam kontaktů na přátele (potenciálních dárců a spoluobdarovaných)
-aby oni mohli vidět má přání nebo být moji spoluobdarovaní
+  Jako přihlášený uživatel
+  chci mít možnost spravovat seznam kontaktů na přátele (potenciálních dárců a spoluobdarovaných)
+  aby oni mohli vidět má přání nebo být moji spoluobdarovaní
 
 Kontext:
-Pokud existují standardní testovací uživatelé
-A jsem přihlášen jako "pepik"
-A přepnu na češtinu
+  Pokud existují standardní testovací uživatelé
+  A jsem přihlášen jako "Bart"
+  A přepnu na češtinu
+  A existuje přítel "Milhouse [???]: milhouse@gmail.com"
+  A jsem na stránce "Kontakty"
 
 @javascript
 Scénář: Přidání kontaktu
-Pokud jsem na stránce "Kontakty"
-A otevřu si formulář pro přidání
-A zapíšu do položky "Jméno" text "Ježíšek"
-A zapíšu do položky "E-mail" text "jezisek@rybickazlata.cz"
-A kliknu na uložení
-Pak vidím text "Kontakt 'Ježíšek [???]: jezisek@rybickazlata.cz' byl úspěšně přidán."
-A v seznamu přátel je kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
+  Pokud si otevřu formulář pro přidání
+  A zapíšu do položky "Jméno" text "Ježíšek"
+  A zapíšu do položky "E-mail" text "jezisek@rybickazlata.cz"
+  A kliknu na uložení
+
+  Pak vidím text "Kontakt 'Ježíšek [???]: jezisek@rybickazlata.cz' byl úspěšně přidán."
+  A v seznamu přátel je kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
 
 @javascript
 Scénář: Úprava přítele
-Pokud existuje přítel "Ježíšek [???]: jezisek@rybickazlata.cz"
-A jsem na stránce "Kontakty"
-A kliknu na editaci u "Ježíšek"
+  A kliknu na editaci u "Milhouse"
 
-Pak jsem na stránce editace kontaktu "Ježíšek"
-A změním "Ježíšek" na "Ježíšek2"
-A změním "jezisek@rybickazlata.cz" na "jezisek2@rybickazlata.cz"
-A kliknu na uložení
+  Pak jsem na stránce editace kontaktu "Milhouse"
+  A změním "Milhouse" na "Milhouse2"
+  A změním "milhouse@gmail.com" na "milhouse@email.cz"
+  A kliknu na uložení
 
-Pak jsem na stránce "Kontakty"
-A vidím text "Kontakt 'Ježíšek2 [???]: jezisek2@rybickazlata.cz' byl úspěšně aktualizován."
-A v seznamu přátel je kontakt "Ježíšek2" s adresou "jezisek2@rybickazlata.cz"
-A v seznamu přátel není kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
+  Pak jsem na stránce "Kontakty"
+  A vidím text "Kontakt 'Milhouse2 [???]: milhouse@email.cz' byl úspěšně aktualizován."
+  A v seznamu přátel je kontakt "Milhouse2" s adresou "milhouse@email.cz"
+  A v seznamu přátel není kontakt "Milhouse" s adresou "milhouse@gmail.com"
 
 @javascript
 Scénář: Odstranění přítele
-Pokud existuje přítel "Ježíšek [???]: jezisek@rybickazlata.cz"
-A jsem na stránce "Kontakty"
-A kliknu na smazání u "Ježíšek"
-A smazání potvrdím
+  Pokud kliknu na smazání u "Milhouse"
+  A smazání potvrdím
 
-Pak jsem na stránce "Kontakty"
-A vidím text "Kontakt 'Ježíšek [???]: jezisek@rybickazlata.cz' byl úspěšně smazán."
-A v seznamu přátel není kontakt "Ježíšek" s adresou "jezisek@rybickazlata.cz"
+  Pak jsem na stránce "Kontakty"
+  A vidím text "Kontakt 'Milhouse [???]: milhouse@gmail.com' byl úspěšně smazán."
+  A v seznamu přátel není kontakt "Milhouse" s adresou "milhouse@gmail.com"
 
 @javascript
 Scénář: Zobrazení rozšířených informací
-Pokud existuje přítel "Ježíšek [BabyJesus]: jezisek@rybickazlata.cz"
-A ten má v oblibě "Marii a Josefa"
-A jsem na stránce "Kontakty"
-A kliknu na "BabyJesus"
+  Pokud přidám přítele "Flanders [Ned]: ned.flanders@gmail.com"
+  A ten má v oblibě "Marii a Josefa"
+  A jsem na stránce "Profil"
+  # reloading Kontakty
+  A jsem na stránce "Kontakty"
 
-Pak jsem na info stránce pro "BabyJesus"
-A vidím text "Mám rád(a): Marii a Josefa"
+  Pokud kliknu na "Ned"
+
+  Pak jsem na info stránce pro "Ned"
+  A vidím text "Mám rád(a): Marii a Josefa"

@@ -1,0 +1,126 @@
+
+marge_base:
+  owner: marge
+  name: <%= Connection::BASE_CONNECTION_NAME %>
+  email: marge@simpsons.com
+  friend: marge
+
+homer_base:
+  owner: homer
+  name: <%= Connection::BASE_CONNECTION_NAME %>
+  email: homer@simpsons.com
+  friend: homer
+
+bart_base:
+  owner: bart
+  name: <%= Connection::BASE_CONNECTION_NAME %>
+  email: bart@simpsons.com
+  friend: bart
+
+lisa_base:
+  owner: lisa
+  name: <%= Connection::BASE_CONNECTION_NAME %>
+  email: lisa@simpsons.com
+  friend: lisa
+
+maggie_base:
+  owner: maggie
+  name: <%= Connection::BASE_CONNECTION_NAME %>
+  email: maggie@simpsons.com
+  friend: maggie
+
+# Marge have connections to all
+marge_to_homer:
+  owner: marge
+  name: Husband
+  email: homer@simpsons.com
+  friend: homer
+
+marge_to_lisa:
+  owner: marge
+  name: Daughter
+  email: lisa@simpsons.com
+  friend: lisa
+
+marge_to_bart:
+  owner: marge
+  name: Son
+  email: bart@simpsons.com
+  friend: bart
+
+marge_to_maggie:
+  owner: marge
+  name: Little one
+  email: maggie@simpsons.com
+  friend: maggie
+
+# Homer have connection only to Bart
+homer_to_bart:
+  owner: homer
+  name: MiniMe
+  email: bart@simpsons.com
+  friend: bart
+
+# Bart have connections to Lisa, Homer, Marge and Maggie + Milhouse (not user)
+bart_to_lisa:
+  owner: bart
+  name: Liiiisaaa
+  email: lisa@simpsons.com
+  friend: lisa
+
+bart_to_homer:
+  owner: bart
+  name: Dad
+  email: homer@simpsons.com
+  friend: homer
+
+bart_to_marge:
+  owner: bart
+  name: Mom
+  email: marge@simpsons.com
+  friend: marge
+
+bart_to_maggie:
+  owner: bart
+  name: Meg
+  email: maggie@simpsons.com
+  friend: maggie
+
+bart_to_milhouse:
+  owner: bart
+  name: Milhouse
+  email: milhouse@gmail.com
+  friend:
+
+# Lisa have connections to Bart, Homer an Marge
+# using second identity of bart
+lisa_to_bart:
+  owner: lisa
+  name: Misfit
+  email: bartman@simpsons.com
+  friend: bart
+
+lisa_to_homer:
+  owner: lisa
+  name: Dad
+  email: homer@simpsons.com
+  friend: homer
+
+lisa_to_marge:
+  owner: lisa
+  name: Mom
+  email: marge@simpsons.com
+  friend: marge
+
+lisa_to_rachel:
+  owner: lisa
+  name: Rachel C
+  email: rachel.cohen@simpsons.com
+  friend:
+
+#Maggie have connection only to Marge
+maggie_to_marge:
+  owner: maggie
+  name: Mom
+  email: marge@simpsons.com
+  friend: marge

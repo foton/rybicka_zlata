@@ -4,11 +4,15 @@ require 'test_helper'
 
 class DiscussionServiceTest < ActiveSupport::TestCase
   def setup
-    setup_wish
-    create_connection_for(@donor, name: 'donor_to_author', email: @author.email)
+    @wish = wishes(:lisa_bart_bigger_car)
+    @author = users(:lisa)
+    assert @wish.author, @author
+
+    @donee = users(:bart)
+    @donor = users(:homer)
   end
 
-  def test_can_add_post_from_donor
+  def test_can_add_post_from_donor_without_restriction
     service = DiscussionService.new(@wish, @donor)
     assert service.posts.empty?
 
@@ -72,7 +76,7 @@ class DiscussionServiceTest < ActiveSupport::TestCase
 
     add_secret_post_from_donor
 
-    refute service.can_delete_post?(last_post)
+    assert_not service.can_delete_post?(last_post)
   end
 
   private

@@ -9,108 +9,88 @@ Požadavek: Práce s přáními jako dárce
 Kontext:
   Pokud existují standardní testovací uživatelé
 
-  A "Mařenka" má kontakt "maruska@example.com"
-  A "Karel" má kontakt "karel@example.com"
-  A "Karel" má kontakt "karel_maly@example.com"
-  
-  A u "pepika" existuje kontakt "Karel"
-  A u "pepika" existuje kontakt "Mařenka" s adresou "marenka@rybickazlata.cz"
-  A u "pepika" existuje skupina "Kámoši" se členy ["Hynek", "Vilda","Jarka"]
-  A u "pepika" existuje skupina "Rodina" se členy ["Máma", "Táta" , "Mařenka"]
+  Pokud existuje přání "M+H: Your parents on holiday" uživatele "Marge"
+  A to má dárce { "Homer" => ["MiniMe"], "Marge" => ["Bart"] }
+  A má v obdarovaných ["Homer"]
 
-  A u "Mařenky" existuje kontakt "Karel Malý" s adresou "karel_maly@example.com"
-  A u "Mařenky" existuje kontakt "Mojmír" s adresou "mojmir@rybickazlata.cz"
-  A u "Mařenky" existuje kontakt "Pepík" s adresou "pepik@rybickazlata.cz"
-  A u "Mařenky" existuje skupina "Kámarádi" se členy ["Tom", "Bob"]
-  A u "Mařenky" existuje skupina "Rodina" se členy ["Máma", "Táta", "Pepík"]
-  
-  #wish which is not visible to Karel
-  Pokud existuje přání "Pračka" uživatele "pepik"
-  A to má dárce ["Máma", "Táta"]
-  A má v obdarovaných ["Maruška"]
-  
-  Pokud existuje přání "Dovolená v Karibiku" uživatele "pepik"
-  A to má dárce ["Máma", "Táta", "Karel"]
-  A má v obdarovaných ["Maruška"]
+  Pokud existuje přání "Lisa wish (shown only to Bart)" uživatele "Lisa"
+  A to má dárce { "Líza" => ["Misfit"] }
 
-  Pokud existuje přání "Překvapení pro Pepu" uživatele "Mařenka"
-  A to má dárce ["Máma", "Táta", "Karel Malý","Mojmír"]
-  
   A přepnu na češtinu
-  A jsem přihlášen jako "Karel"
+  A jsem přihlášen jako "Bart"
 
 Scénář: Vidím jen přání, kde jsem dárcem
   Pokud jsem na stránce "Můžu splnit"
-  Pak bych měl vidět přání "Dovolená v Karibiku"
-  A měl bych vidět přání "Překvapení pro Pepu"
-  A neměl bych vidět přání "Pračka"
+  Pak bych měl vidět přání "M+H: Your parents on holiday"
+  A měl bych vidět přání "Lisa wish (shown only to Bart)"
+  A měl bych vidět přání "M: Taller hairs"
+  A neměl bych vidět přání "Lisa wish (shown only to Marge)"
 
-  A pokud si otevřu přání "Dovolená v Karibiku" u "Mařenka"
-  
-  Pak bych měl vidět nadpis "Dovolená v Karibiku"
-  A měl bych vidět popis "Description of přání Dovolená v Karibiku"
-  A měl bych vidět spoluobdarované ["pepik","Mařenka"]
+  A pokud si otevřu přání "M+H: Your parents on holiday" u "Mom"
+
+  Pak bych měl vidět nadpis "M+H: Your parents on holiday"
+  A měl bych vidět popis "Nice holiday without children. (Donors: M:Lisa, H:Bart)"
+  A měl bych vidět spoluobdarované ["Dad","Mom"]
 
 @javascript
 Scénář: Rezervuji si přání
   Pokud jsem na stránce "Můžu splnit"
-  A u přání "Překvapení pro Pepu" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
-  A kliknu na rezervaci u přání "Překvapení pro Pepu"
-  
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro 'Karel'"
-  A u přání "Překvapení pro Pepu" jsou akce ["Uvolnit","Darováno"]
+  A u přání "M: Taller hairs" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
+  A kliknu na rezervaci u přání "M: Taller hairs"
 
-  #čekám až zmizí 'snackbar' s rezervační hláškou
-  Pokud počkám 1 sekundu  
-  A kliknu na uvolnění rezervace u přání "Překvapení pro Pepu"
+  Pak bych měl vidět "Přání 'M: Taller hairs' bylo zarezervováno pro 'Bartholomew JoJo Simpson'"
+  A u přání "M: Taller hairs" jsou akce ["Uvolnit","Darováno"]
 
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo uvolněno pro ostatní dárce."
-  A u přání "Překvapení pro Pepu" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
+  # čekám až zmizí 'snackbar' s rezervační hláškou
+  Pokud počkám 1 sekundu
+  A kliknu na uvolnění rezervace u přání "M: Taller hairs"
+
+  Pak bych měl vidět "Přání 'M: Taller hairs' bylo uvolněno pro ostatní dárce."
+  A u přání "M: Taller hairs" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
 
 @javascript
 Scénář: Vyzvu ke spoluúčasti
   Pokud jsem na stránce "Můžu splnit"
-  A kliknu na výzvu ke spoluúčasti u přání "Překvapení pro Pepu"
-  
-  Pak bych měl vidět "Uživatel 'Karel' hledá spoludárce pro přání 'Překvapení pro Pepu'."
-  A u přání "Překvapení pro Pepu" jsou akce ["Zrušit výzvu","Rezervovat"]
+  A kliknu na výzvu ke spoluúčasti u přání "M: Taller hairs"
 
-  #čekám až zmizí 'snackbar' s hláškou
-  Pokud počkám 1 sekundu  
-  A kliknu na uvolnění výzvy u přání "Překvapení pro Pepu"
+  Pak bych měl vidět "Uživatel 'Bartholomew JoJo Simpson' hledá spoludárce pro přání 'M: Taller hairs'."
+  A u přání "M: Taller hairs" jsou akce ["Zrušit výzvu","Rezervovat"]
 
-  Pak bych měl vidět "Uživatel 'Karel' zrušil svoji výzvu ke spoluúčasti u přání 'Překvapení pro Pepu'."
-  A u přání "Překvapení pro Pepu" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
+  # čekám až zmizí 'snackbar' s hláškou
+  Pokud počkám 1 sekundu
+  A kliknu na uvolnění výzvy u přání "M: Taller hairs"
+
+  Pak bych měl vidět "Uživatel 'Bartholomew JoJo Simpson' zrušil svoji výzvu ke spoluúčasti u přání 'M: Taller hairs'."
+  A u přání "M: Taller hairs" jsou akce ["Vyzvat ke spoluúčasti","Rezervovat"]
 
 @javascript
-Scénář: Reaguji na výzvu ke spoluúčasti
+Scénář: Přebiji výzvu ke spoluúčasti
   Pokud jsem na stránce "Můžu splnit"
-  A kliknu na výzvu ke spoluúčasti u přání "Překvapení pro Pepu"
-  
-  Pak bych měl vidět "Uživatel 'Karel' hledá spoludárce pro přání 'Překvapení pro Pepu'."
-  A u přání "Překvapení pro Pepu" jsou akce ["Zrušit výzvu","Rezervovat"]
+  A kliknu na výzvu ke spoluúčasti u přání "M: Taller hairs"
+
+  Pak bych měl vidět "Uživatel 'Bartholomew JoJo Simpson' hledá spoludárce pro přání 'M: Taller hairs'."
+  A u přání "M: Taller hairs" jsou akce ["Zrušit výzvu","Rezervovat"]
 
   Pokud jsem na stránce "Profil"
   Pokud se odhlásím
-  A jsem přihlášen jako "Mojmír"
-  
+  A jsem přihlášen jako "Lisa"
+
   Pokud jsem na stránce "Můžu splnit"
-  A kliknu na rezervaci u přání "Překvapení pro Pepu"
+  A kliknu na rezervaci u přání "M: Taller hairs"
 
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro 'Mojmír'"
-  A u přání "Překvapení pro Pepu" jsou akce ["Uvolnit","Darováno"]
-
+  Pak bych měl vidět "Přání 'M: Taller hairs' bylo zarezervováno pro 'Lisa Marie Simpson'"
+  A u přání "M: Taller hairs" jsou akce ["Uvolnit","Darováno"]
 
 @javascript
 Scénář: Splním rezervované přání
   Pokud jsem na stránce "Můžu splnit"
-  A kliknu na rezervaci u přání "Překvapení pro Pepu"
-  
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo zarezervováno pro 'Karel'"
+  A kliknu na rezervaci u přání "M: Taller hairs"
 
-  #čekám až zmizí 'snackbar'
-  A počkám 1 sekundu  
-  Pokud kliknu na darování u přání "Překvapení pro Pepu"
-  
-  Pak bych měl vidět "Přání 'Překvapení pro Pepu' bylo darováno/splněno dárcem 'Karel'."
-  A u přání "Překvapení pro Pepu" nejsou žádné akce
+  Pak bych měl vidět "Přání 'M: Taller hairs' bylo zarezervováno pro 'Bartholomew JoJo Simpson'"
+
+  # čekám až zmizí 'snackbar'
+  A počkám 1 sekundu
+  Pokud kliknu na darování u přání "M: Taller hairs"
+
+  Pak bych měl vidět "Přání 'M: Taller hairs' bylo darováno/splněno dárcem 'Bartholomew JoJo Simpson'."
+  A u přání "M: Taller hairs" nejsou žádné akce

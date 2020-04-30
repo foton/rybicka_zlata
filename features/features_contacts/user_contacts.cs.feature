@@ -1,5 +1,6 @@
 # encoding: utf-8
 # language: cs
+
 Požadavek: Operace s vlastními kontakty
   Jako přihlášený uživatel
   chci měnit seznam kontaktů na mě
@@ -7,8 +8,8 @@ Požadavek: Operace s vlastními kontakty
 
 Kontext:
   Pokud existují standardní testovací uživatelé
-  A jsem přihlášen jako "pepik"
-  A přepnu na češtinu  
+  A jsem přihlášen jako "bart@simpsons.com"
+  A přepnu na češtinu
 
 Scénář: Přidání kontaktu
   Když jsem na mé profilové stránce

@@ -8,7 +8,7 @@
     <%= raw to_html(object.description_shortened) %>
     <br />
     <span class="info" id="<%= anchor_for(object)+"_updated_by_donee_at" %>" title="<%=I18n.t("activerecord.attributes.wish.updated_by_donee_at") %>" >
-      <%= I18n.l(object.updated_by_donee_at) %>
+      <%= I18n.l(object.updated_by_donee_at || object.created_at) %>
     </span>
     <div class="mdl-tooltip" for="<%= anchor_for(object)+"_updated_by_donee_at" %>"><%= I18n.t("activerecord.attributes.wish.updated_by_donee_at") %></div>
   </span>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Pokud /^existují tito uživatelé\:$/ do |table|
-  @users = []
+  @users = User.all.to_a
 
   table.hashes.each do |attributes|
     admin = attributes.delete('admin') == 'true'
@@ -19,26 +19,33 @@ Pokud /^existují tito uživatelé\:$/ do |table|
 
     @users << @user
   end
+  @users.uniq!
 end
 
 Pokud /^existují standardní testovací uživatelé$/ do
-  step('existují tito uživatelé:', table(%(
-        | name        | email                   | locale  | password                |  admin  |
-        | porybny     |porybny@rybickazlata.cz  | cs      | #{DEFAULTS[:password]}  |  true   |
-        | charles     |charles@rybickazlata.cz  | en      | #{DEFAULTS[:password]}  |  false  |
-        | pepik       |pepik@rybickazlata.cz    | cs      | #{DEFAULTS[:password]}  |  false  |
-        | Mařenka     |marenka@rybickazlata.cz  | cs      | #{DEFAULTS[:password]}  |  false  |
-        | Karel       |karel@rybickazlata.cz    | cs      | #{DEFAULTS[:password]}  |  false  |
-        | Mojmír      |mojmir@rybickazlata.cz   | cs      | #{DEFAULTS[:password]}  |  false  |
-        )))
+  @users = User.all.to_a
+  # see test/fixtures/fixture_consistency_test.rb  for users, identities, wishes and other fixtures
 end
 
 Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
   raise "Unable to parse connection from fullname '#{connection_fullname}'" unless (m = connection_fullname.strip.match(/\A(.*) \[(.*)\]: (.*)\z/))
 
-  @friend_connection = make_connection_for(@current_user, name: m[1], email: m[3])
+  @friend_connection = check_connection(@current_user, name: m[1], email: m[3])
   User.create!(name: m[2], email: m[3], password: 'password')
   @friend_connection.reload
+end
+
+Pokud(/^přidám přítele "(.*?)"$/) do |connection_fullname|
+  raise "Unable to parse connection from fullname '#{connection_fullname}'" unless (m = connection_fullname.strip.match(/\A(.*) \[(.*)\]: (.*)\z/))
+
+  conn_name = m[1]
+  user_name = m[2]
+  email = m[3]
+
+  User.create!(name: user_name, email: email, password: 'password')
+
+  @friend_connection = Connection.new(name: m[1], email: m[3])
+  @current_user.connections << @friend_connection
 end
 
 Pokud('ten má v oblibě {string}') do |likes_what|
@@ -50,12 +57,12 @@ Pokud('ten má v oblibě {string}') do |likes_what|
 end
 
 Pokud(/^existuje kontakt "(.*?)"$/) do |connection_name|
-  make_connection_for(@current_user, name: connection_name)
+  check_connection(@current_user, name: connection_name)
 end
 
 Pokud(/^(?:u "(.*?)" )?existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |user_name, grp_name, grp_members_to_s|
   if user_name.present?
-    user = User.find_by(name: formalize_user_name(user_name))
+    user = User.find_by(emailname: formalize_user_name(user_name))
     raise "User with name '#{user_name}' not found" if user.blank?
   else
     user = @current_user
@@ -92,88 +99,65 @@ Pokud(/^zaloguju text "(.*?)"$/) do |text|
 end
 
 Pokud(/^u "(.*?)" existuje kontakt "(.*?)"(?: s adresou "(.*?)")?$/) do |user_name, conn_name, conn_email|
-  user = User.find_by(name: formalize_user_name(user_name))
+  user = find_user_by(user_name)
   raise "User with name '#{user_name}' not found" if user.blank?
 
-  make_connection_for(user, name: conn_name, email: conn_email)
+  check_connection(user, name: conn_name, email: conn_email)
 end
 
 Pokud(/^existuje moje přání "(.*?)"$/) do |title|
+  raise 'do not use'
   @wish = Wish::FromAuthor.new(author: @current_user, title: title, description: "Description of přání #{title}")
   @wish.save!
 end
 
-Pokud(/^existuje přání "(.*?)" uživatele "(.*?)"$/) do |title, user_name|
-  user = User.find_by(name: user_name)
-  @wish = Wish::FromAuthor.find_or_create_by!(author_id: user.id, title: title, description: "Description of přání #{title}")
-end
 
-Pokud(/^to má dárce \[(.*?)\]$/) do |donor_names_str|
-  donor_names = donor_names_str.delete('"').split(',').collect(&:strip)
-  donor_conn_ids = []
+Pokud(/^přidám přání "(.*?)" uživatele "(.*?)" pro dárce \{(.*?)\}$/) do |title, user_name, donee_donors_hash_str|
+  user = find_user_by(user_name)
+  @wish = Wish::FromAuthor.new(author: user, title: title, description: "Description of přání #{title}")
 
-  for donor_name in donor_names do
-    donor_conn_ids << make_connection_for(@wish.author, name: donor_name).id
+  donee_donors_pairs = donee_donors_hash_str.scan(/"([[:word:]]+)"\s*=>\s*\[([^\]]+)\]/)
+  assert donee_donors_pairs.present?
+
+  donee_donors_pairs.each do |donee_name, connection_names_csv|
+    donee = find_user_by(donee_name)
+    conn_names = connection_names_csv.delete('"').split(',').collect(&:strip)
+    named_donee_connection_ids = donee.connections.where(name: conn_names).pluck(:id)
+
+    @wish.merge_donor_conn_ids(named_donee_connection_ids, donee)
   end
 
-  if donor_conn_ids.present?
-    @wish.merge_donor_conn_ids(donor_conn_ids, @wish.author)
-    @wish.save!
+  @wish.save!
+end
+
+Pokud(/^existuje přání "(.*?)" uživatele "(.*?)"$/) do |title, user_name|
+  user = find_user_by(user_name)
+  @wish = user.author_wishes.find_by(title: title)
+  raise "Wish '#{title}' with '#{user_name}' as author was not found" unless @wish
+end
+
+Pokud(/^to má dárce \{(.*?)\}$/) do |donee_donors_hash_str|
+  expected_donee_donors_pairs = donee_donors_hash_str.scan(/"([[:word:]]+)"\s*=>\s*\[([^\]]+)\]/)
+  assert expected_donee_donors_pairs.present?
+
+  expected_donee_donors_pairs.each do |donee_name, connection_names_csv|
+    donee = find_user_by(donee_name)
+    conn_names = connection_names_csv.delete('"').split(',').collect(&:strip)
+    named_donee_connection_ids = donee.connections.where(name: conn_names).pluck(:id)
+    assert_equal named_donee_connection_ids, (@wish.donor_connections.pluck(:id) & named_donee_connection_ids)
   end
 end
 
 Pokud(/^má v obdarovaných \[(.*?)\]$/) do |donee_names_str|
-  donee_names = donee_names_str.delete('"').split(',').collect(&:strip)
-  donee_conn_ids = []
-
-  for donee_name in donee_names do
-    donee_conn_ids << make_connection_for(@wish.author, name: donee_name).id
-  end
-
-  if donee_conn_ids.present?
-    @wish.donee_conn_ids = donee_conn_ids
-    @wish.save!
-  end
+  expected_donee_names = donee_names_str.delete('"').split(',').collect(&:strip)
+  assert expected_donee_names, (@wish.donee_users.pluck(:name) & expected_donee_names)
 end
 
-#===============================================
-
-def make_connection_for(user, conn_hash)
+def check_connection(user, conn_hash)
   conns = user.connections.where(name: conn_hash[:name])
   if conn_hash[:email].present?
     conns = conns.select { |conn| conn.email == conn_hash[:email] } if conns.present?
-  else
-    conn_hash[:email] = "#{conn_hash[:name].parameterize}@example.com"
   end
-
-  if conns.blank?
-    # lets create it
-    conn = Connection.new(name: conn_hash[:name], email: conn_hash[:email])
-    user.connections << conn
-    user.connections.reload
-  elsif conns.size != 1
-    raise "Ambiguous match for '#{conn_hash}' for user '#{user.username}': #{conns.join("\n")}"
-  else
-    conn = conns.first
-  end
-  conn
-end
-
-def formalize_user_name(user_name)
-  case user_name
-  when 'pepika', 'Pepika'
-    'pepik'
-  when 'Mařenky', 'Marušky'
-    'Mařenka'
-  when 'Karla'
-    'Karel'
-  when 'Mámy'
-    'Máma'
-  when 'Mojmíra'
-    'Mojmír'
-  when 'charlese'
-    'charles'
-  else
-    user_name
-  end
+  assert_equal 1, conns.size
+  conns.first
 end

@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# Connection between User and somebody, based on email. It have it's own name.
+# So different user can have connection to same email address, but each one can name it differently (eg.: Husband, Dad, Son)
+# It can be connected to existing other user (known as Friend).
+# Or it can just point to nobody waiting for new user with that email address between it's identyties
 class Connection < ApplicationRecord
   BASE_CONNECTION_NAME = '--base for donee--'
 
@@ -59,10 +63,10 @@ class Connection < ApplicationRecord
   end
 
   # sorting method
-  def <=>(conn2)
-    s_by_name = (name <=> conn2.name)
-    if s_by_name == 0
-      email <=> conn2.email
+  def <=>(other)
+    s_by_name = (name <=> other.name)
+    if s_by_name.zero?
+      email <=> other.email
     else
       s_by_name
     end
@@ -75,6 +79,10 @@ class Connection < ApplicationRecord
   private
 
   def assign_friend
-    self.friend = identities.first.user if identities.present?
+    if friend.blank?
+      self.friend = identities.first.user if identities.present?
+    elsif identities.blank?
+      self.friend = nil
+    end
   end
 end

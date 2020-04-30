@@ -118,7 +118,7 @@
           },
           unused_connections: {
             header: 'Nevyužití',
-            help: 'Kontakty, kteřé toto přání vůbec neuvidí. Pokud tu žádné nejsou, je možné že jste zatím žádné nezadali nebo už jsou v ostatních blocích nebo už jsou uvedeni jako obdarovaní autorem přání.'
+            help: 'Kontakty, které toto přání vůbec neuvidí. Pokud tu žádné nejsou, je možné že jste zatím žádné nezadali nebo už jsou v ostatních blocích nebo už jsou uvedeni jako obdarovaní autorem přání.'
           }
         },
         added: "Přání '%{title}' bylo úspěšně přidáno.",

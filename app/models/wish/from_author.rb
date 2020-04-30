@@ -32,5 +32,5 @@ class Wish::FromAuthor < Wish::FromDonee
     @donee_user_ids = nil
 
     ensure_no_connections_from_ex_donees
- end
+  end
 end

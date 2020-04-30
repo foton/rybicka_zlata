@@ -5,11 +5,11 @@ module WishesHelper
     return new_user_author_wish_path(user) if action == :new
     return '' if wish.blank?
 
-    if user.is_author_of?(wish)
+    if user.author_of?(wish)
       base_path = 'user_author_wish_path'
-    elsif user.is_donee_of?(wish)
+    elsif user.donee_of?(wish)
       base_path = 'user_my_wish_path'
-    elsif user.is_donor_of?(wish)
+    elsif user.donor_of?(wish)
       base_path = 'user_others_wish_path'
     else
       return ''
@@ -50,7 +50,7 @@ module WishesHelper
   end
 
   def donor_class_for_state(wish, user = current_user)
-    if user.is_donor_of?(wish)
+    if user.donor_of?(wish)
       class_for_state(wish, user)
     else
       ''
@@ -58,13 +58,13 @@ module WishesHelper
   end
 
   def donor_infos_for(wish, user = current_user)
-    if wish.call_for_co_donors? && user.is_donor_of?(wish)
+    if wish.call_for_co_donors? && user.donor_of?(wish)
       raw '<span class="donor_infos">' + I18n.t('wishes.actions.call_for_co_donors.notice', user_name: wish.called_for_co_donors_by_user.name) + '</span>'
     end
   end
 
   def icon_of_wish_sharing(wish)
-    if wish.is_shared?
+    if wish.shared?
       icon = 'group'
       tooltip = I18n.t('wishes.shared_icon_tooltip.shared')
     else

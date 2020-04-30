@@ -6,7 +6,7 @@ module ActionsHelper
     if obj.is_a?(Wish::FromDonor)
       id_cls + ' wish ' + donor_class_for_state(obj, user)
     elsif obj.is_a?(Wish)
-      if user.is_donor_of?(obj)
+      if user.donor_of?(obj)
         id_cls + ' wish ' + donor_class_for_state(obj, user)
       else
         id_cls + ' wish'

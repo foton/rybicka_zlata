@@ -12,7 +12,7 @@ class RybickaMailerTest < ActionMailer::TestCase
     message = Message.new(subject, body, reply_to)
     adm = create_test_user!(email: 'porybny@rybickazlata.cz')
 
-    email = RybickaMailer.message_to_admin(message, nil)
+    email = RybickaMailer.with(message: message, user: nil).message_to_admin
     assert_equal [adm.email, 'foton@centrum.cz'], email.to
     assert_equal [reply_to], email.reply_to
     assert_equal subject, email.subject
@@ -28,7 +28,7 @@ class RybickaMailerTest < ActionMailer::TestCase
     usr = create_test_user!(name: 'r2d2')
     adm = create_test_user!(email: 'porybny@rybickazlata.cz')
 
-    email = RybickaMailer.message_to_admin(message, usr)
+    email = RybickaMailer.with(message: message, user: usr).message_to_admin
     assert_equal [adm.email, 'foton@centrum.cz'], email.to
     assert_equal [usr.email], email.reply_to
     assert_equal "Zpráva pro Porybného od uživatele '#{usr.name}'", email.subject
