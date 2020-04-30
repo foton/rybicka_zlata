@@ -60,11 +60,11 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
 
     assert_notified(users: donee_conns.collect(&:friend),
                     key: 'wish.created.you_as_donee',
-                    notifier: @current_user,
+                    notifier: @bart,
                     notifiable: new_wish)
     assert_notified(users: donor_conns.collect(&:friend),
                     key: 'wish.created.you_as_donor',
-                    notifier: @current_user,
+                    notifier: @bart,
                     notifiable: new_wish)
   end
 
@@ -151,6 +151,26 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
 
     assert Wish.where(id: @wish.id).blank?
+ end
+
+  def test_author_can_manage_donees
+    @wish.merge_donor_conn_ids([@conn_marge.id], @bart)
+    @wish.donee_conn_ids = [@conn_lisa.id, @conn_homer.id]
+    @wish.save!
+
+    assert_equal [@conn_lisa, @conn_homer, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@conn_marge], @wish.donor_connections.to_a
+
+    edit_wish_hash = { donee_conn_ids: [@conn_homer.id, @conn_marge.id], donor_conn_ids: [@conn_lisa.id] } # segra out, mama in
+
+    patch :update, params: { user_id: @bart.id, id: @wish.id, wish: edit_wish_hash }
+
+    assert_response :redirect
+    assert_redirected_to user_my_wish_path(@bart, @wish)
+    assert_equal "Přání '#{@wish.title}' bylo úspěšně aktualizováno.", flash[:notice]
+    @wish.reload
+    assert_equal [@conn_marge, @conn_homer, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@conn_lisa].sort, @wish.donor_connections.to_a.sort
   end
 
   private
