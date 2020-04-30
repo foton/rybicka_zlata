@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :posts, only: %i[create destroy]
   end
 
+  notify_to :users
+
   get '/my_profile' => 'profiles#my', :as => 'my_profile'
   get '/profiles/:user_id' => 'profiles#show', :as => 'profile'
   get '/profiles/:user_id/infos' => 'profiles#infos', :as => 'profile_infos'
