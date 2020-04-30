@@ -109,20 +109,19 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
     author_vilma_conn = create_connection_for(@author, name: 'Vilma', email: vilma_email)
     donee_a_vilma_conn = create_connection_for(@donee, name: 'a_vilma', email: vilma_email)
 
-    all_connections = @author.connections.reload + @donee.connections.reload
-    assert_includes @wish.available_donor_connections_from(all_connections), author_vilma_conn
-    assert_includes @wish.available_donor_connections_from(all_connections), donee_a_vilma_conn
+    available_donor_connections = @wish.available_donor_connections_from(@author.connections.reload + @donee.connections.reload)
+    assert_includes available_donor_connections, author_vilma_conn
+    assert_includes available_donor_connections, donee_a_vilma_conn
 
-    # now make Vilma one of the donees
-    @wish.donee_connections += [author_vilma_conn]
-    @wish.save!
+    # now author add Vilma as one of the donees
+    @wish.donee_connections << author_vilma_conn
     @wish.reload
 
     # from now Vilma cannot be available as donor
-    all_connections = @author.connections.reload + @donee.connections.reload
-    assert_not_includes @wish.available_donor_connections_from(all_connections), author_vilma_conn
-    assert_not_includes @wish.available_donor_connections_from(all_connections), donee_a_vilma_conn
-   end
+    available_donor_connections = @wish.available_donor_connections_from(@author.connections + @donee.connections)
+    assert_not_includes available_donor_connections, author_vilma_conn
+    assert_not_includes available_donor_connections, donee_a_vilma_conn
+  end
 
   def test_discover_complete_group_in_donors
     lisa = @donee
@@ -183,15 +182,17 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
     assert_equal [group_simpsons], @wish.donee_groups_for(@author), 'Group Simpsons should be found in donors. Even with extra Paul.'
   end
 
+  private
+
   def create_user_with_emails(name, emails)
     user = create_test_user!(name: name, email: emails.first)
     return user if emails.size == 1
 
     emails[1..-1].each do |email|
       User::Identity.create!(email: email,
-                                  user: user,
-                                  uid: '123456',
-                                  provider: User::Identity::LOCAL_PROVIDER)
+                             user: user,
+                             uid: '123456',
+                             provider: User::Identity::LOCAL_PROVIDER)
     end
     user
   end

@@ -161,4 +161,3 @@ def check_connection(user, conn_hash)
   assert_equal 1, conns.size
   conns.first
 end
-

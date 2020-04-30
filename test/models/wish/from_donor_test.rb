@@ -3,14 +3,6 @@
 require 'test_helper'
 
 class WishFromDonorTest < ActiveSupport::TestCase
-  def setup
-    Rails.logger.debug("SETUP start")
-
-
-
-  end
-
-
   # IF donee_connection links to user (aka friend)?
   #    a) user (donor) have it's own connection to that friend => display connection.name
   #    b) user (donor) do not have such connection => display friend.displayed_name
@@ -40,6 +32,8 @@ class WishFromDonorTest < ActiveSupport::TestCase
     expected_names = [connections(:lisa_to_marge).name]
     assert_equal expected_names, wish_from_donor.donee_names_for(users(:lisa))
   end
+
+  private
 
   def add_milhouse_as_donee_to(wish)
     milhouses_email = connections(:bart_to_milhouse).email
