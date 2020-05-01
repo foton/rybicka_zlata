@@ -14,15 +14,15 @@ Kontext:
   A u "Homera" existuje kontakt "MiniMe" s adresou "bart@simpsons.com"
   A u "Marge" existuje kontakt "Son" s adresou "bart@simpsons.com"
 
-  Pokud existuje přání "L+B: Bigger family car" uživatele "Bart"
-  A má v obdarovaných ["Liiiisaaa"]
+  Pokud existuje přání "L+B: Bigger family car" uživatele "Lisa"
+  A má v obdarovaných ["Misfit"]
   A to má dárce { "Lisa" => ["Dad", "Mom"], "Bart" => ["Dad"] }
 
   A přepnu na češtinu
 
 Scénář: Jako dárce můžu zahájit diskuzi
   Pokud jsem přihlášen jako "Homer"
-  A otevřu si přání "L+B: Bigger family car" u "Bart"
+  A otevřu si přání "L+B: Bigger family car" u "Lisa"
   Pak bych měl vidět formulář na první příspěvek
 
   Pokud přidám příspěvek "komentář pro dárce"

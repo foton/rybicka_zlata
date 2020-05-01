@@ -82,25 +82,25 @@ Scénář: Úprava přání
 
 @javascript
 Scénář: Úprava sdíleného přání
-  Pokud kliknu na editaci u přání "L+B: Bigger family car"
+  Pokud kliknu na editaci u přání "B+H: New sport car"
 
-  Pak jsem na stránce editace přání "L+B: Bigger family car"
-  A zapíšu do položky "Titulek přání" text "L+B: Bus"
+  Pak jsem na stránce editace přání "B+H: New sport car"
+  A zapíšu do položky "Titulek přání" text "B+MILH: Bus"
   A zapíšu do položky "Širší popis" text "co neposkakuje"
   A do seznamu dárců přidám "Meg"
-  A ze seznamu dárců odeberu "Dad"
+  A ze seznamu dárců odeberu "Liiiisaaa"
   A do seznamu obdarovaných přidám "Milhouse"
-  A ze seznamu obdarovaných odeberu "Liiiisaaa"
+  A ze seznamu obdarovaných odeberu "Dad"
   A kliknu na uložení
 
   # without this the (next) next step is done before wish is saved
   A počkám si 1 vteřinu
 
-  Pak jsem na stránce přání "L+B: Bus"
-  A vidím text "Přání 'L+B: Bus' bylo úspěšně aktualizováno."
-  A nevidím kontakt "Dad" v "Dárci"
+  Pak jsem na stránce přání "B+MILH: Bus"
+  A vidím text "Přání 'B+MILH: Bus' bylo úspěšně aktualizováno."
+  A nevidím kontakt "Liiiisaaa" v "Dárci"
   A vidím kontakt "Meg" v "Dárci"
-  A nevidím kontakt "Liiiisaa" v "Obdarovaní"
+  A nevidím kontakt "Dad" v "Obdarovaní"
   A vidím kontakt "Milhouse" v "Obdarovaní"
 
 @javascript
@@ -114,12 +114,12 @@ Scénář: Smazání přání
 
 @javascript
 Scénář: Smazání sdíleného přání
-  Pokud kliknu na smazání u přání "L+B: Bigger family car"
+  Pokud kliknu na smazání u přání "B+H: New sport car"
   A smazání potvrdím
 
   Pak jsem na stránce "Má přání"
-  A vidím text "Přání 'L+B: Bigger family car' bylo úspěšně smazáno."
-  A v seznamu přání není přání "L+B: Bigger family car"
+  A vidím text "Přání 'B+H: New sport car' bylo úspěšně smazáno."
+  A v seznamu přání není přání "B+H: New sport car"
 
 @javascript
 Scénář: Vyřazení/Splnění přání
