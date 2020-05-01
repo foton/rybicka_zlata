@@ -20,6 +20,13 @@ bart_for_lisa_bart_bigger_car:
   wish: lisa_bart_bigger_car
   connection: lisa_to_bart
 
+bart_for_bart_homer_new_car:
+  wish: bart_homer_new_car
+  connection: bart_base
+homer_for_bart_homer_new_car:
+  wish: bart_homer_new_car
+  connection: bart_to_homer
+
 bart_for_bart_motorbike:
   wish: bart_motorbike
   connection: bart_base

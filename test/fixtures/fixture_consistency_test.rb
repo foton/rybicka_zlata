@@ -9,18 +9,21 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
     @marge = users(:marge)
     @homer = users(:homer)
     @maggie = users(:maggie)
+    @burns = users(:burns)
 
     @wishes = {
       'Bart wish (shown only to Homer)' => { donors: { @bart => [@homer] },
                                              donees: [@bart] },
       'B: New faster skateboard' => { donors: { @bart => [@homer, @marge, @lisa] },
                                       donees: [@bart] },
-      'M: Taller hairs' => { donors: { @marge => [@lisa, @homer, @bart] },
+      'B+H: New sport car'=> { donors: { @bart => [@lisa], @homer => [@marge]},
+                               donees: [@bart, @homer] },
+      'L+B: Bigger family car' => { donors: { @bart => [@homer], @lisa => [@homer, @marge] },
+                                      donees: [@lisa, @bart] },
+      'M: Taller hairs' => { donors: { @marge => [@lisa, @homer, @bart, @maggie] },
                              donees: [@marge] },
       'M+H: Your parents on holiday' => { donors: { @marge => [@lisa], @homer => [@bart] },
                                           donees: [@marge, @homer] },
-      'L+B: Bigger family car' => { donors: { @bart => [@homer], @lisa => [@homer, @marge] },
-                                    donees: [@bart, @lisa] },
       'Lisa wish (shown only to Bart)' => { donors: { @lisa => [@bart] },
                                             donees: [@lisa] },
       'Lisa wish (shown only to Marge)' => { donors: { @lisa => [@marge] },
@@ -29,10 +32,15 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
 
     @connections = {
       @bart => { 'Liiiisaaa' => @lisa, 'Dad' => @homer, 'Mom' => @marge, 'Meg' => @maggie, 'Milhouse' => nil },
-      @lisa => { 'Misfit' => @bart, 'Dad' => @homer, 'Mom' => @marge, 'Rachel C' => nil },
+      @lisa => { 'Misfit' => @bart, 'Dad' => @homer, 'Mom' => @marge, 'Maggie' => @maggie, 'Rachel C' => nil },
       @marge => { 'Son' => @bart, 'Daughter' => @lisa, 'Husband' => @homer, 'Little one' => @maggie },
-      @homer => { 'MiniMe' => @bart },
+      @homer => { 'MiniMe' => @bart, 'Wife' => @marge },
       @maggie => { 'Mom' => @marge }
+    }
+
+    @groups = {
+      @bart => { 'Family (without Maggie)' => [@marge, @homer, @lisa] },
+      @marge => { 'Children' => [@maggie, @bart, @lisa] }
     }
   end
 
@@ -42,6 +50,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
     assert @marge.present?
     assert @homer.present?
     assert @maggie.present?
+    assert @burns.present?
   end
 
   test 'Users have identities' do
@@ -98,10 +107,15 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
     end
   end
 
-  test 'Bart have group' do
-    group = @bart.groups.find_by(name: 'Family (without Maggie)')
-    assert group.present?
-    assert_equal [@marge.id, @homer.id, @lisa.id].sort, group.connections.pluck(:friend_id).sort
+  test 'Groups are present' do
+    @groups.each_pair do |user, groups_hash|
+      groups_hash.each_pair do |name, members|
+        group = user.groups.find_by(name: name)
+        assert group.present?, "#{user} should have group named '#{name}'"
+        assert_equal members.collect(&:id).sort, group.connections.pluck(:friend_id).sort,
+                    "#{user} should have group named '#{name}' filled with #{members} but have #{group.connections.collect(&:friend)}"
+      end
+    end
   end
 
   test 'Wishes are binded to other users' do
@@ -124,7 +138,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
         end
       end
 
-      assert_not users_hash[:donees].size.zero?
+      assert_not users_hash[:donees].size.zero? , "There should be expected donees for '#{wish_title}'"
       assert_equal users_hash[:donees].size, wish.donee_links.size, "Wish '#{wish_title}' should have #{users_hash[:donees].size} donee links"
       users_hash[:donees].each do |donee_user|
         assert wish.donee?(donee_user), "Wish '#{wish_title}' should have `#{donee_user.name}` between donees"

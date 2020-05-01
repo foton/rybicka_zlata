@@ -4,8 +4,7 @@ require 'test_helper'
 
 class WishFromAuthorTest < ActiveSupport::TestCase
   def setup
-    @author = create_test_user!
-    assert @author.base_connection.valid?
+    @author = users(:bart)
 
     @wish = Wish::FromAuthor.new(
       author: @author,
@@ -47,8 +46,8 @@ class WishFromAuthorTest < ActiveSupport::TestCase
    end
 
   def test_add_donors_connections
-    conn1 = Connection.create!(name: 'Simon', email: 'simon@says.com', owner_id: @author.id)
-    conn2 = Connection.create!(name: 'Paul', email: 'Paul.Simon@says.com', owner_id: @author.id)
+    conn1 = connections(:bart_to_lisa)
+    conn2 = connections(:bart_to_milhouse)
     @wish.merge_donor_conn_ids([conn1, conn2].collect(&:id), @author)
 
     assert @wish.save
@@ -57,8 +56,8 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_add_donees_connections
-    conn1 = Connection.create!(name: 'Simon', email: 'simon@says.com', owner_id: @author.id)
-    conn2 = Connection.create!(name: 'Paul', email: 'Paul.Simon@says.com', owner_id: @author.id)
+    conn1 = connections(:bart_to_lisa)
+    conn2 = connections(:bart_to_maggie)
     @wish.donee_conn_ids = [conn1, conn2].collect(&:id)
 
     assert @wish.save
@@ -67,9 +66,9 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_cannot_have_same_donee_and_donor_connection
-    conn1 = Connection.create!(name: 'Simon', email: 'simon@says.com', owner_id: @author.id)
-    conn2 = Connection.create!(name: 'Paul', email: 'Paul.Simon@says.com', owner_id: @author.id)
-    conn3 = Connection.create!(name: 'John', email: 'john@beatles.com', owner_id: @author.id)
+    conn1 = connections(:bart_to_lisa)
+    conn2 = connections(:bart_to_maggie)
+    conn3 = connections(:bart_to_milhouse)
     @wish.donee_conn_ids = [conn1, conn2].collect(&:id)
     @wish.merge_donor_conn_ids([conn1, conn3].collect(&:id), @author)
 
@@ -79,9 +78,9 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_cannot_have_same_email_for_donee_and_donor
-    conn1 = Connection.create!(name: 'Simon', email: 'simon@says.com', owner_id: @author.id)
-    conn2 = Connection.create!(name: 'Paul', email: 'Paul.Simon@says.com', owner_id: @author.id)
-    conn3 = Connection.create!(name: 'Simon2', email: 'simon@says.com', owner_id: @author.id)
+    conn1 = connections(:bart_to_lisa)
+    conn2 = connections(:bart_to_maggie)
+    conn3 = create_connection_for(@author, name: 'Lisa2', email: conn1.email)
     @wish.donee_conn_ids = [conn1].collect(&:id)
     @wish.merge_donor_conn_ids([conn2, conn3].collect(&:id), @author)
 
@@ -91,11 +90,11 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_cannot_have_same_user_for_donee_and_donor
-    conn1 = Connection.create!(name: 'Simon', email: 'simon@says.com', owner_id: @author.id)
-    conn2 = Connection.create!(name: 'Paul', email: 'Paul.Simon@says.com', owner_id: @author.id)
-    conn3 = Connection.create!(name: 'John', email: 'john@beatles.com', owner_id: @author.id)
+    conn1 = connections(:bart_to_lisa)
+    conn2 = connections(:bart_to_maggie)
+    conn3 = connections(:bart_to_milhouse)
 
-    user13 = create_test_user!(name: 'Simon and John', email: conn1.email)
+    user13 = create_test_user!(name: 'Lisa_Milhouse', email: conn1.email)
     user13.identities << User::Identity.new(email: conn3.email, provider: User::Identity::LOCAL_PROVIDER)
     conn1.reload # to get user.name
     conn3.reload # to get user.name
@@ -118,8 +117,8 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_can_be_deleted_when_have_donors
-    conn1 = Connection.create!(name: 'Simon', email: 'simon@says.com', owner_id: @author.id)
-    conn2 = Connection.create!(name: 'Paul', email: 'Paul.Simon@says.com', owner_id: @author.id)
+    conn1 = connections(:bart_to_lisa)
+    conn2 = connections(:bart_to_maggie)
     @wish.merge_donor_conn_ids([conn1, conn2].collect(&:id), @author)
     assert @wish.save
     @wish.reload
@@ -133,8 +132,8 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_can_be_deleted_when_have_donees
-    conn1 = Connection.create!(name: 'Simon', email: 'simon@says.com', owner_id: @author.id)
-    conn2 = Connection.create!(name: 'Paul', email: 'Paul.Simon@says.com', owner_id: @author.id)
+    conn1 = connections(:bart_to_lisa)
+    conn2 = connections(:bart_to_maggie)
     @wish.donee_conn_ids = [conn1.id, conn2.id]
     assert @wish.save
     @wish.reload
@@ -148,12 +147,12 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_when_donee_is_kicked_out_all_his_connections_shoul_be_gone_too
-    donee1 = create_test_user!(name: 'Donee Simon', email: 'simon@says.com')
-    donee2 = create_test_user!(name: 'Donee Paul', email: 'paul.simon@says.com')
-    a_conn1 = Connection.create!(name: 'Simon', email: donee1.email, owner_id: @author.id)
-    a_conn2 = Connection.create!(name: 'Paul', email: donee2.email, owner_id: @author.id)
-    d1_conn = Connection.create!(name: 'George', email: 'george@beatles.com', owner_id: donee1.id)
-    d2_conn = Connection.create!(name: 'Ringo', email: 'ringo@beatles.com', owner_id: donee2.id)
+    donee1 = users(:lisa)
+    donee2 = users(:maggie)
+    a_conn1 = connections(:bart_to_lisa)
+    a_conn2 = connections(:bart_to_maggie)
+    d1_conn = create_connection_for(donee1, name: 'George', email: 'george@beatles.com')
+    d2_conn = create_connection_for(donee2, name: 'Ringo', email: 'ringo@beatles.com')
 
     @wish.donee_conn_ids = [a_conn1.id, a_conn2.id]
     assert @wish.save

@@ -4,17 +4,15 @@ require 'test_helper'
 
 class UserWishTest < ActiveSupport::TestCase
   def setup
-    OmniAuth.config.test_mode = true
-
     @bart = users(:bart)
   end
 
   def test_know_his_all_kind_of_wishes
     # author wishes
-    assert_equal [wishes(:bart_skateboard).id, wishes(:bart_motorbike).id, wishes(:lisa_bart_bigger_car).id].sort,
+    assert_equal [wishes(:bart_skateboard).id, wishes(:bart_motorbike).id, wishes(:bart_homer_new_car).id].sort,
                  @bart.author_wishes.collect(&:id).sort
     # donee wishes
-    assert_equal [wishes(:bart_skateboard).id, wishes(:bart_motorbike).id, wishes(:lisa_bart_bigger_car).id].sort,
+    assert_equal [wishes(:bart_skateboard).id, wishes(:bart_motorbike).id, wishes(:bart_homer_new_car).id, wishes(:lisa_bart_bigger_car).id].sort,
                  @bart.donee_wishes.collect(&:id).sort
     # donor wishes
     assert_equal [wishes(:marge_hairs).id, wishes(:marge_homer_holidays).id, wishes(:lisa_tatoo).id].sort,

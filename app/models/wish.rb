@@ -3,6 +3,10 @@
 require 'url_regexp.rb'
 
 class Wish < ApplicationRecord
+  SHORT_DESCRIPTION_LENGTH = 200
+
+  include Wish::State
+
   belongs_to :author, class_name: 'User'
   belongs_to :booked_by_user, class_name: 'User', foreign_key: 'booked_by_id'
   belongs_to :called_for_co_donors_by_user, class_name: 'User', foreign_key: 'called_for_co_donors_by_id'
@@ -16,20 +20,25 @@ class Wish < ApplicationRecord
 
   validates :title, presence: true
   validates :author, presence: true
-
-  before_validation :ensure_no_connections_from_ex_donees
-  before_validation :ensure_good_styling_of_description
-
   validate :no_same_donor_and_donee
   validate :validate_booked_by
   validate :validate_called_for_co_donors
 
-  SHORT_DESCRIPTION_LENGTH = 200
+  before_validation :ensure_good_styling_of_description
 
-  include Wish::State
+  after_initialize do
+    @donors_changed = false
+    @donees_changed = false
+  end
+
+  after_save do
+    @donors_changed = false
+    @donees_changed = false
+  end
 
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
+
 
   def available_donor_connections_from(connections)
     emails_of_donees = donee_connections.collect(&:email).uniq.compact
@@ -88,7 +97,23 @@ class Wish < ApplicationRecord
     (@donee_user_ids || donee_links).count > 1
   end
 
+  def changed?
+    super || @donors_changed || @donees_changed
+  end
+
+  def donee_conn_ids
+    @donee_conn_ids ||= donee_connections.collect(&:id)
+  end
+
+  def <=>(other)
+    id <=> other.id
+  end
+
   private
+
+  def donor_conn_ids
+    @donor_conn_ids ||= donor_connections.collect(&:id)
+  end
 
   def donor_user_ids
     @donor_user_ids ||= donor_connections.collect(&:friend_id).uniq.compact
@@ -103,14 +128,14 @@ class Wish < ApplicationRecord
   end
 
   def whole_group_in_collection?(group, conn_collection)
-    wish_conn_ids = if conn_collection.is_a?(Array)
-                      conn_collection.to_a.collect(&:id)
-                    else # probably association proxy aro scope
-                      conn_collection.pluck(:id)
-                    end
-    grp_conn_ids = group.connections.pluck(:id)
+    wish_conn_emails = if conn_collection.is_a?(Array)
+                         conn_collection.to_a.collect(&:id)
+                       else # probably AR Relation
+                         conn_collection.pluck(:email)
+                       end
+    grp_conn_emails = group.connections.pluck(:email)
 
-    (grp_conn_ids == (grp_conn_ids & wish_conn_ids))
+    (grp_conn_emails == (grp_conn_emails & wish_conn_emails))
   end
 
   # wish should not have the same USER or CONNECTION.EMAIL as donee and donor
@@ -146,12 +171,6 @@ class Wish < ApplicationRecord
   def add_same_donor_and_donee_error(text)
     errors.add(:donor_conn_ids, text)
     errors.add(:donee_conn_ids, text)
-  end
-
-  def ensure_no_connections_from_ex_donees
-    connection_ids_of_current_donees = ::Connection.where(owner_id: donee_user_ids).pluck(:id)
-    dls_to_delete = donor_links.where.not(connection_id: connection_ids_of_current_donees)
-    dls_to_delete.destroy_all
   end
 
   def ensure_good_styling_of_description

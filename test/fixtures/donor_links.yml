@@ -7,6 +7,9 @@ bart_for_marge_hairs:
 homer_for_marge_hairs:
   wish: marge_hairs
   connection: marge_to_homer
+maggie_for_marge_hairs:
+  wish: marge_hairs
+  connection: marge_to_maggie
 
 
 lisa_for_marge_homer_holidays:
@@ -35,6 +38,14 @@ homer_for_lisa_bart_bigger_car_from_lisa:
 marge_for_lisa_bart_bigger_car:
   wish: lisa_bart_bigger_car
   connection: lisa_to_marge
+
+marge_for_bart_homer_new_car:
+  wish: bart_homer_new_car
+  connection: homer_to_marge
+lisa_for_bart_homer_new_car:
+  wish: bart_homer_new_car
+  connection: bart_to_lisa
+
 
 homer_for_bart_motorbike:
   wish: bart_motorbike

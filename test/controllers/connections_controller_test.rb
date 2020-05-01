@@ -7,22 +7,18 @@ class ConnectionsControllerTest < ActionController::TestCase
 
   def setup
     @request.env['devise.mapping'] = Devise.mappings[:user]
-    @current_user = User.create!(name: 'Pepík', email: 'pepik@josef.cz', password: 'nezalezi')
-    @current_user.confirm
-    sign_in @current_user
+    @bart = users(:bart)
+    sign_in @bart
   end
 
   def test_index
-    Connection.create!(owner: @current_user, name: 'One', email: 'connection@my.one')
-    Connection.create!(owner: @current_user, name: 'second', email: 'connection@my.two')
-
-    get :index, params: { user_id: @current_user.id }
+    get :index, params: { user_id: @bart.id }
 
     assert_response :success
     assert_template 'index'
 
     assert assigns(:connections).present?
-    assert_equal @current_user.friend_connections.to_a.sort, assigns(:connections).to_a.sort
+    assert_equal @bart.friend_connections.to_a.sort, assigns(:connections).to_a.sort
 
     assert assigns(:connection).present?
     assert_not_nil assigns(:user)
@@ -30,28 +26,27 @@ class ConnectionsControllerTest < ActionController::TestCase
   end
 
   def test_cannot_see_connections_for_other_user_account
-    other_user = create_test_user!(name: 'OtherGuy')
-    get :index, params: { user_id: other_user.id }
+    get :index, params: { user_id: users(:lisa).id }
 
     assert_response :redirect
-    assert_redirected_to user_connections_url(@current_user)
+    assert_redirected_to user_connections_url(@bart)
     assert_equal 'Nakukování k sousedům není dovoleno!', flash[:error]
   end
 
   def test_created
     conn_h = { name: 'Ježuraa', email: 'jezura@com.com' }
 
-    post :create, params: { user_id: @current_user.id, connection: conn_h }
+    post :create, params: { user_id: @bart.id, connection: conn_h }
 
     assert_response :redirect
-    assert_redirected_to user_connections_path(@current_user)
+    assert_redirected_to user_connections_path(@bart)
     assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' byl úspěšně přidán.", flash[:notice]
   end
 
   def test_not_created
     conn_h = { name: 'Ježuraa', email: 'jezura_at_com.com' }
 
-    post :create, params: { user_id: @current_user.id, connection: conn_h }
+    post :create, params: { user_id: @bart.id, connection: conn_h }
 
     assert_response :success
     assert_template 'index'
@@ -63,9 +58,9 @@ class ConnectionsControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    connection = Connection.create!(owner: @current_user, name: 'second', email: 'connection@my.two')
+    connection = connections(:bart_to_milhouse)
 
-    get :edit, params: { user_id: @current_user.id, id: connection.id }
+    get :edit, params: { user_id: @bart.id, id: connection.id }
 
     assert_response :success
     assert_template 'edit'
@@ -77,22 +72,22 @@ class ConnectionsControllerTest < ActionController::TestCase
     assert_equal connection, assigns(:connection)
   end
 
-  def test_update
+  def test_updated
     conn_h = { name: 'Ježuraa', email: 'jezura@com.com' }
-    connection = Connection.create!(owner: @current_user, name: 'second', email: 'connection@my.two')
+    connection = connections(:bart_to_milhouse)
 
-    patch :update, params: { user_id: @current_user.id, id: connection.id, connection: conn_h }
+    patch :update, params: { user_id: @bart.id, id: connection.id, connection: conn_h }
 
     assert_response :redirect
-    assert_redirected_to user_connections_path(@current_user)
+    assert_redirected_to user_connections_path(@bart)
     assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' byl úspěšně aktualizován.", flash[:notice]
   end
 
-  def test_not_update
+  def test_not_updated
     conn_h = { name: 'Ježuraa', email: 'jezura_at_com.com' }
-    connection = Connection.create!(owner: @current_user, name: 'second', email: 'connection@my.two')
+    connection = connections(:bart_to_milhouse)
 
-    patch :update, params: { user_id: @current_user.id, id: connection.id, connection: conn_h }
+    patch :update, params: { user_id: @bart.id, id: connection.id, connection: conn_h }
 
     assert_response :success
     assert_template 'edit'
@@ -102,13 +97,13 @@ class ConnectionsControllerTest < ActionController::TestCase
     assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' nebyl aktualizován.", flash[:error]
   end
 
-  def test_destroy
-    connection = Connection.create!(owner: @current_user, name: 'second', email: 'connection@my.two')
+  def test_destroyed
+    connection = connections(:bart_to_milhouse)
 
-    delete :destroy, params: { user_id: @current_user.id, id: connection.id }
+    delete :destroy, params: { user_id: @bart.id, id: connection.id }
 
     assert_response :redirect
-    assert_redirected_to user_connections_path(@current_user)
+    assert_redirected_to user_connections_path(@bart)
     assert_equal "Kontakt '#{connection.fullname}' byl úspěšně smazán.", flash[:notice]
     assert Connection.where(id: connection.id).blank?
   end

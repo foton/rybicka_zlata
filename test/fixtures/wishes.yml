@@ -14,9 +14,14 @@ bart_skateboard:
   description: 'The old one is slooooooooooooow! (Donors: B:Lisa, B:Marge, B:Homer )'
 
 lisa_bart_bigger_car:
-  author: bart
+  author: lisa
   title: 'L+B: Bigger family car'
-  description: 'If you want us to go with You (Donors: L:Marge, L:Homer )'
+  description: 'If you want us to go with You (Donors: L:Marge, L:Homer, B:Homer )'
+
+bart_homer_new_car:
+  author: bart
+  title: 'B+H: New sport car'
+  description: 'We want to enjoy the ride! (Donors: B:Lisa, H:Marge )'
 
 bart_motorbike:
   author: bart

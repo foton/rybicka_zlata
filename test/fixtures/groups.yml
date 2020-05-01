@@ -2,3 +2,8 @@ bart_family:
   name: Family (without Maggie)
   user: bart
   connections: bart_to_lisa, bart_to_homer, bart_to_marge # for this, POSTGRESQL user have to have Superuser priivledges to disable referential integrity :-(
+
+marge_children:
+  name: Children
+  user: marge
+  connections: marge_to_lisa, marge_to_bart, marge_to_maggie

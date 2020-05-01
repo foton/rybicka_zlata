@@ -61,6 +61,12 @@ homer_to_bart:
   email: bart@simpsons.com
   friend: bart
 
+homer_to_marge:
+  owner: homer
+  name: Wife
+  email: marge@simpsons.com
+  friend: marge
+
 # Bart have connections to Lisa, Homer, Marge and Maggie + Milhouse (not user)
 bart_to_lisa:
   owner: bart
@@ -111,6 +117,12 @@ lisa_to_marge:
   name: Mom
   email: marge@simpsons.com
   friend: marge
+
+lisa_to_maggie:
+  owner: lisa
+  name: Maggie
+  email: maggie@simpsons.com
+  friend: maggie
 
 lisa_to_rachel:
   owner: lisa

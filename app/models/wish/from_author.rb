@@ -4,7 +4,11 @@
 class Wish::FromAuthor < Wish::FromDonee
   self.table_name = 'wishes'
 
-  attr_accessor :donee_conn_ids
+  def donee_conn_ids=(ids)
+    new_ids = (author.present? ? [author.base_connection.id] + ids : ids).uniq.compact.sort
+    @donees_changed = (donee_conn_ids.sort != new_ids)
+    @donee_conn_ids = new_ids
+  end
 
   def destroy(by_user = author)
     if author == by_user
@@ -22,15 +26,9 @@ class Wish::FromAuthor < Wish::FromDonee
   private
 
   def fill_connections_from_ids
-    super
-
-    @donee_conn_ids = [] unless @donee_conn_ids.is_a?(Array)
-    @donee_conn_ids << author.base_connection.id if author
-    @donee_conn_ids.uniq!
-    # TODO: only current donee can add his/her connections as other donees
-    self.donee_connections = ::Connection.find(@donee_conn_ids.compact.uniq).to_a
+    self.donee_connections = ::Connection.find(donee_conn_ids).to_a
     @donee_user_ids = nil
 
-    ensure_no_connections_from_ex_donees
+    super
   end
 end

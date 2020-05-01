@@ -7,38 +7,33 @@ class Wishes::FromDonorControllerTest < ActionController::TestCase
 
   def setup
     @request.env['devise.mapping'] = Devise.mappings[:user]
-    @bart = create_test_user!(name: 'Bart')
-    @bart.confirm
 
-    @marge = create_test_user!(name: 'Marge')
-    @homer = create_test_user!(name: 'Homer')
-    @lisa = create_test_user!(name: 'Lisa')
-    # @maggie= create_test_user!(name: "Maggie")
+    @bart = users(:bart)
+    @homer = users(:homer)
+    @lisa = users(:lisa)
+    @marge = users(:marge)
 
-    @conn_bart2marge = create_connection_for(@bart, name: 'Mom', email: @marge.email)
-    @conn_bart2homer = create_connection_for(@bart, name: 'Dad', email: @homer.email)
-    @conn_marge2bart = create_connection_for(@marge, name: 'Son', email: @bart.email)
-    @conn_marge2lisa = create_connection_for(@marge, name: 'Sweet minime', email: @lisa.email)
-    @conn_homer2bart = create_connection_for(@homer, name: 'Minime', email: @bart.email)
-    @conn_homer2lisa = create_connection_for(@homer, name: 'MiniMarge', email: @lisa.email)
+    @bart_as_donor_wishes = [
+      [@homer, [Wish::FromDonor.find(wishes(:marge_homer_holidays).id)]],
+      [@lisa,  [Wish::FromDonor.find(wishes(:lisa_tatoo).id)]],
+      [@marge, [Wish::FromDonor.find(wishes(:marge_hairs).id),
+                Wish::FromDonor.find(wishes(:marge_homer_holidays).id)]]
+    ]
+    @marge_wish = Wish::FromDonor.find(wishes(:marge_hairs).id)
 
-    @marge_wish = create_marge_wish
     sign_in @bart
   end
 
-  def test_index_of_others_wishes
-    hw = create_homer_wish
-
+  def test_index_of_wishes_to_fulfill
     get :index, params: { user_id: @bart.id }
 
     assert assigns(:wishes_by_donees).present?
-    assert_equal [[@homer, [hw]], [@marge, [@marge_wish]]], assigns(:wishes_by_donees).to_a
+    assert_equal @bart_as_donor_wishes, assigns(:wishes_by_donees).to_a
     assert_template 'index'
     assert_not_nil assigns(:user)
   end
 
-  def test_cannot_see_others_wishes_for_other_user_account
-    # signed_in as bart
+  def test_cannot_see_donor_wishes_for_other_user_account
     get :index, params: { user_id: @marge.id }
 
     assert_response :redirect
@@ -47,16 +42,17 @@ class Wishes::FromDonorControllerTest < ActionController::TestCase
   end
 
   def test_index_no_wish_yet
-    sign_in @marge
+    user = users(:burns)
+    assert user.donor_wishes.blank?
 
-    assert @marge.donor_wishes.blank?
+    sign_in user
 
-    get :index, params: { user_id: @marge.id }
+    get :index, params: { user_id: user.id }
 
     assert_equal [], assigns(:wishes_by_donees).to_a
     assert_template 'index'
     assert_not_nil assigns(:user)
-    assert_equal @marge, assigns(:user)
+    assert_equal user, assigns(:user)
   end
 
   def test_show_wish
@@ -78,7 +74,7 @@ class Wishes::FromDonorControllerTest < ActionController::TestCase
     assert_not_nil assigns(:user)
     assert assigns(:wish).is_a?(Wish::FromDonor)
     assert_equal @marge_wish, assigns(:wish)
-    assert_equal "Přání 'More tall hairs' bylo zarezervováno pro 'Bart'", flash[:notice]
+    assert_equal "Přání 'M: Taller hairs' bylo zarezervováno pro 'Bartholomew JoJo Simpson'", flash[:notice]
 
     @marge_wish.reload
     assert @marge_wish.booked?
@@ -99,21 +95,5 @@ class Wishes::FromDonorControllerTest < ActionController::TestCase
 
     @marge_wish.reload
     refute @marge_wish.fulfilled?
-  end
-
-  private
-
-  def create_marge_wish
-    wish = Wish::FromAuthor.new(author: @marge, title: 'More tall hairs', description: 'And more bluish!')
-    wish.merge_donor_conn_ids([@conn_marge2bart.id, @conn_marge2lisa.id], @marge)
-    wish.save!
-    Wish::FromDonor.find(wish.id)
-  end
-
-  def create_homer_wish
-    wish = Wish::FromAuthor.new(author: @homer, title: 'More Duff beer', description: 'And hairs too!')
-    wish.merge_donor_conn_ids([@conn_homer2bart.id, @conn_homer2lisa.id], @homer)
-    wish.save!
-    Wish::FromDonor.find(wish.id)
   end
 end

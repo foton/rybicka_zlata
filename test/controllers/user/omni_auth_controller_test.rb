@@ -8,9 +8,6 @@ class Users::OmniAuthControllerTest < ActionController::TestCase
 
   def setup
     @request.env['devise.mapping'] = Devise.mappings[:user]
-    #    @current_user=User.create!(name: "Pepík", email: "pepik@josef.cz",password:"nezalezi")
-    #    @current_user.confirm
-    # sign_in @current_user
   end
 
   User::Identity::OAUTH_PROVIDERS.each do |provider|

@@ -7,11 +7,11 @@
 # rake test TEST=test/models/identity_test.rb
 
 require 'minitest/reporters'
-require 'rake_rerun_reporter'
+#require 'rake_rerun_reporter'
 
-reporter_options = { color: true, slow_count: 5, verbose: false, rerun_prefix: 'rm -f log/*.log && be' }
+#reporter_options = { color: true, slow_count: 5, verbose: false, rerun_prefix: 'rm -f log/*.log && be' }
 # Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(reporter_options)]
-Minitest::Reporters.use! [Minitest::Reporters::RakeRerunReporter.new(reporter_options)]
+#Minitest::Reporters.use! [Minitest::Reporters::RakeRerunReporter.new(reporter_options)]
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
@@ -66,7 +66,15 @@ class ActiveSupport::TestCase
     else
       usrs.first
     end
- end
+  end
+
+  def prepare_wish_and_others
+    @wish = wishes(:marge_homer_holidays)
+    @author = users(:marge)
+    @donee = users(:homer)
+    @donor = users(:bart)
+    @html_safe_wish_name_with_quotes = "&#39;#{@wish.title}&#39;"
+  end
 
   def create_connection_for(user, conn_hash)
     conn_name = conn_hash[:name]
@@ -89,35 +97,5 @@ class ActiveSupport::TestCase
       conn = conns.first
     end
     conn
-  end
-
-  def setup_wish
-    @author = create_test_user!(name: 'author')
-    @donor = create_test_user!(name: 'donor')
-    @donee = create_test_user!(name: 'donee')
-
-    assert @author != @donor
-    assert @author != @donee
-    assert @donee != @donor
-
-    @donor_conn = create_connection_for(@author, name: 'donor_conn', email: @donor.email)
-    @donee_conn = create_connection_for(@author, name: 'donee_conn', email: @donee.email)
-
-    @wish = Wish::FromAuthor.new(
-      author: @author,
-      title: 'My first wish',
-      description: 'This is my first wish I am trying',
-      donee_conn_ids: [@donee_conn.id]
-    )
-    @wish.merge_donor_conn_ids([@donor_conn.id], @author)
-    @wish.save!
-  end
-
-  def setup_donor2
-    @donor2 = create_test_user!(name: 'donor2')
-    @donor2_conn = create_connection_for(@author, name: 'donor2_conn', email: @donor2.email)
-
-    @wish.merge_donor_conn_ids([@donor_conn.id, @donor2_conn.id], @author)
-    @wish.save!
   end
 end

@@ -15,14 +15,9 @@ class Wish::FromDonee < Wish
     conn_ids_to_add = conn_ids & user_conn_ids
     conn_ids_to_remove = user_conn_ids - conn_ids_to_add
 
-    @donor_conn_ids ||= donor_connections.pluck(:id)
-    @donor_conn_ids += conn_ids_to_add
-    @donor_conn_ids -= conn_ids_to_remove
-    @donor_conn_ids.uniq!
-    @donor_conn_ids
+    @donors_changed = true
+    @donor_conn_ids = (donor_conn_ids + conn_ids_to_add - conn_ids_to_remove).uniq
   end
-
-  attr_reader :donor_conn_ids
 
   def donee_conn_ids=(conn_ids)
     # silently ignoring
@@ -44,12 +39,19 @@ class Wish::FromDonee < Wish
   private
 
   def fill_connections_from_ids
-    @donor_conn_ids = [] unless @donor_conn_ids.is_a?(Array)
-    self.donor_connections = ::Connection.find(@donor_conn_ids.compact.uniq).to_a
+    self.donor_connections = ::Connection.find(donor_conn_ids.compact.uniq).to_a
     @donor_user_ids = nil
+
+    ensure_donors_are_only_from_current_donees
   end
 
   def set_updated_by_donee_at
-    self.updated_by_donee_at = Time.zone.now if changed?
+    self.updated_by_donee_at = Time.current if changed?
+  end
+
+  def ensure_donors_are_only_from_current_donees
+    connection_ids_of_current_donees = ::Connection.where(owner_id: donee_user_ids).pluck(:id)
+    dls_to_delete = donor_links.where.not(connection_id: connection_ids_of_current_donees)
+    dls_to_delete.destroy_all
   end
 end

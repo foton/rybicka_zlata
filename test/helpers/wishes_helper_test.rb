@@ -7,7 +7,7 @@ class WishesHelperTest < ActionView::TestCase
   include ApplicationHelper
 
   def setup
-    setup_wish
+    prepare_wish_and_others
   end
 
   def test_path_to_wish_action_for_donor

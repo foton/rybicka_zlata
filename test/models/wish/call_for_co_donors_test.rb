@@ -4,7 +4,7 @@ require 'test_helper'
 
 class WishBookingTest < ActiveSupport::TestCase
   def setup
-    setup_wish
+    prepare_wish_and_others
   end
 
   def test_when_available_no_called_id

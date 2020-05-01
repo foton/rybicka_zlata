@@ -163,7 +163,7 @@ class UserIdentityTest < ActiveSupport::TestCase
     marge = users(:marge)
     maggie = users(:maggie)
     maggie_new_email = 'little_maggie@example.com'
-    connection = Connection.create!(name: 'The little one', email: maggie_new_email, owner: marge)
+    connection = create_connection_for(marge, name: 'The little one', email: maggie_new_email)
 
     assert_nil connection.friend, "connection.friend should be blank, but is #{connection.friend}"
 

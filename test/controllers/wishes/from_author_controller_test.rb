@@ -7,99 +7,105 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
 
   def setup
     @request.env['devise.mapping'] = Devise.mappings[:user]
-    @current_user = User.create!(name: 'Pepík', email: 'pepik@josef.cz', password: 'nezalezi')
-    @current_user.confirm
-    sign_in @current_user
+    @bart = users(:bart)
+    sign_in @bart
 
-    @conn_mama = create_connection_for(@current_user, name: 'Máma')
-    @conn_tata = create_connection_for(@current_user, name: 'Táta')
-    @conn_segra = create_connection_for(@current_user, name: 'Ségra')
+    @bart_to_marge_conn = connections(:bart_to_marge)
+    @bart_to_homer_conn = connections(:bart_to_homer)
+    @bart_to_lisa_conn = connections(:bart_to_lisa)
+    @homer_to_marge_conn = connections(:homer_to_marge)
 
-    @wish = Wish::FromAuthor.new(author: @current_user, title: 'My first wish', description: 'This is my first wish I am trying')
-    @wish.merge_donor_conn_ids([@conn_mama.id, @conn_tata.id], @current_user)
-    @wish.donee_conn_ids = [@conn_segra.id]
-    @wish.save!
+    @wish = Wish::FromAuthor.find(wishes(:bart_homer_new_car).id)
   end
 
   def test_get_new_for_my_wish
-    get :new, params: { user_id: @current_user.id }
+    get :new, params: { user_id: @bart.id }
 
     assert_response :ok
     assert assigns(:wish).present?
-    assert_equal @current_user, assigns(:wish).author
+    assert_equal @bart, assigns(:wish).author
     assert_template 'new'
   end
 
-  def test_work_on_behalf_of_other_user_account
-    other_user = create_test_user!(name: 'OtherGuy')
-    get :new, params: { user_id: other_user.id }
+  def test_work_on_behalf_of_other_user_account_is_forbidden
+    get :new, params: { user_id: users(:lisa).id }
 
     assert_response :redirect
-    assert_redirected_to user_my_wishes_url(@current_user)
+    assert_redirected_to user_my_wishes_url(@bart)
     assert_equal 'Nakukování k sousedům není dovoleno!', flash[:error]
   end
 
   def test_create_my_wish
-    donor_conns = [@conn_mama, @conn_tata]
-    donee_conns = [@conn_segra]
-    wish_h = { title: 'A special wish', description: 'wish me luck for tomorow!', donee_conn_ids: donee_conns.collect(&:id), donor_conn_ids: donor_conns.collect(&:id) }
+    donor_conns = [@bart_to_marge_conn, @bart_to_lisa_conn]
+    donee_conns = [@bart_to_homer_conn]
+    wish_hash = { title: 'A special wish',
+                  description: 'wish me luck for tomorow!',
+                  donee_conn_ids: donee_conns.collect(&:id),
+                  donor_conn_ids: donor_conns.collect(&:id) }
 
-    post :create, params: { user_id: @current_user.id, wish: wish_h }
+    post :create, params: { user_id: @bart.id, wish: wish_hash }
 
-    # redirect to edit, where donee and donors are added
-
-    assert assigns(:wish).present?
     new_wish = assigns(:wish)
-    assert_equal wish_h[:title], new_wish.title
-    assert_equal wish_h[:description], new_wish.description
+
+    assert_equal wish_hash[:title], new_wish.title
+    assert_equal wish_hash[:description], new_wish.description
     assert new_wish.persisted?
     assert_equal donor_conns.sort, new_wish.donor_connections.sort
-    assert_equal (donee_conns + [@current_user.base_connection]).sort, new_wish.donee_connections.sort
+    assert_equal (donee_conns + [@bart.base_connection]).sort, new_wish.donee_connections.sort
 
     assert_response :redirect
-    assert_redirected_to user_my_wish_path(@current_user, new_wish)
-    assert_equal "Přání '#{wish_h[:title]}' bylo úspěšně přidáno.", flash[:notice]
+    assert_redirected_to user_my_wish_path(@bart, new_wish)
+    assert_equal "Přání '#{wish_hash[:title]}' bylo úspěšně přidáno.", flash[:notice]
+  end
+
+  def test_edit_shared_wish_as_author_is_forbidden
+    get :edit, params: { user_id: @bart.id, id: wishes(:lisa_bart_bigger_car).id }
+
+    assert_response :not_found
   end
 
   def test_edit_my_wish
-    get :edit, params: { user_id: @current_user.id, id: @wish.id }
+    get :edit, params: { user_id: @bart.id, id: @wish.id }
 
-    assert_not_nil assigns(:wish)
     assert_equal @wish, assigns(:wish)
 
     assert_not_nil assigns(:user_connections)
-    assert_equal (@current_user.connections - [@current_user.base_connection]), assigns(:user_connections)
+    assert_equal @bart.friend_connections, assigns(:user_connections)
 
     assert_not_nil assigns(:user_groups)
-    assert_equal @current_user.groups, assigns(:user_groups)
+    assert_equal @bart.groups, assigns(:user_groups)
   end
 
-  def test_update_my_wish
-    assert_equal [@conn_segra, @current_user.base_connection].sort, @wish.donee_connections.to_a.sort
-    assert_equal [@conn_mama, @conn_tata].sort, @wish.donor_connections.to_a.sort
+  def test_update_my_wish_attributes_donees_and_donors
+    assert_equal [@bart_to_homer_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_lisa_conn, @homer_to_marge_conn].sort, @wish.donor_connections.to_a.sort
 
     new_title = 'Much better title'
     new_description = 'something for me and my dad'
-    edit_wish_hash = { title: new_title, description: new_description, donee_conn_ids: [@conn_tata.id], donor_conn_ids: [@conn_mama.id, @conn_segra.id] }
+    edit_wish_hash = { title: new_title,
+                       description: new_description,
+                       donee_conn_ids: [@bart_to_lisa_conn.id],
+                       donor_conn_ids: [@bart_to_marge_conn.id, @bart_to_homer_conn.id] }
 
-    patch :update, params: { user_id: @current_user.id, id: @wish.id, wish: edit_wish_hash }
+    patch :update, params: { user_id: @bart.id, id: @wish.id, wish: edit_wish_hash }
 
     assert_response :redirect
-    assert_redirected_to user_my_wish_path(@current_user, @wish)
+    assert_redirected_to user_my_wish_path(@bart, @wish)
     assert_equal "Přání '#{new_title}' bylo úspěšně aktualizováno.", flash[:notice]
 
     @wish.reload
     assert_equal new_title, @wish.title
     assert_equal new_description, @wish.description
-    assert_equal [@conn_tata, @current_user.base_connection].sort, @wish.donee_connections.to_a.sort
-    assert_equal [@conn_mama, @conn_segra].sort, @wish.donor_connections.to_a.sort
+    assert_equal [@bart_to_lisa_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    # no homer_to_marge connection, Homer is no longer donee
+    assert_equal [@bart_to_marge_conn, @bart_to_homer_conn].sort, @wish.donor_connections.to_a.sort
   end
 
   def test_fulfilled
-    patch :update, params: { user_id: @current_user.id, id: @wish.id, state_action: :fulfilled }
+    patch :update, params: { user_id: @bart.id, id: @wish.id, state_action: :fulfilled }
 
     assert_response :redirect
-    assert_redirected_to user_my_wish_path(@current_user, @wish)
+    assert_redirected_to user_my_wish_path(@bart, @wish)
     assert_equal "Přání '#{@wish.title}' bylo splněno.", flash[:notice]
 
     @wish.reload
@@ -107,7 +113,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
   end
 
   def test_fulfilled_js
-    patch :update, params: { user_id: @current_user.id, id: @wish.id, state_action: :fulfilled, format: :js }
+    patch :update, params: { user_id: @bart.id, id: @wish.id, state_action: :fulfilled, format: :js }
 
     assert_response :ok
     assert_template 'fulfilled_or_destroyed.js.erb'
@@ -118,42 +124,22 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    delete :destroy, params: { user_id: @current_user.id, id: @wish.id }
+    delete :destroy, params: { user_id: @bart.id, id: @wish.id }
 
     assert_response :redirect
-    assert_redirected_to user_my_wishes_path(@current_user)
+    assert_redirected_to user_my_wishes_path(@bart)
     assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
 
     assert Wish.where(id: @wish.id).blank?
   end
 
   def test_destroy_js
-    delete :destroy, params: { user_id: @current_user.id, id: @wish.id, format: :js }
+    delete :destroy, params: { user_id: @bart.id, id: @wish.id, format: :js }
 
     assert_response :ok
     assert_template 'fulfilled_or_destroyed.js.erb'
     assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
 
     assert Wish.where(id: @wish.id).blank?
- end
-
-  def test_author_can_manage_donees
-    @wish.merge_donor_conn_ids([@conn_mama.id], @current_user)
-    @wish.donee_conn_ids = [@conn_segra.id, @conn_tata.id]
-    @wish.save!
-
-    assert_equal [@conn_segra, @conn_tata, @current_user.base_connection].sort, @wish.donee_connections.to_a.sort
-    assert_equal [@conn_mama], @wish.donor_connections.to_a
-
-    edit_wish_hash = { donee_conn_ids: [@conn_tata.id, @conn_mama.id], donor_conn_ids: [@conn_segra.id] } # segra out, mama in
-
-    patch :update, params: { user_id: @current_user.id, id: @wish.id, wish: edit_wish_hash }
-
-    assert_response :redirect
-    assert_redirected_to user_my_wish_path(@current_user, @wish)
-    assert_equal "Přání '#{@wish.title}' bylo úspěšně aktualizováno.", flash[:notice]
-    @wish.reload
-    assert_equal [@conn_mama, @conn_tata, @current_user.base_connection].sort, @wish.donee_connections.to_a.sort
-    assert_equal [@conn_segra].sort, @wish.donor_connections.to_a.sort
   end
 end

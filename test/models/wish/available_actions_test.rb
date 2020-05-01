@@ -4,7 +4,7 @@ require 'test_helper'
 
 class WishAvailableActionsTest < ActiveSupport::TestCase
   def setup
-    setup_wish
+    prepare_wish_and_others
   end
 
   def test_action_from_authors_side
@@ -123,10 +123,14 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
   def test_action_from_another_donor
     another_donor = create_test_user!(name: 'a_donor')
     adonor_conn = create_connection_for(@author, name: 'a_donor_conn', email: another_donor.email)
-    @wish.merge_donor_conn_ids([adonor_conn.id, @donor_conn.id], @author)
-    @wish.save!
 
-    # even when call for co-donors is in place another donor can overtake the wish by booking
+    author_wish = Wish::FromAuthor.find(@wish.id)
+    author_wish.merge_donor_conn_ids([adonor_conn.id], @author)
+    author_wish.save!
+
+    @wish.reload
+
+    # even when call for co-donors is in place, another donor can overtake the wish by booking
     @wish.call_for_co_donors!(@donor)
     assert_equal %i[show book], @wish.available_actions_for(another_donor)
     assert_equal [:book], @wish.available_state_actions_for(another_donor)

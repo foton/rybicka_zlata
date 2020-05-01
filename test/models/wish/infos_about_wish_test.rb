@@ -5,9 +5,9 @@ require 'test_helper'
 class WishIfosAboutWishTest < ActiveSupport::TestCase
   def setup
     @wish = wishes(:lisa_bart_bigger_car)
-    @author = @wish.author
+    @author = users(:lisa)
     @donor = users(:marge)
-    @donee = users(:lisa)
+    @donee = users(:bart)
     @stranger = users(:maggie)
   end
 
@@ -124,62 +124,26 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
   end
 
   def test_discover_complete_group_in_donors
-    lisa = @donee
-    marge_conn = connections(:lisa_to_marge)
-    homer_conn = connections(:lisa_to_homer)
-    bart_conn = connections(:lisa_to_bart)
-    paul_conn = create_connection_for(lisa, name: 'Paul')
+    wish = wishes(:marge_hairs)
+    expected_group_in_donors = groups(:marge_children)
 
-    group_simpsons = Group.new(name: 'Simpsons', user: lisa)
-    group_simpsons.connections = [bart_conn, marge_conn, homer_conn]
-    group_simpsons.save!
-
-    @wish = Wish::FromDonee.create!(title: 'A wish', author: lisa, description: 'is needed?')
-
-    @wish.merge_donor_conn_ids([bart_conn.id], lisa)
-    @wish.save!
-    assert_equal [], @wish.donor_groups_for(lisa), 'Group is founded just for Bart'
-
-    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id], lisa)
-    @wish.save!
-    assert_equal [], @wish.donor_groups_for(lisa), 'Group is founded just for Bart and Marge'
-
-    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id, homer_conn.id], lisa)
-    @wish.save!
-    assert_equal [group_simpsons], @wish.donor_groups_for(lisa), 'Group Simpsons should be found in donors'
-
-    @wish.merge_donor_conn_ids([bart_conn.id, marge_conn.id, homer_conn.id, paul_conn.id], lisa)
-    @wish.save!
-    assert_equal [group_simpsons], @wish.donor_groups_for(lisa), 'Group Simpsons should be found in donors. Even with extra Paul.'
+    assert_equal [], wish.donor_groups_for(users(:lisa)), 'Group should not be found for Lisa'
+    assert_equal [expected_group_in_donors], wish.donor_groups_for(users(:marge)), "Marge's group 'Children' should be found in donors"
   end
 
   def test_find_whole_groups_in_donees
-    marge_conn = connections(:lisa_to_marge)
-    homer_conn = connections(:lisa_to_homer)
-    bart_conn = connections(:lisa_to_bart)
-    paul_conn = create_connection_for(@author, name: 'Paul')
+    skip "lisa_to_bart uses different email than marge_to_bart"
+    wish = wishes(:lisa_bart_bigger_car)
 
-    group_simpsons = Group.new(name: 'Simpsons', user: @author)
-    group_simpsons.connections = [bart_conn, marge_conn, homer_conn]
-    group_simpsons.save!
+    assert_equal [], wish.donee_groups_for(users(:marge)), 'Group should be found yet for Marge, Maggie is missing'
+    assert_equal [], wish.donee_groups_for(users(:lisa)), 'Group should not be found for Lisa'
 
-    @wish = Wish::FromAuthor.create!(title: 'A wish', author: @author, description: 'is needed?')
+    wish = Wish::FromAuthor.find(wish.id)
+    wish.donee_conn_ids = wish.donee_conn_ids + [connections(:lisa_to_maggie), connections(:lisa_to_rachel)].collect(&:id)
+    wish.save!
 
-    @wish.donee_conn_ids = [bart_conn.id]
-    @wish.save!
-    assert_equal [], @wish.donee_groups_for(@author), 'Group is founded just for Bart'
-
-    @wish.donee_conn_ids = [bart_conn.id, marge_conn.id]
-    @wish.save!
-    assert_equal [], @wish.donee_groups_for(@author), 'Group is founded just for Bart and Marge'
-
-    @wish.donee_conn_ids = [bart_conn.id, marge_conn.id, homer_conn.id]
-    @wish.save!
-    assert_equal [group_simpsons], @wish.donee_groups_for(@author), 'Group Simpsons should be found in donors'
-
-    @wish.donee_conn_ids = [bart_conn.id, marge_conn.id, homer_conn.id, paul_conn.id]
-    @wish.save!
-    assert_equal [group_simpsons], @wish.donee_groups_for(@author), 'Group Simpsons should be found in donors. Even with extra Paul.'
+    assert_equal [groups(:marge_children)], wish.donee_groups_for(users(:marge)), 'Group should be found for Marge'
+    assert_equal [], wish.donee_groups_for(users(:lisa)), 'Group should not be found for Lisa, she do not have such group.'
   end
 
   private

@@ -28,6 +28,12 @@ maggie:
   confirmed_at: '2018-08-08 08:08:08'
   encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>
 
+burns:
+  email: mr.burns@world.com
+  name: Montgomery Burns
+  confirmed_at: '2019-08-08 08:08:08'
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Abcd1234') %>
+
 porybny:
   email: <%= User::ADMIN_EMAIL %>
   name: Porybný
