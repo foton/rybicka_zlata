@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg'
-gem 'rails', '5.2.4'
+gem 'rails', '5.2.4.3'
 
 # Use Puma as the app server
 gem 'puma'
