@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: donee_links
+#
+#  id            :integer          not null, primary key
+#  connection_id :integer          not null
+#  wish_id       :integer          not null
+#
 # Connects wish with connections. `Connection.friend` then became donee for wish.
 class DoneeLink < ApplicationRecord
   belongs_to :connection, inverse_of: :donee_links

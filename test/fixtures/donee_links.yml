@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: donee_links
+#
+#  id            :integer          not null, primary key
+#  connection_id :integer          not null
+#  wish_id       :integer          not null
+#
 marge_for_marge_hairs:
   wish: marge_hairs
   connection: marge_base

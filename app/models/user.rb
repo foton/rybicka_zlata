@@ -1,5 +1,39 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: users
+#
+#  id                         :integer          not null, primary key
+#  body_height                :string           default("??")
+#  body_weight                :string           default("??")
+#  confirmation_sent_at       :datetime
+#  confirmation_token         :string
+#  confirmed_at               :datetime
+#  current_sign_in_at         :datetime
+#  current_sign_in_ip         :inet
+#  dislikes                   :text             default(":-(")
+#  email                      :string           default(""), not null
+#  encrypted_password         :string           default(""), not null
+#  last_sign_in_at            :datetime
+#  last_sign_in_ip            :inet
+#  likes                      :text             default(":-)")
+#  locale                     :string(5)        default("cs"), not null
+#  name                       :string
+#  other_sizes_and_dimensions :text             default("")
+#  remember_created_at        :datetime
+#  reset_password_sent_at     :datetime
+#  reset_password_token       :string
+#  shoes_size                 :string           default("EU/UK/US??")
+#  sign_in_count              :integer          default(0), not null
+#  time_zone                  :string           default("Prague"), not null
+#  trousers_leg_size          :string           default("??")
+#  trousers_waist_size        :string           default("??")
+#  tshirt_size                :string           default("??")
+#  unconfirmed_email          :string
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#
 class User < ApplicationRecord
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/

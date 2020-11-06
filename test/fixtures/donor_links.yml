@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: donor_links
+#
+#  id            :integer          not null, primary key
+#  role          :integer          default(0), not null
+#  connection_id :integer          not null
+#  wish_id       :integer          not null
+#
 lisa_for_marge_hairs:
   wish: marge_hairs
   connection: marge_to_lisa

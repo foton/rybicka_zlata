@@ -1,5 +1,20 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: wishes
+#
+#  id                         :integer          not null, primary key
+#  description                :text
+#  state                      :integer          default(0), not null
+#  title                      :string           not null
+#  updated_by_donee_at        :datetime
+#  created_at                 :datetime
+#  updated_at                 :datetime
+#  author_id                  :integer          not null
+#  booked_by_id               :integer
+#  called_for_co_donors_by_id :integer
+#
 # donor can change state of wish only
 class Wish::FromDonor < Wish
   self.table_name = 'wishes'

@@ -1,4 +1,13 @@
-
+# == Schema Information
+#
+# Table name: connections
+#
+#  id        :integer          not null, primary key
+#  email     :string           not null
+#  name      :string           not null
+#  friend_id :integer
+#  owner_id  :integer
+#
 marge_base:
   owner: marge
   name: <%= Connection::BASE_CONNECTION_NAME %>

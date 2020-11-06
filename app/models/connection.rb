@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: connections
+#
+#  id        :integer          not null, primary key
+#  email     :string           not null
+#  name      :string           not null
+#  friend_id :integer
+#  owner_id  :integer
+#
 # Connection between User and somebody, based on email. It have it's own name.
 # So different user can have connection to same email address, but each one can name it differently (eg.: Husband, Dad, Son)
 # It can be connected to existing other user (known as Friend).

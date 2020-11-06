@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: identities
+#
+#  id       :integer          not null, primary key
+#  email    :string
+#  provider :string           default(""), not null
+#  uid      :string           default(""), not null
+#  user_id  :integer
+#
 _fixture:
   model_class: User::Identity
 marge_identity:

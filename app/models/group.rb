@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: groups
+#
+#  id      :integer          not null, primary key
+#  name    :string           not null
+#  user_id :integer          not null
+#
 class Group < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :connections

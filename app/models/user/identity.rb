@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: identities
+#
+#  id       :integer          not null, primary key
+#  email    :string
+#  provider :string           default(""), not null
+#  uid      :string           default(""), not null
+#  user_id  :integer
+#
 class User::Identity < ApplicationRecord
   belongs_to :user
   has_many :connections, primary_key: 'email', foreign_key: 'email' # , inverse_of: :identities
