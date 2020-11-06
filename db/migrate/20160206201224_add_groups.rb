@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddGroups < ActiveRecord::Migration
+class AddGroups < ActiveRecord::Migration[4.2]
   def change
     create_table(:groups) do |t|
       t.string :name, null: false

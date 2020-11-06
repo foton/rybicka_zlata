@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddWishes < ActiveRecord::Migration
+class AddWishes < ActiveRecord::Migration[4.2]
   def change
     create_table(:wishes) do |t|
       t.string :title, null: false

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddTableConnections < ActiveRecord::Migration
+class AddTableConnections < ActiveRecord::Migration[4.2]
   def change
     create_table(:connections) do |t|
       t.string :name, null: false

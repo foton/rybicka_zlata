@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ruby '2.5.3'
+ruby '2.7.1'
 source 'https://rubygems.org'
 
 # webserver https://devcenter.heroku.com/articles/ruby-default-web-server
@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg'
-gem 'rails', '5.2.4.3'
+gem 'rails', '~>6.0'
 
 # Use Puma as the app server
 gem 'puma'
@@ -62,14 +62,16 @@ group :development do
 
   # style check, allways learning best practicies
   gem 'rubocop', require: false
+
+  gem 'annotate' # write DB structure as comments in models etc.
 end
 
 group :test do
-  gem 'capybara-webkit', require: false
+  #gem 'capybara-webkit', require: false
   # ^ need QT installed for Ubuntu:
   # sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base
   # sudo apt-get install gstreamer1.0-tools gstreamer1.0-x
-  gem 'cucumber'
+  # gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner', require: false
 

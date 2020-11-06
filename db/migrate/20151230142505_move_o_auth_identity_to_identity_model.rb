@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MoveOAuthIdentityToIdentityModel < ActiveRecord::Migration
+class MoveOAuthIdentityToIdentityModel < ActiveRecord::Migration[4.2]
   def up
     create_table(:identities) do |t|
       t.string :provider, null: false, default: ''
@@ -19,9 +19,7 @@ class MoveOAuthIdentityToIdentityModel < ActiveRecord::Migration
     end
 
     remove_column :users, :provider, :string
-    remove_index :users, :provider
     remove_column :users, :uid, :string
-    remove_index :users, :uid
   end
 
   def down

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddDoneeDonorLinks < ActiveRecord::Migration
+class AddDoneeDonorLinks < ActiveRecord::Migration[4.2]
   def change
     create_table(:donee_links, id: false) do |t|
       t.belongs_to :wish, null: false, index: true
