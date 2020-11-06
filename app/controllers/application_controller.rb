@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
         if Rails.env.include?('development') || Rails.env.include?('test') || (current_user.present? && current_user.admin?)
           render text: "#{exception.message} -- #{exception.class}<br/>#{exception.backtrace.join('<br/>')}", status: :internal_server_error
         else
-          render file: "#{Rails.root}/public/500", formats: [:html], status: :internal_server_error, layout: false
+          render file: File.join(Rails.root, 'public', '500.html'), formats: [:html], status: :internal_server_error, layout: false
         end
       end
       format.xml { head :internal_server_error }
@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound, AbstractController::ActionNotFound do |_exception|
     respond_to do |format|
-      format.html { render file: "#{Rails.root}/public/404", formats: [:html], status: :not_found }
+      format.html { render file: File.join(Rails.root, 'public', '404.html'), formats: [:html], status: :not_found }
       format.xml { head :not_found }
       format.json { head :not_found }
     end

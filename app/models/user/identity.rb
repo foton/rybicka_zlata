@@ -166,7 +166,8 @@ class User::Identity < ApplicationRecord
 
   def fill_local_uid
     if local? && uid.blank?
-      self.uid = format('%010d', (User::Identity.local.maximum(:uid).to_i + 1))
+      max_existing_uid = User::Identity.default_scoped.local.maximum(:uid).to_i
+      self.uid = format('%010d', (max_existing_uid + 1))
     end
   end
 
