@@ -78,7 +78,7 @@ class ConnectionTest < ActiveSupport::TestCase
   def test_can_be_without_to_user
     @connection.friend_id = nil
     assert @connection.valid?
-   end
+  end
 
   def test_should_assign_existing_user_according_to_user_email
     # user.email should be also in identities! (user after_save callback)

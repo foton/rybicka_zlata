@@ -30,7 +30,7 @@ class DeviseEmailTest < ActionMailer::TestCase
     expected = ["Welcome #{@user_en.email}",
                 'You can confirm your account email through the link below:',
                 'Confirm my account']
-    for exp_string in expected do
+    expected.each do |exp_string|
       assert mail.body.include?(exp_string), "Body of email is not fully translated ['#{exp_string}' not found]:\n #{mail.body}"
     end
   end

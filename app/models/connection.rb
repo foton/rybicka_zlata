@@ -83,7 +83,7 @@ class Connection < ApplicationRecord
   end
 
   scope :base, -> { where(name: BASE_CONNECTION_NAME) }
-  scope :friends, -> { where('name <> ?', Connection::BASE_CONNECTION_NAME) }
+  scope :friends, -> { where.not(name: Connection::BASE_CONNECTION_NAME) }
   scope :owned_by, ->(user) { where(owner_id: user.id) }
 
   private

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Regexp
-  #modified from https://gist.github.com/dperini/729294
+  # modified from https://gist.github.com/dperini/729294
 
   # match[0]: full URI
   # match[1]: protocol
@@ -34,7 +34,7 @@ class Regexp
       '(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}' \
       '(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))'
 
-    dns_rgx_str =  '(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)'      # host name
+    dns_rgx_str =  '(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)' # host name
     dns_rgx_str += '(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*'  # domain name
     dns_rgx_str += '(?:\.(?:[a-z\u00a1-\uffff]{2,}))'                            # TLD identifier
 

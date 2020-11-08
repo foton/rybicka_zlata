@@ -141,8 +141,8 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     assert_redirected_to user_my_wishes_path(@bart)
     assert_equal "Byli jste odebráni z obdarovaných u přání '#{@shared_wish.title}'.", flash[:notice]
 
-    refute Wish.where(id: @shared_wish.id).blank?
-    refute @bart.donee_wishes.include?(@shared_wish)
+    assert_not Wish.where(id: @shared_wish.id).blank?
+    assert_not @bart.donee_wishes.include?(@shared_wish)
   end
 
   def test_destroy_js
@@ -152,8 +152,8 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     assert_template 'fulfilled_or_destroyed.js.erb'
     assert_equal "Byli jste odebráni z obdarovaných u přání '#{@shared_wish.title}'.", flash[:notice]
 
-    refute Wish.where(id: @shared_wish.id).blank?
-    refute @bart.donee_wishes.include?(@shared_wish)
+    assert_not Wish.where(id: @shared_wish.id).blank?
+    assert_not @bart.donee_wishes.include?(@shared_wish)
   end
 
   def test_cannot_update_wish_if_is_not_donee

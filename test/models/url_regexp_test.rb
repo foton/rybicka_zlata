@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'url_regexp.rb' # from lib/url_regexp.rb
+require 'url_regexp' # from lib/url_regexp.rb
 class UrlRgexpTest < ActiveSupport::TestCase
   [
     'http://✪df.ws/123',
@@ -47,7 +47,7 @@ class UrlRgexpTest < ActiveSupport::TestCase
     'http://#',
     'http://##',
     'http://##/',
-   # 'http://foo.bar?q=Spaces should be encoded',
+    # 'http://foo.bar?q=Spaces should be encoded',
     '//',
     '//a',
     '///a',
@@ -58,7 +58,7 @@ class UrlRgexpTest < ActiveSupport::TestCase
     'h://test',
     'http:// shouldfail.com',
     ':// should fail',
-  #  'http://foo.bar/foo(bar)baz quux',
+    #  'http://foo.bar/foo(bar)baz quux',
     'ftps://foo.bar/',
     'http://-error-.invalid/',
     'http://a.b--c.de/',
@@ -68,18 +68,18 @@ class UrlRgexpTest < ActiveSupport::TestCase
     'http://10.1.1.0',
     'http://10.1.1.255',
     'http://224.1.1.1',
-#    'http://1.1.1.1.1',
+    #    'http://1.1.1.1.1',
     'http://123.123.123',
     'http://3628126748',
     'http://.www.foo.bar/',
- #   'http://www.foo.bar./',
+    #   'http://www.foo.bar./',
     'http://.www.foo.bar./',
     'http://10.1.1.1',
-    'http://10.1.1.254',
-#    'https://www.kiehls.cz/cs_CZ/pece-o-plet/kategorie/oci-a-rty-scented-lip-balm--1/696.html,mají ho v paladiu'
+    'http://10.1.1.254'
+    #    'https://www.kiehls.cz/cs_CZ/pece-o-plet/kategorie/oci-a-rty-scented-lip-balm--1/696.html,mají ho v paladiu'
   ].each do |invalid_url|
     test "does not match #{invalid_url}" do
-      refute invalid_url.match(Regexp::PERFECT_URL_PATTERN)
+      assert_not invalid_url.match(Regexp::PERFECT_URL_PATTERN)
     end
   end
 

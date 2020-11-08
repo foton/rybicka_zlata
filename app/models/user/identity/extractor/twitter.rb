@@ -72,7 +72,7 @@
 
 class User::Identity::Extractor::Twitter < User::Identity::Extractor
   def name
-    @name ||= (@auth_data.info.name.present? ? @auth_data.info.name : @auth_data.info.nickname)
+    @name ||= (@auth_data.info.name.presence || @auth_data.info.nickname)
   end
 
   def locale

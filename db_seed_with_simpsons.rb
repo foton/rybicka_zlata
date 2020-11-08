@@ -9,6 +9,7 @@ def create_test_user!(attrs = {})
                     password: 'my_Password10' }.merge(attrs))
   user.skip_confirmation!
   raise "User not created! #{user.errors.full_messages.join(';')}" unless user.save
+
   user
 end
 
@@ -17,6 +18,7 @@ def test_email_address(attrs)
 
   default_email = 'john.doe@test.com'
   return default_email if attrs[:name].blank?
+
   default_email.gsub('john.doe', attrs[:name].parameterize.dasherize.downcase)
 end
 
@@ -31,6 +33,7 @@ def create_connection_for(user, conn_hash)
                           email: (conn_email || "#{conn_name}@example.com"),
                           owner_id: user.id)
     raise "Connection not created! #{conn.errors.full_messages.join(';')}" unless conn.save
+
     user.connections.reload
   elsif conns.size != 1
     raise "Ambiguous match for '#{conn_hash[:connection]}' for user '#{user.username}': " \

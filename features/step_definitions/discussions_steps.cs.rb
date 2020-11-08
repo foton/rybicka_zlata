@@ -2,14 +2,14 @@ Pak('bych měl vidět formulář na první příspěvek') do
   find('#post_form form')
 end
 
-Pak /^(?:měl bych|bych měl) vidět příspěvek "([^"]+)" od "([^"]+)"$/ do |obsah, username|
+Pak(/^(?:měl bych|bych měl) vidět příspěvek "([^"]+)" od "([^"]+)"$/) do |obsah, username|
   post = find('#posts li', text: obsah)
   within post do
     find('div', text: username)
   end
 end
 
-Pak('bych neměl vidět příspěvek {string} od {string}') do |obsah, username|
+Pak('bych neměl vidět příspěvek {string} od {string}') do |obsah, _username|
   step("neměl bych vidět text \"#{obsah}\"")
 end
 
@@ -54,26 +54,26 @@ Pak('můžu diskutovat') do
   step('měl bych vidět text "Přidat příspěvek"')
 end
 
-Pak("můžu smazat příspěvek {string} od {string}") do |comment, username|
+Pak('můžu smazat příspěvek {string} od {string}') do |comment, username|
   post = find('#posts li', text: comment)
   within post do
     find('div', text: username)
     find('.delete_button').click
-    #binding.pry
+    # binding.pry
 
-  #  click_on('Smazat')
+    #  click_on('Smazat')
   end
   assert_no_text(comment)
 end
 
-Pokud("někdo jiný přidá svůj příspěvek") do
+Pokud('někdo jiný přidá svůj příspěvek') do
   donor = (@wish.donor_connections.detect { |dc| dc.friend != @current_user }).friend
   ds = DiscussionService.new(@wish, donor)
   ds.add_post(content: 'donor other post')
   visit user_others_wish_path(@current_user, @wish, locale: @locale)
 end
 
-Pak("už nemůžu smazat příspěvek {string} od {string}") do |comment, username|
+Pak('už nemůžu smazat příspěvek {string} od {string}') do |comment, username|
   post = find('#posts li', text: comment)
   within post do
     find('div', text: username)

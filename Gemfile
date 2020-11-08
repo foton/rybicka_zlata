@@ -32,11 +32,11 @@ gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-linkedin-oauth2'
 gem 'omniauth-oauth2'
-gem 'omniauth-twitter'
 gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-twitter'
 
 gem 'sendgrid' # for sending emails in production
-#gem 'nokogiri', '1.10.5'
+# gem 'nokogiri', '1.10.5'
 
 group :development, :test do
   # Coffee-rails and Uglifier demands ExecJS, which require JS runtime.
@@ -62,18 +62,15 @@ group :development do
 
   # style check, allways learning best practicies
   gem 'rubocop', require: false
+  gem 'rubocop-rails'
 
   gem 'annotate' # write DB structure as comments in models etc.
 end
 
 group :test do
-  #gem 'capybara-webkit', require: false
-  # ^ need QT installed for Ubuntu:
-  # sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base
-  # sudo apt-get install gstreamer1.0-tools gstreamer1.0-x
-  # gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner', require: false
+  gem 'webdrivers', '~> 4.0', require: false
 
   # TODO:  refactor tests to delete this
   gem 'rails-controller-testing' # for assert_template  and assigns

@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 # Created by: mlcoch  at 2013-02-20 11:12
@@ -14,7 +13,7 @@ FileUtils.rm_rf(FAILED_DIR_PATH)
 After do |scenario|
   if scenario.failed?
     # filename = "#{FAILED_DIR_PATH}/failed--#{scenario.file.gsub("features/","").gsub("/","-")}--#{scenario.line}.html"
-    filename = "#{FAILED_DIR_PATH}/failed--#{scenario.location.file.gsub('features/', '').tr('/', '-')}--#{scenario.location.line}.html"
+    filename = "failed--#{scenario.location.file.gsub('features/', '').tr('/', '-')}--#{scenario.location.line}.html"
     Capybara.save_page filename
   end
 end
@@ -22,6 +21,6 @@ end
 Before do
   ActiveRecord::FixtureSet.reset_cache
   fixtures_folder = File.join(Rails.root, 'test', 'fixtures')
-  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
+  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map { |f| File.basename(f, '.yml') }
   ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
 end

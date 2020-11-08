@@ -1,7 +1,15 @@
+require:
+  - rubocop-rails
+
 AllCops:
+  NewCops: enable
   Include:
     - '**/Gemfile'
     - '**/Rakefile'
+    - "**/*.rb"
+    - "**/*.ru"
+    - "**/*.rake"
+
   Exclude:
    - 'bin/*'
    - 'db/schema.rb'
@@ -10,5 +18,7 @@ AllCops:
    - 'vendor/bundle/**/*'
 Rails:
   Enabled: true
-Metrics/LineLength:
+Layout/LineLength:
   Max: 100
+
+

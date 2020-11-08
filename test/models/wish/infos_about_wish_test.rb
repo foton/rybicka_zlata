@@ -132,7 +132,7 @@ class WishIfosAboutWishTest < ActiveSupport::TestCase
   end
 
   def test_find_whole_groups_in_donees
-    skip "lisa_to_bart uses different email than marge_to_bart"
+    skip 'lisa_to_bart uses different email than marge_to_bart'
     wish = wishes(:lisa_bart_bigger_car)
 
     assert_equal [], wish.donee_groups_for(users(:marge)), 'Group should be found yet for Marge, Maggie is missing'

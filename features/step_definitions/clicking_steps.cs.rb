@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-When /^kliknu na "([^"]*)"$/ do |co|
+When(/^kliknu na "([^"]*)"$/) do |co|
   click_link_or_button(co)
 end
 
-When /^kliknu na odkaz "([^"]*)"$/ do |co|
+When(/^kliknu na odkaz "([^"]*)"$/) do |co|
   click_link(co)
 end
 
-When /^kliknu na tlačítko "([^"]*)"$/ do |co|
+When(/^kliknu na tlačítko "([^"]*)"$/) do |co|
   click_button(co)
 end
 
@@ -68,10 +68,10 @@ Pak(/^(?:ze seznamu )?vyřadím "(.*?)"$/) do |label|
   # find checkbox and if checked, uncheck it
   # uncheck label  #does not work, because checkbox itself is not visible. Only modified label.
 
-  if has_field?(label, checked: true)
+  if has_field?(label, checked: true, visible: :all)
     begin
       uncheck label
-    rescue # Capybara::Webkit::ClickFailed
+    rescue StandardError # Capybara::Webkit::ClickFailed
       find('label', text: label).click
     end
   else
@@ -82,10 +82,10 @@ end
 Pak(/^(?:do seznamu )?přidám "(.*?)"$/) do |label|
   # find checkbox and if unchecked, check it
 
-  if has_field?(label, checked: false)
+  if has_field?(label, checked: false, visible: :all)
     begin
       check label
-    rescue
+    rescue StandardError
       find('label', text: label).click
     end
   else
@@ -94,12 +94,11 @@ Pak(/^(?:do seznamu )?přidám "(.*?)"$/) do |label|
 end
 
 Když(/^kliknu v menu na "(.*?)"$/) do |text|
-  within('div#main_menu') do
-    begin
-      click_link_or_button(text)
-    rescue Capybara::Webkit::ClickFailed => e
-      js_click_link(text)
-    end
+  menus = all('nav.mdl-navigation')
+  within(menus.first) do
+    click_link_or_button(text)
+  rescue Capybara::Webkit::ClickFailed => e
+    js_click_link(text)
   end
 end
 

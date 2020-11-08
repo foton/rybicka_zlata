@@ -2,7 +2,7 @@
 
 require 'nokogiri'
 
-Pak /^(?:bych měl|měl bych) vidět (?:(?:text|přání) )?"([^"]*)"$/ do |text|
+Pak(/^(?:bych měl|měl bych) vidět (?:(?:text|přání) )?"([^"]*)"$/) do |text|
   page.find('body', text: text)
 end
 
@@ -10,24 +10,22 @@ Pak(/^vidím (?:text )?"([^"]*)"$/) do |text|
   step "měl bych vidět \"#{text}\""
 end
 
-Pak /^(?:bych neměl|neměl bych) vidět (?:(?:text|přání) )?"([^"]*)"$/ do |text|
+Pak(/^(?:bych neměl|neměl bych) vidět (?:(?:text|přání) )?"([^"]*)"$/) do |text|
   assert_no_text(text)
 end
 
-Pak /^(?:bych neměl|neměl bych) vidět (?:text )?"([^"]*)" v nadpisech$/ do |text|
+Pak(/^(?:bych neměl|neměl bych) vidět (?:text )?"([^"]*)" v nadpisech$/) do |text|
   doc = Nokogiri::HTML.parse(page.html)
 
-  for h_type in %w[h1 h2 h3 h4 h5 h6] do
+  %w[h1 h2 h3 h4 h5 h6].each do |h_type|
     headers = doc.css(h_type).select { |h| h.text.include?(text) }
-    unless headers.empty?
-      assert_no_text(text, "There is text '#{text}' in #{h_type} headers")
-    end
+    assert_no_text(text, "There is text '#{text}' in #{h_type} headers") unless headers.empty?
   end
 end
 
 Pak(/^bych měl vidět nadpis "([^"]*)"$/) do |text|
   founded = false
-  for h_type in %w[h6 h1 h2 h3 h4 h5 h6] do
+  %w[h6 h1 h2 h3 h4 h5 h6].each do |h_type|
     begin
       find(h_type, text: text)
       founded = true
@@ -47,7 +45,7 @@ Pak(/^měl bych vidět spoluobdarované \[(.*?)\]$/) do |donee_names_str|
   donee_names = donee_names_str.delete('"').split(',').collect(&:strip)
 
   within(:css, '#donees_list') do
-    for donee_name in donee_names
+    donee_names.each do |donee_name|
       find('li', text: donee_name)
     end
   end
@@ -98,12 +96,12 @@ end
 
 Pak(/^vidím lidi ze skupiny "([^"]*)" v "([^"]*)"$/) do |grp_name, block_name|
   grp = Group.where(user: @current_user).find_by(name: grp_name)
-  for conn in grp.connections
+  grp.connections.each do |conn|
     step "vidím kontakt \"#{conn.name}\" v \"#{block_name}\""
   end
 end
 
-Pak(/^je v seznamu mých e\-mailových adres vidět i "(.*?)"$/) do |adr|
+Pak(/^je v seznamu mých e-mailových adres vidět i "(.*?)"$/) do |adr|
   within(:css, '#contacts_list') do
     find('li', text: adr)
   end
@@ -138,7 +136,7 @@ Pokud(/^u přání "(.*?)" jsou akce \[(.*?)\]$/) do |wish_title, actions_str|
 
   within(:css, '#wishes') do
     wish = find('li', text: wish_title)
-    for action_name in action_names
+    action_names.each do |action_name|
       wish.find('.actions').find('a', text: action_name)
     end
   end

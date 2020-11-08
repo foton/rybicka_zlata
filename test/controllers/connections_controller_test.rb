@@ -53,7 +53,7 @@ class ConnectionsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:connection)
     assert_not_nil assigns(:user)
-    assert !assigns(:connection).errors[:email].empty?
+    assert_not assigns(:connection).errors[:email].empty?
     assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' nebyl přidán.", flash[:error]
   end
 
@@ -93,7 +93,7 @@ class ConnectionsControllerTest < ActionController::TestCase
     assert_template 'edit'
     assert_not_nil assigns(:connection)
     assert_not_nil assigns(:user)
-    assert !assigns(:connection).errors[:email].empty?
+    assert_not assigns(:connection).errors[:email].empty?
     assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' nebyl aktualizován.", flash[:error]
   end
 

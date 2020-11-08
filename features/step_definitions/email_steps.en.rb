@@ -18,6 +18,7 @@ When(/^click on link "(.*?)" in email$/) do |link_text|
   else
     uri = URI.parse(links.first['href']) # with localhost => "http://localhost:3000/users/confirmation?confirmation_token=z8-qzo-uhreXaVu7CXXA
   end
+
   relative_url = uri.to_s
   relative_url = relative_url.gsub("#{uri.scheme}://", '') if uri.scheme.present?
   relative_url = relative_url.gsub(uri.userinfo, '') if uri.userinfo.present?

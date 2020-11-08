@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Pokud /^existují tito uživatelé\:$/ do |table|
+Pokud(/^existují tito uživatelé:$/) do |table|
   @users = User.all.to_a
 
   table.hashes.each do |attributes|
@@ -22,13 +22,15 @@ Pokud /^existují tito uživatelé\:$/ do |table|
   @users.uniq!
 end
 
-Pokud /^existují standardní testovací uživatelé$/ do
+Pokud(/^existují standardní testovací uživatelé$/) do
   @users = User.all.to_a
   # see test/fixtures/fixture_consistency_test.rb  for users, identities, wishes and other fixtures
 end
 
 Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
-  raise "Unable to parse connection from fullname '#{connection_fullname}'" unless (m = connection_fullname.strip.match(/\A(.*) \[(.*)\]: (.*)\z/))
+  unless (m = connection_fullname.strip.match(/\A(.*) \[(.*)\]: (.*)\z/))
+    raise "Unable to parse connection from fullname '#{connection_fullname}'"
+  end
 
   @friend_connection = check_connection(@current_user, name: m[1], email: m[3])
   User.create!(name: m[2], email: m[3], password: 'password')
@@ -36,7 +38,9 @@ Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
 end
 
 Pokud(/^přidám přítele "(.*?)"$/) do |connection_fullname|
-  raise "Unable to parse connection from fullname '#{connection_fullname}'" unless (m = connection_fullname.strip.match(/\A(.*) \[(.*)\]: (.*)\z/))
+  unless (m = connection_fullname.strip.match(/\A(.*) \[(.*)\]: (.*)\z/))
+    raise "Unable to parse connection from fullname '#{connection_fullname}'"
+  end
 
   conn_name = m[1]
   user_name = m[2]
@@ -72,7 +76,7 @@ Pokud(/^(?:u "(.*?)" )?existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |us
   grp = user.groups.create!(name: grp_name) if grp.blank?
 
   members = []
-  for mem_name in grp_members_to_s.split(',')
+  grp_members_to_s.split(',').each do |mem_name|
     mem_name = mem_name.delete('"').strip
     conn = user.connections.find_by(name: mem_name)
     conn = user.connections.create!(name: mem_name, email: "#{mem_name}@example.com") if conn.blank?
@@ -110,7 +114,6 @@ Pokud(/^existuje moje přání "(.*?)"$/) do |title|
   @wish = Wish::FromAuthor.new(author: @current_user, title: title, description: "Description of přání #{title}")
   @wish.save!
 end
-
 
 Pokud(/^přidám přání "(.*?)" uživatele "(.*?)" pro dárce \{(.*?)\}$/) do |title, user_name, donee_donors_hash_str|
   user = find_user_by(user_name)

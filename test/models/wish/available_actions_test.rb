@@ -154,7 +154,7 @@ class WishAvailableActionsTest < ActiveSupport::TestCase
 
   def test_no_actions_if_you_are_not_donee_or_potencial_donor
     bfu = create_test_user!
-    refute (bfu.donee_wishes + bfu.donor_wishes).include?(@wish)
+    assert_not (bfu.donee_wishes + bfu.donor_wishes).include?(@wish)
 
     assert_equal [], @wish.available_actions_for(bfu)
     assert_equal [], @wish.available_state_actions_for(bfu)

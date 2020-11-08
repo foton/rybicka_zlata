@@ -37,7 +37,9 @@ class Users::OmniAuthController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: provider_name
-      flash[:warning] = I18n.t('user.temporary_password_is_set_to', password: password) if password.present?
+      if password.present?
+        flash[:warning] = I18n.t('user.temporary_password_is_set_to', password: password)
+      end
       sign_in_and_redirect @user, event: :authentication
     else
       session['devise.' + provider_id + '_data'] = request.env['omniauth.auth']

@@ -55,7 +55,7 @@ class Users::IdentitiesControllerTest < ActionController::TestCase
     assert_template 'profiles/show'
     assert_not_nil assigns(:new_contact)
     assert_not_nil assigns(:user)
-    assert !assigns(:new_contact).errors[:email].empty?
+    assert_not assigns(:new_contact).errors[:email].empty?
   end
 
   def test_cannot_delete_others_identity

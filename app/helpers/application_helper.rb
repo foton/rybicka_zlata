@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'url_regexp.rb'
+require 'url_regexp'
 
 module ApplicationHelper
   def set_page_title(page_title) # version page_title=(pg) does not work, it set local variable instead in view
@@ -18,7 +18,7 @@ module ApplicationHelper
   # https://gist.github.com/suryart/7418454
   def flash_messages(_opts = {})
     flash.each do |msg_type, message|
-      concat(content_tag(:div, message, class: "alert #{mdl_class_for(msg_type)} mdl-cell mdl-cell--12-col") do
+      concat(tag.div(message, class: "alert #{mdl_class_for(msg_type)} mdl-cell mdl-cell--12-col") do
                # concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
                concat message
              end)
@@ -27,7 +27,7 @@ module ApplicationHelper
   end
 
   def header(text)
-    content_tag(:h3, text)
+    tag.h3(text)
   end
 
   def add_jquery_ui
@@ -37,11 +37,13 @@ module ApplicationHelper
   end
 
   def switch_for(f_builder, method, label_text = nil, options = {}, html_options = {}, checked_value = '1', unchecked_value = '0')
-    label_text = t("activerecord.attributes.#{f_builder.object.class.name.downcase}.#{method}") if label_text.blank? && f_builder.object.is_a?(ActiveRecord::Base)
+    if label_text.blank? && f_builder.object.is_a?(ActiveRecord::Base)
+      label_text = t("activerecord.attributes.#{f_builder.object.class.name.downcase}.#{method}")
+    end
 
     f_builder.label(method, nil, options.merge(class: 'mdl-switch mdl-js-switch mdl-js-ripple-effect')) do
       concat(f_builder.check_box(method, options.merge(html_options.merge(class: 'mdl-switch__input')), checked_value, unchecked_value))
-      concat(content_tag(:span, label_text, class: 'mdl-switch__label'))
+      concat(tag.span(label_text, class: 'mdl-switch__label'))
     end
   end
 
@@ -55,7 +57,7 @@ module ApplicationHelper
 
     label_tag(nil, labl_opt) do
       concat(check_box_tag(tag_id, checked_value, check_status, check_opt))
-      concat(content_tag(:span, label_text, span_opt))
+      concat(tag.span(label_text, span_opt))
     end
   end
 

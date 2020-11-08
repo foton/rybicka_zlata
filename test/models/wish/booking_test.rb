@@ -13,21 +13,21 @@ class WishBookingTest < ActiveSupport::TestCase
     assert @wish.valid?
 
     @wish.booked_by_id = @donor.id
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:booked_by_id].present?
   end
 
   def test_cannot_be_booked_by_author
     @wish.state = Wish::State::STATE_RESERVED
     @wish.booked_by_id = @author.id
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:booked_by_id].present?
   end
 
   def test_cannot_be_booked_by_donee
     @wish.state = Wish::State::STATE_RESERVED
     @wish.booked_by_id = @donee.id
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:booked_by_id].present?
   end
 
@@ -35,7 +35,7 @@ class WishBookingTest < ActiveSupport::TestCase
     @wish.state = Wish::State::STATE_RESERVED
 
     @wish.booked_by_id = nil
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:booked_by_id].present?
 
     @wish.booked_by_id = @donor.id
@@ -46,7 +46,7 @@ class WishBookingTest < ActiveSupport::TestCase
     @wish.state = Wish::State::STATE_GIFTED
 
     @wish.booked_by_id = nil
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:booked_by_id].present?
 
     @wish.booked_by_id = @donor.id

@@ -13,21 +13,21 @@ class WishBookingTest < ActiveSupport::TestCase
     assert @wish.valid?
 
     @wish.called_for_co_donors_by_id = @donor.id
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:called_for_co_donors_by_id].present?
   end
 
   def test_cannot_be_called_by_author
     @wish.state = Wish::State::STATE_CALL_FOR_CO_DONORS
     @wish.called_for_co_donors_by_id = @author.id
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:called_for_co_donors_by_id].present?
   end
 
   def test_cannot_be_called_by_donee
     @wish.state = Wish::State::STATE_CALL_FOR_CO_DONORS
     @wish.called_for_co_donors_by_id = @donee.id
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:called_for_co_donors_by_id].present?
   end
 
@@ -35,7 +35,7 @@ class WishBookingTest < ActiveSupport::TestCase
     @wish.state = Wish::State::STATE_CALL_FOR_CO_DONORS
 
     @wish.called_for_co_donors_by_id = nil
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert @wish.errors[:called_for_co_donors_by_id].present?
 
     @wish.called_for_co_donors_by_id = @donor.id
@@ -43,7 +43,7 @@ class WishBookingTest < ActiveSupport::TestCase
   end
 
   def test_may_be_set_for_other_states_then_available_and_called_for_co_donors
-    for state in [Wish::State::STATE_RESERVED, Wish::State::STATE_GIFTED, Wish::State::STATE_FULFILLED] do
+    [Wish::State::STATE_RESERVED, Wish::State::STATE_GIFTED, Wish::State::STATE_FULFILLED].each do |state|
       @wish.state = state
       @wish.booked_by_id = @donor.id
       @wish.called_for_co_donors_by_id = nil

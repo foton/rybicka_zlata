@@ -40,7 +40,6 @@ class Wish::FromDonor < Wish
   #    a) user (donor) have it's own connection with same email as in donee_connection => display connection.name
   #    b) user (donor) do not have such connection => display donee_connection.name
 
-
   def collect_donee_names_for(user)
     donee_connections.collect do |conn|
       if conn.friend # donee is user of app

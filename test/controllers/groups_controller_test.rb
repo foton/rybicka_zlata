@@ -44,7 +44,6 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_cannot_see_groups_for_other_user_account
-
     get :index, params: { user_id: users(:marge).id }
 
     assert_response :redirect
@@ -95,7 +94,7 @@ class GroupsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:group)
     assert_not_nil assigns(:user)
-    assert !assigns(:group).errors[:name].empty?
+    assert_not assigns(:group).errors[:name].empty?
     assert_equal "Skupina '#{grp_h[:name]}' nebyla přidána.", flash[:error]
   end
 

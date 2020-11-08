@@ -59,7 +59,7 @@ module Discussions
 
       assert_response :redirect
       assert_redirected_to user_others_wish_path(donor, wish, anchor: 'discussion')
-      refute ds.posts.include?(new_post)
+      assert_not ds.posts.include?(new_post)
     end
 
     private

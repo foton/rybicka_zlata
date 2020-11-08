@@ -17,20 +17,20 @@ class WishFromDoneeTest < ActiveSupport::TestCase
 
   def test_cannot_update_wish_without_title
     @shared_wish.title = ''
-    refute @shared_wish.valid?
+    assert_not @shared_wish.valid?
     assert_equal ['je povinná položka'], @shared_wish.errors[:title]
   end
 
   def test_cannot_update_wish_without_author
     @shared_wish.author = nil
-    refute @shared_wish.valid?
+    assert_not @shared_wish.valid?
     assert_equal ['je povinná položka'], @shared_wish.errors[:author]
   end
 
   def test_can_update_wish_without_description
     @shared_wish.description = ''
     assert @shared_wish.valid?
-   end
+  end
 
   def test_add_donors_connections_and_remove_only_them
     conn_jpb = create_connection_for(@donee, name: 'Jean Paul', email: 'belmondo@paris.fr')
@@ -63,7 +63,7 @@ class WishFromDoneeTest < ActiveSupport::TestCase
 
     @shared_wish.destroy(@donee)
 
-    refute @donee.donee_wishes.include?(@shared_wish)
+    assert_not @donee.donee_wishes.include?(@shared_wish)
     assert @author.donee_wishes.include?(@shared_wish)
   end
 

@@ -7,11 +7,11 @@
 # rake test TEST=test/models/identity_test.rb
 
 require 'minitest/reporters'
-#require 'rake_rerun_reporter'
+# require 'rake_rerun_reporter'
 
-#reporter_options = { color: true, slow_count: 5, verbose: false, rerun_prefix: 'rm -f log/*.log && be' }
+# reporter_options = { color: true, slow_count: 5, verbose: false, rerun_prefix: 'rm -f log/*.log && be' }
 # Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(reporter_options)]
-#Minitest::Reporters.use! [Minitest::Reporters::RakeRerunReporter.new(reporter_options)]
+# Minitest::Reporters.use! [Minitest::Reporters::RakeRerunReporter.new(reporter_options)]
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
@@ -39,12 +39,12 @@ require 'rails/test_help'
 # end
 
 class ActiveSupport::TestCase
-#  truncate_all_tables
+  #  truncate_all_tables
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
 
   fixtures :all
-  #fixtures %w[users identities wishes connections donor_links donee_links]# groups]
+  # fixtures %w[users identities wishes connections donor_links donee_links]# groups]
 
   # Add more helper methods to be used by all tests here...
   def create_test_user!(attrs = {})
@@ -62,6 +62,7 @@ class ActiveSupport::TestCase
       user = User.new({ name: 'John Doe', email: default_email, password: 'my_Password10' }.merge(attrs))
       user.skip_confirmation!
       raise "User not created! #{user.errors.full_messages.join(';')}" unless user.save
+
       user
     else
       usrs.first
@@ -90,6 +91,7 @@ class ActiveSupport::TestCase
       conn_email = "#{conn_name}@example.com" if conn_email.blank?
       conn = Connection.new(name: conn_name, email: conn_email, owner_id: user.id)
       raise "Connection not created! #{conn.errors.full_messages.join(';')}" unless conn.save
+
       user.connections.reload
     elsif conns.size != 1
       raise "Ambiguous match for '#{conn_hash[:connection]}' for user '#{user.username}': #{conns.join("\n")}"

@@ -29,11 +29,13 @@ class DiscussionService
 
   def add_post(attributes)
     raise NotAuthorizedError unless can_add_post?
+
     POST_CLASS.create!(modify_visibility(attributes).merge(wish_id: @wish.id, author_id: @user.id))
   end
 
   def delete_post(post)
     raise NotAuthorizedError unless can_delete_post?(post)
+
     post.destroy
     @posts = nil
     posts.last

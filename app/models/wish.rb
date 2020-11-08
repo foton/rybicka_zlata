@@ -15,7 +15,7 @@
 #  booked_by_id               :integer
 #  called_for_co_donors_by_id :integer
 #
-require 'url_regexp.rb'
+require 'url_regexp'
 
 class Wish < ApplicationRecord
   SHORT_DESCRIPTION_LENGTH = 200
@@ -53,7 +53,6 @@ class Wish < ApplicationRecord
 
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
-
 
   def available_donor_connections_from(connections)
     emails_of_donees = donee_connections.collect(&:email).uniq.compact
@@ -203,10 +202,14 @@ class Wish < ApplicationRecord
       if booked_by_user.blank?
         errors.add(:booked_by_id, I18n.t('wishes.errors.must_have_booking_user'))
       else
-        errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_by_donee')) if donee?(booked_by_user)
+        if donee?(booked_by_user)
+          errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_by_donee'))
+        end
       end
     elsif STATE_AVAILABLE == state
-      errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_in_this_state')) if booked_by_user.present?
+      if booked_by_user.present?
+        errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_in_this_state'))
+      end
     end
   end
 
@@ -215,10 +218,14 @@ class Wish < ApplicationRecord
       if called_for_co_donors_by_user.blank?
         errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.must_have_calling_by_user'))
       else
-        errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.donee_cannot_call_for_co_donors')) if donee?(called_for_co_donors_by_user)
+        if donee?(called_for_co_donors_by_user)
+          errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.donee_cannot_call_for_co_donors'))
+        end
       end
     elsif STATE_AVAILABLE == state
-      errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.cannot_be_called_in_this_state')) if called_for_co_donors_by_user.present?
+      if called_for_co_donors_by_user.present?
+        errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.cannot_be_called_in_this_state'))
+      end
     end
   end
 end

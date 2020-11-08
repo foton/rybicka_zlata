@@ -29,7 +29,9 @@ class Wishes::FromDonorController < ApplicationController
   end
 
   def build_wish
-    msg = @wish.send("#{wish_params[:state_action]}!", @user) if wish_params[:state_action].present? && @wish.available_actions_for(@user).include?(wish_params[:state_action].to_sym)
+    if wish_params[:state_action].present? && @wish.available_actions_for(@user).include?(wish_params[:state_action].to_sym)
+      msg = @wish.send("#{wish_params[:state_action]}!", @user)
+    end
   end
 
   def save_wish(msg_ok, msg_bad)

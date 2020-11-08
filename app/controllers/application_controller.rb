@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   around_action :user_time_zone, if: :current_user
 
   def set_locale
-    I18n.locale = params[:locale] || (current_user&.locale) || I18n.default_locale
+    I18n.locale = params[:locale] || current_user&.locale || I18n.default_locale
   end
 
   def self.default_url_options(options = {})
@@ -29,16 +29,16 @@ class ApplicationController < ActionController::Base
   rescue_from Exception do |exception|
     begin
       params_to_show = params.to_yaml
-    rescue
+    rescue StandardError
       params_to_show = params.to_s.encode('utf-8')
     end
 
     short_version = false
     headers = begin
-              request.headers.to_s
-            rescue
-              ''
-            end
+      request.headers.to_s
+    rescue StandardError
+      ''
+    end
     message = ''
     message += "EXCEPTION[#{exception.class.name}]: #{exception}"
     message += "\n CURRENT_USER: #{current_user}"
@@ -71,11 +71,11 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from User::NotAuthorized do |exception|
-    msg = exception.message.blank? ? 'Nejste oprávněni zobrazit si požadovanou stránku či provést požadovanou akci (s těmito parametry).' : exception.message
+    msg = exception.message.presence || 'Nejste oprávněni zobrazit si požadovanou stránku či provést požadovanou akci (s těmito parametry).'
     respond_to do |format|
       format.html do
         flash[:error] = msg
-        redirect_to (request.referer || root_path)
+        redirect_to(request.referer || root_path)
       end
       format.xml { head :forbidden }
       format.json { head :forbidden }

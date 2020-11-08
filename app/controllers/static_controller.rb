@@ -50,7 +50,7 @@ class StaticController < ApplicationController
         reff = root_path
       end
     else
-      reff = reff.present? ? reff : root_path
+      reff = reff.presence || root_path
     end
 
     reff

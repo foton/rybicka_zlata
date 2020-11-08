@@ -13,7 +13,7 @@ Scénář: Registrace uživatele jen přes aplikaci
   Když kliknu v menu na "Registrovat"
   A zapíšu do položky "Hlavní e-mail" text "prvni@rybickazlata.cz"
   A zapíšu do položky "Heslo" text "NeznáméHeslo328"
-  A zapíšu do položky "Potvrzení hesla" text "NeznáméHeslo328"
+  A zapíšu do položky "Heslo pro kontrolu" text "NeznáméHeslo328"
   A vyberu "Čeština" z nabídky "Jazyk"
   A vyberu "(GMT+01:00) Prague" z nabídky "Časové pásmo"
   A kliknu na tlačítko "Registrovat"

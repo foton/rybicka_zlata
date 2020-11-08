@@ -15,4 +15,4 @@ class User::NotAuthorized < StandardError
   def to_s
     @message || @default_message
   end
-  end
+end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProfilesController < ApplicationController
-  before_action :set_user, except: [:my, :infos]
+  before_action :set_user, except: %i[my infos]
 
   def my
     @user = current_user

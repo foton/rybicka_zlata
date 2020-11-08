@@ -16,7 +16,7 @@ class Wish::ListByDonees
     donee_ids = wishes.inject([]) { |ids, wish| ids + wish.donee_user_ids }
     @donees = User.where(id: donee_ids.compact.uniq).order('name ASC')
 
-    for donee in @donees
+    @donees.each do |donee|
       h = { user: donee, wishes: [] }
       # conversion from Wish:FromDonee to Wish::FromDonor needed
       donee_wishes = Wish::FromDonor.where(id: donee.donee_wishes.collect(&:id)).order('updated_at DESC')

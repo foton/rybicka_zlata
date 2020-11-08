@@ -63,7 +63,7 @@
 # Extracts data (name, verfified_email, locale) from Github OAuth2 hash
 class User::Identity::Extractor::Github < User::Identity::Extractor
   def name
-    @name ||= (@auth_data.info.name.present? ? @auth_data.info.name : @auth_data.info.nickname)
+    @name ||= (@auth_data.info.name.presence || @auth_data.info.nickname)
   end
 
   def locale

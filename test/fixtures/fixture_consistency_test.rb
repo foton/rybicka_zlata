@@ -16,10 +16,10 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
                                              donees: [@bart] },
       'B: New faster skateboard' => { donors: { @bart => [@homer, @marge, @lisa] },
                                       donees: [@bart] },
-      'B+H: New sport car'=> { donors: { @bart => [@lisa], @homer => [@marge]},
-                               donees: [@bart, @homer] },
+      'B+H: New sport car' => { donors: { @bart => [@lisa], @homer => [@marge] },
+                                donees: [@bart, @homer] },
       'L+B: Bigger family car' => { donors: { @bart => [@homer], @lisa => [@homer, @marge] },
-                                      donees: [@lisa, @bart] },
+                                    donees: [@lisa, @bart] },
       'M: Taller hairs' => { donors: { @marge => [@lisa, @homer, @bart, @maggie] },
                              donees: [@marge] },
       'M+H: Your parents on holiday' => { donors: { @marge => [@lisa], @homer => [@bart] },
@@ -27,7 +27,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
       'Lisa wish (shown only to Bart)' => { donors: { @lisa => [@bart] },
                                             donees: [@lisa] },
       'Lisa wish (shown only to Marge)' => { donors: { @lisa => [@marge] },
-                                            donees: [@lisa] }
+                                             donees: [@lisa] }
     }
 
     @connections = {
@@ -102,7 +102,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
         assert conn.present?, "Connection with name #{conn_name} was not found between #{user.name} connections"
         next unless friend
 
-        assert_equal friend, conn.friend , "Connection '#{user.name}::#{conn_name}' have different friend: expected #{friend}, got #{conn.friend}"
+        assert_equal friend, conn.friend, "Connection '#{user.name}::#{conn_name}' have different friend: expected #{friend}, got #{conn.friend}"
       end
     end
   end
@@ -113,7 +113,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
         group = user.groups.find_by(name: name)
         assert group.present?, "#{user} should have group named '#{name}'"
         assert_equal members.collect(&:id).sort, group.connections.pluck(:friend_id).sort,
-                    "#{user} should have group named '#{name}' filled with #{members} but have #{group.connections.collect(&:friend)}"
+                     "#{user} should have group named '#{name}' filled with #{members} but have #{group.connections.collect(&:friend)}"
       end
     end
   end
@@ -134,11 +134,11 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
           correct_connection = donee_user.connections.detect { |con| con.friend == donor_user }
           correct_link = wish.donor_links.detect { |link| link.connection == correct_connection }
           assert correct_link.present?,
-                 "There should be donor link to connection between donee: #{donee_user.name}[#{donee_user.id}] and donor: #{donor_user.name}[#{donor_user.id}] for wish #{wish.title}, but we have #{wish.donor_links.collect {|link| link.connection.to_json }}"
+                 "There should be donor link to connection between donee: #{donee_user.name}[#{donee_user.id}] and donor: #{donor_user.name}[#{donor_user.id}] for wish #{wish.title}, but we have #{wish.donor_links.collect { |link| link.connection.to_json }}"
         end
       end
 
-      assert_not users_hash[:donees].size.zero? , "There should be expected donees for '#{wish_title}'"
+      assert_not users_hash[:donees].size.zero?, "There should be expected donees for '#{wish_title}'"
       assert_equal users_hash[:donees].size, wish.donee_links.size, "Wish '#{wish_title}' should have #{users_hash[:donees].size} donee links"
       users_hash[:donees].each do |donee_user|
         assert wish.donee?(donee_user), "Wish '#{wish_title}' should have `#{donee_user.name}` between donees"

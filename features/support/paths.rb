@@ -38,16 +38,21 @@ module NavigationHelpers
           name = m1[1].to_s
           conn = Connection.find_by(name: name)
           raise "Connection with name '#{name}'' not found!" if conn.blank?
+
           edit_user_connection_path(@current_user, conn, locale: @locale)
         elsif m1 = m[1].match(/skupiny "([^"]*)"/)
           name = m1[1].to_s
           grp = Group.find_by(name: name)
           raise "Group with name '#{name}'' not found!" if grp.blank?
+
           edit_user_group_path(@current_user, grp, locale: @locale)
 
         elsif m = page_name.match(/přání "(.*)"\z/)
           wishes = (@current_user.donee_wishes.where(title: m[1]).to_a + @current_user.donor_wishes.where(title: m[1]).to_a)
-          raise "wish '#{m[1]}' was not found between wishes of user #{@current_user.displayed_name}" if wishes.blank?
+          if wishes.blank?
+            raise "wish '#{m[1]}' was not found between wishes of user #{@current_user.displayed_name}"
+          end
+
           @wish = wishes.first
           if @current_user.author_of?(@wish)
             edit_user_author_wish_path(@current_user, @wish, locale: @locale)
@@ -68,15 +73,17 @@ module NavigationHelpers
 
       elsif m = page_name.match(/přání "(.*)"\z/)
         wishes = (@current_user.donee_wishes.where(title: m[1]).to_a + @current_user.donor_wishes.where(title: m[1]).to_a)
-        raise "wish '#{m[1]}' was not found between wishes of user #{@current_user.displayed_name}" if wishes.blank?
+        if wishes.blank?
+          raise "wish '#{m[1]}' was not found between wishes of user #{@current_user.displayed_name}"
+        end
+
         user_my_wish_path(@current_user, wishes.first, locale: @locale)
 
       elsif m = page_name.match(/info pro "(.*)"/)
-        user = User.find_by_name(m[1])
+        user = User.find_by(name: m[1])
         raise "User with name '#{m[1]}' was not found between users" if user.blank?
 
         profile_infos_path(user, locale: @locale)
-
 
       #   if m=page_name.match(/přehledu? (.*)/) # melo by zachytit "přehled "Moje dárky " i "přehledu mých přání"
       #     case m[1]

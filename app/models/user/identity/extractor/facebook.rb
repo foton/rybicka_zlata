@@ -51,7 +51,7 @@ class User::Identity::Extractor::Facebook < User::Identity::Extractor
 
   def time_zone
     ActiveSupport::TimeZone[raw_info.timezone].name
-  rescue
+  rescue StandardError
     nil
     # ofset is in hours from UTC, selecting first TZ which match
   end

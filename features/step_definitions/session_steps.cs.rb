@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-Given /^(?:bych měl|měl bych) být úspěšně přihlášen$/ do
+Given(/^(?:bych měl|měl bych) být úspěšně přihlášen$/) do
   step 'měl bych vidět text "Přihlášení bylo úspěšné."'
-  within('.mdl-layout__drawer nav') do
+  within('header nav') do
     assert page.has_link?('Odhlásit')
   end
 end
@@ -29,7 +29,7 @@ Pokud(/^jsem přihlášen jako "(.*?)"$/) do |user_identificator|
   step "přihlásím se jako \"#{@current_user.email}\" s heslem \"#{DEFAULTS[:password]}\""
 end
 
-Given /^(?:odhlásím se|se odhlásím)$/ do
+Given(/^(?:odhlásím se|se odhlásím)$/) do
   step 'kliknu v menu na "Odhlásit"' if page.has_link?('Odhlásit')
   @current_user = nil
 end

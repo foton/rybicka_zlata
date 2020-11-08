@@ -30,7 +30,7 @@ class DoneeWishListTest < ActiveSupport::TestCase
 
       assert_equal donee, donee_list[:user], "Wishes of #{donee} should be at #{i} place"
       # Comparing instances of Wish and Wish::FromAuthor, so I use IDs
-      assert_equal expected_wishes[donee].collect(&:id) , donee_list[:wishes].collect(&:id)
+      assert_equal expected_wishes[donee].collect(&:id), donee_list[:wishes].collect(&:id)
     end
   end
 end

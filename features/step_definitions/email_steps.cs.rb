@@ -18,6 +18,7 @@ Pokud(/^kliknu v emailu na odkaz "(.*?)"$/) do |link_text|
   else
     uri = URI.parse(links.first['href']) # with localhost => "http://localhost:3000/users/confirmation?confirmation_token=z8-qzo-uhreXaVu7CXXA
   end
+
   relative_url = uri.to_s
   relative_url = relative_url.gsub("#{uri.scheme}://", '') if uri.scheme.present?
   relative_url = relative_url.gsub(uri.userinfo, '') if uri.userinfo.present?
@@ -27,7 +28,7 @@ Pokud(/^kliknu v emailu na odkaz "(.*?)"$/) do |link_text|
   visit relative_url
 end
 
-Pak(/^uživatelům, kteří ji používali o tom přijde e\-mail$/) do
+Pak(/^uživatelům, kteří ji používali o tom přijde e-mail$/) do
   pending # express the regexp above with the code you wish you had
 end
 

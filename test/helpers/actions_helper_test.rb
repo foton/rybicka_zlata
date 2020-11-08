@@ -18,12 +18,12 @@ class ActionsHelperTest < ActionView::TestCase
     tab << [:delete, "<span><a id=\"wishes_delete_#{@wish.id}\" class=\"delete\" data-confirm=\"Opravdu chcete přání #{@html_safe_wish_name_with_quotes} smazat?\" data-confirm-yes=\"Ano\" data-confirm-no=\"Ne\" rel=\"nofollow\" data-method=\"delete\" href=\"#{path_to_wish_action_for_user(:delete, @author, @wish)}\">Smazat</a></span>"]
     tab << [:fulfilled, "<span><a id=\"wishes_fulfilled_#{@wish.id}\" class=\"fulfilled\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(:fulfilled, @author, @wish, state_action: :fulfilled)}\">Splněno</a></span>"]
 
-    for t in tab
+    tab.each do |t|
       action = t.first
       result = tag_to_object_action(:a, action, @author, @wish, false)
       assert_equal t.last, result, "tag_to_object_action(:a,#{action}) is unexpectly: #{result}"
     end
-   end
+  end
 
   def test_link_to_wish_for_author_through_remote
     tab = [[:show, "<span><a id=\"wishes_show_#{@wish.id}\" class=\"show\" data-method=\"get\" href=\"#{path_to_wish_action_for_user(:show, @author, @wish)}\">Zobrazit</a></span>"]]
@@ -31,7 +31,7 @@ class ActionsHelperTest < ActionView::TestCase
     tab << [:delete, "<span><a id=\"wishes_delete_#{@wish.id}\" class=\"delete\" data-confirm=\"Opravdu chcete přání #{@html_safe_wish_name_with_quotes} smazat?\" data-confirm-yes=\"Ano\" data-confirm-no=\"Ne\" data-remote=\"true\" rel=\"nofollow\" data-method=\"delete\" href=\"#{path_to_wish_action_for_user(:delete, @author, @wish)}\">Smazat</a></span>"]
     tab << [:fulfilled, "<span><a id=\"wishes_fulfilled_#{@wish.id}\" class=\"fulfilled\" data-remote=\"true\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(:fulfilled, @author, @wish, state_action: :fulfilled)}\">Splněno</a></span>"]
 
-    for t in tab
+    tab.each do |t|
       action = t.first
       result = tag_to_object_action(:a, action, @author, @wish, true)
       assert_equal t.last, result, "tag_to_object_action(:a,#{action}) is unexpectly: #{result}"
@@ -45,7 +45,7 @@ class ActionsHelperTest < ActionView::TestCase
     # '&' joinning params is converted to &amp; in link_to helper
     tab << [:fulfilled, "<span><a id=\"wishes_fulfilled_#{@wish.id}\" class=\"fulfilled\" data-remote=\"true\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(:fulfilled, @author, @wish, state_action: :fulfilled, bb: 11).gsub('&', '&amp;')}\">Splněno</a></span>"]
 
-    for t in tab
+    tab.each do |t|
       action = t.first
       result = tag_to_object_action(:a, action, @author, @wish, true, bb: 11)
       assert_equal t.last, result, "tag_to_object_action(:a,#{action}) is unexpectly: #{result}"
@@ -58,7 +58,7 @@ class ActionsHelperTest < ActionView::TestCase
     tab << [:delete, "<span><a id=\"wishes_delete_#{@wish.id}\" class=\"delete\" data-confirm=\"Opravdu chcete přání #{@html_safe_wish_name_with_quotes} smazat?\" data-confirm-yes=\"Ano\" data-confirm-no=\"Ne\" rel=\"nofollow\" data-method=\"delete\" href=\"#{path_to_wish_action_for_user(:delete, @donee, @wish)}\">Smazat</a></span>"]
     tab << [:fulfilled, "<span><a id=\"wishes_fulfilled_#{@wish.id}\" class=\"fulfilled\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(:fulfilled, @donee, @wish, state_action: :fulfilled)}\">Splněno</a></span>"]
 
-    for t in tab
+    tab.each do |t|
       action = t.first
       result = tag_to_object_action(:a, action, @donee, @wish, false, state_action: action)
       assert_equal t.last, result, "tag_to_object_action(:a,#{action}) is unexpectly: #{result}"
@@ -66,7 +66,7 @@ class ActionsHelperTest < ActionView::TestCase
   end
 
   def test_link_to_wish_for_donor
-    for action in %i[book call_for_co_donors]
+    %i[book call_for_co_donors].each do |action|
       expected = "<span><a id=\"wishes_#{action}_#{@wish.id}\" class=\"#{action}\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(action, @donor, @wish, state_action: action)}\">#{I18n.t("wishes.actions.#{action}.button")}</a></span>"
       result = tag_to_object_action(:a, action, @donor, @wish, false)
       assert_equal expected, result, "tag_to_object_action(:a,#{action}) is unexpectly: #{result}"
@@ -74,7 +74,7 @@ class ActionsHelperTest < ActionView::TestCase
 
     @wish.book!(@donor)
 
-    for action in %i[unbook gifted]
+    %i[unbook gifted].each do |action|
       expected = "<span><a id=\"wishes_#{action}_#{@wish.id}\" class=\"#{action}\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(action, @donor, @wish, state_action: action)}\">#{I18n.t("wishes.actions.#{action}.button")}</a></span>"
       result = tag_to_object_action(:a, action, @donor, @wish, false)
       assert_equal expected, result, "tag_to_object_action(:a,#{action}) is unexpectly: #{result}"
@@ -99,7 +99,7 @@ class ActionsHelperTest < ActionView::TestCase
     tab << [:delete, "<span><a class=\"delete #{mdl_classes}\" id=\"wishes_delete_#{@wish.id}\" data-confirm=\"Opravdu chcete přání #{@html_safe_wish_name_with_quotes} smazat?\" data-confirm-yes=\"Ano\" data-confirm-no=\"Ne\" rel=\"nofollow\" data-method=\"delete\" href=\"#{path_to_wish_action_for_user(:delete, @author, @wish)}\">Smazat</a></span>"]
     tab << [:fulfilled, "<span><a class=\"fulfilled #{mdl_classes}\" id=\"wishes_fulfilled_#{@wish.id}\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(:fulfilled, @author, @wish, state_action: :fulfilled)}\">Splněno</a></span>"]
 
-    for t in tab
+    tab.each do |t|
       action = t.first
       result = tag_to_object_action(:button, action, @author, @wish, false)
       assert_equal t.last, result, "tag_to_object_action(:button, #{action}) is unexpectly: #{result}"
@@ -112,7 +112,7 @@ class ActionsHelperTest < ActionView::TestCase
     tab << [:delete, "<span><a class=\"delete #{mdl_classes}\" id=\"wishes_delete_#{@wish.id}\" data-confirm=\"Opravdu chcete přání #{@html_safe_wish_name_with_quotes} smazat?\" data-confirm-yes=\"Ano\" data-confirm-no=\"Ne\" data-remote=\"true\" rel=\"nofollow\" data-method=\"delete\" href=\"#{path_to_wish_action_for_user(:delete, @author, @wish)}\">Smazat</a></span>"]
     tab << [:fulfilled, "<span><a class=\"fulfilled #{mdl_classes}\" id=\"wishes_fulfilled_#{@wish.id}\" data-remote=\"true\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(:fulfilled, @author, @wish, state_action: :fulfilled)}\">Splněno</a></span>"]
 
-    for t in tab
+    tab.each do |t|
       action = t.first
       result = tag_to_object_action(:button, action, @author, @wish, true)
       assert_equal t.last, result, "tag_to_object_action(:button, #{action}) is unexpectly: #{result}"
@@ -126,7 +126,7 @@ class ActionsHelperTest < ActionView::TestCase
     # '&' joinning params is converted to &amp; in link_to helper
     tab << [:fulfilled, "<span><a class=\"fulfilled #{mdl_classes}\" id=\"wishes_fulfilled_#{@wish.id}\" data-remote=\"true\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(:fulfilled, @author, @wish, state_action: :fulfilled, bb: 11).gsub('&', '&amp;')}\">Splněno</a></span>"]
 
-    for t in tab
+    tab.each do |t|
       action = t.first
       result = tag_to_object_action(:button, action, @author, @wish, true, bb: 11)
       assert_equal t.last, result, "tag_to_object_action(:button, #{action}) is unexpectly: #{result}"
@@ -139,15 +139,15 @@ class ActionsHelperTest < ActionView::TestCase
     tab << [:delete, "<span><a class=\"delete #{mdl_classes}\" id=\"wishes_delete_#{@wish.id}\" data-confirm=\"Opravdu chcete přání #{@html_safe_wish_name_with_quotes} smazat?\" data-confirm-yes=\"Ano\" data-confirm-no=\"Ne\" rel=\"nofollow\" data-method=\"delete\" href=\"#{path_to_wish_action_for_user(:delete, @donee, @wish)}\">Smazat</a></span>"]
     tab << [:fulfilled, "<span><a class=\"fulfilled #{mdl_classes}\" id=\"wishes_fulfilled_#{@wish.id}\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(:fulfilled, @donee, @wish, state_action: :fulfilled)}\">Splněno</a></span>"]
 
-    for t in tab
+    tab.each do |t|
       action = t.first
       result = tag_to_object_action(:button, action, @donee, @wish, false)
       assert_equal t.last, result, "tag_to_object_action(:button, #{action}) is unexpectly: #{result}"
-   end
+    end
   end
 
   def test_button_to_wish_for_donor
-    for action in %i[book call_for_co_donors]
+    %i[book call_for_co_donors].each do |action|
       expected = "<span><a class=\"#{action} #{mdl_classes}\" id=\"wishes_#{action}_#{@wish.id}\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(action, @donor, @wish, state_action: action)}\">#{I18n.t("wishes.actions.#{action}.button")}</a></span>"
       result = tag_to_object_action(:button, action, @donor, @wish, false)
       assert_equal expected, result, "tag_to_object_action(:button, #{action}) is unexpectly: #{result}"
@@ -155,7 +155,7 @@ class ActionsHelperTest < ActionView::TestCase
 
     @wish.book!(@donor)
 
-    for action in %i[unbook gifted]
+    %i[unbook gifted].each do |action|
       expected = "<span><a class=\"#{action} #{mdl_classes}\" id=\"wishes_#{action}_#{@wish.id}\" rel=\"nofollow\" data-method=\"patch\" href=\"#{path_to_wish_action_for_user(action, @donor, @wish, state_action: action)}\">#{I18n.t("wishes.actions.#{action}.button")}</a></span>"
       result = tag_to_object_action(:button, action, @donor, @wish, false)
       assert_equal expected, result, "tag_to_object_action(:button, #{action}) is unexpectly: #{result}"

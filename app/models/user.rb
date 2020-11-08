@@ -36,7 +36,7 @@
 #
 class User < ApplicationRecord
   TEMP_EMAIL_PREFIX = 'change@me'
-  TEMP_EMAIL_REGEX = /\Achange@me/
+  TEMP_EMAIL_REGEX = /\Achange@me/.freeze
   BASE_CONNECTION_NAME = '--base--'
   ADMIN_EMAIL = 'porybny@rybickazlata.cz'
 
@@ -97,7 +97,7 @@ class User < ApplicationRecord
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
     # can be cleaned up at a later date.
-    user = signed_in_resource ? signed_in_resource : identity.user
+    user = signed_in_resource || identity.user
 
     if user.blank?
       email = identity.verified_email
@@ -181,6 +181,8 @@ class User < ApplicationRecord
   end
 
   def ensure_base_connection
-    Connection.create!(name: Connection::BASE_CONNECTION_NAME, email: email, friend: self, owner: self) if base_connection.blank?
+    if base_connection.blank?
+      Connection.create!(name: Connection::BASE_CONNECTION_NAME, email: email, friend: self, owner: self)
+    end
   end
 end

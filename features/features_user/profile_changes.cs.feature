@@ -18,9 +18,9 @@ Scénář: Změna emailu
   A kliknu na "Aktualizovat"
 
   Pak bych měl vidět "uživatel nebyl uložen kvůli chybě"
-  A měl bych vidět "Současné heslo je povinná položka"
+  A měl bych vidět "Aktuální heslo je povinná položka"
 
-  Pokud zapíšu do položky "Současné heslo" text "Abcd1234"
+  Pokud zapíšu do položky "Aktuální heslo" text "Abcd1234"
   A kliknu na "Aktualizovat"
 
   Pak bych měl vidět "Úspěšně jste aktualizovali svůj účet, ale ještě musíte ověřit svou novou e-mailovou adresu."
@@ -41,7 +41,7 @@ Scénář: Změna jména
   Když kliknu v menu na "Profil"
   A kliknu na editaci
   A změním "Bartholomew JoJo Simpson" na "Jozífek"
-  A zapíšu do položky "Současné heslo" text "Abcd1234"
+  A zapíšu do položky "Aktuální heslo" text "Abcd1234"
   A kliknu na "Aktualizovat"
 
   Pak bych měl vidět "Váš účet byl úspěšně aktualizován."
@@ -64,7 +64,7 @@ Scénář: Doplnění rozšířených informací
   A zapíšu do položky "Mám rád(a)" text "barevné věci s neotřelým vzorem; oranžová barva; steampunk; Queens, Neil Gaiman"
   A zapíšu do položky "Nemám rád(a)" text "černé oblečení"
 
-  A zapíšu do položky "Současné heslo" text "Abcd1234"
+  A zapíšu do položky "Aktuální heslo" text "Abcd1234"
   A kliknu na "Aktualizovat"
 
   Pak bych měl vidět "Váš účet byl úspěšně aktualizován."

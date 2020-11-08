@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Discussions
   class PostsController < ApplicationController
     include WishesHelper

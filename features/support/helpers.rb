@@ -19,4 +19,3 @@ def user_email_for_(user_identificator)
     raise "Uncovered user for '#{user_identificator}'"
   end
 end
-

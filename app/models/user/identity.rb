@@ -19,14 +19,14 @@ class User::Identity < ApplicationRecord
   LOCAL_PROVIDER = 'localy_added'
   OAUTH_PROVIDERS = %w[google github facebook twitter].freeze
   ALLOWED_PROVIDERS = [LOCAL_PROVIDER, 'test'] + OAUTH_PROVIDERS
-  EMAIL_REGEXP = /[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?/ # from http://regexlib.com/Search.aspx?k=email&c=1&m=-1&ps=20
-  TWITTER_FAKE_EMAIL_REGEXP = /change@me-\d+-twitter.com/
+  EMAIL_REGEXP = /[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?/.freeze # from http://regexlib.com/Search.aspx?k=email&c=1&m=-1&ps=20
+  TWITTER_FAKE_EMAIL_REGEXP = /change@me-\d+-twitter.com/.freeze
 
   attr_accessor :auth_data
 
   before_validation :fill_local_uid, on: :create
-  after_save :bind_connections_as_friend
   after_destroy :unbind_connections
+  after_save :bind_connections_as_friend
 
   validates :provider, presence: true, inclusion: { in: ALLOWED_PROVIDERS }
   validates :uid, presence: true, uniqueness: { scope: :provider, message: 'Is already taken for provider' }
@@ -127,11 +127,7 @@ class User::Identity < ApplicationRecord
   def try_add_user(user)
     # try to find user if not passed
     unless user.is_a?(User)
-      email_to_search = if verified_email.present?
-                          verified_email
-                        else
-                          email
-                        end
+      email_to_search = verified_email.presence || email
 
       if email_to_search.present?
         user = User.find_by(email: email_to_search)
@@ -139,7 +135,7 @@ class User::Identity < ApplicationRecord
         if user.blank?
           # try search between identities
           i = User::Identity.where(email: email_to_search)
-          i = i.where('id <> ?', id) if id.present?
+          i = i.where.not(id: id) if id.present?
           user = i.first.user if i.present?
         end
       end
@@ -172,7 +168,7 @@ class User::Identity < ApplicationRecord
   end
 
   def same_email_same_user
-    if user_id.present? && User::Identity.where(email: email).where(['user_id <> ?', user_id]).present?
+    if user_id.present? && User::Identity.where(email: email).where.not(user_id: user_id).present?
       errors.add(:email, I18n.t('user.identities.email_is_owned_by_another_user', email: email))
     end
   end

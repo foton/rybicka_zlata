@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-When /^(?:I )?click on "([^"]*)"$/ do |co|
+When(/^(?:I )?click on "([^"]*)"$/) do |co|
   click_link_or_button(co)
 end
 
-When /^(?:I )?click on link "([^"]*)"$/ do |co|
+When(/^(?:I )?click on link "([^"]*)"$/) do |co|
   click_link(co)
 end
 
-When /^(?:I )?click on button "([^"]*)"$/ do |co|
+When(/^(?:I )?click on button "([^"]*)"$/) do |co|
   click_button(co)
 end
 

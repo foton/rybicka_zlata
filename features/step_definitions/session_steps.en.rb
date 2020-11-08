@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-Given /^I should be successfully signed in$/ do
+Given(/^I should be successfully signed in$/) do
   step 'should see text "Signed in successfully."'
-  within('.mdl-layout__drawer nav') do
+
+  within('header nav') do
     assert page.has_link?(I18n.t('devise.sessions.destroy.sign_out'))
   end
 end

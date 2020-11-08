@@ -63,7 +63,7 @@ module ActionsHelper
 
     content_tag(:span) do
       concat send(mtd, bt_content, url, method: method, id: id, remote: remote, class: action.to_s, data: data)
-      concat content_tag(:span, class: 'mdl-tooltip', for: id) { bt_content } if bt_content != tooltip
+      concat tag.span(class: 'mdl-tooltip', for: id) { bt_content } if bt_content != tooltip
     end
   end
 
@@ -83,7 +83,7 @@ module ActionsHelper
       method = :delete
     else
       method = :patch
-      if obj.respond_to?(:available_state_actions_for) && obj.available_state_actions_for(user).include?(action) && ![:show].include?(action.to_sym)
+      if obj.respond_to?(:available_state_actions_for) && obj.available_state_actions_for(user).include?(action) && [:show].exclude?(action.to_sym)
         params[:state_action] = action
       end
     end

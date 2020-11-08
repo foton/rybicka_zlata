@@ -94,6 +94,6 @@ class Wishes::FromDonorControllerTest < ActionController::TestCase
     assert_nil flash[:notice]
 
     @marge_wish.reload
-    refute @marge_wish.fulfilled?
+    assert_not @marge_wish.fulfilled?
   end
 end

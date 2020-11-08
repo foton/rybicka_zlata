@@ -20,30 +20,30 @@ class WishFromAuthorTest < ActiveSupport::TestCase
 
   def test_cannot_create_wish_without_title
     @wish.title = ''
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert_equal ['je povinná položka'], @wish.errors[:title]
   end
 
   def test_cannot_create_wish_without_author
     @wish.author = nil
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert_equal ['je povinná položka'], @wish.errors[:author]
   end
 
   def test_can_create_wish_without_description
     @wish.description = ''
     assert @wish.valid?
-   end
+  end
 
   def test_can_create_wish_without_donors
     @wish.merge_donor_conn_ids([], @author)
     assert @wish.valid?
-   end
+  end
 
   def test_can_create_wish_without_donees
     @wish.donee_conn_ids = []
     assert @wish.valid?
-   end
+  end
 
   def test_add_donors_connections
     conn1 = connections(:bart_to_lisa)
@@ -72,7 +72,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     @wish.donee_conn_ids = [conn1, conn2].collect(&:id)
     @wish.merge_donor_conn_ids([conn1, conn3].collect(&:id), @author)
 
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert_equal ["Mezi obdarovanými je stejná kontakt jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donor_conn_ids]
     assert_equal ["Mezi obdarovanými je stejná kontakt jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donee_conn_ids]
   end
@@ -84,7 +84,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     @wish.donee_conn_ids = [conn1].collect(&:id)
     @wish.merge_donor_conn_ids([conn2, conn3].collect(&:id), @author)
 
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert_equal ["Mezi obdarovanými je kontakt se stejným emailem jako jiná v dárcích: '#{conn3.email}'"], @wish.errors[:donor_conn_ids]
     assert_equal ["Mezi obdarovanými je kontakt se stejným emailem jako jiná v dárcích: '#{conn3.email}'"], @wish.errors[:donee_conn_ids]
   end
@@ -102,7 +102,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     @wish.donee_conn_ids = [conn1].collect(&:id)
     @wish.merge_donor_conn_ids([conn2, conn3].collect(&:id), @author)
 
-    refute @wish.valid?
+    assert_not @wish.valid?
     assert_equal ["Mezi obdarovanými je stejný uživatel '#{conn1.fullname}'  jako v dárcích '#{conn3.fullname}'."], @wish.errors[:donor_conn_ids]
     assert_equal ["Mezi obdarovanými je stejný uživatel '#{conn1.fullname}'  jako v dárcích '#{conn3.fullname}'."], @wish.errors[:donee_conn_ids]
   end
@@ -113,7 +113,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     sleep 1.second
     @wish.title = 'new title'
     assert @wish.save
-    assert ((updated_by_donee + 1.second) < @wish.updated_by_donee_at)
+    assert((updated_by_donee + 1.second) < @wish.updated_by_donee_at)
   end
 
   def test_can_be_deleted_when_have_donors
@@ -123,7 +123,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     assert @wish.save
     @wish.reload
 
-    refute DonorLink.for_wish(@wish).blank?
+    assert_not DonorLink.for_wish(@wish).blank?
 
     @wish.destroy(@author)
 
@@ -138,7 +138,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     assert @wish.save
     @wish.reload
 
-    refute DoneeLink.for_wish(@wish).blank?
+    assert_not DoneeLink.for_wish(@wish).blank?
 
     @wish.destroy(@author)
 
