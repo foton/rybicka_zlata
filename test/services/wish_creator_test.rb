@@ -24,7 +24,6 @@ class WishCreatorTest < ActiveSupport::TestCase
 
   test 'can create wish and notify users' do
     wish_params = valid_params
-     binding.pry
     service = assert_difference('ActivityNotification::Notification.count', (donor_conns + donee_conns).size) do
       WishCreator.call(wish_params, author)
     end

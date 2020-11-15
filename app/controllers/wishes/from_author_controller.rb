@@ -14,11 +14,11 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
   end
 
   def create
-    load_user_connections
-    load_user_groups
-
     wish_creator =WishCreator.call(wish_params, @user)
     @wish = wish_creator.result
+
+    load_user_connections
+    load_user_groups
 
     if wish_creator.success?
       flash[:notice] = t('wishes.from_author.views.added', title: @wish.title)

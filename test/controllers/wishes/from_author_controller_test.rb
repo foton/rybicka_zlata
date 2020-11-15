@@ -43,7 +43,6 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
                   donee_conn_ids: donee_conns.collect(&:id),
                   donor_conn_ids: donor_conns.collect(&:id) }
 
-                  binding.pry
     WishCreator.stub(:call, succesfull_creator(wish_hash, @bart)) do
       post :create, params: { user_id: @bart.id, wish: wish_hash }
     end
@@ -160,6 +159,6 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
   end
 
   def succesfull_creator(params, author)
-    OpenStruct.new( success: true, errors: [], result: Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
+    OpenStruct.new( success?: true, errors: [], result: Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
   end
 end
