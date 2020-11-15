@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_04_125320) do
+ActiveRecord::Schema.define(version: 2020_11_12_165443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,7 +162,9 @@ ActiveRecord::Schema.define(version: 2019_02_04_125320) do
     t.datetime "updated_by_donee_at"
     t.integer "booked_by_id"
     t.integer "called_for_co_donors_by_id"
+    t.bigint "updated_by_id"
     t.index ["author_id"], name: "index_wishes_on_author_id"
+    t.index ["updated_by_id"], name: "index_wishes_on_updated_by_id"
   end
 
   add_foreign_key "connections", "users", column: "friend_id"
@@ -178,4 +180,5 @@ ActiveRecord::Schema.define(version: 2019_02_04_125320) do
   add_foreign_key "wishes", "users", column: "author_id"
   add_foreign_key "wishes", "users", column: "booked_by_id"
   add_foreign_key "wishes", "users", column: "called_for_co_donors_by_id"
+  add_foreign_key "wishes", "users", column: "updated_by_id"
 end

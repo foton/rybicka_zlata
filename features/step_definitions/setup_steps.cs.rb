@@ -76,10 +76,10 @@ Pokud(/^(?:u "(.*?)" )?existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |us
   grp = user.groups.create!(name: grp_name) if grp.blank?
 
   members = []
-  grp_members_to_s.split(',').each do |mem_name|
-    mem_name = mem_name.delete('"').strip
-    conn = user.connections.find_by(name: mem_name)
-    conn = user.connections.create!(name: mem_name, email: "#{mem_name}@rybickazlata.cz") if conn.blank?
+  grp_members_to_s.split(',').each do |member_name|
+    member_name = member_name.delete('"').strip
+    conn = user.connections.find_by(name: member_name)
+    conn = user.connections.create!(name: member_name, email: "#{member_name}@rybickazlata.cz") if conn.blank?
     members << conn
   end
   grp.connections = members

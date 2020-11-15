@@ -14,8 +14,8 @@
 #  author_id                  :integer          not null
 #  booked_by_id               :integer
 #  called_for_co_donors_by_id :integer
+#  updated_by_id              :bigint
 #
-# donee can manage wish and donors (not donees)
 class Wish::FromDonee < Wish
   self.table_name = 'wishes'
 

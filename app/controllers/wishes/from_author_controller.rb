@@ -14,11 +14,19 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
   end
 
   def create
-    build_wish
     load_user_connections
     load_user_groups
-    @wish.author = @user # params[:user_id]
-    create_wish(t('wishes.from_author.views.added', title: @wish.title), t('wishes.from_author.views.not_added', title: @wish.title)) || render('new')
+
+    wish_creator =WishCreator.call(wish_params, @user)
+    @wish = wish_creator.result
+
+    if wish_creator.success?
+      flash[:notice] = t('wishes.from_author.views.added', title: @wish.title)
+      redirect_to user_my_wish_url(@user, @wish) # WishFromDonee controller ::show
+    else
+      flash[:error] = t('wishes.from_author.views.not_added', title: @wish.title)
+      render('new')
+    end
   end
 
   private

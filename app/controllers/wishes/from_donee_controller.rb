@@ -55,6 +55,7 @@ class Wishes::FromDoneeController < ApplicationController
 
   def build_wish
     @wish ||= wish_scope.build
+    @wish.updated_by = current_user
     action = params[:state_action]
     if action
       if @wish.available_state_actions_for(@user).include?(action.to_sym)

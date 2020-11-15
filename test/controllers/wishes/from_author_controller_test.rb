@@ -43,29 +43,15 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
                   donee_conn_ids: donee_conns.collect(&:id),
                   donor_conn_ids: donor_conns.collect(&:id) }
 
-    assert_difference('ActivityNotification::Notification.count') do
+                  binding.pry
+    WishCreator.stub(:call, succesfull_creator(wish_hash, @bart)) do
       post :create, params: { user_id: @bart.id, wish: wish_hash }
     end
 
     assert_response :redirect
+    new_wish = assigns(:wish)
     assert_redirected_to user_my_wish_path(@bart, new_wish)
     assert_equal "Přání '#{wish_hash[:title]}' bylo úspěšně přidáno.", flash[:notice]
-
-    new_wish = assigns(:wish)
-    assert_equal wish_hash[:title], new_wish.title
-    assert_equal wish_hash[:description], new_wish.description
-    assert new_wish.persisted?
-    assert_equal donor_conns.sort, new_wish.donor_connections.sort
-    assert_equal (donee_conns + [@bart.base_connection]).sort, new_wish.donee_connections.sort
-
-    assert_notified(users: donee_conns.collect(&:friend),
-                    key: 'wish.created.you_as_donee',
-                    notifier: @bart,
-                    notifiable: new_wish)
-    assert_notified(users: donor_conns.collect(&:friend),
-                    key: 'wish.created.you_as_donor',
-                    notifier: @bart,
-                    notifiable: new_wish)
   end
 
   def test_edit_shared_wish_as_author_is_forbidden
@@ -173,13 +159,7 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal [@conn_lisa].sort, @wish.donor_connections.to_a.sort
   end
 
-  private
-
-  def assert_notified(users:, key:, notifier:, notifiable:)
-    binding.pry
-    users.each do |target|
-      assert target.notifications.with_notifiable(notifiable).with_notifier(notifier).filtered_by_key(key).exists?,
-             "Notification for #{target} for #{key} not found between #{target.notifications}"
-    end
+  def succesfull_creator(params, author)
+    OpenStruct.new( success: true, errors: [], result: Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
   end
 end

@@ -10,10 +10,6 @@
 #  friend_id :integer
 #  owner_id  :integer
 #
-# Connection between User and somebody, based on email. It have it's own name.
-# So different user can have connection to same email address, but each one can name it differently (eg.: Husband, Dad, Son)
-# It can be connected to existing other user (known as Friend).
-# Or it can just point to nobody waiting for new user with that email address between it's identyties
 class Connection < ApplicationRecord
   BASE_CONNECTION_NAME = '--base for donee--'
 

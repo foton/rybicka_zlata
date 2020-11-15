@@ -1,7 +1,7 @@
 # encoding: utf-8
 # language: cs
 
-Požadavek: Notofikace o změnách v přáních pro dárce
+Požadavek: Notifikace o změnách v přáních pro dárce
   Jako přihlášený uživatel Karel
   chci vidět, jaká cizí přání se změnila
   abych měl rychle přehled

@@ -14,6 +14,7 @@
 #  author_id                  :integer          not null
 #  booked_by_id               :integer
 #  called_for_co_donors_by_id :integer
+#  updated_by_id              :bigint
 #
 require 'url_regexp'
 
@@ -25,6 +26,7 @@ class Wish < ApplicationRecord
   belongs_to :author, class_name: 'User'
   belongs_to :booked_by_user, class_name: 'User', foreign_key: 'booked_by_id'
   belongs_to :called_for_co_donors_by_user, class_name: 'User', foreign_key: 'called_for_co_donors_by_id'
+  belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id'
 
   has_many :donor_links, dependent: :delete_all, inverse_of: :wish
   has_many :donor_connections, through: :donor_links, source: :connection
@@ -39,20 +41,7 @@ class Wish < ApplicationRecord
   validate :validate_booked_by
   validate :validate_called_for_co_donors
 
-  before_validation :ensure_no_connections_from_ex_donees
   before_validation :ensure_good_styling_of_description
-  after_save :notify_users
-
-  acts_as_notifiable :users, {
-    # Notification targets as :targets is a necessary option
-    # Set to notify to author and users commented to the article, except comment owner self
-    targets: ->(wish, _key) { wish.notified_users }
-    # Path to move when the notification is opened by the target user
-    # This is an optional configuration since activity_notification uses polymorphic_path as default
-    # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
-  }
-
-  SHORT_DESCRIPTION_LENGTH = 200
 
   after_initialize do
     @donors_changed = false
@@ -64,15 +53,27 @@ class Wish < ApplicationRecord
     @donees_changed = false
   end
 
+  acts_as_notifiable :donors, {
+    # Notification targets as :targets is a necessary option
+    # Set to notify to author and users commented to the article, except comment owner self
+    targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] },
+    # Path to move when the notification is opened by the target user
+    # This is an optional configuration since activity_notification uses polymorphic_path as default
+    # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
+  }
+
+  acts_as_notifiable :donees, {
+    # Notification targets as :targets is a necessary option
+    # Set to notify to author and users commented to the article, except comment owner self
+    targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] },
+    # Path to move when the notification is opened by the target user
+    # This is an optional configuration since activity_notification uses polymorphic_path as default
+    # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
+  }
+
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
 
-  attr_accessor :updated_by
-
-  def notified_users
-    #(donors + donees - updated_by).uniq.compact
-    (donors + donees).uniq.compact
-  end
 
   def available_donor_connections_from(connections)
     emails_of_donees = donee_connections.collect(&:email).uniq.compact
@@ -143,6 +144,14 @@ class Wish < ApplicationRecord
     id <=> other.id
   end
 
+  def notified_users # must be public
+    (donors + donees - [updated_by]).uniq.compact
+  end
+
+  def to_plain_wish
+    Wish.find(self.id)
+  end
+
   private
 
   def donor_conn_ids
@@ -151,14 +160,6 @@ class Wish < ApplicationRecord
 
   def donor_user_ids
     @donor_user_ids ||= donor_connections.collect(&:friend_id).uniq.compact
-  end
-
-  def donors
-    User.find(donor_user_ids)
-  end
-
-  def donees
-    User.find(donee_user_ids)
   end
 
   def only_whole_groups_in_collection(groups, collection)
@@ -255,12 +256,6 @@ class Wish < ApplicationRecord
         errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.cannot_be_called_in_this_state'))
       end
     end
-  end
-
-  def notify_users
-    return if monitored_changes.blank?
-
-    notify(:users, key: 'wish.notifications.updated')
   end
 
   def monitored_changes
