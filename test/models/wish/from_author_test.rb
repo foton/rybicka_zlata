@@ -21,7 +21,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   def test_cannot_create_wish_without_title
     @wish.title = ''
     assert_not @wish.valid?
-    assert_equal ['je povinná položka', "Tenhle Titulek je minimální až moc"], @wish.errors[:title]
+    assert_equal ['je povinná položka', 'Tenhle Titulek je minimální až moc'], @wish.errors[:title]
   end
 
   def test_cannot_create_wish_without_author
@@ -94,7 +94,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     to_maggie_conn = connections(:bart_to_maggie)
     to_milhouse_conn = connections(:bart_to_milhouse)
 
-    hidden_lisa_email = "hidden_lisa@gmail.com"
+    hidden_lisa_email = 'hidden_lisa@gmail.com'
     User::Identity.create!(email: hidden_lisa_email, provider: 'google', user: users(:lisa), uid: 'lisag')
 
     to_hidden_lisa_conn = Connection.create!(email: hidden_lisa_email, name: 'Unknown beauty', friend: users(:lisa), owner: @author)

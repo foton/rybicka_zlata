@@ -18,7 +18,7 @@ class WishFromDoneeTest < ActiveSupport::TestCase
   def test_cannot_update_wish_without_title
     @shared_wish.title = ''
     assert_not @shared_wish.valid?
-    assert_equal ["je povinná položka", "Tenhle Titulek je minimální až moc"], @shared_wish.errors[:title]
+    assert_equal ['je povinná položka', 'Tenhle Titulek je minimální až moc'], @shared_wish.errors[:title]
   end
 
   def test_cannot_update_wish_without_author

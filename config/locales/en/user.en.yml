@@ -18,19 +18,29 @@ en:
         display_name: "Display name"
         admin: "Administrator"
         last_sign_in: "Last sign in"
+        body_height: 'Body height'
+        body_weight: 'Body weight'
+        tshirt_size: 'T-shirt size'
+        trousers_waist_size: 'Trousers - waist size'
+        trousers_leg_size: 'Trousers - leg size'
+        shoes_size: 'Shoes size [EU/UK/US]'
+        other_sizes_and_dimensions: 'Other sizes and dimensions'
+        likes: 'I like'
+        dislikes: 'I dislike'
+
   user:
     temporary_password_is_set_to: "During registration, the temporary password is set to '%{password}' for Your account. Please, change it. Password is needed when profile is edited."
-    identities: 
+    identities:
       actions:
         delete:
           button: "Delete"
-          confirm: 
+          confirm:
             message: "Dy you really want to delete address '%{object_title}'?"
-        new: 
+        new:
           button: "Add address"
           submit_button: "Submit"
           label: "Another your email address"
-      none: "You have no address in evidence" 
+      none: "You have no address in evidence"
       list: "Your addresses"
       deleted: "Contact '%{contact}' was deleted"
       added: "Contact '%{contact}' was added"
@@ -42,7 +52,7 @@ en:
     profile:
       my:
         header: "Profile"
-      actions:  
+        infos_for_donors: "Informations fro donors"
+      actions:
         edit:
           button: "Edit profile"
-

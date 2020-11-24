@@ -28,7 +28,7 @@ class Wish < ApplicationRecord
   belongs_to :author, class_name: 'User'
   belongs_to :booked_by_user, class_name: 'User', foreign_key: 'booked_by_id'
   belongs_to :called_for_co_donors_by_user, class_name: 'User', foreign_key: 'called_for_co_donors_by_id'
-  belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id'
+  belongs_to :updated_by, class_name: 'User'
 
   has_many :donor_links, dependent: :delete_all, inverse_of: :wish
   has_many :donor_connections, through: :donor_links, source: :connection
@@ -56,14 +56,14 @@ class Wish < ApplicationRecord
   end
 
   acts_as_notifiable :donors, {
-    targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] },
+    targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] }
     # Path to move when the notification is opened by the target user
     # This is an optional configuration since activity_notification uses polymorphic_path as default
     # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
   }
 
   acts_as_notifiable :donees, {
-    targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] },
+    targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] }
     # Path to move when the notification is opened by the target user
     # This is an optional configuration since activity_notification uses polymorphic_path as default
     # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
@@ -74,7 +74,6 @@ class Wish < ApplicationRecord
 
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
-
 
   def available_donor_connections_from(connections)
     emails_of_donees = donee_connections.collect(&:email).uniq.compact
@@ -122,7 +121,7 @@ class Wish < ApplicationRecord
   end
 
   def ex_donor_users
-    @ex_donor_users ||=[]
+    @ex_donor_users ||= []
   end
 
   def donee_user_ids
@@ -170,7 +169,7 @@ class Wish < ApplicationRecord
   end
 
   def to_plain_wish
-    Wish.find(self.id)
+    Wish.find(id)
   end
 
   private
@@ -247,10 +246,8 @@ class Wish < ApplicationRecord
     if [STATE_RESERVED, STATE_GIFTED].include?(state)
       if booked_by_user.blank?
         errors.add(:booked_by_id, I18n.t('wishes.errors.must_have_booking_user'))
-      else
-        if donee?(booked_by_user)
-          errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_by_donee'))
-        end
+      elsif donee?(booked_by_user)
+        errors.add(:booked_by_id, I18n.t('wishes.errors.cannot_be_booked_by_donee'))
       end
     elsif STATE_AVAILABLE == state
       if booked_by_user.present?
@@ -263,10 +260,8 @@ class Wish < ApplicationRecord
     if [STATE_CALL_FOR_CO_DONORS].include?(state)
       if called_for_co_donors_by_user.blank?
         errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.must_have_calling_by_user'))
-      else
-        if donee?(called_for_co_donors_by_user)
-          errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.donee_cannot_call_for_co_donors'))
-        end
+      elsif donee?(called_for_co_donors_by_user)
+        errors.add(:called_for_co_donors_by_id, I18n.t('wishes.errors.donee_cannot_call_for_co_donors'))
       end
     elsif STATE_AVAILABLE == state
       if called_for_co_donors_by_user.present?
@@ -280,6 +275,6 @@ class Wish < ApplicationRecord
   end
 
   def monitored_attributes
-    %w[title description state] #booked_by_id, called_for_co_donors_by_id
+    %w[title description state] # booked_by_id, called_for_co_donors_by_id
   end
 end

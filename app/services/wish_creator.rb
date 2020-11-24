@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-
 class WishCreator
-  attr_accessor :errors, :result
-  attr_accessor :author, :wish_params
+  attr_accessor :errors, :result, :author, :wish_params
 
   def self.call(wish_params, author)
     srv = new(wish_params, author)
@@ -34,7 +32,7 @@ class WishCreator
   attr_reader :wish
 
   def create_wish
-    modified_params= wish_params.dup.except(:state_action)
+    modified_params = wish_params.dup.except(:state_action)
     modified_params.delete(:user_id) # should be same as author_id
     donor_conn_ids = modified_params.delete(:donor_conn_ids)
 
@@ -47,7 +45,7 @@ class WishCreator
     if @wish.save
       notify_users
     else
-      errors << "Error on creating wish, see wish.errors"
+      errors << 'Error on creating wish, see wish.errors'
     end
     @wish
   end

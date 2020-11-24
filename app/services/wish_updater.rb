@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-
 class WishUpdater
-  attr_accessor :errors, :result
-  attr_accessor :wish, :updating_user, :update_params
+  attr_accessor :errors, :result, :wish, :updating_user, :update_params
 
   def self.call(wish, update_params, updating_user)
     srv = new(wish, update_params, updating_user)
@@ -36,7 +34,7 @@ class WishUpdater
   attr_accessor :notifications, :message
 
   def update_wish
-    @notifications = { donors: [] , donees: [] , ex_donees: [], ex_donors: []}
+    @notifications = { donors: [], donees: [], ex_donees: [], ex_donors: [] }
 
     wish.ex_donee_users = []
     wish.ex_donor_users = []
@@ -47,13 +45,15 @@ class WishUpdater
 
     errors << wish.errors if wish.errors.present?
 
-    wish.updated_by = updating_user if notifications.values.flatten.present? # something important happened
+    if notifications.values.flatten.present?
+      wish.updated_by = updating_user
+    end # something important happened
 
     if wish.save
       wish.reload # to get changes in donors and donees
       notify_users
     else
-      errors << "Error on creating wish, see wish.errors"
+      errors << 'Error on creating wish, see wish.errors'
     end
 
     wish
@@ -64,7 +64,7 @@ class WishUpdater
     return unless wish.available_actions_for(updating_user).include?(action)
 
     self.message = wish.send("#{action}!", updating_user)
-    notifications[:donors] << "wish.notifications.#{action}"
+    notifications[:donors] << "wish.#{action}"
   end
 
   def donee_allowed_update
@@ -72,24 +72,26 @@ class WishUpdater
       return unless  wish.available_actions_for(updating_user).include?(action)
 
       self.message = wish.send("#{action}!", updating_user)
-      notifications[:donors] << "wish.notifications.#{action}"
-      notifications[:donees] << "wish.notifications.#{action}"
+      notifications[:donors] << "wish.#{action}"
+      notifications[:donees] << "wish.#{action}"
     else
       change_donors!(modified_params[:donor_conn_ids])
     end
   end
 
   def author_allowed_updates
-    return if modified_params[:state_action]&.to_sym # update by ACTION (handled in donee) or by ATTRIBUTES
+    if modified_params[:state_action]&.to_sym
+      return
+    end # update by ACTION (handled in donee) or by ATTRIBUTES
 
     # attribute update. Only some attributes can be updated
-    [:title, :description].each do |att|
-      if modified_params[att].present?
-        wish.write_attribute(att, modified_params[att])
-        if wish.changes.keys.include?(att.to_s)
-          notifications[:donors] << 'wish.updated'
-          notifications[:donees] << 'wish.updated'
-        end
+    %i[title description].each do |att|
+      next if modified_params[att].blank?
+
+      wish.write_attribute(att, modified_params[att])
+      if wish.changes.keys.include?(att.to_s)
+        notifications[:donors] << 'wish.updated'
+        notifications[:donees] << 'wish.updated'
       end
     end
 
@@ -155,7 +157,7 @@ class WishUpdater
     end
 
     # same donor user can be linked from other donee
-    new_donor_users = wish.donor_links.includes(connection: [:friend]).collect {|link| link.connection.friend}
+    new_donor_users = wish.donor_links.includes(connection: [:friend]).collect { |link| link.connection.friend }
     wish.ex_donor_users -= new_donor_users
 
     notifications[:ex_donees] << 'wish.removed_you_as_donee'

@@ -3,20 +3,20 @@ cs:
     views:
       index:
         header: Notifikace pro %{target_name}
-    user:
+    targets:
       wish:
         created:
-          you_as_donor: '%{notifier_name} vytvořil/a přání "%{wish_title}" s Vámi jako dárcem.'
-          you_as_donee: '%{notifier_name} vytvořil/a přání "%{wish_title}" s Vámi jako obdarovaným.'
-        updated: '%{notifier_name} změnil/a přání "%{wish_title}".'
-        removed_you_as_donee: '%{notifier_name} Vás odebral/a z obdarovaných u přání "%{wish_title}".'
-        removed_you_as_donor: '%{notifier_name} Vás odebral/a z dárců u přání "%{wish_title}".'
-        book: '%{notifier_name} si rezervoval/a přání "%{wish_title}".'
-        unboook: '%{notifier_name} zrušil/a rezervaci u přání "%{wish_title}".'
-        gifted: '%{notifier_name} označil/a přání "%{wish_title}" jako darované.'
-        call_for_co_donors: '%{notifier_name} přidal/a výzvu pro spoludárce u přání "%{wish_title}".'
-        withdraw_call: '%{notifier_name} stáhnul/la výzvu pro spoludárce u přání "%{wish_title}".'
-        fulfilled: '%{notifier_name} označil/a přání "%{wish_title}" jako splněné.'
+          you_as_donor: "%{notifier_name} vytvořil/a přání '%{wish_title}' s Vámi jako dárcem."
+          you_as_donee: "%{notifier_name} vytvořil/a přání '%{wish_title}' s Vámi jako obdarovaným."
+        updated: "%{notifier_name} změnil/a přání '%{wish_title}'."
+        removed_you_as_donee: "%{notifier_name} Vás odebral/a z obdarovaných u přání '%{wish_title}'."
+        removed_you_as_donor: "%{notifier_name} Vás odebral/a z dárců u přání '%{wish_title}'."
+        book: "%{notifier_name} si rezervoval/a přání '%{wish_title}'."
+        unboook: "%{notifier_name} zrušil/a rezervaci u přání '%{wish_title}'."
+        gifted: "%{notifier_name} označil/a přání '%{wish_title}' jako darované."
+        call_for_co_donors: "%{notifier_name} přidal/a výzvu pro spoludárce u přání '%{wish_title}'."
+        withdraw_call: "%{notifier_name} stáhnul/la výzvu pro spoludárce u přání '%{wish_title}'."
+        fulfilled: "%{notifier_name} označil/a přání '%{wish_title}' jako splněné."
 
 
       article:

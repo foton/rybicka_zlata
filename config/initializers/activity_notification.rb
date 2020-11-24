@@ -1,5 +1,4 @@
 ActivityNotification.configure do |config|
-
   # Configure ORM name for ActivityNotification.
   # Set :active_record or :mongoid.
   ENV['AN_ORM'] = 'active_record' unless ENV['AN_ORM'] == 'mongoid'
@@ -10,10 +9,10 @@ ActivityNotification.configure do |config|
   config.enabled = true
 
   # Configure table name to store notification data.
-  config.notification_table_name = "notifications"
+  config.notification_table_name = 'notifications'
 
   # Configure table name to store subscription data.
-  config.subscription_table_name = "subscriptions"
+  config.subscription_table_name = 'subscriptions'
 
   # Configure if email notification is enabled as default.
   # Note that you can configure them for each model by acts_as roles.
@@ -55,5 +54,4 @@ ActivityNotification.configure do |config|
 
   # Configure ActiveJob queue name for delayed notifications.
   config.active_job_queue = :activity_notification
-
 end

@@ -45,7 +45,6 @@ class Wishes::FromDonorController < ApplicationController
     @wish_params ||= params.permit(:state_action)
   end
 
-
   def wish_scope
     @user.donor_wishes.not_fulfilled
   end

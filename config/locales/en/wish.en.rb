@@ -167,6 +167,9 @@
           header: 'Can fulfill',
           no_wishes: 'Nobody set you as potencial donor. Are they all afraid of You or what?'
         },
+        list: {
+          none: 'Wants nothing new from You.'
+        },
         show: {
           donees_list_header: 'Donees'
         },

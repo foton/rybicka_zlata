@@ -173,7 +173,7 @@ class User < ApplicationRecord
   def printable_target_name
     name
   end
-  alias_method :printable_notifier_name, :printable_target_name
+  alias printable_notifier_name printable_target_name
 
   private
 

@@ -9,6 +9,6 @@ Given(/^jdu na (.*)$/) do |kde|
   visit path_to(kde)
 end
 
-Pokud("já si otevřu stránku {string}") do |string|
+Pokud('já si otevřu stránku {string}') do |string|
   visit path_to(string)
 end

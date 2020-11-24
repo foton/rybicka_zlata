@@ -19,7 +19,8 @@ class WishCreatorTest < ActiveSupport::TestCase
       title: 'A special wish',
       description: 'wish me luck for tomorow!',
       donee_conn_ids: donee_conns.collect(&:id),
-      donor_conn_ids: donor_conns.collect(&:id) }.merge(user_id: author.id)
+      donor_conn_ids: donor_conns.collect(&:id)
+    }.merge(user_id: author.id)
   end
 
   test 'can create wish and notify users' do
@@ -45,18 +46,18 @@ class WishCreatorTest < ActiveSupport::TestCase
 
   test 'can fails on creation' do
     wish_params = valid_params
-    wish_params[:title] = ""
+    wish_params[:title] = ''
 
     service = assert_no_difference('ActivityNotification::Notification.count') do
       WishCreator.call(wish_params, author)
     end
 
     assert service.failed?
-    assert_equal ["Error on creating wish, see wish.errors"], service.errors
+    assert_equal ['Error on creating wish, see wish.errors'], service.errors
 
     new_wish = service.result
     assert_not new_wish.persisted?
-    assert_equal ["je povinná položka", "Tenhle Titulek je minimální až moc"], new_wish.errors[:title]
+    assert_equal ['je povinná položka', 'Tenhle Titulek je minimální až moc'], new_wish.errors[:title]
 
     assert_equal wish_params[:title], new_wish.title
     assert_equal wish_params[:description], new_wish.description
@@ -67,9 +68,9 @@ class WishCreatorTest < ActiveSupport::TestCase
   end
 
   def assert_notified(users:, key:, notifier:, notifiable:)
-      users.each do |target|
-        assert target.notifications.where(notifiable: notifiable, notifier: notifier).filtered_by_key(key).exists?,
-               "Notification for #{target} for #{key} not found between #{target.notifications}"
-      end
+    users.each do |target|
+      assert target.notifications.where(notifiable: notifiable, notifier: notifier).filtered_by_key(key).exists?,
+             "Notification for #{target} for #{key} not found between #{target.notifications}"
     end
+  end
 end

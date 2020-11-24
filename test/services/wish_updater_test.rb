@@ -9,16 +9,17 @@ class WishUpdaterTest < ActiveSupport::TestCase
   def setup
     @wish = wishes(:lisa_bart_bigger_car)
 
-    @donor_conns = wish.donor_connections  # Homer have 2 connections here, From Lisa and from Bart
+    @donor_conns = wish.donor_connections # Homer have 2 connections here, From Lisa and from Bart
     @donee_conns = wish.donee_connections.select { |dc| !dc.base? }
-    @author_conn = (wish.donee_connections.select { |dc| dc.base? }.first)
+    @author_conn = wish.donee_connections.select { |dc| dc.base? }.first
 
     @valid_params = {
       auhtor_id: users(:homer).id, # author cannot be changed!, this is for verifying it
       title: 'Updated title',
-      description: 'Updated description' }
-      # donee_conn_ids: donee_conns.collect(&:id),
-      # donor_conn_ids: donor_conns.collect(&:id) }.merge(user_id: author.id)
+      description: 'Updated description'
+    }
+    # donee_conn_ids: donee_conns.collect(&:id),
+    # donor_conn_ids: donor_conns.collect(&:id) }.merge(user_id: author.id)
   end
 
   test 'donor can book wish and notify other donors' do
@@ -31,7 +32,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -56,7 +57,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -81,7 +82,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -104,7 +105,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -129,7 +130,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -144,7 +145,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
   test 'donee can mark wish as fulfilled donors' do
     self.updating_user = users(:bart) # so it is not author
-    #wish.call_for_co_donors!(updating_user)
+    # wish.call_for_co_donors!(updating_user)
 
     action = :fulfilled
     assert wish.available_actions_for(updating_user).include?(action)
@@ -153,7 +154,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -180,7 +181,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(donor_conn_ids: new_donor_conns.collect(&:id)), updating_user)
     end
 
@@ -193,15 +194,14 @@ class WishUpdaterTest < ActiveSupport::TestCase
     # homer is still between donors, so no 'wish.removed_you_as_donor' is issued
   end
 
-
   test 'author can update wish attributes and notify users' do
-    self.updating_user = wish.author #lisa
+    self.updating_user = wish.author # lisa
 
     expected_notified_users = wish.donor_users + wish.donee_users - [updating_user]
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params, updating_user)
     end
 
@@ -227,7 +227,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(donor_conn_ids: new_donor_conns.collect(&:id)), updating_user)
     end
 
@@ -261,7 +261,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(donee_conn_ids: new_donee_conns.collect(&:id)), updating_user)
     end
 
@@ -289,7 +289,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size ) do
+    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -305,7 +305,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
   test 'fails on author update' do
     self.updating_user = wish.author
 
-    new_title = "a" # not empty, but too short
+    new_title = 'a' # not empty, but too short
     wish_params = valid_params
     wish_params[:title] = new_title
 
@@ -314,14 +314,14 @@ class WishUpdaterTest < ActiveSupport::TestCase
     end
 
     assert service.failed?
-    assert_equal ["Error on creating wish, see wish.errors"], service.errors
+    assert_equal ['Error on creating wish, see wish.errors'], service.errors
 
     updated_not_saved_wish = service.result.wish
     persisted_wish = Wish.find(wish.id)
     assert_equal new_title, updated_not_saved_wish.title
     assert_not_equal new_title, persisted_wish.title
 
-    assert_equal ["Tenhle Titulek je minimální až moc"], updated_not_saved_wish.errors[:title]
+    assert_equal ['Tenhle Titulek je minimální až moc'], updated_not_saved_wish.errors[:title]
 
     assert_equal wish_params[:description], updated_not_saved_wish.description
     assert_equal donor_conns.sort, updated_not_saved_wish.donor_connections.sort
@@ -333,7 +333,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
   def assert_notified(users:, key:, notifier:, notifiable:)
     users.each do |target|
       assert target.notifications.where(notifiable: notifiable, notifier: notifier).filtered_by_key(key).exists?,
-              "Notification for #{target.email} for '#{key}' not found between #{target.notifications.all.to_a}"
+             "Notification for #{target.email} for '#{key}' not found between #{target.notifications.all.to_a}"
     end
   end
 

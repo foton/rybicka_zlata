@@ -167,11 +167,15 @@
       }
 
     },
+
     from_donor: {
       views: {
         index: {
           header: 'Můžu splnit',
           no_wishes: 'Nikdo Vás zatím neuvedl jako potenciálního dárce u přání. To se Vás všichni bojí?'
+        },
+        list: {
+          none: 'Nepřeje si od Vás nic nového.'
         },
         show: {
           donees_list_header: 'Obdarovaní'

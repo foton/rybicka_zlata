@@ -2,13 +2,13 @@
 # language: cs
 
 Požadavek: Notifikace o změnách v přáních pro dárce
-  Jako přihlášený uživatel Bart
+  Jako přihlášený uživatel
   chci vidět, jaká cizí přání se změnila
   abych měl rychle přehled
 
 Kontext:
   Pokud existují standardní testovací uživatelé
-  A jsem přihlášen jako "Bart"
+  A jsem přihlášen jako "Lisa"
   A přepnu na češtinu
 
 Scénář: Dostávám notifikace o změně
@@ -18,12 +18,13 @@ Scénář: Dostávám notifikace o změně
   Pokud "Marge" změní přání "M+H: Your parents on holiday"
   A já si otevřu stránku "Notifikace"
   Pak bych měl vidět notifikaci "Marjorie Jacqueline Simpson změnil/a přání 'M+H: Your parents on holiday'"
-  #Marjorie Jacqueline Simpson notified you of Wish (759609446) Nov 24
 
   Pokud mě "Marge" odebere z dárců přání "M+H: Your parents on holiday"
   A já si otevřu stránku "Notifikace"
-  Pak bych měl vidět notifikaci "Marjorie Jacqueline Simpson změnil/a přání 'M+H: Your parents on holiday'"
+  Pak bych měl vidět notifikaci "Marjorie Jacqueline Simpson Vás odebral/a z dárců u přání 'M+H: Your parents on holiday'"
 
-  Pokud mě "Homer" zase přidá do dárců přání "M+H: Your parents on holiday"
+  Pokud na mě má "Homer" kontakt
+  A "Homer" mě zase přidá do dárců přání "M+H: Your parents on holiday"
   A já si otevřu stránku "Notifikace"
-  Pak bych měl vidět notifikaci "Marjorie Jacqueline Simpson změnil/a přání 'M+H: Your parents on holiday'"
+  # TODO: Pak bych měl vidět notifikaci "Homer Vás přidal/a do dárců u přání 'M+H: Your parents on holiday'"
+  Pak bych měl vidět notifikaci "Homer Jay Simpson změnil/a přání 'M+H: Your parents on holiday'"

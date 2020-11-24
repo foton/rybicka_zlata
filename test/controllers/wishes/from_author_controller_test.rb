@@ -155,6 +155,6 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
   end
 
   def succesfull_creator(params, author)
-    OpenStruct.new( success?: true, errors: [], result: Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
+    OpenStruct.new(success?: true, errors: [], result: Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
   end
 end
