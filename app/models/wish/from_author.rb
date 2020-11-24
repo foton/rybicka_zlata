@@ -23,6 +23,7 @@ class Wish::FromAuthor < Wish::FromDonee
     new_ids = (author.present? ? [author.base_connection.id] + ids : ids).uniq.compact.sort
     @donees_changed = (donee_conn_ids.sort != new_ids)
     @donee_conn_ids = new_ids
+    fill_connections_from_ids
   end
 
   def destroy(by_user = author)
@@ -43,7 +44,7 @@ class Wish::FromAuthor < Wish::FromDonee
   def fill_connections_from_ids
     self.donee_connections = ::Connection.find(donee_conn_ids).to_a
     @donee_user_ids = nil
-
+    @donee_users = nil
     super
   end
 end

@@ -81,6 +81,7 @@ class UserTest < ActiveSupport::TestCase
                            connections(:bart_to_marge),
                            connections(:bart_to_maggie),
                            connections(:bart_to_milhouse),
+                           connections(:bart_to_jenny),
                            connections(:bart_base)].sort_by(&:name)
     assert_equal ordered_connections, users(:bart).connections.to_a
   end
@@ -90,6 +91,7 @@ class UserTest < ActiveSupport::TestCase
                            connections(:bart_to_lisa),
                            connections(:bart_to_maggie),
                            connections(:bart_to_milhouse),
+                           connections(:bart_to_jenny),
                            connections(:bart_to_marge)].sort_by(&:name)
     assert_equal ordered_connections, users(:bart).friend_connections.to_a
   end

@@ -136,17 +136,13 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
 
     assert Wish.where(id: @wish.id).blank?
- end
+  end
 
   def test_author_can_manage_donees
-    @wish.merge_donor_conn_ids([@conn_marge.id], @bart)
-    @wish.donee_conn_ids = [@conn_lisa.id, @conn_homer.id]
-    @wish.save!
+    assert_equal [@bart_to_homer_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_lisa_conn, connections(:homer_to_marge)].sort, @wish.donor_connections.to_a.sort
 
-    assert_equal [@conn_lisa, @conn_homer, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
-    assert_equal [@conn_marge], @wish.donor_connections.to_a
-
-    edit_wish_hash = { donee_conn_ids: [@conn_homer.id, @conn_marge.id], donor_conn_ids: [@conn_lisa.id] } # segra out, mama in
+    edit_wish_hash = { donee_conn_ids: [@bart_to_marge_conn.id], donor_conn_ids: [@bart_to_lisa_conn.id, @bart_to_homer_conn.id] } # homer to donors, marge in donees
 
     patch :update, params: { user_id: @bart.id, id: @wish.id, wish: edit_wish_hash }
 
@@ -154,8 +150,8 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_redirected_to user_my_wish_path(@bart, @wish)
     assert_equal "Přání '#{@wish.title}' bylo úspěšně aktualizováno.", flash[:notice]
     @wish.reload
-    assert_equal [@conn_marge, @conn_homer, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
-    assert_equal [@conn_lisa].sort, @wish.donor_connections.to_a.sort
+    assert_equal [@bart_to_marge_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_lisa_conn, @bart_to_homer_conn].sort, @wish.donor_connections.to_a.sort
   end
 
   def succesfull_creator(params, author)

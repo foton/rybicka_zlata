@@ -20,27 +20,27 @@ class WishFromDonorTest < ActiveSupport::TestCase
   end
 
   def test_donor_see_connection_names_if_there_are_connections_to_donnees
-    # c) and d) from above =>  Milhouse is not user
+    # c) and d) from above =>  Jenny is not user
     wish = wishes(:marge_hairs)
-    wish_from_donor = Wish::FromDonor.find(add_milhouse_as_donee_to(wish).id)
+    wish_from_donor = Wish::FromDonor.find(add_jenny_as_donee_to(wish).id)
 
-    # Bart have connection to Milhouse
-    expected_names = [connections(:bart_to_marge).name, connections(:bart_to_milhouse).name].sort
+    # Donor Bart have connection to jenny
+    expected_names = [connections(:bart_to_marge).name, connections(:bart_to_jenny).name].sort
     assert_equal expected_names, wish_from_donor.donee_names_for(users(:bart))
 
-    # Lisa do not have connection to Milhouse, so no Milhouse between donees
+    # Donor Lisa do not have connection to Jenny, so no Jenny between donees
     expected_names = [connections(:lisa_to_marge).name]
     assert_equal expected_names, wish_from_donor.donee_names_for(users(:lisa))
   end
 
   private
 
-  def add_milhouse_as_donee_to(wish)
-    milhouses_email = connections(:bart_to_milhouse).email
-    marge_to_milhouse_conn = create_connection_for(wish.author, name: 'Milhouse junior', email: milhouses_email)
-    # add milhouse as second donee to :marge_hairs
+  def add_jenny_as_donee_to(wish)
+    jennys_email = connections(:bart_to_jenny).email
+    marge_to_jenny_conn = create_connection_for(wish.author, name: 'Jenny junior', email: jennys_email)
+    # add Jenny as second donee to :marge_hairs
     wish_from_donor = Wish::FromAuthor.find(wish.id)
-    wish_from_donor.donee_connections << marge_to_milhouse_conn
+    wish_from_donor.donee_connections << marge_to_jenny_conn
 
     wish_from_donor
   end

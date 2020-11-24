@@ -21,6 +21,8 @@ require 'url_regexp'
 class Wish < ApplicationRecord
   SHORT_DESCRIPTION_LENGTH = 200
 
+  attr_writer :ex_donee_users, :ex_donor_users
+
   include Wish::State
 
   belongs_to :author, class_name: 'User'
@@ -35,7 +37,7 @@ class Wish < ApplicationRecord
 
   has_many :posts, class_name: 'Discussion::Post', dependent: :delete_all, inverse_of: :wish
 
-  validates :title, presence: true
+  validates :title, presence: true, length: { minimum: 3, maximum: 100 }
   validates :author, presence: true
   validate :no_same_donor_and_donee
   validate :validate_booked_by
@@ -54,8 +56,6 @@ class Wish < ApplicationRecord
   end
 
   acts_as_notifiable :donors, {
-    # Notification targets as :targets is a necessary option
-    # Set to notify to author and users commented to the article, except comment owner self
     targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] },
     # Path to move when the notification is opened by the target user
     # This is an optional configuration since activity_notification uses polymorphic_path as default
@@ -63,13 +63,14 @@ class Wish < ApplicationRecord
   }
 
   acts_as_notifiable :donees, {
-    # Notification targets as :targets is a necessary option
-    # Set to notify to author and users commented to the article, except comment owner self
     targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] },
     # Path to move when the notification is opened by the target user
     # This is an optional configuration since activity_notification uses polymorphic_path as default
     # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
   }
+
+  acts_as_notifiable :ex_donees, { targets: ->(wish, _key) { wish.ex_donee_users } }
+  acts_as_notifiable :ex_donors, { targets: ->(wish, _key) { wish.ex_donor_users } }
 
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
@@ -116,6 +117,14 @@ class Wish < ApplicationRecord
     @donee_users ||= User.find(donee_user_ids)
   end
 
+  def ex_donee_users
+    @ex_donee_users ||= []
+  end
+
+  def ex_donor_users
+    @ex_donor_users ||=[]
+  end
+
   def donee_user_ids
     @donee_user_ids ||= donee_connections.collect(&:friend_id).uniq.compact
   end
@@ -136,8 +145,20 @@ class Wish < ApplicationRecord
     super || @donors_changed || @donees_changed
   end
 
+  def donors_changed?
+    @donors_changed
+  end
+
+  def donees_changed?
+    @donees_changed
+  end
+
   def donee_conn_ids
     @donee_conn_ids ||= donee_connections.collect(&:id)
+  end
+
+  def donor_conn_ids
+    @donor_conn_ids ||= donor_connections.collect(&:id)
   end
 
   def <=>(other)
@@ -153,10 +174,6 @@ class Wish < ApplicationRecord
   end
 
   private
-
-  def donor_conn_ids
-    @donor_conn_ids ||= donor_connections.collect(&:id)
-  end
 
   def donor_user_ids
     @donor_user_ids ||= donor_connections.collect(&:friend_id).uniq.compact

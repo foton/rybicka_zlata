@@ -10,6 +10,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
     @homer = users(:homer)
     @maggie = users(:maggie)
     @burns = users(:burns)
+    @milhouse = users(:milhouse)
 
     @wishes = {
       'Bart wish (shown only to Homer)' => { donors: { @bart => [@homer] },
@@ -31,7 +32,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
     }
 
     @connections = {
-      @bart => { 'Liiiisaaa' => @lisa, 'Dad' => @homer, 'Mom' => @marge, 'Meg' => @maggie, 'Milhouse' => nil },
+      @bart => { 'Liiiisaaa' => @lisa, 'Dad' => @homer, 'Mom' => @marge, 'Meg' => @maggie, 'Milhouse' => @milhouse, 'Jenny' => nil },
       @lisa => { 'Misfit' => @bart, 'Dad' => @homer, 'Mom' => @marge, 'Maggie' => @maggie, 'Rachel C' => nil },
       @marge => { 'Son' => @bart, 'Daughter' => @lisa, 'Husband' => @homer, 'Little one' => @maggie },
       @homer => { 'MiniMe' => @bart, 'Wife' => @marge },
@@ -51,6 +52,7 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
     assert @homer.present?
     assert @maggie.present?
     assert @burns.present?
+    assert @milhouse.present?
   end
 
   test 'Users have identities' do
@@ -59,11 +61,13 @@ class FixtureConsistencyTest < ActiveSupport::TestCase
       @lisa => [:local],
       @marge => [:local],
       @homer => [:local],
-      @maggie => [:local]
+      @maggie => [:local],
+      @burns => [:local],
+      @milhouse => [:local, 'milhouse@gmail.com']
     }
 
     identities.each_pair do |user, expected_identities|
-      assert_equal expected_identities.size, user.identities.size
+      assert_equal expected_identities.size, user.identities.size, "#{user.email} should have #{expected_identities.size} identities"
 
       expected_identities.each do |expected_identity|
         if expected_identity == :local

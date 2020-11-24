@@ -21,7 +21,7 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   def test_cannot_create_wish_without_title
     @wish.title = ''
     assert_not @wish.valid?
-    assert_equal ['je povinná položka'], @wish.errors[:title]
+    assert_equal ['je povinná položka', "Tenhle Titulek je minimální až moc"], @wish.errors[:title]
   end
 
   def test_cannot_create_wish_without_author
@@ -73,8 +73,8 @@ class WishFromAuthorTest < ActiveSupport::TestCase
     @wish.merge_donor_conn_ids([conn1, conn3].collect(&:id), @author)
 
     assert_not @wish.valid?
-    assert_equal ["Mezi obdarovanými je stejná kontakt jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donor_conn_ids]
-    assert_equal ["Mezi obdarovanými je stejná kontakt jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donee_conn_ids]
+    assert_equal ["Mezi obdarovanými je stejný kontakt jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donor_conn_ids]
+    assert_equal ["Mezi obdarovanými je stejný kontakt jako v dárcích: '#{conn1.fullname}'."], @wish.errors[:donee_conn_ids]
   end
 
   def test_cannot_have_same_email_for_donee_and_donor
@@ -90,21 +90,22 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_cannot_have_same_user_for_donee_and_donor
-    conn1 = connections(:bart_to_lisa)
-    conn2 = connections(:bart_to_maggie)
-    conn3 = connections(:bart_to_milhouse)
+    to_lisa_conn = connections(:bart_to_lisa)
+    to_maggie_conn = connections(:bart_to_maggie)
+    to_milhouse_conn = connections(:bart_to_milhouse)
 
-    user13 = create_test_user!(name: 'Lisa_Milhouse', email: conn1.email)
-    user13.identities << User::Identity.new(email: conn3.email, provider: User::Identity::LOCAL_PROVIDER)
-    conn1.reload # to get user.name
-    conn3.reload # to get user.name
+    hidden_lisa_email = "hidden_lisa@gmail.com"
+    User::Identity.create!(email: hidden_lisa_email, provider: 'google', user: users(:lisa), uid: 'lisag')
 
-    @wish.donee_conn_ids = [conn1].collect(&:id)
-    @wish.merge_donor_conn_ids([conn2, conn3].collect(&:id), @author)
+    to_hidden_lisa_conn = Connection.create!(email: hidden_lisa_email, name: 'Unknown beauty', friend: users(:lisa), owner: @author)
+    @author.connections.reload
+
+    @wish.donee_conn_ids = [to_lisa_conn].collect(&:id) # donees Bart + Lisa
+    @wish.merge_donor_conn_ids([to_maggie_conn, to_milhouse_conn, to_hidden_lisa_conn].collect(&:id), @author) # donors: maggie, milhouse, hidden_lisa
 
     assert_not @wish.valid?
-    assert_equal ["Mezi obdarovanými je stejný uživatel '#{conn1.fullname}'  jako v dárcích '#{conn3.fullname}'."], @wish.errors[:donor_conn_ids]
-    assert_equal ["Mezi obdarovanými je stejný uživatel '#{conn1.fullname}'  jako v dárcích '#{conn3.fullname}'."], @wish.errors[:donee_conn_ids]
+    assert_equal ["Mezi obdarovanými je stejný uživatel '#{to_lisa_conn.fullname}' jako v dárcích '#{to_hidden_lisa_conn.fullname}'."], @wish.errors[:donor_conn_ids]
+    assert_equal ["Mezi obdarovanými je stejný uživatel '#{to_lisa_conn.fullname}' jako v dárcích '#{to_hidden_lisa_conn.fullname}'."], @wish.errors[:donee_conn_ids]
   end
 
   def test_set_updated_by_donee_at
@@ -117,9 +118,9 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_can_be_deleted_when_have_donors
-    conn1 = connections(:bart_to_lisa)
-    conn2 = connections(:bart_to_maggie)
-    @wish.merge_donor_conn_ids([conn1, conn2].collect(&:id), @author)
+    to_lisa_conn = connections(:bart_to_lisa)
+    to_maggie_conn = connections(:bart_to_maggie)
+    @wish.merge_donor_conn_ids([to_lisa_conn, to_maggie_conn].collect(&:id), @author)
     assert @wish.save
     @wish.reload
 
@@ -132,9 +133,9 @@ class WishFromAuthorTest < ActiveSupport::TestCase
   end
 
   def test_can_be_deleted_when_have_donees
-    conn1 = connections(:bart_to_lisa)
-    conn2 = connections(:bart_to_maggie)
-    @wish.donee_conn_ids = [conn1.id, conn2.id]
+    to_lisa_conn = connections(:bart_to_lisa)
+    to_maggie_conn = connections(:bart_to_maggie)
+    @wish.donee_conn_ids = [to_lisa_conn.id, to_maggie_conn.id]
     assert @wish.save
     @wish.reload
 

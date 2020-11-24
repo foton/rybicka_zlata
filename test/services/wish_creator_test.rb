@@ -56,7 +56,7 @@ class WishCreatorTest < ActiveSupport::TestCase
 
     new_wish = service.result
     assert_not new_wish.persisted?
-    assert_equal ["je povinná položka"], new_wish.errors[:title]
+    assert_equal ["je povinná položka", "Tenhle Titulek je minimální až moc"], new_wish.errors[:title]
 
     assert_equal wish_params[:title], new_wish.title
     assert_equal wish_params[:description], new_wish.description

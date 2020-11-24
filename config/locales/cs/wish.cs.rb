@@ -41,9 +41,9 @@
     },
     errors: {
       same_donor_and_donee: {
-        by_connection: "Mezi obdarovanými je stejná kontakt jako v dárcích: '%{conn_fullname}'.",
+        by_connection: "Mezi obdarovanými je stejný kontakt jako v dárcích: '%{conn_fullname}'.",
         by_email: "Mezi obdarovanými je kontakt se stejným emailem jako jiná v dárcích: '%{email}'",
-        by_user: "Mezi obdarovanými je stejný uživatel '%{donee_fullname}'  jako v dárcích '%{donor_fullname}'."
+        by_user: "Mezi obdarovanými je stejný uživatel '%{donee_fullname}' jako v dárcích '%{donor_fullname}'."
       },
       cannot_be_booked_by_donee: 'Nemůže být rezervováno obdarovaným!',
       cannot_be_booked_in_this_state: 'Nemůže mít, v tomto stavu, přiděleného rezervujícího uživatele!',

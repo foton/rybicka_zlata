@@ -66,7 +66,6 @@ class Wishes::FromDonorControllerTest < ActionController::TestCase
 
   def test_update
     # update just call method wish.do_action! from 'state_action=do_action' if it is allowed to user
-
     # for example do_action=book
     patch :update, params: { user_id: @bart.id, id: @marge_wish.id, state_action: :book }
 

@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 # RUN SINGLE TEST?
-# rake test TEST=test/models/identity_test.rb TESTOPTS="--name=test_can_be_created_from_auth_without_user -v"
+# rails test test/models/identity_test.rb:23"
 
 # RUN ALL TESTS IN FILE?
-# rake test TEST=test/models/identity_test.rb
+# rails test test/models/identity_test.rb"
 
 require 'minitest/reporters'
 # require 'rake_rerun_reporter'
 
-# reporter_options = { color: true, slow_count: 5, verbose: false, rerun_prefix: 'rm -f log/*.log && be' }
-# Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(reporter_options)]
+reporter_options = { color: true, slow_count: 5, verbose: false, rerun_prefix: 'rm -f log/*.log && be' }
+Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(reporter_options)]
 # Minitest::Reporters.use! [Minitest::Reporters::RakeRerunReporter.new(reporter_options)]
 
 ENV['RAILS_ENV'] ||= 'test'
