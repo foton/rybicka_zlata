@@ -10,7 +10,7 @@ Kontext:
   Pokud existují standardní testovací uživatelé
   A jsem přihlášen jako "Bart"
   A přepnu na češtinu
-  A existuje přítel "Milhouse [???]: milhouse@gmail.com"
+  A existuje přítel "Milhouse [Milhouse Mussolini Van Houten]: milhouse@gmail.com"
   A jsem na stránce "Kontakty"
 
 @javascript
@@ -33,7 +33,7 @@ Scénář: Úprava přítele
   A kliknu na uložení
 
   Pak jsem na stránce "Kontakty"
-  A vidím text "Kontakt 'Milhouse2 [???]: milhouse@email.cz' byl úspěšně aktualizován."
+  A vidím text "Kontakt 'Milhouse2 [Milhouse Mussolini Van Houten]: milhouse@email.cz' byl úspěšně aktualizován."
   A v seznamu přátel je kontakt "Milhouse2" s adresou "milhouse@email.cz"
   A v seznamu přátel není kontakt "Milhouse" s adresou "milhouse@gmail.com"
 
@@ -43,7 +43,7 @@ Scénář: Odstranění přítele
   A smazání potvrdím
 
   Pak jsem na stránce "Kontakty"
-  A vidím text "Kontakt 'Milhouse [???]: milhouse@gmail.com' byl úspěšně smazán."
+  A vidím text "Kontakt 'Milhouse [Milhouse Mussolini Van Houten]: milhouse@gmail.com' byl úspěšně smazán."
   A v seznamu přátel není kontakt "Milhouse" s adresou "milhouse@gmail.com"
 
 @javascript

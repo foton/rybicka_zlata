@@ -34,7 +34,7 @@ class WishCreator
   attr_reader :wish
 
   def create_wish
-    modified_params= wish_params.dup
+    modified_params= wish_params.dup.except(:state_action)
     modified_params.delete(:user_id) # should be same as author_id
     donor_conn_ids = modified_params.delete(:donor_conn_ids)
 

@@ -33,7 +33,6 @@ Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
   end
 
   @friend_connection = check_connection(@current_user, name: m[1], email: m[3])
-  User.create!(name: m[2], email: m[3], password: 'password')
   @friend_connection.reload
 end
 
@@ -158,9 +157,7 @@ end
 
 def check_connection(user, conn_hash)
   conns = user.connections.where(name: conn_hash[:name])
-  if conn_hash[:email].present?
-    conns = conns.select { |conn| conn.email == conn_hash[:email] } if conns.present?
-  end
+  conns = conns.where(email: conn_hash[:email]) if conn_hash[:email].present?
   assert_equal 1, conns.size
   conns.first
 end

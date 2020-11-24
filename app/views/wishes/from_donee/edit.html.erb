@@ -1,5 +1,3 @@
-<% add_jquery_ui %>
-
 <h3><%= @wish.title %></h3>
 <p><%= @wish.description %></p>
 
@@ -25,7 +23,7 @@ $( document ).ready(function() {
   selectors_hash['lists_container']="#user_connections";
   selectors_hash['unused_list']="#unused_connections";
   selectors_hash['other_lists_arr']=["#donor_connections"];
-  
+
   create_3_panel_selection(selectors_hash);
 });
 </script>

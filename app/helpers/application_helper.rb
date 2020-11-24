@@ -30,12 +30,6 @@ module ApplicationHelper
     tag.h3(text)
   end
 
-  def add_jquery_ui
-    # content_for :stylesheets, stylesheet_link_tag("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css")
-    content_for :javascripts, javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
-    content_for :javascripts, javascript_include_tag('jquery.ui.touch-punch.min.js')
-  end
-
   def switch_for(f_builder, method, label_text = nil, options = {}, html_options = {}, checked_value = '1', unchecked_value = '0')
     if label_text.blank? && f_builder.object.is_a?(ActiveRecord::Base)
       label_text = t("activerecord.attributes.#{f_builder.object.class.name.downcase}.#{method}")
