@@ -21,7 +21,7 @@ require 'url_regexp'
 class Wish < ApplicationRecord
   SHORT_DESCRIPTION_LENGTH = 200
 
-  attr_writer :ex_donee_users, :ex_donor_users
+  attr_writer :ex_donee_users, :ex_donor_users, :new_donee_users, :new_donor_users
 
   include Wish::State
 
@@ -56,14 +56,14 @@ class Wish < ApplicationRecord
   end
 
   acts_as_notifiable :donors, {
-    targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] }
+    targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] - wish.new_donor_users }
     # Path to move when the notification is opened by the target user
     # This is an optional configuration since activity_notification uses polymorphic_path as default
     # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
   }
 
   acts_as_notifiable :donees, {
-    targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] }
+    targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] - wish.new_donee_users }
     # Path to move when the notification is opened by the target user
     # This is an optional configuration since activity_notification uses polymorphic_path as default
     # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
@@ -71,6 +71,8 @@ class Wish < ApplicationRecord
 
   acts_as_notifiable :ex_donees, { targets: ->(wish, _key) { wish.ex_donee_users } }
   acts_as_notifiable :ex_donors, { targets: ->(wish, _key) { wish.ex_donor_users } }
+  acts_as_notifiable :new_donees, { targets: ->(wish, _key) { wish.new_donee_users } }
+  acts_as_notifiable :new_donors, { targets: ->(wish, _key) { wish.new_donor_users } }
 
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
@@ -122,6 +124,14 @@ class Wish < ApplicationRecord
 
   def ex_donor_users
     @ex_donor_users ||= []
+  end
+
+  def new_donee_users
+    @new_donee_users ||= []
+  end
+
+  def new_donor_users
+    @new_donor_users ||= []
   end
 
   def donee_user_ids

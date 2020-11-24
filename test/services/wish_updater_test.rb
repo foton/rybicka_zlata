@@ -190,8 +190,9 @@ class WishUpdaterTest < ActiveSupport::TestCase
     self.wish = Wish.find(wish.id)
     assert_changes_only_on({ donor_conns: new_donor_conns, updated_by_donee_at: Time.current })
 
-    assert_notified(users: wish.donor_users + wish.donee_users - [updating_user], key: 'wish.updated', notifier: updating_user, notifiable: wish)
-    # homer is still between donors, so no 'wish.removed_you_as_donor' is issued
+    assert_notified(users: wish.donor_users + wish.donee_users - [updating_user, other_conn.friend], key: 'wish.updated', notifier: updating_user, notifiable: wish)
+    assert_notified(users: [other_conn.friend], key: 'wish.added_you_as_donor', notifier: updating_user, notifiable: wish)
+    # Homer is still between donors, so no 'wish.removed_you_as_donor' is issued
   end
 
   test 'author can update wish attributes and notify users' do
@@ -236,8 +237,9 @@ class WishUpdaterTest < ActiveSupport::TestCase
     self.wish = Wish.find(wish.id)
     assert_changes_only_on(valid_params.slice(:title, :description).merge({ donor_conns: new_donor_conns, updated_by_donee_at: Time.current }))
 
-    assert_notified(users: expected_notified_users - [removed_donor_conn.friend], key: 'wish.updated', notifier: updating_user, notifiable: wish)
+    assert_notified(users: expected_notified_users - [removed_donor_conn.friend, other_conn.friend], key: 'wish.updated', notifier: updating_user, notifiable: wish)
     assert_notified(users: [removed_donor_conn.friend], key: 'wish.removed_you_as_donor', notifier: updating_user, notifiable: wish)
+    assert_notified(users: [other_conn.friend], key: 'wish.added_you_as_donor', notifier: updating_user, notifiable: wish)
   end
 
   test 'author can change donnees' do
@@ -274,9 +276,10 @@ class WishUpdaterTest < ActiveSupport::TestCase
     assert_not_includes wish.donor_users, users(:milhouse)
 
     assert_notified(users: wish.donor_users, key: 'wish.updated', notifier: updating_user, notifiable: wish)
-    assert_notified(users: wish.donee_users - [updating_user], key: 'wish.updated', notifier: updating_user, notifiable: wish)
+    assert_notified(users: wish.donee_users - [updating_user, other_conn.friend], key: 'wish.updated', notifier: updating_user, notifiable: wish)
     assert_notified(users: [users(:milhouse)], key: 'wish.removed_you_as_donor', notifier: updating_user, notifiable: wish) # Homer is still between donors, from Lisa side
     assert_notified(users: [users(:bart)], key: 'wish.removed_you_as_donee', notifier: updating_user, notifiable: wish)
+    assert_notified(users: [users(:maggie)], key: 'wish.added_you_as_donee', notifier: updating_user, notifiable: wish)
   end
 
   test 'author can mark wish as fulfilled' do

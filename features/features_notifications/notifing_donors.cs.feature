@@ -26,5 +26,4 @@ Scénář: Dostávám notifikace o změně
   Pokud na mě má "Homer" kontakt
   A "Homer" mě zase přidá do dárců přání "M+H: Your parents on holiday"
   A já si otevřu stránku "Notifikace"
-  # TODO: Pak bych měl vidět notifikaci "Homer Vás přidal/a do dárců u přání 'M+H: Your parents on holiday'"
-  Pak bych měl vidět notifikaci "Homer Jay Simpson změnil/a přání 'M+H: Your parents on holiday'"
+  Pak bych měl vidět notifikaci "Homer Jay Simpson Vás přidal/a mezi potenciální dárce u přání 'M+H: Your parents on holiday'"

@@ -34,10 +34,7 @@ class WishUpdater
   attr_accessor :notifications, :message
 
   def update_wish
-    @notifications = { donors: [], donees: [], ex_donees: [], ex_donors: [] }
-
-    wish.ex_donee_users = []
-    wish.ex_donor_users = []
+    setup
 
     donor_allowed_update if wish.donor?(updating_user)
     donee_allowed_update if wish.donee?(updating_user)
@@ -58,6 +55,20 @@ class WishUpdater
 
     wish
   end
+
+  def setup
+    @notifications = { donors: [],
+                       donees: [],
+                       ex_donees: [],
+                       ex_donors: [],
+                       new_donors: [],
+                       new_donees: [] }
+
+      wish.ex_donee_users = []
+      wish.ex_donor_users = []
+      wish.new_donee_users = []
+      wish.new_donor_users = []
+    end
 
   def donor_allowed_update
     action = modified_params[:state_action].to_sym
@@ -124,12 +135,15 @@ class WishUpdater
     wish.merge_donor_conn_ids(conn_ids, updating_user)
 
     removed_donors = previous_donors - wish.donor_users
+    new_donors = wish.donor_users - previous_donors
 
     if wish.donors_changed?
       notifications[:donors] << 'wish.updated'
       notifications[:donees] << 'wish.updated'
       wish.ex_donor_users += removed_donors
+      wish.new_donor_users += new_donors
       notifications[:ex_donors] << 'wish.removed_you_as_donor'
+      notifications[:new_donors] << 'wish.added_you_as_donor'
     end
   end
 
@@ -139,9 +153,13 @@ class WishUpdater
     previous_donees = wish.donee_users
     wish.donee_conn_ids = conn_ids
     removed_donees = previous_donees - wish.donee_users
+    new_donees = wish.donee_users - previous_donees
+
     completely_remove(removed_donees)
 
     if wish.donees_changed?
+      wish.new_donee_users += new_donees
+      notifications[:new_donees] << 'wish.added_you_as_donee'
       notifications[:donors] << 'wish.updated'
       notifications[:donees] << 'wish.updated'
     end
