@@ -1,0 +1,42 @@
+cs:
+  notification:
+    views:
+      index:
+        header: Notifikace pro %{target_name}
+    user:
+      wish:
+        created:
+          you_as_donor: '%{notifier_name} vytvořil/a přání "%{wish_title}" s Vámi jako dárcem.'
+          you_as_donee: '%{notifier_name} vytvořil/a přání "%{wish_title}" s Vámi jako obdarovaným.'
+        updated: '%{notifier_name} změnil/a přání "%{wish_title}".'
+        removed_you_as_donee: '%{notifier_name} Vás odebral/a z obdarovaných u přání "%{wish_title}".'
+        removed_you_as_donor: '%{notifier_name} Vás odebral/a z dárců u přání "%{wish_title}".'
+        book: '%{notifier_name} si rezervoval/a přání "%{wish_title}".'
+        unboook: '%{notifier_name} zrušil/a rezervaci u přání "%{wish_title}".'
+        gifted: '%{notifier_name} označil/a přání "%{wish_title}" jako darované.'
+        call_for_co_donors: '%{notifier_name} přidal/a výzvu pro spoludárce u přání "%{wish_title}".'
+        withdraw_call: '%{notifier_name} stáhnul/la výzvu pro spoludárce u přání "%{wish_title}".'
+        fulfilled: '%{notifier_name} označil/a přání "%{wish_title}" jako splněné.'
+
+
+      article:
+        create:
+          text: 'Article has been created'
+        update:
+          text: 'Article %{article_title} has been updated'
+        destroy:
+          text: 'Some user removed an article!'
+      comment:
+        create:
+          text: '%{notifier_name} posted a comment on the article "%{article_title}"'
+        post:
+          text:
+            one: "<p>%{notifier_name} posted a comment on your article %{article_title}</p>"
+            other: "<p>%{notifier_name} posted %{count} comments on your article %{article_title}</p>"
+        reply:
+          text: "<p>%{notifier_name} and %{group_member_count} other people replied %{group_notification_count} times to your comment</p>"
+          mail_subject: 'New comment on your article'
+    admin:
+      article:
+        post:
+          text: '[Admin] Article has been created'

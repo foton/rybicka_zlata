@@ -53,7 +53,7 @@ class WishCreator
   end
 
   def notify_users
-    wish.notify(:donors, key: 'wish.notifications.created.you_as_donor', notifier: author)
-    wish.notify(:donees, key: 'wish.notifications.created.you_as_donee', notifier: author)
+    wish.notify(:donors, key: 'wish.created.you_as_donor', notifier: author)
+    wish.notify(:donees, key: 'wish.created.you_as_donee', notifier: author)
   end
 end

@@ -87,8 +87,8 @@ class WishUpdater
       if modified_params[att].present?
         wish.write_attribute(att, modified_params[att])
         if wish.changes.keys.include?(att.to_s)
-          notifications[:donors] << 'wish.notifications.updated'
-          notifications[:donees] << 'wish.notifications.updated'
+          notifications[:donors] << 'wish.updated'
+          notifications[:donees] << 'wish.updated'
         end
       end
     end
@@ -124,10 +124,10 @@ class WishUpdater
     removed_donors = previous_donors - wish.donor_users
 
     if wish.donors_changed?
-      notifications[:donors] << 'wish.notifications.updated'
-      notifications[:donees] << 'wish.notifications.updated'
+      notifications[:donors] << 'wish.updated'
+      notifications[:donees] << 'wish.updated'
       wish.ex_donor_users += removed_donors
-      notifications[:ex_donors] << 'wish.notifications.removed_you_as_donor'
+      notifications[:ex_donors] << 'wish.removed_you_as_donor'
     end
   end
 
@@ -140,8 +140,8 @@ class WishUpdater
     completely_remove(removed_donees)
 
     if wish.donees_changed?
-      notifications[:donors] << 'wish.notifications.updated'
-      notifications[:donees] << 'wish.notifications.updated'
+      notifications[:donors] << 'wish.updated'
+      notifications[:donees] << 'wish.updated'
     end
   end
 
@@ -158,7 +158,7 @@ class WishUpdater
     new_donor_users = wish.donor_links.includes(connection: [:friend]).collect {|link| link.connection.friend}
     wish.ex_donor_users -= new_donor_users
 
-    notifications[:ex_donees] << 'wish.notifications.removed_you_as_donee'
-    notifications[:ex_donors] << 'wish.notifications.removed_you_as_donor'
+    notifications[:ex_donees] << 'wish.removed_you_as_donee'
+    notifications[:ex_donors] << 'wish.removed_you_as_donor'
   end
 end

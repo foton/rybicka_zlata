@@ -39,8 +39,8 @@ class WishCreatorTest < ActiveSupport::TestCase
     assert_equal author, new_wish.author
     assert_equal author, new_wish.updated_by
 
-    assert_notified(users: donee_conns.collect(&:friend), key: 'wish.notifications.created.you_as_donee', notifier: author, notifiable: new_wish)
-    assert_notified(users: donor_conns.collect(&:friend), key: 'wish.notifications.created.you_as_donor', notifier: author, notifiable: new_wish)
+    assert_notified(users: donee_conns.collect(&:friend), key: 'wish.created.you_as_donee', notifier: author, notifiable: new_wish)
+    assert_notified(users: donor_conns.collect(&:friend), key: 'wish.created.you_as_donor', notifier: author, notifiable: new_wish)
   end
 
   test 'can fails on creation' do

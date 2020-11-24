@@ -170,6 +170,11 @@ class User < ApplicationRecord
     identities.where(email: email).order('id ASC').first
   end
 
+  def printable_target_name
+    name
+  end
+  alias_method :printable_notifier_name, :printable_target_name
+
   private
 
   def ensure_main_identity

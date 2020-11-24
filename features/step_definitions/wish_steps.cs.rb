@@ -9,7 +9,10 @@ end
 
 Pokud("{string} změní přání {string}") do |user_name, wish_title|
   @wish = Wish.find_by(title: wish_title)
-  @wish.description += ' and others'
-  @wish.save!
+  user = find_user_by(user_name)
+  assert user.present?
+  wu = WishUpdater.call(@wish, { description: @wish.description + ' and others' }, user)
+  assert wu.success?
+  @wish = wu.result.wish
 end
 
