@@ -1,6 +1,7 @@
 en:
   notification:
     views:
+      navigation: Notifications
       index:
         header: Notifications for %{target_name}
       user_profile:
