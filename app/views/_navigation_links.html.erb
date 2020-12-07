@@ -5,11 +5,12 @@
   <!--<i class="icon material-icons">people</i>-->
   <%= link_to(t("groups.views.header"), user_groups_path(current_user), class: link_class) %>
   <%= link_to(t("user.profile.my.header"), my_profile_path(), class: link_class) %>
+  <%= link_to((t("notification.views.navigation") + unopened_notifications_counter).html_safe, user_notifications_path(current_user), class: link_class) %>
   <%= link_to t("devise.sessions.destroy.sign_out"), destroy_user_session_path, :method => :delete, class: link_class %>
 <% else %>
   <%= link_to t("devise.registrations.new.sign_up"), new_user_registration_path, class: link_class %>
   <%= link_to t("devise.sessions.new.sign_in"), new_user_session_path, class: link_class %>
 <% end %>
- 
 
- 
+
+

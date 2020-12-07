@@ -55,24 +55,19 @@ class Wish < ApplicationRecord
     @donees_changed = false
   end
 
-  acts_as_notifiable :donors, {
-    targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] - wish.new_donor_users }
-    # Path to move when the notification is opened by the target user
-    # This is an optional configuration since activity_notification uses polymorphic_path as default
-    # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
+
+  acts_as_notifiable :donors, { targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] - wish.new_donor_users } }
+
+  acts_as_notifiable :donees, { targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] - wish.new_donee_users }
+    # does not work, beacasue gem is looking for [:users][:notifiable_path] in options, but have stored [:donees][:notifiable_path]
+    # notifiable_path: :wish_notifiable_path
+    # so we used fall back to polymorphics path `wishes/:id` and handle it there
   }
 
-  acts_as_notifiable :donees, {
-    targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] - wish.new_donee_users }
-    # Path to move when the notification is opened by the target user
-    # This is an optional configuration since activity_notification uses polymorphic_path as default
-    # notifiable_path: ->(comment, key) { "#{comment.article_notifiable_path}##{key}" }
-  }
-
-  acts_as_notifiable :ex_donees, { targets: ->(wish, _key) { wish.ex_donee_users } }
-  acts_as_notifiable :ex_donors, { targets: ->(wish, _key) { wish.ex_donor_users } }
-  acts_as_notifiable :new_donees, { targets: ->(wish, _key) { wish.new_donee_users } }
-  acts_as_notifiable :new_donors, { targets: ->(wish, _key) { wish.new_donor_users } }
+  acts_as_notifiable :ex_donees, { targets: ->(wish, _key) { wish.ex_donee_users }}
+  acts_as_notifiable :ex_donors, { targets: ->(wish, _key) { wish.ex_donor_users }}
+  acts_as_notifiable :new_donees, { targets: ->(wish, _key) { wish.new_donee_users }}
+  acts_as_notifiable :new_donors, { targets: ->(wish, _key) { wish.new_donor_users }}
 
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }
@@ -174,13 +169,14 @@ class Wish < ApplicationRecord
     id <=> other.id
   end
 
-  def notified_users # must be public
-    (donors + donees - [updated_by]).uniq.compact
-  end
-
   def to_plain_wish
     Wish.find(id)
   end
+
+  def wish_title
+    title
+  end
+
 
   private
 

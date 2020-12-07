@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module WishesHelper
+  
   def path_to_wish_action_for_user(action, user, wish = nil, params = {})
     return new_user_author_wish_path(user) if action == :new
     return '' if wish.blank?

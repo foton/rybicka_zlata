@@ -122,6 +122,11 @@ module ApplicationHelper
     '<span class="field_value">' + html_escape(value.to_s) + '</span>').html_safe
   end
 
+  def unopened_notifications_counter
+    count = current_user.unopened_notification_count({})
+    count.zero? ? '' : "<span class=\"counter\">#{count}</span>"
+  end
+
   private
 
   def button_mdl_classes

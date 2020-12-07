@@ -1,0 +1,27 @@
+en:
+  notification:
+    views:
+      index:
+        header: Notifications for %{target_name}
+      user_profile:
+        last_few: Last unread notifications
+        all_notifications: All notifications
+    targets:
+      wish:
+        created:
+          you_as_donor: "<b>%{notifier_name}</b> created wish <b>'%{wish_title}'</b> with You between donors."
+          you_as_donee: "<b>%{notifier_name}</b> created wish <b>'%{wish_title}'</b> with You between donees."
+        updated: "<b>%{notifier_name}</b> updated wish <b>'%{wish_title}'</b>."
+        added_you_as_donee: "<b>%{notifier_name}</b> added You as donee at wish <b>'%{wish_title}'</b>."
+        removed_you_as_donee: "<b>%{notifier_name}</b> removed You from donees for wish <b>'%{wish_title}'</b>."
+        added_you_as_donor: "<b>%{notifier_name}</b> added You as donor at wish <b>'%{wish_title}'</b>."
+        removed_you_as_donor: "<b>%{notifier_name}</b> removed You from donors for wish <b>'%{wish_title}'</b>."
+        book: "<b>%{notifier_name}</b> booked wish <b>'%{wish_title}'</b>."
+        unboook: "<b>%{notifier_name}</b> unbooked wish <b>'%{wish_title}'</b>."
+        gifted: "<b>%{notifier_name}</b> marked wish <b>'%{wish_title}'</b> as gifted."
+        call_for_co_donors: "<b>%{notifier_name}</b> is calling for co-donors at wish <b>'%{wish_title}'</b>."
+        withdraw_call: "<b>%{notifier_name}</b> withdrew call for co-donors at wish <b>'%{wish_title}'</b>."
+        fulfilled: "<b>%{notifier_name}</b> marked wish <b>'%{wish_title}'</b> as fulfilled."
+      post:
+        created: "<b>%{notifier_name}</b> added post at wish <b>'%{wish_title}'</b>."
+        deleted: "<b>%{notifier_name}</b> deleted post at wish <b>'%{wish_title}'</b>."

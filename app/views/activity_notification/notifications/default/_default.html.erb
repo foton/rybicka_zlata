@@ -1,10 +1,9 @@
 <% content_for :notification_content, flush: true do %>
   <div class='notification_list <%= notification.opened? ? "opened" : "unopened" %>'>
     <div class="notification_list_cover"></div>
-    <div class="list_image"></div>
     <div class="list_text_wrapper">
       <p class="list_text">
-        <%= t("notification.targets.#{notification.key}", notifier_name: (notification&.notifier&.printable_notifier_name || 'Someone') , wish_title: (notification&.notifiable&.title || 'Not FOUND!')) %>
+        <%= raw t("notification.targets.#{notification.key}", notifier_name: (notification&.notifier&.printable_notifier_name || 'Someone') , wish_title: (notification&.notifiable&.wish_title || 'Not FOUND!')) %>
         <br>
         <span><%= l(notification.created_at) %></span>
       </p>
@@ -47,7 +46,7 @@
   .unopened_wrapper{
     position: absolute;
     margin-top: 20px;
-    margin-left: 56px;
+    margin-left: 10px;
   }
   .unopened_wrapper .unopened_circle {
     display: block;

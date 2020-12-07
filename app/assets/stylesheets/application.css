@@ -48,7 +48,12 @@ footer {
 	text-align: center;
 }
 
-
+.counter {
+  padding: 0.2em;
+  margin: 0.2em;
+  background-color: rgb(255, 204, 102);
+  color: rgb(63, 81, 181);
+}
 /*
 .mdl-cell {
 	border: 1px solid #aaa;
@@ -125,9 +130,6 @@ footer {
 #donor_connections, #donee_connections {
   background-color: rgb(255, 204, 102);
   border: 1px solid gray;
-}
-
-.sortbox {
 }
 
 

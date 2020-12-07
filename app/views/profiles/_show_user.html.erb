@@ -1,0 +1,10 @@
+<h3><%= @user.displayed_name %></h3>
+
+<p>
+  <%= label_and_value(t('activerecord.attributes.user.email'), @user.email) %><br />
+  <%= label_and_value(t('activerecord.attributes.user.last_sign_in'), "#{ @user.last_sign_in_at ? l(@user.last_sign_in_at) : ''} [#{@user.last_sign_in_ip}]") %>
+</p>
+
+<div class="actions">
+  <%= button_link_to(I18n.t("user.profile.actions.edit.button"), edit_user_registration_path(), {method: :get, class: "edit"} ) %>
+</div>
