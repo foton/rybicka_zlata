@@ -1,0 +1,6 @@
+<div id="my_notifications">
+  <h4><%= t("notification.views.user_profile.last_few") %></h4>
+  <%= render_notification @latest_notifications, {fallback: :default} %>
+  <%= link_to(t("notification.views.user_profile.all_notifications"), user_notifications_path(@user)) %>
+</div>
+

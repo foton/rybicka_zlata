@@ -33,7 +33,6 @@ Pokud(/^existuje (?:přítel|přátelství) "(.*?)"$/) do |connection_fullname|
   end
 
   @friend_connection = check_connection(@current_user, name: m[1], email: m[3])
-  User.create!(name: m[2], email: m[3], password: 'password')
   @friend_connection.reload
 end
 
@@ -76,10 +75,12 @@ Pokud(/^(?:u "(.*?)" )?existuje skupina "(.*?)" se členy \[([^\]]*)\]$/) do |us
   grp = user.groups.create!(name: grp_name) if grp.blank?
 
   members = []
-  grp_members_to_s.split(',').each do |mem_name|
-    mem_name = mem_name.delete('"').strip
-    conn = user.connections.find_by(name: mem_name)
-    conn = user.connections.create!(name: mem_name, email: "#{mem_name}@example.com") if conn.blank?
+  grp_members_to_s.split(',').each do |member_name|
+    member_name = member_name.delete('"').strip
+    conn = user.connections.find_by(name: member_name)
+    if conn.blank?
+      conn = user.connections.create!(name: member_name, email: "#{member_name}@rybickazlata.cz")
+    end
     members << conn
   end
   grp.connections = members
@@ -158,9 +159,7 @@ end
 
 def check_connection(user, conn_hash)
   conns = user.connections.where(name: conn_hash[:name])
-  if conn_hash[:email].present?
-    conns = conns.select { |conn| conn.email == conn_hash[:email] } if conns.present?
-  end
+  conns = conns.where(email: conn_hash[:email]) if conn_hash[:email].present?
   assert_equal 1, conns.size
   conns.first
 end

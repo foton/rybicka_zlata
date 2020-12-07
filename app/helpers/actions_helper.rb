@@ -61,7 +61,7 @@ module ActionsHelper
       raise "unknown TAG: #{tag}"
     end
 
-    content_tag(:span) do
+    content_tag(:span) do # rubocop:disable Rails/ContentTag
       concat send(mtd, bt_content, url, method: method, id: id, remote: remote, class: action.to_s, data: data)
       concat tag.span(class: 'mdl-tooltip', for: id) { bt_content } if bt_content != tooltip
     end

@@ -43,17 +43,12 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
                   donee_conn_ids: donee_conns.collect(&:id),
                   donor_conn_ids: donor_conns.collect(&:id) }
 
-    post :create, params: { user_id: @bart.id, wish: wish_hash }
-
-    new_wish = assigns(:wish)
-
-    assert_equal wish_hash[:title], new_wish.title
-    assert_equal wish_hash[:description], new_wish.description
-    assert new_wish.persisted?
-    assert_equal donor_conns.sort, new_wish.donor_connections.sort
-    assert_equal (donee_conns + [@bart.base_connection]).sort, new_wish.donee_connections.sort
+    WishCreator.stub(:call, succesfull_creator(wish_hash, @bart)) do
+      post :create, params: { user_id: @bart.id, wish: wish_hash }
+    end
 
     assert_response :redirect
+    new_wish = assigns(:wish)
     assert_redirected_to user_my_wish_path(@bart, new_wish)
     assert_equal "Přání '#{wish_hash[:title]}' bylo úspěšně přidáno.", flash[:notice]
   end
@@ -141,5 +136,25 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
 
     assert Wish.where(id: @wish.id).blank?
+  end
+
+  def test_author_can_manage_donees
+    assert_equal [@bart_to_homer_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_lisa_conn, connections(:homer_to_marge)].sort, @wish.donor_connections.to_a.sort
+
+    edit_wish_hash = { donee_conn_ids: [@bart_to_marge_conn.id], donor_conn_ids: [@bart_to_lisa_conn.id, @bart_to_homer_conn.id] } # homer to donors, marge in donees
+
+    patch :update, params: { user_id: @bart.id, id: @wish.id, wish: edit_wish_hash }
+
+    assert_response :redirect
+    assert_redirected_to user_my_wish_path(@bart, @wish)
+    assert_equal "Přání '#{@wish.title}' bylo úspěšně aktualizováno.", flash[:notice]
+    @wish.reload
+    assert_equal [@bart_to_marge_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_lisa_conn, @bart_to_homer_conn].sort, @wish.donor_connections.to_a.sort
+  end
+
+  def succesfull_creator(params, author)
+    OpenStruct.new(success?: true, errors: [], result: Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
   end
 end

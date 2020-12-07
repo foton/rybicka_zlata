@@ -4,10 +4,10 @@ en:
     title: "could make your wishes true"
     static:
 
-      about: 
+      about:
         title: "About"
 
-      contact_us: 
+      contact_us:
         title: "Contact us"
         message:
           to_admin:
@@ -24,6 +24,7 @@ en:
     "no": "No"
   uri_shortened: "%{uri_short}...(shortened)"
   peeking_is_not_allowed: "Peeking to other accounts is not allowed!"
+  you_do_not_have_access: "You do not have granted access to that wish!"
   about:
-    
+
 

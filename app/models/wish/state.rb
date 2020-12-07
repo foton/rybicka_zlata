@@ -100,7 +100,7 @@ module Wish::State
     if user.donee_of?(self)
       self.state = STATE_FULFILLED
       @available_users_actions = {}
-      donor_links.destroy_all # they are no longer needed
+      # donor_links.destroy_all # they are no longer needed
       I18n.t('wishes.actions.fulfilled.message', wish_title: title)
     end
   end

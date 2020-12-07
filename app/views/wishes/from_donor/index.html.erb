@@ -1,5 +1,3 @@
-<% add_jquery_ui %>
-
 <h3><%= t("wishes.from_donor.views.index.header") %></h3>
 
 <div id="donees_list" class="lists">
@@ -14,7 +12,7 @@
       <%= render( partial: "donee_wishes", collection: @wishes_by_donees.all) || t("wishes.from_donor.views.index.no_wishes") %>
     </ul>
   </div>
-</div>       
-  
+</div>
+
 
 

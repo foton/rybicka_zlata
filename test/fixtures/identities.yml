@@ -46,4 +46,20 @@ maggie_identity:
   user: maggie
   uid: maggie
 
+burns_identity:
+  email: mr.burns@world.com
+  provider: <%= User::Identity::LOCAL_PROVIDER %>
+  user: burns
+  uid: burns
 
+milhouse_identity_1:
+  email: milhouse@school.com
+  provider: <%= User::Identity::LOCAL_PROVIDER %>
+  user: milhouse
+  uid: milhouse
+
+milhouse_identity_2:
+  email: milhouse@gmail.com
+  provider: test
+  user: milhouse
+  uid: milhouse

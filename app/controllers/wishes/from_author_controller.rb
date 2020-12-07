@@ -6,7 +6,7 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
   before_action :set_user
 
   def new
-    build_wish
+    @wish = @user.author_wishes.build
     load_user_connections
     load_user_groups
     @wish.author = @user
@@ -14,26 +14,23 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
   end
 
   def create
-    build_wish
+    wish_creator = WishCreator.call(wish_params, @user)
+    @wish = wish_creator.result
+
     load_user_connections
     load_user_groups
-    @wish.author = @user # params[:user_id]
-    create_wish(t('wishes.from_author.views.added', title: @wish.title), t('wishes.from_author.views.not_added', title: @wish.title)) || render('new')
+
+    if wish_creator.success?
+      flash[:notice] = t('wishes.from_author.views.added', title: @wish.title)
+      redirect_to user_my_wish_url(@user, @wish) # WishFromDonee controller ::show
+    else
+      flash[:error] = t('wishes.from_author.views.not_added', title: @wish.title)
+      @user = @wish.author
+      render('new')
+    end
   end
 
   private
-
-  def create_wish(msg_ok, msg_bad)
-    if @wish.save
-      flash[:notice] = msg_ok
-      redirect_to user_my_wish_url(@user, @wish) # WishFromDonee controller ::show
-      true
-    else
-      flash[:error] = msg_bad
-      @user = @wish.author
-      false
-    end
-  end
 
   def destroy_wish
     if @wish.destroy(@user)
@@ -44,23 +41,15 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
   end
 
   def wish_params
-    unless defined?(@wish_params)
-      if params[:wish].blank?
-        @wish_params = ActionController::Parameters.new({})
-      else
-        @wish_params = params[:wish]
-        @wish_params[:donee_conn_ids] = [] if @wish_params[:donee_conn_ids].blank?
-        @wish_params[:donee_conn_ids] = @wish_params[:donee_conn_ids].collect(&:to_i)
-        @wish_params[:donor_conn_ids] = [] if @wish_params[:donor_conn_ids].blank?
-        @wish_params[:donor_conn_ids] = @wish_params[:donor_conn_ids].collect(&:to_i)
+    @wish_params ||= begin
+      wish_params = params[:wish] || ActionController::Parameters.new({})
+      wish_params.delete(:unused_conn_ids)
+      wish_params[:donee_conn_ids] = wish_params[:donee_conn_ids].blank? ? [] : wish_params[:donee_conn_ids].collect(&:to_i)
+      wish_params[:donor_conn_ids] = wish_params[:donor_conn_ids].blank? ? [] : wish_params[:donor_conn_ids].collect(&:to_i)
+      wish_params[:state_action] = params[:state_action]
 
-        # The permitted scalar types are String, Symbol, NilClass, Numeric, TrueClass, FalseClass, Date, Time, DateTime, StringIO, IO, ActionDispatch::Http::UploadedFile and Rack::Test::UploadedFile.
-        # To declare that the value in params must be an array of permitted scalar values map the key to an empty array:
-        @wish_params = @wish_params.permit(:title, :description, donee_conn_ids: [], donor_conn_ids: [])
-      end
-
+      wish_params.permit(:title, :description, :state_action, donor_conn_ids: [], donee_conn_ids: [])
     end
-    @wish_params
   end
 
   def wish_scope

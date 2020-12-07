@@ -3,6 +3,7 @@
 # managing posts with autorization what can user see
 class DiscussionService
   class NotAuthorizedError < StandardError; end
+  attr_reader :user, :wish
 
   POST_CLASS = Discussion::Post
 
@@ -24,19 +25,23 @@ class DiscussionService
   end
 
   def build_post
-    POST_CLASS.new(wish_id: @wish.id, author_id: @user.id)
+    POST_CLASS.new(wish_id: wish.id, author_id: user.id)
   end
 
   def add_post(attributes)
     raise NotAuthorizedError unless can_add_post?
 
-    POST_CLASS.create!(modify_visibility(attributes).merge(wish_id: @wish.id, author_id: @user.id))
+    created_post = POST_CLASS.create!(modify_visibility(attributes).merge(wish_id: wish.id, author_id: user.id))
+    notify_users(created_post, 'post.created')
+    created_post
   end
 
   def delete_post(post)
     raise NotAuthorizedError unless can_delete_post?(post)
 
     post.destroy
+    notify_users(post, 'post.deleted')
+
     @posts = nil
     posts.last
   end
@@ -46,8 +51,8 @@ class DiscussionService
   end
 
   def can_delete_post?(post)
-    @user.admin? \
-    || (@user == post.author \
+    user.admin? \
+    || (user == post.author \
         && all_posts.last == post \
         && post.created_at > (Time.zone.now - 1.day))
   end
@@ -67,16 +72,21 @@ class DiscussionService
   end
 
   def all_posts
-    POST_CLASS.where(wish_id: @wish.id)
+    POST_CLASS.where(wish_id: wish.id)
   end
 
   def user_is_donor?
-    @user_is_donor ||= @wish.donor?(@user)
+    user_is_donor ||= wish.donor?(user)
   end
 
   # if author is donee/author of wish, visibility is set to true
   def modify_visibility(attributes)
     attributes[:show_to_anybody] ||= !user_is_donor?
     attributes
+  end
+
+  def notify_users(post, key)
+    post.notify(:donors, key: key, notifier: user)
+    post.notify(:donees, key: key, notifier: user) if post.show_to_anybody?
   end
 end

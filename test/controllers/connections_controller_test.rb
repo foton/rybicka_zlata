@@ -80,7 +80,7 @@ class ConnectionsControllerTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to user_connections_path(@bart)
-    assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' byl úspěšně aktualizován.", flash[:notice]
+    assert_equal "Kontakt '#{conn_h[:name]} [Milhouse Mussolini Van Houten]: #{conn_h[:email]}' byl úspěšně aktualizován.", flash[:notice]
   end
 
   def test_not_updated
@@ -94,7 +94,7 @@ class ConnectionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:connection)
     assert_not_nil assigns(:user)
     assert_not assigns(:connection).errors[:email].empty?
-    assert_equal "Kontakt '#{conn_h[:name]} [???]: #{conn_h[:email]}' nebyl aktualizován.", flash[:error]
+    assert_equal "Kontakt '#{conn_h[:name]} [Milhouse Mussolini Van Houten]: #{conn_h[:email]}' nebyl aktualizován.", flash[:error]
   end
 
   def test_destroyed

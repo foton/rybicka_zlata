@@ -10,17 +10,13 @@
 #  friend_id :integer
 #  owner_id  :integer
 #
-# Connection between User and somebody, based on email. It have it's own name.
-# So different user can have connection to same email address, but each one can name it differently (eg.: Husband, Dad, Son)
-# It can be connected to existing other user (known as Friend).
-# Or it can just point to nobody waiting for new user with that email address between it's identyties
 class Connection < ApplicationRecord
   BASE_CONNECTION_NAME = '--base for donee--'
 
   belongs_to :friend, class_name: 'User', inverse_of: :connections_as_friend
   belongs_to :owner, class_name: 'User', inverse_of: :connections
 
-  has_many :identities, primary_key: 'email', foreign_key: 'email', class_name: 'User::Identity' # , inverse_of: :connections
+  #has_many :identities, primary_key: 'email', foreign_key: 'email', class_name: 'User::Identity' # , inverse_of: :connections
   has_and_belongs_to_many :groups
 
   has_many :donor_links, dependent: :destroy, inverse_of: :connection
@@ -39,6 +35,10 @@ class Connection < ApplicationRecord
   validates :name, format: { without: Regexp.new(BASE_CONNECTION_NAME) }, unless: proc { |conn| conn.owner_id == conn.friend_id }
 
   before_validation :assign_friend
+
+  def identities
+    @identities ||= User::Identity.where(email: email).to_a
+  end
 
   def email=(email)
     self[:email] = email.is_a?(String) ? email.downcase : email

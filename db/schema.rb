@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_115123) do
+ActiveRecord::Schema.define(version: 2020_11_12_165443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,28 @@ ActiveRecord::Schema.define(version: 2019_01_28_115123) do
     t.index ["uid"], name: "index_identities_on_uid"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "target_type", null: false
+    t.bigint "target_id", null: false
+    t.string "notifiable_type", null: false
+    t.bigint "notifiable_id", null: false
+    t.string "key", null: false
+    t.string "group_type"
+    t.bigint "group_id"
+    t.integer "group_owner_id"
+    t.string "notifier_type"
+    t.bigint "notifier_id"
+    t.text "parameters"
+    t.datetime "opened_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_owner_id"], name: "index_notifications_on_group_owner_id"
+    t.index ["group_type", "group_id"], name: "index_notifications_on_group_type_and_group_id"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+    t.index ["notifier_type", "notifier_id"], name: "index_notifications_on_notifier_type_and_notifier_id"
+    t.index ["target_type", "target_id"], name: "index_notifications_on_target_type_and_target_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "content"
     t.boolean "show_to_anybody", default: false
@@ -76,6 +98,24 @@ ActiveRecord::Schema.define(version: 2019_01_28_115123) do
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["wish_id"], name: "index_posts_on_wish_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "target_type", null: false
+    t.bigint "target_id", null: false
+    t.string "key", null: false
+    t.boolean "subscribing", default: true, null: false
+    t.boolean "subscribing_to_email", default: true, null: false
+    t.datetime "subscribed_at"
+    t.datetime "unsubscribed_at"
+    t.datetime "subscribed_to_email_at"
+    t.datetime "unsubscribed_to_email_at"
+    t.text "optional_targets"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_subscriptions_on_key"
+    t.index ["target_type", "target_id", "key"], name: "index_subscriptions_on_target_type_and_target_id_and_key", unique: true
+    t.index ["target_type", "target_id"], name: "index_subscriptions_on_target_type_and_target_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -122,7 +162,9 @@ ActiveRecord::Schema.define(version: 2019_01_28_115123) do
     t.datetime "updated_by_donee_at"
     t.integer "booked_by_id"
     t.integer "called_for_co_donors_by_id"
+    t.bigint "updated_by_id"
     t.index ["author_id"], name: "index_wishes_on_author_id"
+    t.index ["updated_by_id"], name: "index_wishes_on_updated_by_id"
   end
 
   add_foreign_key "connections", "users", column: "friend_id"
@@ -138,4 +180,5 @@ ActiveRecord::Schema.define(version: 2019_01_28_115123) do
   add_foreign_key "wishes", "users", column: "author_id"
   add_foreign_key "wishes", "users", column: "booked_by_id"
   add_foreign_key "wishes", "users", column: "called_for_co_donors_by_id"
+  add_foreign_key "wishes", "users", column: "updated_by_id"
 end

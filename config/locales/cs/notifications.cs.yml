@@ -1,0 +1,28 @@
+cs:
+  notification:
+    views:
+      navigation: Oznámení
+      index:
+        header: Oznámení pro %{target_name}
+      user_profile:
+        last_few: Poslední nepřečtená oznámení
+        all_notifications: Výpis všech oznámení
+    targets:
+      wish:
+        created:
+          you_as_donor: "<b>%{notifier_name}</b> vytvořil/a přání <b>'%{wish_title}'</b> s Vámi jako dárcem."
+          you_as_donee: "<b>%{notifier_name}</b> vytvořil/a přání <b>'%{wish_title}'</b> s Vámi jako obdarovaným."
+        updated: "<b>%{notifier_name}</b> změnil/a přání <b>'%{wish_title}'</b>."
+        added_you_as_donee: "<b>%{notifier_name}</b> Vás přidal/a jako obdarovaného u přání <b>'%{wish_title}'</b>."
+        removed_you_as_donee: "<b>%{notifier_name}</b> Vás odebral/a z obdarovaných u přání <b>'%{wish_title}'</b>."
+        added_you_as_donor: "<b>%{notifier_name}</b> Vás přidal/a mezi potenciální dárce u přání <b>'%{wish_title}'</b>."
+        removed_you_as_donor: "<b>%{notifier_name}</b> Vás odebral/a z dárců u přání <b>'%{wish_title}'</b>."
+        book: "<b>%{notifier_name}</b> si rezervoval/a přání <b>'%{wish_title}'</b>."
+        unboook: "<b>%{notifier_name}</b> zrušil/a rezervaci u přání <b>'%{wish_title}'</b>."
+        gifted: "<b>%{notifier_name}</b> označil/a přání <b>'%{wish_title}'</b> jako darované."
+        call_for_co_donors: "<b>%{notifier_name}</b> přidal/a výzvu pro spoludárce u přání <b>'%{wish_title}'</b>."
+        withdraw_call: "<b>%{notifier_name}</b> stáhnul/la výzvu pro spoludárce u přání <b>'%{wish_title}'</b>."
+        fulfilled: "<b>%{notifier_name}</b> označil/a přání <b>'%{wish_title}'</b> jako splněné."
+      post:
+        created: "<b>%{notifier_name}</b> přidal komentář u přání <b>'%{wish_title}'</b>."
+        deleted: "<b>%{notifier_name}</b> smazal komentář u přání <b>'%{wish_title}'</b>."

@@ -14,8 +14,8 @@
 #  author_id                  :integer          not null
 #  booked_by_id               :integer
 #  called_for_co_donors_by_id :integer
+#  updated_by_id              :bigint
 #
-# donee can manage wish and donors (not donees)
 class Wish::FromDonee < Wish
   self.table_name = 'wishes'
 
@@ -30,8 +30,10 @@ class Wish::FromDonee < Wish
     conn_ids_to_add = conn_ids & user_conn_ids
     conn_ids_to_remove = user_conn_ids - conn_ids_to_add
 
-    @donors_changed = true
-    @donor_conn_ids = (donor_conn_ids + conn_ids_to_add - conn_ids_to_remove).uniq
+    new_donor_conn_ids = (donor_conn_ids + conn_ids_to_add - conn_ids_to_remove).uniq
+    @donors_changed = (new_donor_conn_ids.sort != @donor_conn_ids.sort)
+    @donor_conn_ids = new_donor_conn_ids
+    fill_connections_from_ids
   end
 
   def donee_conn_ids=(conn_ids)
@@ -56,6 +58,7 @@ class Wish::FromDonee < Wish
   def fill_connections_from_ids
     self.donor_connections = ::Connection.find(donor_conn_ids.compact.uniq).to_a
     @donor_user_ids = nil
+    @donor_users = nil
 
     ensure_donors_are_only_from_current_donees
   end

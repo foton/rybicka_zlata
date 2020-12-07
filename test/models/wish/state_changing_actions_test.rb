@@ -124,8 +124,5 @@ class WishStateChangingActionsTest < ActiveSupport::TestCase
     assert @wish.fulfilled?
     assert_equal @donor, @wish.booked_by_user
     assert_equal "Přání '#{@wish.title}' bylo splněno.", msg
-
-    # all_donor_links_are_deleted_on_fulfilling
-    assert @wish.donor_links.empty?
   end
 end

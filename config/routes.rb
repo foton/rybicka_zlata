@@ -14,9 +14,13 @@ Rails.application.routes.draw do
     resources :author_wishes, controller: 'wishes/from_author'
   end
 
+  resources :wishes, controller: 'wishes/base'
+
   namespace :discussions do
-    resources :posts, only: %i[create destroy]
+    resources :posts, only: %i[create show destroy]
   end
+
+  notify_to :users
 
   get '/my_profile' => 'profiles#my', :as => 'my_profile'
   get '/profiles/:user_id' => 'profiles#show', :as => 'profile'

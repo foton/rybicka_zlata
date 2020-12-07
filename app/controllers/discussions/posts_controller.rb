@@ -4,6 +4,11 @@ module Discussions
   class PostsController < ApplicationController
     include WishesHelper
 
+    def show # needed for notifications redirect
+      load_post
+      redirect_to path_to_wish_action_for_user(:show, current_user, @post.wish, {})
+    end
+
     def create
       @post = discussion_service.add_post(post_hash)
       redirect_to path_to_wish_action_for_user(:show, current_user, @wish, anchor: @post.anchor)
