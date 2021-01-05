@@ -67,6 +67,7 @@ group :development do
   gem 'rubocop-rails'
 
   gem 'annotate' # write DB structure as comments in models etc.
+  gem 'bundle-audit'
 end
 
 group :test do

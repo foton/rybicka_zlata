@@ -2,22 +2,6 @@
 
 module SocialHelper
   def sign_in_button_for(provider)
-    # build on work from http://www.mattboldt.com/demos/social-buttons/
-    html = <<HTML
-
-   <a href="#{send("user_#{provider}_omniauth_authorize_path", params: {})}" class="sc-btn sc--#{provider} mdl-button">
-     <span class="sc-icon" id="#{provider}_icon">
-       <svg viewBox="#{PROVIDER_BUTTONS[provider][:svg_view_box]}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-         <g><path d="#{PROVIDER_BUTTONS[provider][:svg_path]}"></path></g>
-       </svg>
-     </span>
-     <span class="sc-text">#{PROVIDER_BUTTONS[provider][:text]}</span>
-   </a>
-
-
-HTML
-    html.html_safe
-
     logo_text = <<~LOGO
       <span class="sc-icon" id="#{provider}_icon">
         <svg viewBox="#{PROVIDER_BUTTONS[provider][:svg_view_box]}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
