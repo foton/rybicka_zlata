@@ -38,14 +38,10 @@ class Wishes::FromDonorController < ApplicationController
   end
 
   def load_wish
-    @wish ||= wish_scope.find(params[:id])
+    @wish ||= @user.donor_wishes.find(params[:id])
   end
 
   def wish_params
     @wish_params ||= params.permit(:state_action)
-  end
-
-  def wish_scope
-    @user.donor_wishes.not_fulfilled
   end
 end
