@@ -82,16 +82,10 @@ Rails.application.configure do
   # Devise requirement
   config.action_mailer.default_url_options = { host: config.app_domain, port: 80 }
 
-  config.action_mailer.delivery_method = :smtp
-  # SMTP settings for Sendgrid instead of Gmail
-  # if you have trouble with OK in development, BAD production see: http://stackoverflow.com/questions/18124878/netsmtpauthenticationerror-when-sending-email-from-rails-app-on-staging-envir
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.sendgrid.net',
-    port: 587,
-    user_name: ENV['SENDGRID_USERNAME'],
-    password: ENV['SENDGRID_PASSWORD'],
-    domain: 'rybickazlata.cz',
-    authentication: 'plain',
-    enable_starttls_auto: true
+
+  config.action_mailer.delivery_method = :sendgrid_actionmailer
+  config.action_mailer.sendgrid_actionmailer_settings = {
+    api_key: ENV['SENDGRID_API_KEY'],
+    raise_delivery_errors: true
   }
 end

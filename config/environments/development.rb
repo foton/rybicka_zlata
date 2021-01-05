@@ -45,16 +45,12 @@ Rails.application.configure do
   # Devise requirement
   config.action_mailer.default_url_options = { host: config.app_domain, port: 3000 }
 
-  config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.sendgrid.net',
-    port: 587,
-    user_name: ENV['SENDGRID_USERNAME'],
-    password: ENV['SENDGRID_PASSWORD'],
-    domain: 'rybickazlata.cz',
-    authentication: 'plain',
-    enable_starttls_auto: true
+  config.action_mailer.delivery_method = :sendgrid_actionmailer
+  config.action_mailer.sendgrid_actionmailer_settings = {
+    api_key: ENV['SENDGRID_API_KEY'],
+    raise_delivery_errors: true,
+    #mail_settings: { sandbox_mode: { enable: true }}
   }
 
   # OmniAuth.config.full_host = 'http://localhost:3000'

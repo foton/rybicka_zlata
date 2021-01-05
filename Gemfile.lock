@@ -160,7 +160,6 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.3.1)
     jwt (2.2.2)
     libv8 (8.4.255.0)
     listen (3.3.0)
@@ -310,6 +309,7 @@ GEM
       rubocop (>= 0.87.0)
     ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.2)
+    ruby_http_client (3.5.1)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -324,8 +324,11 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sendgrid (1.2.4)
-      json
+    sendgrid-actionmailer (3.1.1)
+      mail (~> 2.7)
+      sendgrid-ruby (~> 6.0)
+    sendgrid-ruby (6.3.8)
+      ruby_http_client (~> 3.4)
     spring (2.1.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -394,7 +397,7 @@ DEPENDENCIES
   rubocop
   rubocop-rails
   sass-rails
-  sendgrid
+  sendgrid-actionmailer
   spring
   spring-watcher-listen
   uglifier
