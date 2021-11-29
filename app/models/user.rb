@@ -37,7 +37,6 @@
 class User < ApplicationRecord
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/.freeze
-  BASE_CONNECTION_NAME = '--base--'
   ADMIN_EMAIL = 'porybny@rybickazlata.cz'
 
   acts_as_target # for notifications
@@ -190,6 +189,10 @@ class User < ApplicationRecord
   def ensure_base_connection
     if base_connection.blank?
       Connection.create!(name: Connection::BASE_CONNECTION_NAME, email: email, friend: self, owner: self)
+    else
+      if base_connection.email != email
+        base_connection.update!(email: email)
+      end
     end
   end
 end

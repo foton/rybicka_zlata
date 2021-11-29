@@ -44,6 +44,27 @@ class WishCreatorTest < ActiveSupport::TestCase
     assert_notified(users: donor_conns.collect(&:friend), key: 'wish.created.you_as_donor', notifier: author, notifiable: new_wish)
   end
 
+  test 'can create wish with one donee and notify users' do
+    wish_params = valid_params.merge({donee_conn_ids: []}).except(:user_id)
+
+    service = assert_difference('ActivityNotification::Notification.count', donor_conns.size) do
+      WishCreator.call(wish_params, author)
+    end
+
+    assert service.success?
+
+    new_wish = service.result
+    assert_equal wish_params[:title], new_wish.title
+    assert_equal wish_params[:description], new_wish.description
+    assert new_wish.persisted?
+    assert_equal donor_conns.sort, new_wish.donor_connections.sort
+    assert_equal [author.base_connection], new_wish.donee_connections.sort
+    assert_equal author, new_wish.author
+    assert_equal author, new_wish.updated_by
+
+    assert_notified(users: donor_conns.collect(&:friend), key: 'wish.created.you_as_donor', notifier: author, notifiable: new_wish)
+  end
+
   test 'can fails on creation' do
     wish_params = valid_params
     wish_params[:title] = ''
