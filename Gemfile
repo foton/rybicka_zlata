@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ruby '2.7.1'
+ruby '2.7.7'
 source 'https://rubygems.org'
 
 # webserver https://devcenter.heroku.com/articles/ruby-default-web-server
