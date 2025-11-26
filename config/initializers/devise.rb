@@ -271,8 +271,8 @@ Devise.setup do |config|
   # config.omniauth :gplus, ENV['GPLUS_CLIENTID'], ENV['GPLUS_SECRET'], scope: 'userinfo.email, userinfo.profile', access_type: 'online' redirect_uri: 'http://localhost/auth/google_oauth2/callback'
   # config.omniauth :google_oauth2, ENV['GPLUS_CLIENTID'], ENV['GPLUS_SECRET'], scope: 'userinfo.email, userinfo.profile', access_type: 'online' #, redirect_uri: 'http://localhost/auth/google_oauth2/callback'
   config.omniauth :google_oauth2,
-                  Rails.application.secrets.google_client_id,
-                  Rails.application.secrets.google_client_secret,
+                  ENV.fetch('GOOGLE_CLIENT_ID'),
+                  ENV.fetch('GOOGLE_CLIENT_SECRET'),
                   scope: 'userinfo.email, userinfo.profile',
                   access_type: 'online',
                   name: 'google',
@@ -280,25 +280,25 @@ Devise.setup do |config|
   # , redirect_uri: 'http://localhost:3000/users/auth/google/callback?locale=cs'
 
   config.omniauth :github,
-                  Rails.application.secrets.github_client_id,
-                  Rails.application.secrets.github_client_secret,
+                  ENV.fetch('GITHUB_CLIENT_ID'),
+                  ENV.fetch('GITHUB_CLIENT_SECRET'),
                   scope: 'user'
 
   config.omniauth :facebook,
-                  Rails.application.secrets.facebook_client_id,
-                  Rails.application.secrets.facebook_client_secret,
+                  ENV.fetch('FACEBOOK_CLIENT_ID'),
+                  ENV.fetch('FACEBOOK_CLIENT_SECRET'),
                   scope: 'email,public_profile',
                   info_fields: 'name,email,locale,timezone,verified'
 
   config.omniauth :twitter,
-                  Rails.application.secrets.twitter_client_id,
-                  Rails.application.secrets.twitter_client_secret,
+                  ENV.fetch('TWITTER_CLIENT_ID'),
+                  ENV.fetch('TWITTER_CLIENT_SECRET'),
                   x_auth_access_type: 'read',
                   scope: 'email,public_profile',
                   info_fields: 'name,email,locale,timezone,verified'
 
   config.omniauth :linkedin,
-                  Rails.application.secrets.linkedin_client_id,
-                  Rails.application.secrets.linkedin_client_secret,
+                  ENV.fetch('LINKEDIN_CLIENT_ID'),
+                  ENV.fetch('LINKEDIN_CLIENT_SECRET'),
                   scope: 'r_liteprofile'
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ruby '2.7.7'
+ruby '3.3.9'
 source 'https://rubygems.org'
 
 # webserver https://devcenter.heroku.com/articles/ruby-default-web-server
@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg'
-gem 'rails', '~>6.0'
+gem 'rails', '~>7.2.3'
 
 # Use Puma as the app server
 gem 'puma'
@@ -58,8 +58,6 @@ end
 
 group :development do
   # speeds up development by keeping your application running in the background.
-  gem 'spring'
-  gem 'spring-watcher-listen'
 
   # style check, allways learning best practicies
   gem 'rubocop', require: false
