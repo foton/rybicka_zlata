@@ -12,13 +12,15 @@ module ApplicationHelper
   end
 
   def mdl_class_for(flash_type)
-    { success: 'alert-success', error: 'alert-danger', warning: 'alert-warning', alert: 'alert-warning', notice: 'alert-info' }[flash_type.to_sym] || flash_type.to_s
+    { success: 'alert-success', error: 'alert-danger', warning: 'alert-warning',
+      alert: 'alert-warning', notice: 'alert-info' }[flash_type.to_sym] || flash_type.to_s
   end
 
   # https://gist.github.com/suryart/7418454
   def flash_messages(_opts = {})
     flash.each do |msg_type, message|
-      concat(tag.div(message, class: "alert #{mdl_class_for(msg_type)} mdl-cell mdl-cell--12-col") do
+      concat(tag.div(message,
+                     class: "alert #{mdl_class_for(msg_type)} mdl-cell mdl-cell--12-col") do
                # concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
                concat message
              end)
@@ -30,18 +32,22 @@ module ApplicationHelper
     tag.h3(text)
   end
 
-  def switch_for(f_builder, method, label_text = nil, options = {}, html_options = {}, checked_value = '1', unchecked_value = '0')
+  def switch_for(f_builder, method, label_text = nil, options = {}, html_options = {},
+                 checked_value = '1', unchecked_value = '0')
     if label_text.blank? && f_builder.object.is_a?(ActiveRecord::Base)
       label_text = t("activerecord.attributes.#{f_builder.object.class.name.downcase}.#{method}")
     end
 
-    f_builder.label(method, nil, options.merge(class: 'mdl-switch mdl-js-switch mdl-js-ripple-effect')) do
-      concat(f_builder.check_box(method, options.merge(html_options.merge(class: 'mdl-switch__input')), checked_value, unchecked_value))
-      concat(tag.span(label_text, class: 'mdl-switch__label'))
+    f_builder.label(method, nil,
+                    options.merge(class: 'mdl-switch mdl-js-switch mdl-js-ripple-effect')) do
+      concat(f_builder.check_box(method,
+                                 options.merge(html_options.merge(class: 'mdl-switch__input')), checked_value, unchecked_value))
+      concat(content_tag(:span, label_text, class: 'mdl-switch__label'))
     end
   end
 
-  def checkbox_mdl_tag(tag_id, label_text, check_status, checked_value = '1', _unchecked_value = '0', options = {})
+  def checkbox_mdl_tag(tag_id, label_text, check_status, checked_value = '1',
+                       _unchecked_value = '0', options = {})
     labl_opt = options.dup
     labl_opt[:class] = "#{options[:class]} mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
     check_opt = options.dup
@@ -51,7 +57,7 @@ module ApplicationHelper
 
     label_tag(nil, labl_opt) do
       concat(check_box_tag(tag_id, checked_value, check_status, check_opt))
-      concat(tag.span(label_text, span_opt))
+      concat(content_tag(:span, label_text, span_opt))
     end
   end
 
@@ -119,7 +125,7 @@ module ApplicationHelper
 
   def label_and_value(label, value)
     ('<span class= "label">' + html_escape(label.to_s) + '</span>: ' \
-    '<span class="field_value">' + html_escape(value.to_s) + '</span>').html_safe
+                                                         '<span class="field_value">' + html_escape(value.to_s) + '</span>').html_safe
   end
 
   def unopened_notifications_counter

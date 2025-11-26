@@ -72,7 +72,8 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
   end
 
   def test_update_my_wish_attributes_donees_and_donors
-    assert_equal [@bart_to_homer_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_homer_conn, @bart.base_connection].sort,
+                 @wish.donee_connections.to_a.sort
     assert_equal [@bart_to_lisa_conn, @homer_to_marge_conn].sort, @wish.donor_connections.to_a.sort
 
     new_title = 'Much better title'
@@ -108,10 +109,11 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
   end
 
   def test_fulfilled_js
-    patch :update, params: { user_id: @bart.id, id: @wish.id, state_action: :fulfilled, format: :js }
+    patch :update,
+          params: { user_id: @bart.id, id: @wish.id, state_action: :fulfilled, format: :js }
 
     assert_response :ok
-    assert_template 'fulfilled_or_destroyed.js.erb'
+    assert_template 'wishes/from_donee/fulfilled_or_destroyed'
     assert_equal "Přání '#{@wish.title}' bylo splněno.", flash[:notice]
 
     @wish.reload
@@ -132,15 +134,17 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     delete :destroy, params: { user_id: @bart.id, id: @wish.id, format: :js }
 
     assert_response :ok
-    assert_template 'fulfilled_or_destroyed.js.erb'
+    assert_template 'wishes/from_donee/fulfilled_or_destroyed'
     assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
 
     assert Wish.where(id: @wish.id).blank?
   end
 
   def test_author_can_manage_donees
-    assert_equal [@bart_to_homer_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
-    assert_equal [@bart_to_lisa_conn, connections(:homer_to_marge)].sort, @wish.donor_connections.to_a.sort
+    assert_equal [@bart_to_homer_conn, @bart.base_connection].sort,
+                 @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_lisa_conn, connections(:homer_to_marge)].sort,
+                 @wish.donor_connections.to_a.sort
 
     edit_wish_hash = { donee_conn_ids: [@bart_to_marge_conn.id], donor_conn_ids: [@bart_to_lisa_conn.id, @bart_to_homer_conn.id] } # homer to donors, marge in donees
 
@@ -150,11 +154,13 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_redirected_to user_my_wish_path(@bart, @wish)
     assert_equal "Přání '#{@wish.title}' bylo úspěšně aktualizováno.", flash[:notice]
     @wish.reload
-    assert_equal [@bart_to_marge_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_marge_conn, @bart.base_connection].sort,
+                 @wish.donee_connections.to_a.sort
     assert_equal [@bart_to_lisa_conn, @bart_to_homer_conn].sort, @wish.donor_connections.to_a.sort
   end
 
+  SERVICE_STRUCT = Struct.new(:success?, :errors, :result)
   def succesfull_creator(params, author)
-    OpenStruct.new(success?: true, errors: [], result: Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
+    SERVICE_STRUCT.new(true, [], Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
   end
 end

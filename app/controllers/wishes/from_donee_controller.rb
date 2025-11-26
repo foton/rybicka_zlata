@@ -39,9 +39,9 @@ class Wishes::FromDoneeController < ApplicationController
         format.html { redirect_to user_my_wish_url(@user, @wish) }
         format.js do
           if @wish.fulfilled?
-            render 'fulfilled_or_destroyed.js.erb'
+            render 'fulfilled_or_destroyed', format: :js, layout: false
           else
-            render '/wishes/state_update.js.erb'
+            render 'state_update', format: :js, layout: false
           end
         end
       else
@@ -57,7 +57,7 @@ class Wishes::FromDoneeController < ApplicationController
     destroy_wish
     respond_to do |format|
       format.html { redirect_to user_my_wishes_url(@user), status: :see_other, format: :html }
-      format.js   { render 'fulfilled_or_destroyed.js.erb', layout: false }
+      format.js   { render 'fulfilled_or_destroyed', format: :js, layout: false }
     end
   end
 
@@ -83,7 +83,8 @@ class Wishes::FromDoneeController < ApplicationController
     @wish_params ||= begin
       wish_params = params[:wish] || ActionController::Parameters.new({})
       wish_params.delete(:unused_conn_ids)
-      wish_params[:donor_conn_ids] = wish_params[:donor_conn_ids].blank? ? [] : wish_params[:donor_conn_ids].collect(&:to_i)
+      wish_params[:donor_conn_ids] =
+        wish_params[:donor_conn_ids].blank? ? [] : wish_params[:donor_conn_ids].collect(&:to_i)
       wish_params[:state_action] = params[:state_action]
       wish_params.permit(:title, :description, :state_action, donor_conn_ids: [])
     end

@@ -35,13 +35,16 @@
     },
     errors: {
       same_donor_and_donee: {
-        by_connection: "There is same connection between donees and donors: '%{conn_fullname}'.",
-        by_email: "There is connection with same email between donees and donors: '%{email}'",
-        by_user: "There is same user in donees: '%{donee_fullname}' as in donors: '%{donor_fullname}'."
+        by_connection: "There is same connection between donees and donors: '%<conn_fullname>s'.",
+        by_email: "There is connection with same email between donees and donors: '%<email>s'",
+        by_user: "There is same user in donees: '%<donee_fullname>s' as in donors: '%<donor_fullname>s'."
       },
       cannot_be_booked_by_donee: 'Can not be booked by donee!',
       cannot_be_booked_in_this_state: 'In this state, wish can not be booked by user!',
-      must_have_booking_user: 'In this state, wish must have booking user!'
+      cannot_be_called_in_this_state: 'In this state, wish can not be called for co-donors!',
+      must_have_booking_user: 'In this state, wish must have booking user!',
+      donee_cannot_call_for_co_donors: 'Donee can not call for co-donors!',
+      must_have_calling_by_user: 'Must have calling by user!'
     },
     actions: {
       no_action_available: 'This wish is booked. You can do nothing with it.',
@@ -63,33 +66,33 @@
       delete: {
         button: 'Delete',
         confirm: {
-          message: "Do you really want to delete wish '%{object_title}'?"
+          message: "Do you really want to delete wish '%<object_title>s'?"
         }
       },
       book: {
         button: 'Book',
-        message: "Wish '%{wish_title}' was booked for '%{user_name}'"
+        message: "Wish '%<wish_title>s' was booked for '%<user_name>s'"
       },
       unbook: {
         button: 'Unbook',
-        message: "Wish '%{object_title}' was unbooked."
+        message: "Wish '%<object_title>s' was unbooked."
       },
       call_for_co_donors: {
         button: 'Call for donors',
-        message: "User '%{user_name}' looking for another donors for wish '%{wish_title}'. Contact him/her.",
-        notice: "User '%{user_name}' looking for another donors for this wish. Contact him/her."
+        message: "User '%<user_name>s' looking for another donors for wish '%<wish_title>s'. Contact him/her.",
+        notice: "User '%<user_name>s' looking for another donors for this wish. Contact him/her."
       },
       withdraw_call: {
         button: 'Withdraw call',
-        message: "User '%{user_name}' withdraw his/hers call for co-donors for wish '%{wish_title}'."
+        message: "User '%<user_name>s' withdraw his/hers call for co-donors for wish '%<wish_title>s'."
       },
       gifted: {
         button: 'Gifted',
-        message: "Wish '%{wish_title}' was gifted/fulfilled by donor '%{user_name}'."
+        message: "Wish '%<wish_title>s' was gifted/fulfilled by donor '%<user_name>s'."
       },
       fulfilled: {
         button: 'fulfilled',
-        message: "Wish '%{wish_title}' was fulfilled."
+        message: "Wish '%<wish_title>s' was fulfilled."
       }
     },
     donees: {
@@ -120,12 +123,12 @@
             help: 'Your friends, which can not see this wish. If there are none, You maybe do not have any connection in Friends or all of them are already in other blocks.'
           }
         },
-        added: "Wish '%{title}' was successfully created.",
-        not_added: "Wish '%{title}' was not created.",
-        updated: "Wish '%{title}' was successfully updated.",
-        not_updated: "Wish '%{title}' was not updated.",
-        deleted: "Wish '%{title}' was successfully deleted.",
-        not_deleted: "Wish '%{title}' was not deleted.",
+        added: "Wish '%<title>s' was successfully created.",
+        not_added: "Wish '%<title>s' was not created.",
+        updated: "Wish '%<title>s' was successfully updated.",
+        not_updated: "Wish '%<title>s' was not updated.",
+        deleted: "Wish '%<title>s' was successfully deleted.",
+        not_deleted: "Wish '%<title>s' was not deleted.",
         delete: {
           confirm: {
             message: 'Really delete?'
@@ -146,13 +149,13 @@
         show: {
           name_for_author_connection: 'Author of the wish',
           donors: {
-            count: 'Total: %{total} / Yours: %{owns}'
+            count: 'Total: %<total>s / Yours: %<owns>s'
           }
         },
-        updated: "Potentional donor list for '%{title}' was successfully updated.",
-        not_updated: "Wish '%{title}' was not updated.",
-        deleted: "You were removed from donees of '%{title}'.",
-        not_deleted: "You were not removed from donees of '%{title}'",
+        updated: "Potentional donor list for '%<title>s' was successfully updated.",
+        not_updated: "Wish '%<title>s' was not updated.",
+        deleted: "You were removed from donees of '%<title>s'.",
+        not_deleted: "You were not removed from donees of '%<title>s'",
         delete: {
           confirm: {
             message: 'Really delete?'
@@ -173,8 +176,8 @@
         show: {
           donees_list_header: 'Donees'
         },
-        updated: "Wish '%{title}' was successfully updated.",
-        not_updated: "Wish '%{title}' was not updated."
+        updated: "Wish '%<title>s' was successfully updated.",
+        not_updated: "Wish '%<title>s' was not updated."
 
       }
     }

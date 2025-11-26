@@ -16,9 +16,10 @@ class OmniauthCsrfTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not accept POST requests with invalid CSRF tokens to OmniAuth endpoint' do
-    assert_raises ActionController::InvalidAuthenticityToken do
-      post @oauth_path
-    end
+    post @oauth_path
+
+    assert_response :unprocessable_entity
+    assert_includes response.body, "Can't verify CSRF token authenticity"
   end
 
   teardown do

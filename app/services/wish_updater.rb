@@ -3,6 +3,8 @@
 class WishUpdater
   attr_accessor :errors, :result, :wish, :updating_user, :update_params
 
+  WU_Struct = Struct.new(:wish, :message)
+
   def self.call(wish, update_params, updating_user)
     srv = new(wish, update_params, updating_user)
     srv.call
@@ -17,7 +19,7 @@ class WishUpdater
 
   def call
     @errors = []
-    @result = OpenStruct.new(wish: update_wish, message: message)
+    @result = WU_Struct.new(update_wish, message)
   end
 
   def success?
@@ -64,11 +66,11 @@ class WishUpdater
                        new_donors: [],
                        new_donees: [] }
 
-      wish.ex_donee_users = []
-      wish.ex_donor_users = []
-      wish.new_donee_users = []
-      wish.new_donor_users = []
-    end
+    wish.ex_donee_users = []
+    wish.ex_donor_users = []
+    wish.new_donee_users = []
+    wish.new_donor_users = []
+  end
 
   def donor_allowed_update
     action = modified_params[:state_action].to_sym
@@ -137,14 +139,14 @@ class WishUpdater
     removed_donors = previous_donors - wish.donor_users
     new_donors = wish.donor_users - previous_donors
 
-    if wish.donors_changed?
-      notifications[:donors] << 'wish.updated'
-      notifications[:donees] << 'wish.updated'
-      wish.ex_donor_users += removed_donors
-      wish.new_donor_users += new_donors
-      notifications[:ex_donors] << 'wish.removed_you_as_donor'
-      notifications[:new_donors] << 'wish.added_you_as_donor'
-    end
+    return unless wish.donors_changed?
+
+    notifications[:donors] << 'wish.updated'
+    notifications[:donees] << 'wish.updated'
+    wish.ex_donor_users += removed_donors
+    wish.new_donor_users += new_donors
+    notifications[:ex_donors] << 'wish.removed_you_as_donor'
+    notifications[:new_donors] << 'wish.added_you_as_donor'
   end
 
   def change_donees!(conn_ids)
@@ -157,12 +159,12 @@ class WishUpdater
 
     completely_remove(removed_donees)
 
-    if wish.donees_changed?
-      wish.new_donee_users += new_donees
-      notifications[:new_donees] << 'wish.added_you_as_donee'
-      notifications[:donors] << 'wish.updated'
-      notifications[:donees] << 'wish.updated'
-    end
+    return unless wish.donees_changed?
+
+    wish.new_donee_users += new_donees
+    notifications[:new_donees] << 'wish.added_you_as_donee'
+    notifications[:donors] << 'wish.updated'
+    notifications[:donees] << 'wish.updated'
   end
 
   def completely_remove(removed_donees)
@@ -175,7 +177,9 @@ class WishUpdater
     end
 
     # same donor user can be linked from other donee
-    new_donor_users = wish.donor_links.includes(connection: [:friend]).collect { |link| link.connection.friend }
+    new_donor_users = wish.donor_links.includes(connection: [:friend]).collect do |link|
+      link.connection.friend
+    end
     wish.ex_donor_users -= new_donor_users
 
     notifications[:ex_donees] << 'wish.removed_you_as_donee'

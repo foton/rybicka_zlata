@@ -89,7 +89,8 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:available_donor_connections)
     # Lisa is donee/author, so it cannot be assigned as donor
-    assert_equal (bart_conns.to_a - [connections(:bart_to_lisa)]), assigns(:available_donor_connections)
+    assert_equal (bart_conns.to_a - [connections(:bart_to_lisa)]),
+                 assigns(:available_donor_connections)
   end
 
   def test_can_only_change_donors_at_shared_wish
@@ -119,7 +120,8 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to user_my_wish_path(@bart, @shared_wish)
-    assert_equal "Seznam potenciálních dárců pro '#{original_title}' byl úspěšně aktualizován.", flash[:notice]
+    assert_equal "Seznam potenciálních dárců pro '#{original_title}' byl úspěšně aktualizován.",
+                 flash[:notice]
 
     @shared_wish.reload
 
@@ -139,7 +141,8 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to user_my_wishes_path(@bart)
-    assert_equal "Byli jste odebráni z obdarovaných u přání '#{@shared_wish.title}'.", flash[:notice]
+    assert_equal "Byli jste odebráni z obdarovaných u přání '#{@shared_wish.title}'.",
+                 flash[:notice]
 
     assert_not Wish.where(id: @shared_wish.id).blank?
     assert_not @bart.donee_wishes.include?(@shared_wish)
@@ -149,8 +152,9 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
     delete :destroy, params: { user_id: @bart.id, id: @shared_wish.id, format: :js }
 
     assert_response :ok
-    assert_template 'fulfilled_or_destroyed.js.erb'
-    assert_equal "Byli jste odebráni z obdarovaných u přání '#{@shared_wish.title}'.", flash[:notice]
+    assert_template 'wishes/from_donee/fulfilled_or_destroyed'
+    assert_equal "Byli jste odebráni z obdarovaných u přání '#{@shared_wish.title}'.",
+                 flash[:notice]
 
     assert_not Wish.where(id: @shared_wish.id).blank?
     assert_not @bart.donee_wishes.include?(@shared_wish)
@@ -193,10 +197,11 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
   end
 
   def test_fulfilled_js
-    patch :update, params: { user_id: @bart.id, id: @shared_wish.id, state_action: :fulfilled, format: :js }
+    patch :update,
+          params: { user_id: @bart.id, id: @shared_wish.id, state_action: :fulfilled, format: :js }
 
     assert_response :ok
-    assert_template 'fulfilled_or_destroyed.js.erb'
+    assert_template 'wishes/from_donee/fulfilled_or_destroyed'
     assert_equal "Přání '#{@shared_wish.title}' bylo splněno.", flash[:notice]
 
     @shared_wish.reload
@@ -212,7 +217,8 @@ class Wishes::FromDoneeControllerTest < ActionController::TestCase
       patch :update, params: { user_id: @bart.id, id: @shared_wish.id, state_action: action }
 
       @shared_wish.reload
-      assert_equal orig_updated_at, @shared_wish.updated_at.to_s, "For action '#{action}' wish was changed! #{orig_updated_at} => #{@shared_wish.updated_at}"
+      assert_equal orig_updated_at, @shared_wish.updated_at.to_s,
+                   "For action '#{action}' wish was changed! #{orig_updated_at} => #{@shared_wish.updated_at}"
     end
   end
 end

@@ -41,13 +41,16 @@
     },
     errors: {
       same_donor_and_donee: {
-        by_connection: "Mezi obdarovanými je stejný kontakt jako v dárcích: '%{conn_fullname}'.",
-        by_email: "Mezi obdarovanými je kontakt se stejným emailem jako jiná v dárcích: '%{email}'",
-        by_user: "Mezi obdarovanými je stejný uživatel '%{donee_fullname}' jako v dárcích '%{donor_fullname}'."
+        by_connection: "Mezi obdarovanými je stejný kontakt jako v dárcích: '%<conn_fullname>s'.",
+        by_email: "Mezi obdarovanými je kontakt se stejným emailem jako jiná v dárcích: '%<email>s'",
+        by_user: "Mezi obdarovanými je stejný uživatel '%<donee_fullname>s' jako v dárcích '%<donor_fullname>s'."
       },
       cannot_be_booked_by_donee: 'Nemůže být rezervováno obdarovaným!',
       cannot_be_booked_in_this_state: 'Nemůže mít, v tomto stavu, přiděleného rezervujícího uživatele!',
-      must_have_booking_user: 'Musí mít, v tomto stavu, přřazeného rezervujícího uživatele!'
+      cannot_be_called_in_this_state: 'Nemůže v tomto stavu vyzývat ke spoluúčasti!',
+      must_have_booking_user: 'Musí mít, v tomto stavu, přřazeného rezervujícího uživatele!',
+      donee_cannot_call_for_co_donors: 'Obdarovaný nemůže vyzývat ke spoluúčasti!',
+      must_have_calling_by_user: 'Musí mít vyzývajícího uživatele!'
     },
     actions: {
       no_action_available: 'S tímhle přáním už neuděláte nic. Asi je již zadáno.',
@@ -69,33 +72,33 @@
       delete: {
         button: 'Smazat',
         confirm: {
-          message: "Opravdu chcete přání '%{object_title}' smazat?"
+          message: "Opravdu chcete přání '%<object_title>s' smazat?"
         }
       },
       book: {
         button: 'Rezervovat',
-        message: "Přání '%{wish_title}' bylo zarezervováno pro '%{user_name}'"
+        message: "Přání '%<wish_title>s' bylo zarezervováno pro '%<user_name>s'"
       },
       unbook: {
         button: 'Uvolnit',
-        message: "Přání '%{wish_title}' bylo uvolněno pro ostatní dárce."
+        message: "Přání '%<wish_title>s' bylo uvolněno pro ostatní dárce."
       },
       call_for_co_donors: {
         button: 'Vyzvat ke spoluúčasti',
-        message: "Uživatel '%{user_name}' hledá spoludárce pro přání '%{wish_title}'. Ozvěte se mu.",
-        notice: "Uživatel '%{user_name}' hledá spoludárce pro toto přání. Ozvěte se mu."
+        message: "Uživatel '%<user_name>s' hledá spoludárce pro přání '%<wish_title>s'. Ozvěte se mu.",
+        notice: "Uživatel '%<user_name>s' hledá spoludárce pro toto přání. Ozvěte se mu."
       },
       withdraw_call: {
         button: 'Zrušit výzvu',
-        message: "Uživatel '%{user_name}' zrušil svoji výzvu ke spoluúčasti u přání '%{wish_title}'."
+        message: "Uživatel '%<user_name>s' zrušil svoji výzvu ke spoluúčasti u přání '%<wish_title>s'."
       },
       gifted: {
         button: 'Darováno',
-        message: "Přání '%{wish_title}' bylo darováno/splněno dárcem '%{user_name}'."
+        message: "Přání '%<wish_title>s' bylo darováno/splněno dárcem '%<user_name>s'."
       },
       fulfilled: {
         button: 'Splněno',
-        message: "Přání '%{wish_title}' bylo splněno."
+        message: "Přání '%<wish_title>s' bylo splněno."
       }
     },
     donees: {
@@ -126,12 +129,12 @@
             help: 'Kontakty, které toto přání vůbec neuvidí. Pokud tu žádné nejsou, je možné že jste zatím žádné nezadali nebo už jsou v ostatních blocích nebo už jsou uvedeni jako obdarovaní autorem přání.'
           }
         },
-        added: "Přání '%{title}' bylo úspěšně přidáno.",
-        not_added: "Přání '%{title}' nebylo přidáno.",
-        updated: "Přání '%{title}' bylo úspěšně aktualizováno.",
-        not_updated: "Přání '%{title}' nebylo aktualizováno.",
-        deleted: "Přání '%{title}' bylo úspěšně smazáno.",
-        not_deleted: "Přání '%{title}' nebylo smazáno.",
+        added: "Přání '%<title>s' bylo úspěšně přidáno.",
+        not_added: "Přání '%<title>s' nebylo přidáno.",
+        updated: "Přání '%<title>s' bylo úspěšně aktualizováno.",
+        not_updated: "Přání '%<title>s' nebylo aktualizováno.",
+        deleted: "Přání '%<title>s' bylo úspěšně smazáno.",
+        not_deleted: "Přání '%<title>s' nebylo smazáno.",
         delete: {
           confirm: {
             message: 'Opravdu smazat?'
@@ -152,13 +155,13 @@
         show: {
           name_for_author_connection: 'Autor přání',
           donors: {
-            count: 'celkem: %{total} / vašich: %{owns}'
+            count: 'celkem: %<total>s / vašich: %<owns>s'
           }
         },
-        updated: "Seznam potenciálních dárců pro '%{title}' byl úspěšně aktualizován.",
-        not_updated: "Přání '%{title}' nebylo aktualizováno.",
-        deleted: "Byli jste odebráni z obdarovaných u přání '%{title}'.",
-        not_deleted: "Nebyli jste odebráni z obdarovaných u přání '%{title}'.",
+        updated: "Seznam potenciálních dárců pro '%<title>s' byl úspěšně aktualizován.",
+        not_updated: "Přání '%<title>s' nebylo aktualizováno.",
+        deleted: "Byli jste odebráni z obdarovaných u přání '%<title>s'.",
+        not_deleted: "Nebyli jste odebráni z obdarovaných u přání '%<title>s'.",
         delete: {
           confirm: {
             message: 'Opravdu smazat?'
@@ -180,8 +183,8 @@
         show: {
           donees_list_header: 'Obdarovaní'
         },
-        updated: "Přání '%{title}' bylo aktualizováno.",
-        not_updated: "Přání '%{title}' nebylo aktualizováno."
+        updated: "Přání '%<title>s' bylo aktualizováno.",
+        not_updated: "Přání '%<title>s' nebylo aktualizováno."
 
       }
     }

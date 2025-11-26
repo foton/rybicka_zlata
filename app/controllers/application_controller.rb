@@ -51,7 +51,6 @@ class ApplicationController < ActionController::Base
     message += "\n\nBACKTRACE: #{exception.backtrace.join("\n")}" unless short_version
     message += "\n\nEXCEPTION[#{exception.class.name}]: #{exception}"
     logger.debug(message)
-    puts(message)
 
     predmet = exception.to_s[0..50]
     RybickaZlata4::Application.inform_admin(message, "VYJIMKA: #{predmet}")
@@ -59,9 +58,12 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html do
         if Rails.env.include?('development') || Rails.env.include?('test') || (current_user.present? && current_user.admin?)
-          render text: "#{exception.message} -- #{exception.class}<br/>#{exception.backtrace.join('<br/>')}", status: :internal_server_error
+          render plain: "#{exception.message} -- #{exception.class}<br/>#{exception.backtrace.join('<br/>')}",
+                 status: :internal_server_error
+          raise exception
         else
-          render file: File.join(Rails.root, 'public', '500.html'), formats: [:html], status: :internal_server_error, layout: false
+          render file: Rails.public_path.join('500.html').to_s, formats: [:html],
+                 status: :internal_server_error, layout: false
         end
       end
       format.xml { head :internal_server_error }
@@ -84,7 +86,9 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound, AbstractController::ActionNotFound do |_exception|
     respond_to do |format|
-      format.html { render file: File.join(Rails.root, 'public', '404.html'), formats: [:html], status: :not_found }
+      format.html do
+        render file: Rails.public_path.join('404.html').to_s, formats: [:html], status: :not_found
+      end
       format.xml { head :not_found }
       format.json { head :not_found }
     end
