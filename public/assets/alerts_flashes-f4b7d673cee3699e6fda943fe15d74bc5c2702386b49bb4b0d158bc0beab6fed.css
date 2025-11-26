@@ -1,0 +1,75 @@
+/* line 3, app/assets/stylesheets/alerts_flashes.scss */
+.alert {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  padding: 10px;
+}
+
+/* line 10, app/assets/stylesheets/alerts_flashes.scss */
+.alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+
+/* line 15, app/assets/stylesheets/alerts_flashes.scss */
+.alert-success hr {
+  border-top-color: #c9e2b3;
+}
+
+/* line 18, app/assets/stylesheets/alerts_flashes.scss */
+.alert-success .alert-link {
+  color: #2b542c;
+}
+
+/* line 21, app/assets/stylesheets/alerts_flashes.scss */
+.alert-info {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+}
+
+/* line 26, app/assets/stylesheets/alerts_flashes.scss */
+.alert-info hr {
+  border-top-color: #a6e1ec;
+}
+
+/* line 29, app/assets/stylesheets/alerts_flashes.scss */
+.alert-info .alert-link {
+  color: #245269;
+}
+
+/* line 32, app/assets/stylesheets/alerts_flashes.scss */
+.alert-warning {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b;
+}
+
+/* line 37, app/assets/stylesheets/alerts_flashes.scss */
+.alert-warning hr {
+  border-top-color: #f7e1b5;
+}
+
+/* line 40, app/assets/stylesheets/alerts_flashes.scss */
+.alert-warning .alert-link {
+  color: #66512c;
+}
+
+/* line 43, app/assets/stylesheets/alerts_flashes.scss */
+.alert-danger {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+
+/* line 48, app/assets/stylesheets/alerts_flashes.scss */
+.alert-danger hr {
+  border-top-color: #e4b9c0;
+}
+
+/* line 51, app/assets/stylesheets/alerts_flashes.scss */
+.alert-danger .alert-link {
+  color: #843534;
+}

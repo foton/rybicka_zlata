@@ -1,0 +1,42 @@
+.wish_reserved, 
+.wish_gifted, 
+.wish_fulfilled {
+  background-color: lightgrey;
+}
+
+.wish_me_as_donor {
+ background-color: lightblue; 
+}
+
+.donee-link {
+  margin-top: 0.5em;
+}
+
+.shared-wish-icon {
+ vertical-align: bottom;
+}
+
+.actions .as_menus {
+	display: none;
+}
+
+
+.wish .title {
+  display: block;
+}
+
+.wish .title .shared-wish-icon {
+  margin-right: 0.2em;
+}
+
+.wish .description {
+  color: #666;  
+}
+
+
+
+
+.donor_infos {
+  color: rgb(255, 160, 0);
+}
+

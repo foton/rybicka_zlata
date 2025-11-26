@@ -1,0 +1,91 @@
+
+.list-with-actions {
+  text-decoration: none;
+  list-style-type: none;
+  list-style-position: inside;
+  padding: 0px;
+}
+
+.list-with-actions a {
+  text-decoration: none;
+}
+
+.list-with-actions li {
+  border-bottom: 1px solid gray;
+}
+
+.list-with-actions li:first-child{
+  border-top: 1px solid gray;
+}
+
+
+/* https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+.list-with-actions__item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap ;
+  justify-content: space-between;
+  align-items: center;
+  align-content: space-between;
+
+  letter-spacing: 0.04em;
+  line-height: 1;
+  min-height: 48px;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.list-with-actions__item a {
+  color: rgb(63, 81, 181);
+}
+
+.list-with-actions__item .primary_content {
+  order: 2;
+  flex-grow: 3;
+  display: inline-block;
+  padding: 16px;
+}
+
+
+.list-with-actions__item .actions {
+  order: 2;
+  flex-grow: 1;
+  /*flex-basis: 15em;*/
+
+  /*flex-direction: column;*/
+  text-align: right;
+ /* min-width: 14em; /* to fit "Vyzvat ke spoluúčasti" action */
+}
+
+
+
+.actions ul {
+  text-decoration: none;
+  list-style-type: none;
+  list-style-position: inside;
+  padding: 0px;
+}
+
+.actions li, .actions li:first-child {
+  border: 0px;
+}
+
+.actions .as_list {
+   min-width: 14em; /* to fit "Vyzvat ke spoluúčasti" action */
+}
+
+.actions .as_menu {}
+
+.actions .as_menu button {
+  margin-right: 0px;
+  text-align: right;
+}
+
+
+
+#donor_wish_show .actions li, #donee_wish_show .actions li {
+  display: inline;
+}
+
+
+

@@ -1,6 +1,6 @@
 .mdl-layout {
   align-items: center;
-  
+
  /* justify-content: center; */
 }
 
@@ -33,3 +33,10 @@
   color: rgba(0,0,0,0.5);
 }
 
+.mdl-button {
+  background-color: #f5e55b;
+}
+
+.as_list li {
+  margin: 0.5em
+}
