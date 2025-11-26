@@ -2,25 +2,7 @@
 
 require File.expand_path('boot', __dir__)
 
-require 'rails'
-
-# to not load active_storage/engine
-%w[
-  active_record/railtie
-  action_controller/railtie
-  action_view/railtie
-  action_mailer/railtie
-  active_job/railtie
-  action_cable/engine
-  action_mailbox/engine
-  action_text/engine
-  rails/test_unit/railtie
-].each do |railtie|
-  begin # rubocop:disable Style/RedundantBegin
-    require railtie
-  rescue LoadError
-  end
-end
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
