@@ -9,7 +9,7 @@
 bart_family:
   name: Family (without Maggie)
   user: bart
-  connections: bart_to_lisa, bart_to_homer, bart_to_marge # for this, POSTGRESQL user have to have Superuser priivledges to disable referential integrity :-(
+  connections: bart_to_lisa, bart_to_homer, bart_to_marge # for this, POSTGRESQL user have to have Superuser priviledges to disable referential integrity (done by ActiveRecord) :-(
 
 marge_children:
   name: Children

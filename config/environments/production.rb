@@ -2,7 +2,7 @@
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  config.app_domain = 'rybickazlata4.herokuapp.com'
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -81,11 +81,6 @@ Rails.application.configure do
 
   # Devise requirement
   config.action_mailer.default_url_options = { host: config.app_domain, port: 80 }
-
-
-  config.action_mailer.delivery_method = :sendgrid_actionmailer
-  config.action_mailer.sendgrid_actionmailer_settings = {
-    api_key: ENV['SENDGRID_API_KEY'],
-    raise_delivery_errors: true
-  }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.raise_delivery_errors = true
 end
