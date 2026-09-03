@@ -29,6 +29,10 @@
 
 # Extracts data (name, verfified_email, locale) from Google+ OAuth2 hash
 class User::Identity::Extractor::Facebook < User::Identity::Extractor
+  TIME_ZONE_NAMES_BY_FACEBOOK_OFFSET = {
+    -3 => 'Brasilia'
+  }.freeze
+
   def name
     @name ||= @auth_data.info.name
   end
@@ -50,7 +54,8 @@ class User::Identity::Extractor::Facebook < User::Identity::Extractor
   end
 
   def time_zone
-    ActiveSupport::TimeZone[raw_info.timezone].name
+    time_zone_name = TIME_ZONE_NAMES_BY_FACEBOOK_OFFSET.fetch(raw_info.timezone, raw_info.timezone)
+    ActiveSupport::TimeZone[time_zone_name].name
   rescue StandardError
     nil
     # ofset is in hours from UTC, selecting first TZ which match

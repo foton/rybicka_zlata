@@ -36,5 +36,5 @@ Scénář: Přihlášený uživatel posílá vzkaz
   Pokud si otevřu poslední email pro adresu "porybny@rybickazlata.cz"
   Pak jeho předmět by měl být "Zpráva pro Porybného od uživatele 'Bartholomew JoJo Simpson'"
   A v jeho obsahu by mělo být "Prostě něco strašlivě důležitého."
-  A v jeho obsahu by mělo být "Profil uživatele 'Bartholomew JoJo Simpson': http://localhost:3000/profiles/"
+  A v jeho obsahu by mělo být "Profil uživatele 'Bartholomew JoJo Simpson': http://rybickazlata.localhost:3000/profiles/"
 

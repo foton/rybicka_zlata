@@ -21,7 +21,7 @@
 
   <div class="mdl-cell">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form mdl-cell--stretch mdl-cell--top"}) do |f| %>
-      <%= devise_error_messages! %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
       <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <%= f.label :name, class: "mdl-textfield__label" %>
@@ -38,12 +38,12 @@
 
       <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <%= f.label :password, class: "mdl-textfield__label" %>
-        <% 
+        <%
            html_atts= {class: "mdl-textfield__input", autocomplete: "off", required: true}
            if @minimum_password_length
              html_atts[:pattern]= ".{#{@minimum_password_length},}"
              err_msg=t("devise.passwords.minimum_length", min: @minimum_password_length)
-           end 
+           end
         %>
         <%= f.password_field :password, html_atts %>
         <span class="mdl-textfield__error"><%= err_msg %></span>
@@ -57,7 +57,7 @@
       </div>
 
       <br />
-      
+
       <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
         <%= f.label :locale, class: "mdl-selectfield__label" %>
         <%= f.select :locale, RybickaZlata4::Application.available_locales, {}, {class: "mdl-selectfield__select"} %>

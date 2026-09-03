@@ -22,7 +22,7 @@ class Wishes::FromDonorController < ApplicationController
       if wish_updater.success?
         flash[:notice] = wish_updater.result.message
         format.html { redirect_to user_others_wish_url(@user, @wish) }
-        format.js   { render '/wishes/state_update.js.erb' }
+        format.js   { render 'wishes/state_update' }
       else
         flash[:error] = t('wishes.from_donor.views.not_updated', title: @wish.title)
         @user = @wish.author

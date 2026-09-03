@@ -1,7 +1,7 @@
 <%= set_page_title(t("devise.registrations.edit.title", resource: "profil")) %>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put, class: "form mdl-cell--stretch mdl-cell--top"}) do |f| %>
-      <%= devise_error_messages! %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
       <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <%= f.label :name, class: "mdl-textfield__label" %>

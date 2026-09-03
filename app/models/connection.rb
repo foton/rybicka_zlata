@@ -13,8 +13,8 @@
 class Connection < ApplicationRecord
   BASE_CONNECTION_NAME = '--base for donee--'
 
-  belongs_to :friend, class_name: 'User', inverse_of: :connections_as_friend
-  belongs_to :owner, class_name: 'User', inverse_of: :connections
+  belongs_to :friend, class_name: 'User', inverse_of: :connections_as_friend, optional: true
+  belongs_to :owner, class_name: 'User', inverse_of: :connections, optional: true
 
   #has_many :identities, primary_key: 'email', foreign_key: 'email', class_name: 'User::Identity' # , inverse_of: :connections
   has_and_belongs_to_many :groups

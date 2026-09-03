@@ -68,28 +68,28 @@ Pak(/^(?:ze seznamu )?vyřadím "(.*?)"$/) do |label|
   # find checkbox and if checked, uncheck it
   # uncheck label  #does not work, because checkbox itself is not visible. Only modified label.
 
-  if has_field?(label, checked: true, visible: :all)
-    begin
-      uncheck label
-    rescue StandardError # Capybara::Webkit::ClickFailed
-      find('label', text: label).click
-    end
-  else
+  unless has_field?(label, checked: true, visible: :all)
     raise Capybara::ElementNotFound, "Checked field with label/id '#{label}' was not found"
+  end
+
+  begin
+    uncheck label
+  rescue StandardError # Capybara::Webkit::ClickFailed
+    find('label', text: label).click
   end
 end
 
 Pak(/^(?:do seznamu )?přidám "(.*?)"$/) do |label|
   # find checkbox and if unchecked, check it
 
-  if has_field?(label, checked: false, visible: :all)
-    begin
-      check label
-    rescue StandardError
-      find('label', text: label).click
-    end
-  else
+  unless has_field?(label, checked: false, visible: :all)
     raise Capybara::ElementNotFound, "Unchecked field with label/id '#{label}' was not found"
+  end
+
+  begin
+    check label
+  rescue StandardError
+    find('label', text: label).click
   end
 end
 
@@ -97,8 +97,6 @@ Když(/^kliknu v menu na "(.*?)"$/) do |text|
   menus = all('nav.mdl-navigation')
   within(menus.first) do
     click_link_or_button(text)
-  rescue Capybara::Webkit::ClickFailed => e
-    js_click_link(text)
   end
 end
 

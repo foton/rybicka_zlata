@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'application_helper'
 
 class WishesHelperTest < ActionView::TestCase
   include ApplicationHelper
