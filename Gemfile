@@ -68,7 +68,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner', require: false
   gem 'minitest-mock', require: 'minitest/mock'
-  gem 'webdrivers', require: false
+  gem 'selenium-webdriver', require: false
 
   # TODO:  refactor tests to delete this
   gem 'rails-controller-testing' # for assert_template  and assigns

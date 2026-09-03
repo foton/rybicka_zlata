@@ -64,7 +64,7 @@ end
 
 Pak(/^v seznamu skupin je skupina "(.*?)" se? (\d+) členy$/) do |name, _count|
   within(:css, '#groups_list') do
-    find('li', text: name) #+"[#{count}]")
+    find('li', text: name) # +"[#{count}]")
   end
 end
 
@@ -132,7 +132,7 @@ Pak(/^v seznamu přání není přání "(.*?)"$/) do |wish_title|
 end
 
 Pokud(/^u přání "(.*?)" jsou akce \[(.*?)\]$/) do |wish_title, actions_str|
-  action_names = actions_str.delete('"').split(',').collect { |name| name.strip.mb_chars.upcase }
+  action_names = actions_str.delete('"').split(',').collect { |name| name.strip.upcase }
 
   within(:css, '#wishes') do
     wish = find('li', text: wish_title)
