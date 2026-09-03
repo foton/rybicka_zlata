@@ -2,14 +2,15 @@
 #
 # Table name: posts
 #
-#  id              :bigint           not null, primary key
+#  author_id       :integer
 #  content         :text
-#  show_to_anybody :boolean          default(FALSE)
 #  created_at      :datetime         not null
+#  id              :integer          not null, primary key
+#  show_to_anybody :boolean          default(FALSE)
 #  updated_at      :datetime         not null
-#  author_id       :bigint
-#  wish_id         :bigint
+#  wish_id         :integer
 #
+
 module Discussion
   class Post < ApplicationRecord
     include WishesHelper

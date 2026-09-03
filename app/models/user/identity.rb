@@ -11,7 +11,7 @@
 #  user_id  :integer
 #
 class User::Identity < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :connections, primary_key: 'email', foreign_key: 'email' # , inverse_of: :identities
 
   self.table_name = 'identities'

@@ -9,7 +9,7 @@
 #  user_id :integer          not null
 #
 class Group < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   has_and_belongs_to_many :connections
 
   validates :name, presence: true

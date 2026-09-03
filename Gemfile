@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ruby '3.3.9'
+ruby '4.0.6'
 source 'https://rubygems.org'
 
 # webserver https://devcenter.heroku.com/articles/ruby-default-web-server
@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg'
-gem 'rails', '~>7.2.3'
+gem 'rails', '~> 8.1.3', '>= 8.1.3.1'
 
 # Use Puma as the app server
 gem 'puma'
@@ -40,13 +40,10 @@ gem 'omniauth-twitter'
 gem 'activity_notification'
 
 group :development, :test do
-  # Coffee-rails and Uglifier demands ExecJS, which require JS runtime.
-  # So I pick up MiniRacer
-  # Production is on Heroku where they have NODE, so no rubyracer is needed there https://devcenter.heroku.com/articles/rails-asset-pipeline
+  # Coffee-rails and Uglifier demand ExecJS, which uses the local Node runtime.
+  # Production is on Heroku where Node is available: https://devcenter.heroku.com/articles/rails-asset-pipeline
   # See https://github.com/rails/execjs#readme for more supported runtimes
-  gem 'mini_racer', platforms: :ruby
-
-  gem 'pry-byebug' # debugging with pry on ruby 2 ('step','next','finish','continue')
+  gem 'pry-byebug', require: false # debugging with pry ('step', 'next', 'finish', 'continue')
   gem 'pry-rails' # pry in Rails console instead IRB
 
   gem 'minitest-reporters' # better formatted output of Minitest
@@ -70,7 +67,8 @@ end
 group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner', require: false
-  gem 'webdrivers', '~> 4.0', require: false
+  gem 'minitest-mock', require: 'minitest/mock'
+  gem 'webdrivers', require: false
 
   # TODO:  refactor tests to delete this
   gem 'rails-controller-testing' # for assert_template  and assigns
