@@ -47,7 +47,7 @@
 #   uid="114639699759279631155"
 # >
 
-# Extracts data (name, verfified_email, locale) from Google+ OAuth2 hash
+# Extracts data (name, verified email, locale) from a Google OAuth2 hash.
 class User::Identity::Extractor::Google < User::Identity::Extractor
   def name
     @name ||= @auth_data.info.name
@@ -62,14 +62,18 @@ class User::Identity::Extractor::Google < User::Identity::Extractor
   def verified_email
     unless defined? @verified_email
       @verified_email = nil
-      @verified_email = raw_info.email if raw_info&.email && raw_info.email_verified == 'true'
+      @verified_email = raw_info.email if email_verified?
     end
     @verified_email
   end
 
   private
 
+  def email_verified?
+    raw_info&.email && [true, 'true'].include?(raw_info.email_verified)
+  end
+
   def raw_info
-    @auth_data&.extra && @auth_data.extra.raw_info ? @auth_data.extra.raw_info : nil
+    @auth_data&.extra&.raw_info
   end
 end

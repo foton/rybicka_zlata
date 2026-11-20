@@ -268,16 +268,22 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-  # config.omniauth :gplus, ENV['GPLUS_CLIENTID'], ENV['GPLUS_SECRET'], scope: 'userinfo.email, userinfo.profile', access_type: 'online' redirect_uri: 'http://localhost/auth/google_oauth2/callback'
-  # config.omniauth :google_oauth2, ENV['GPLUS_CLIENTID'], ENV['GPLUS_SECRET'], scope: 'userinfo.email, userinfo.profile', access_type: 'online' #, redirect_uri: 'http://localhost/auth/google_oauth2/callback'
+  google_oauth_redirect_uri = ENV.fetch('GOOGLE_REDIRECT_URI') do
+    scheme = Rails.env.production? ? 'https' : 'http'
+    port = Rails.env.production? ? nil : 3000
+    host = Rails.application.config.app_domain
+    port_suffix = ":#{port}" if port
+    "#{scheme}://#{host}#{port_suffix}/users/auth/google/callback"
+  end
+
   config.omniauth :google_oauth2,
                   ENV.fetch('GOOGLE_CLIENT_ID'),
                   ENV.fetch('GOOGLE_CLIENT_SECRET'),
-                  scope: 'userinfo.email, userinfo.profile',
+                  scope: 'email,profile',
                   access_type: 'online',
                   name: 'google',
-                  skip_jwt: true
-  # , redirect_uri: 'http://localhost:3000/users/auth/google/callback?locale=cs'
+                  skip_jwt: true,
+                  redirect_uri: google_oauth_redirect_uri
 
   config.omniauth :github,
                   ENV.fetch('GITHUB_CLIENT_ID'),

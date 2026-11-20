@@ -57,9 +57,13 @@
   .sc--twitter:hover { background-color: #0f83b8; background-color: #21aded; }
   .sc--twitter:active { background-color: #108ac1;}
 
-.sc--google { background-color: #b92d25; }
-  .sc--google:hover { background-color: #e1726b; }
-  .sc--google:active { background-color: #b92d25; }
+.sc--google {
+  background-color: #4285f4;
+}
+  .sc--google .sc-icon svg { fill: #fff; }
+  .sc--google .sc-text { color: #fff; }
+  .sc--google:hover { background-color: #5a95f5; }
+  .sc--google:active { background-color: #3367d6; }
 
 .sc--github { background-color: #3269a0; }
   .sc--github:hover { background-color: #2f6498; background-color: #4988c6; }

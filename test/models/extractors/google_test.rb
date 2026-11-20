@@ -17,6 +17,12 @@ class GoogleExtractorTest < ActiveSupport::TestCase
     assert_equal @auth_data.extra.raw_info.email, @extractor.verified_email
   end
 
+  def test_get_verified_email_when_google_returns_boolean
+    @auth_data.extra.raw_info.email_verified = true
+
+    assert_equal @auth_data.extra.raw_info.email, @extractor.verified_email
+  end
+
   def test_get_locale
     assert_equal @auth_data.extra.raw_info.locale, @extractor.locale
   end
