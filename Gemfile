@@ -13,19 +13,8 @@ gem 'rails', '~> 8.1.3', '>= 8.1.3.1'
 # Use Puma as the app server
 gem 'puma'
 
-# Use SCSS for stylesheets
-gem 'sass-rails'
-
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier'
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'
-
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-
 # frontend 2026: components + vanilla JS modules (no Node)
+gem 'propshaft' # asset pipeline (digests only, no compilation)
 gem 'importmap-rails', '~> 2.2'
 gem 'turbo-rails', '~> 2.0'
 gem 'view_component', '~> 4.25'
