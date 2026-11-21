@@ -9,6 +9,8 @@ cs:
       dismiss: "Zavřít"
       skip_to_content: "Přeskočit na obsah"
       more_actions: "Další akce"
+      show_password: "Zobrazit heslo"
+      hide_password: "Skrýt heslo"
     connection_picker:
       search: "Hledat kontakt…"
       filter: "Filtr"

@@ -9,6 +9,8 @@ en:
       dismiss: "Dismiss"
       skip_to_content: "Skip to content"
       more_actions: "More actions"
+      show_password: "Show password"
+      hide_password: "Hide password"
     connection_picker:
       search: "Search contacts…"
       filter: "Filter"

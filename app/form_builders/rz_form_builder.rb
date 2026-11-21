@@ -16,7 +16,7 @@
 # Labels float via CSS only (:placeholder-shown), so no JavaScript is needed.
 # Validation errors of the attribute mark the field (aria-invalid) and are shown under it.
 class RzFormBuilder < ActionView::Helpers::FormBuilder # rubocop:disable Metrics/ClassLength
-  TEXT_FIELDS = %i[text_field email_field password_field number_field telephone_field url_field
+  TEXT_FIELDS = %i[text_field email_field number_field telephone_field url_field
                    search_field date_field].freeze
 
   CHECK_BOX = ActionView::Helpers::FormBuilder.instance_method(:check_box)
@@ -24,6 +24,13 @@ class RzFormBuilder < ActionView::Helpers::FormBuilder # rubocop:disable Metrics
   TEXT_FIELDS.each do |field_type|
     define_method(field_type) do |method, options = {}|
       text_like_field(method, options) { |opts| super(method, opts) }
+    end
+  end
+
+  # with a trailing "show / hide password" icon button (elements/rz_password_toggle.js)
+  def password_field(method, options = {})
+    text_like_field(method, options, modifier: 'password', trailing: password_toggle) do |opts|
+      super(method, opts)
     end
   end
 
@@ -65,7 +72,7 @@ class RzFormBuilder < ActionView::Helpers::FormBuilder # rubocop:disable Metrics
 
   private
 
-  def text_like_field(method, options, modifier: nil)
+  def text_like_field(method, options, modifier: nil, trailing: nil)
     mark_error(method) if options.delete(:error)
     label_text = options.delete(:label)
     supporting = supporting_for(method, options.delete(:supporting_text))
@@ -74,9 +81,20 @@ class RzFormBuilder < ActionView::Helpers::FormBuilder # rubocop:disable Metrics
     field = yield(opts)
 
     wrapper('rz-text-field', method, modifier:, has_label: label_text != false) do
-      @template.safe_join([field, field_label(method, label_text, 'rz-text-field__label'),
+      @template.safe_join([field, field_label(method, label_text, 'rz-text-field__label'), trailing,
                            supporting_tag(method, supporting)].compact)
     end
+  end
+
+  # hidden until JS enables it (without JS the field is a plain password field)
+  def password_toggle
+    show = I18n.t('rybickazlata.layout.show_password')
+    @template.tag.button(@template.render(IconComponent.new('visibility')),
+                         type: 'button', hidden: true,
+                         class: 'rz-icon-button rz-text-field__trailing',
+                         aria: { label: show, pressed: false }, title: show,
+                         data: { password_toggle: true, show_label: show,
+                                 hide_label: I18n.t('rybickazlata.layout.hide_password') })
   end
 
   def select_field(method, html_options)

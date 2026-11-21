@@ -219,3 +219,14 @@
   background: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
 }
+
+/* trailing icon button (show / hide password) */
+.rz-text-field__trailing {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.rz-text-field--password .rz-text-field__input { padding-right: 52px; }
+.rz-text-field--password .rz-text-field__input:focus { padding-right: 51px; }
+.rz-text-field--password .rz-text-field__label { max-width: calc(100% - 72px); }
+.rz-text-field__trailing[hidden] { display: none; }

@@ -48,9 +48,10 @@
   .rz-snackbar__item { width: auto; min-width: 344px; }
 }
 
+/* slide only, no fade-in: if the animation stalls (e.g. background tab), the message stays visible */
 @keyframes rz-snackbar-in {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: none; }
+  from { transform: translateY(16px); }
+  to { transform: none; }
 }
 @keyframes rz-snackbar-out {
   to { opacity: 0; transform: translateY(8px); }

@@ -40,6 +40,14 @@ class RzFormBuilderTest < ActionView::TestCase
     assert_no_match(/rz-field__supporting/, html)
   end
 
+  def test_password_field_has_hidden_show_toggle
+    html = build { |f| f.password_field :name }
+
+    assert_fragment html, 'div.rz-text-field--password input[type="password"]'
+    assert_fragment html, 'button[type="button"][data-password-toggle][hidden][aria-pressed="false"]'
+    assert_fragment html, 'button[aria-label="Zobrazit heslo"] .rz-icon', text: 'visibility'
+  end
+
   def test_supporting_text
     html = build { |f| f.text_field :name, supporting_text: 'nápověda' }
 

@@ -28,7 +28,9 @@ Capybara.register_driver :firefox do |app|
 end
 
 # Capybara.javascript_driver = :firefox # (saving PDFs to our path is not working, all goes to ~/Downloads)
-Capybara.javascript_driver = :chrome
+# HEADLESS=1 runs Chrome without a window. Use it when the screen may sleep / lock during the run:
+# a window that is not painted gets no animation frames, so Turbo Streams and CSS animations stall.
+Capybara.javascript_driver = ENV['HEADLESS'].present? ? :headless_chrome : :chrome
 
 Capybara.server = :puma, { Silent: true }
 

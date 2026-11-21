@@ -19,7 +19,8 @@
 .rz-dialog__text { margin: 0 0 24px; font: var(--md-sys-typescale-body-medium); white-space: pre-line; }
 .rz-dialog__actions { display: flex; justify-content: flex-end; gap: 8px; }
 
+/* scale only, no fade-in: if the animation stalls, the dialog is still visible */
 @keyframes rz-dialog-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: none; }
+  from { transform: scale(0.95); }
+  to { transform: none; }
 }
