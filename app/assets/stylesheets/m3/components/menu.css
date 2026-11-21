@@ -1,0 +1,54 @@
+/*
+ * M3 menu as a native popover. Anchored to its button where CSS anchor positioning
+ * exists: the button sets `anchor-name: --x`, the menu `position-anchor: --x` (inline styles).
+ */
+.rz-menu {
+  box-sizing: border-box;
+  min-width: 112px;
+  max-width: 280px;
+  margin: 0;
+  padding: 8px 0;
+  border: 0;
+  border-radius: var(--md-sys-shape-corner-extra-small);
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level2);
+}
+
+.rz-menu--anchored {
+  position: fixed;
+  inset: calc(var(--rz-top-app-bar-height) - 8px) 8px auto auto;
+}
+@supports (anchor-name: --a) {
+  .rz-menu--anchored {
+    inset: auto;
+    top: anchor(bottom);
+    right: anchor(right);
+    position-try-fallbacks: flip-block, flip-inline;
+  }
+}
+
+.rz-menu__list { margin: 0; padding: 0; list-style: none; }
+
+.rz-menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 12px;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-label-large);
+  text-decoration: none;
+  isolation: isolate;
+}
+.rz-menu__item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: currentColor;
+  opacity: 0;
+}
+.rz-menu__item:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+.rz-menu__item:focus-visible { outline: 3px solid var(--md-sys-color-secondary); outline-offset: -3px; }

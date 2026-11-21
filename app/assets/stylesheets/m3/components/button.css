@@ -1,0 +1,68 @@
+/*
+ * M3 common buttons and icon buttons. The state layer (hover/focus/press)
+ * is a ::before overlay in currentColor with the M3 state opacities.
+ */
+.rz-button,
+.rz-icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  font: var(--md-sys-typescale-label-large);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  isolation: isolate;
+}
+
+.rz-button {
+  min-height: 40px;
+  padding: 0 24px;
+  border-radius: var(--md-sys-shape-corner-full);
+}
+
+.rz-button::before,
+.rz-icon-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+}
+.rz-button:hover::before,
+.rz-icon-button:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+.rz-button:focus-visible::before,
+.rz-icon-button:focus-visible::before { opacity: var(--md-sys-state-focus-state-layer-opacity); }
+.rz-button:active::before,
+.rz-icon-button:active::before { opacity: var(--md-sys-state-pressed-state-layer-opacity); }
+
+.rz-button:focus-visible,
+.rz-icon-button:focus-visible {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: 2px;
+}
+
+.rz-button--filled {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+.rz-button--filled:hover { box-shadow: var(--md-sys-elevation-level1); }
+
+.rz-button--text { padding: 0 12px; }
+
+.rz-icon-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--md-sys-shape-corner-full);
+  color: var(--md-sys-color-on-surface-variant);
+}

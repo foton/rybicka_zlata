@@ -1,0 +1,45 @@
+<header class="rz-top-app-bar">
+  <% if user %>
+    <button type="button" class="rz-icon-button rz-top-app-bar__nav-toggle"
+            popovertarget="main_menu" aria-label="<%= t('rybickazlata.layout.open_menu') %>">
+      <%= render IconComponent.new('menu') %>
+    </button>
+  <% end %>
+
+  <%= link_to helpers.root_path, class: 'rz-top-app-bar__brand' do %>
+    <%= image_tag 'logo.png', alt: '', class: 'rz-top-app-bar__logo', id: 'logo', width: 88, height: 48 %>
+    <span class="rz-top-app-bar__title"><%= t('rybickazlata.name') %></span>
+  <% end %>
+
+  <div class="rz-top-app-bar__actions">
+    <% if user %>
+      <%= link_to helpers.user_notifications_path(user), class: 'rz-icon-button rz-top-app-bar__notifications',
+                  aria: { label: notifications_label }, title: notifications_label do %>
+        <%= render IconComponent.new('notifications') %>
+        <% if unopened_notifications_count.positive? %>
+          <span class="rz-badge" aria-hidden="true"><%= badge_text %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <button type="button" id="locale-switcher" class="rz-icon-button" popovertarget="locale-menu"
+            style="anchor-name: --locale-menu"
+            aria-label="<%= t('rybickazlata.layout.change_language') %>" title="<%= t('rybickazlata.layout.change_language') %>">
+      <%= render IconComponent.new('language') %>
+    </button>
+    <div id="locale-menu" class="rz-menu rz-menu--anchored" popover style="position-anchor: --locale-menu">
+      <ul class="rz-menu__list">
+        <% LOCALES.each do |locale, label| %>
+          <li><%= link_to label, helpers.change_locale_path(params: { locale: locale }), class: 'rz-menu__item', lang: locale %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <% unless user %>
+      <nav id="main_menu" class="rz-top-app-bar__nav" aria-label="<%= t('rybickazlata.layout.main_navigation') %>">
+        <%= link_to t('devise.registrations.new.sign_up'), helpers.new_user_registration_path, class: 'rz-button rz-button--text' %>
+        <%= link_to t('devise.sessions.new.sign_in'), helpers.new_user_session_path, class: 'rz-button rz-button--filled' %>
+      </nav>
+    <% end %>
+  </div>
+</header>

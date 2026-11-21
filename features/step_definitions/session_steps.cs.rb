@@ -2,13 +2,13 @@
 
 Given(/^(?:bych měl|měl bych) být úspěšně přihlášen$/) do
   step 'měl bych vidět text "Přihlášení bylo úspěšné."'
-  within('header nav') do
-    assert page.has_link?('Odhlásit')
+  within('#main_menu') do
+    assert page.has_button?('Odhlásit')
   end
 end
 
 Pak(/^bych se měl bez problémů přihlásit jako "(.*?)" s heslem "(.*?)"$/) do |email, password|
-  step 'kliknu v menu na "Odhlásit"' if page.has_link?('Odhlásit')
+  step 'kliknu v menu na "Odhlásit"' if page.has_button?('Odhlásit')
   step "přihlásím se jako \"#{email}\" s heslem \"#{password}\""
   step 'měl bych být úspěšně přihlášen'
 end
@@ -30,6 +30,6 @@ Pokud(/^jsem přihlášen jako "(.*?)"$/) do |user_identificator|
 end
 
 Given(/^(?:odhlásím se|se odhlásím)$/) do
-  step 'kliknu v menu na "Odhlásit"' if page.has_link?('Odhlásit')
+  step 'kliknu v menu na "Odhlásit"' if page.has_button?('Odhlásit')
   @current_user = nil
 end

@@ -1,8 +1,4 @@
-document.querySelector('#snackbar').MaterialSnackbar.showSnackbar(
-  {
-    message: "<%= raw flash[:notice] %>"
-  }
-);
+document.querySelector('#snackbar').show("<%= raw j(flash[:notice]) %>");
 
 
 $("#<%= anchor_for(@wish) %>").bind('ajax:success', function() {

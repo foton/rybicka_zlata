@@ -18,7 +18,7 @@ When(/^(?:I )?switch locale to "(.*?)"$/) do |locale|
 end
 
 When(/^I click on "(.*?)" in menu$/) do |text|
-  within('div#main_menu') do
+  within('#main_menu') do
     click_link_or_button(text)
   end
 end

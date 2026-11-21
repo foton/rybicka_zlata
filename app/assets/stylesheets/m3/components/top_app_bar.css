@@ -1,0 +1,66 @@
+/* M3 small top app bar; gets a shadow (not a tint) once the page is scrolled. */
+.rz-top-app-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  height: var(--rz-top-app-bar-height);
+  padding: 0 8px 0 4px;
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+}
+
+@supports (animation-timeline: scroll()) {
+  .rz-top-app-bar {
+    animation: rz-top-app-bar-lift linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 16px;
+  }
+}
+@keyframes rz-top-app-bar-lift {
+  from { box-shadow: var(--md-sys-elevation-level0); }
+  to { box-shadow: var(--md-sys-elevation-level2); }
+}
+
+.rz-top-app-bar__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0 8px 0 4px;
+  color: inherit;
+  text-decoration: none;
+}
+/* logo.png is square with the fish as a wide band in the middle: show a wide crop of it */
+.rz-top-app-bar__logo { display: block; width: 88px; height: 48px; object-fit: cover; }
+.rz-top-app-bar__title {
+  overflow: hidden;
+  font: var(--md-sys-typescale-title-large);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rz-top-app-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.rz-top-app-bar__nav { display: flex; align-items: center; gap: 4px; }
+
+.rz-top-app-bar__notifications { position: relative; }
+.rz-top-app-bar__notifications .rz-badge { position: absolute; top: 4px; left: 22px; }
+
+@media (min-width: 840px) {
+  .rz-top-app-bar { padding: 0 16px 0 12px; }
+  .rz-top-app-bar__nav-toggle { display: none; }
+}
+
+@media (max-width: 599px) {
+  .rz-top-app-bar__title { font: var(--md-sys-typescale-title-medium); }
+  .rz-top-app-bar__logo { width: 72px; height: 40px; }
+}

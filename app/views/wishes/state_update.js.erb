@@ -3,9 +3,5 @@ $(".<%= anchor_for(@wish) %>").each(function(){
   $(this).effect("highlight", 500);
  }); 
 
-document.querySelector('#snackbar').MaterialSnackbar.showSnackbar(
-  {
-    message: "<%= raw flash[:notice] %>"
-  }
-);
+document.querySelector('#snackbar').show("<%= raw j(flash[:notice]) %>");
 

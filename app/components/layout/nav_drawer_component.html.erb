@@ -1,0 +1,24 @@
+<nav id="main_menu" class="rz-nav-drawer" popover aria-label="<%= t('rybickazlata.layout.main_navigation') %>">
+  <div class="rz-nav-drawer__headline"><%= t('rybickazlata.name') %></div>
+  <ul class="rz-nav-drawer__list">
+    <% items.each do |item| %>
+      <% active = item == active_item %>
+      <li>
+        <%= link_to item.path, class: ['rz-nav-drawer__item', ('is-active' if active)],
+                               aria: { current: (active ? 'page' : nil) } do %>
+          <%= render IconComponent.new(item.icon, filled: active) %>
+          <span class="rz-nav-drawer__label"><%= item.label %></span>
+          <% if item.badge %>
+            <span class="rz-nav-drawer__badge"><%= item.badge %></span>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <hr class="rz-divider">
+  <%= button_to helpers.destroy_user_session_path, method: :delete, class: 'rz-nav-drawer__item',
+                                                   form_class: 'rz-nav-drawer__form' do %>
+    <%= render IconComponent.new('logout') %>
+    <span class="rz-nav-drawer__label"><%= t('devise.sessions.destroy.sign_out') %></span>
+  <% end %>
+</nav>

@@ -1,0 +1,57 @@
+/* M3 snackbars, stacked at the bottom (centered on wide screens). */
+.rz-snackbar {
+  position: fixed;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.rz-snackbar__item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 600px;
+  min-height: 48px;
+  padding: 4px 4px 4px 16px;
+  border-radius: var(--md-sys-shape-corner-extra-small);
+  background: var(--md-sys-color-inverse-surface);
+  color: var(--md-sys-color-inverse-on-surface);
+  box-shadow: var(--md-sys-elevation-level3);
+  font: var(--md-sys-typescale-body-medium);
+  pointer-events: auto;
+  animation: rz-snackbar-in var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate);
+}
+
+.rz-snackbar__item--error {
+  background: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+}
+
+.rz-snackbar__item.is-leaving {
+  animation: rz-snackbar-out var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-accelerate) forwards;
+}
+
+.rz-snackbar__text { flex: 1; padding: 10px 0; }
+
+.rz-snackbar .rz-snackbar__close { color: inherit; }
+
+@media (min-width: 600px) {
+  .rz-snackbar { bottom: 24px; }
+  .rz-snackbar__item { width: auto; min-width: 344px; }
+}
+
+@keyframes rz-snackbar-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes rz-snackbar-out {
+  to { opacity: 0; transform: translateY(8px); }
+}

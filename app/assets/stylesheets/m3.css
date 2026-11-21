@@ -1,10 +1,12 @@
 /*
  * New design system (Material 3 with shadow elevation).
  * Kept OUT of application.css on purpose; linked separately by the layout.
- * Step 1 contains design tokens (CSS custom properties) only, so legacy MDL pages are not affected.
+ * Component rules are class-scoped (.rz-*), so they do not touch legacy MDL markup.
  *
  *= require ./m3/color
  *= require ./m3/elevation
  *= require ./m3/typography
  *= require ./m3/shape_motion
+ *= require ./m3/base
+ *= require_tree ./m3/components
  */

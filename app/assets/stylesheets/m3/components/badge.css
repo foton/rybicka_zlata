@@ -1,0 +1,13 @@
+/* M3 large badge (number on an icon). */
+.rz-badge {
+  box-sizing: border-box;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-error);
+  color: var(--md-sys-color-on-error);
+  font: var(--md-sys-typescale-label-small);
+  line-height: 16px;
+  text-align: center;
+}

@@ -1,0 +1,14 @@
+.rz-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px 24px;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-small);
+}
+.rz-footer__name { font: var(--md-sys-typescale-label-medium); }
+.rz-footer .rz-footer__link { color: var(--md-sys-color-primary); }

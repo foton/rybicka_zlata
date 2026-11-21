@@ -94,8 +94,7 @@ Pak(/^(?:do seznamu )?přidám "(.*?)"$/) do |label|
 end
 
 Když(/^kliknu v menu na "(.*?)"$/) do |text|
-  menus = all('nav.mdl-navigation')
-  within(menus.first) do
+  within('#main_menu') do
     click_link_or_button(text)
   end
 end

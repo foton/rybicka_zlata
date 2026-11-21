@@ -1,0 +1,66 @@
+/*
+ * App shell base styles. Everything is scoped to classes of the new layout
+ * (body.rz, .rz-*), so legacy MDL/jQuery rules in application.css are untouched
+ * and the class selectors here win over its bare element rules (a, footer, ...).
+ */
+:root:not([data-theme]) { color-scheme: light dark; } /* [data-theme] cases are in color.css */
+
+body.rz {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-medium);
+  -webkit-font-smoothing: antialiased;
+}
+
+.rz-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: calc(100dvh - var(--rz-top-app-bar-height));
+}
+
+.rz-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rz-main__content {
+  flex: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+@media (min-width: 840px) {
+  .rz-shell--with-nav { grid-template-columns: var(--rz-nav-drawer-width) minmax(0, 1fr); }
+  .rz-main__content { padding: 24px; }
+}
+
+.rz-divider {
+  height: 1px;
+  margin: 8px 0;
+  border: 0;
+  background: var(--md-sys-color-outline-variant);
+}
+
+.rz-skip-link {
+  position: absolute;
+  left: 8px;
+  top: -100px;
+  z-index: 100;
+  padding: 8px 16px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font: var(--md-sys-typescale-label-large);
+}
+.rz-skip-link:focus { top: 8px; }
+
+:root {
+  --rz-top-app-bar-height: 64px;
+  --rz-nav-drawer-width: 280px;
+}

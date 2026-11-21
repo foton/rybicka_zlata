@@ -1,0 +1,12 @@
+/* Material Symbols (variable font: FILL / wght / GRAD / opsz). */
+.rz-icon {
+  font-size: 24px;
+  line-height: 1;
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
+  flex: none;
+  user-select: none;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+.rz-icon--filled { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }

@@ -262,3 +262,13 @@ footer {
 .field_value {
   font-weight: bold;
 }
+
+/* UI texts keep the case from translations: no uppercase from MDL
+   (e.g. "Ř" looks bad in capitals of the used font). */
+.mdl-button,
+.mdl-layout__tab,
+.mdl-tabs__tab,
+.mdl-snackbar__action,
+.mdl-typography--button {
+  text-transform: none;
+}

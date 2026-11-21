@@ -1,0 +1,13 @@
+<rz-snackbar id="snackbar" class="rz-snackbar" data-dismiss-label="<%= t('rybickazlata.layout.dismiss') %>">
+  <% messages.each do |message| %>
+    <div class="rz-snackbar__item rz-snackbar__item--<%= message.kind %>"
+         role="<%= message.kind == :error ? 'alert' : 'status' %>"
+         <%= tag.attributes(data: { autohide: (AUTOHIDE_MS if message.autohide?) }) %>>
+      <span class="rz-snackbar__text"><%= message.text %></span>
+      <button type="button" class="rz-icon-button rz-snackbar__close" data-dismiss
+              aria-label="<%= t('rybickazlata.layout.dismiss') %>">
+        <%= render IconComponent.new('close') %>
+      </button>
+    </div>
+  <% end %>
+</rz-snackbar>

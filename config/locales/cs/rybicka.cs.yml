@@ -2,6 +2,12 @@ cs:
   rybickazlata:
     name: "Rybička zlatá"
     title: "možná splní vaše přání"
+    layout:
+      open_menu: "Otevřít menu"
+      main_navigation: "Hlavní navigace"
+      change_language: "Změnit jazyk"
+      dismiss: "Zavřít"
+      skip_to_content: "Přeskočit na obsah"
     static:
 
       about:

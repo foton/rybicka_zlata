@@ -3,8 +3,8 @@
 Given(/^I should be successfully signed in$/) do
   step 'should see text "Signed in successfully."'
 
-  within('header nav') do
-    assert page.has_link?(I18n.t('devise.sessions.destroy.sign_out'))
+  within('#main_menu') do
+    assert page.has_button?(I18n.t('devise.sessions.destroy.sign_out'))
   end
 end
 

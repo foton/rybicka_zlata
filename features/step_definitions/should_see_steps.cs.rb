@@ -132,7 +132,7 @@ Pak(/^v seznamu přání není přání "(.*?)"$/) do |wish_title|
 end
 
 Pokud(/^u přání "(.*?)" jsou akce \[(.*?)\]$/) do |wish_title, actions_str|
-  action_names = actions_str.delete('"').split(',').collect { |name| name.strip.upcase }
+  action_names = actions_str.delete('"').split(',').collect(&:strip)
 
   within(:css, '#wishes') do
     wish = find('li', text: wish_title)
