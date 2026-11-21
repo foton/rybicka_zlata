@@ -1,4 +1,4 @@
-/* Notifications (activity_notification views): M3 list, unread ones marked with a dot. */
+/* Notifications (users/notifications views): M3 list, unread ones marked with a dot. */
 .rz-notifications { margin: 0 0 16px; padding: 0; list-style: none; max-width: 800px; }
 
 .rz-notification { border-bottom: 1px solid var(--md-sys-color-outline-variant); }

@@ -88,7 +88,7 @@ class DiscussionServiceTest < ActiveSupport::TestCase
     assert_equal donor, post_to_anybody.author
 
     service = DiscussionService.new(wish, donor) # can be post.author or admin
-    assert_difference('ActivityNotification::Notification.count', (wish.donor_users + wish.donee_users ).size) do
+    assert_difference('Notification.count', (wish.donor_users + wish.donee_users ).size) do
       service.delete_post(post_to_anybody)
     end
 
@@ -104,7 +104,7 @@ class DiscussionServiceTest < ActiveSupport::TestCase
     assert_not post_to_donors.show_to_anybody?
 
     service = DiscussionService.new(wish, users(:porybny)) # can be post.author or admin
-    assert_difference('ActivityNotification::Notification.count', wish.donor_users.size) do
+    assert_difference('Notification.count', wish.donor_users.size) do
       service.delete_post(post_to_donors)
     end
 
@@ -117,7 +117,7 @@ class DiscussionServiceTest < ActiveSupport::TestCase
 
   def open_discussion_to_donees
     service = DiscussionService.new(wish, donor)
-    assert_difference('ActivityNotification::Notification.count', (wish.donor_users - [donor] + wish.donee_users ).size) do
+    assert_difference('Notification.count', (wish.donor_users - [donor] + wish.donee_users ).size) do
       assert service.add_post(content: 'donor non secret post',
                               show_to_anybody: true)
     end
@@ -132,7 +132,7 @@ class DiscussionServiceTest < ActiveSupport::TestCase
 
   def add_secret_post_from_donor
     service = DiscussionService.new(wish, donor)
-    assert_difference('ActivityNotification::Notification.count', (wish.donor_users - [donor]).size) do
+    assert_difference('Notification.count', (wish.donor_users - [donor]).size) do
       assert service.add_post(content: 'donor secret post')
     end
 

@@ -39,7 +39,7 @@ class User < ApplicationRecord
   TEMP_EMAIL_REGEX = /\Achange@me/.freeze
   ADMIN_EMAIL = 'porybny@rybickazlata.cz'
 
-  acts_as_target # for notifications
+  has_many :notifications, as: :target, dependent: :delete_all, inverse_of: :target
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -167,6 +167,10 @@ class User < ApplicationRecord
     return existing_local_idnts.first if existing_local_idnts.present?
 
     identities.where(email: email).order('id ASC').first
+  end
+
+  def unopened_notification_count
+    notifications.unopened_only.count
   end
 
   def printable_target_name

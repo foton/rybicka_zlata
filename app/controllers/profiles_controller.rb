@@ -10,7 +10,7 @@ class ProfilesController < ApplicationController
       flash[:error] = flash[:error].to_s + " \n" + I18n.t('user.identities.twitter_do_not_send_email_address')
       redirect_to edit_user_registration_url(@user)
     end
-    @latest_notifications = @user.notifications.unopened_only.order(created_at: :desc).limit(5)
+    @latest_notifications = @user.notifications.unopened_only.latest_first.includes(:notifier, :notifiable).limit(5)
     @new_contact = User::Identity::AsContact.new(provider: User::Identity::LOCAL_PROVIDER, user: @user)
   end
 

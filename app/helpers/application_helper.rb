@@ -88,6 +88,6 @@ module ApplicationHelper
   end
 
   def unopened_notifications_count
-    @unopened_notifications_count ||= user_signed_in? ? current_user.unopened_notification_count({}) : 0
+    @unopened_notifications_count ||= user_signed_in? ? current_user.unopened_notification_count : 0
   end
 end

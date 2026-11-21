@@ -12,6 +12,13 @@ Rails.application.routes.draw do
     resources :others_wishes, controller: 'wishes/from_donor'
     resources :my_wishes, controller: 'wishes/from_donee'
     resources :author_wishes, controller: 'wishes/from_author'
+    resources :notifications, controller: 'users/notifications', only: %i[index show] do
+      post :open_all, on: :collection
+      member do
+        put :open
+        get :move
+      end
+    end
   end
 
   resources :wishes, controller: 'wishes/base'
@@ -19,8 +26,6 @@ Rails.application.routes.draw do
   namespace :discussions do
     resources :posts, only: %i[create show destroy]
   end
-
-  notify_to :users
 
   get '/my_profile' => 'profiles#my', :as => 'my_profile'
   get '/profiles/:user_id' => 'profiles#show', :as => 'profile'

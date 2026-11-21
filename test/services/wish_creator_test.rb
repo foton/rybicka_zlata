@@ -25,7 +25,7 @@ class WishCreatorTest < ActiveSupport::TestCase
 
   test 'can create wish and notify users' do
     wish_params = valid_params
-    service = assert_difference('ActivityNotification::Notification.count', (donor_conns + donee_conns).size) do
+    service = assert_difference('Notification.count', (donor_conns + donee_conns).size) do
       WishCreator.call(wish_params, author)
     end
 
@@ -47,7 +47,7 @@ class WishCreatorTest < ActiveSupport::TestCase
   test 'can create wish with one donee and notify users' do
     wish_params = valid_params.merge({donee_conn_ids: []}).except(:user_id)
 
-    service = assert_difference('ActivityNotification::Notification.count', donor_conns.size) do
+    service = assert_difference('Notification.count', donor_conns.size) do
       WishCreator.call(wish_params, author)
     end
 
@@ -69,7 +69,7 @@ class WishCreatorTest < ActiveSupport::TestCase
     wish_params = valid_params
     wish_params[:title] = ''
 
-    service = assert_no_difference('ActivityNotification::Notification.count') do
+    service = assert_no_difference('Notification.count') do
       WishCreator.call(wish_params, author)
     end
 
@@ -90,7 +90,7 @@ class WishCreatorTest < ActiveSupport::TestCase
 
   def assert_notified(users:, key:, notifier:, notifiable:)
     users.each do |target|
-      assert target.notifications.where(notifiable: notifiable, notifier: notifier).filtered_by_key(key).exists?,
+      assert target.notifications.where(notifiable: notifiable, notifier: notifier, key: key).exists?,
              "Notification for #{target} for #{key} not found between #{target.notifications}"
     end
   end

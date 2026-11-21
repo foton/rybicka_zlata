@@ -1,0 +1,6 @@
+<div class="notification_wrapper">
+  <h3 class="rz-page-title"><%= t('notification.views.index.header', target_name: @user.printable_target_name) %></h3>
+  <ul class="notifications rz-notifications">
+    <%= render partial: 'users/notifications/notification', object: @notification %>
+  </ul>
+</div>

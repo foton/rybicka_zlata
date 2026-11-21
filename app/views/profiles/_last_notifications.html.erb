@@ -2,7 +2,7 @@
   <h4 class="rz-section__title"><%= t("notification.views.user_profile.last_few") %></h4>
   <% if @latest_notifications.present? %>
     <ul class="notifications rz-notifications">
-      <%= render_notification @latest_notifications, { fallback: :default } %>
+      <%= render partial: 'users/notifications/notification', collection: @latest_notifications %>
     </ul>
   <% end %>
   <%= render ButtonComponent.new(t("notification.views.user_profile.all_notifications"),

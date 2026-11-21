@@ -56,18 +56,13 @@ class Wish < ApplicationRecord
   end
 
 
-  acts_as_notifiable :donors, { targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] - wish.new_donor_users } }
-
-  acts_as_notifiable :donees, { targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] - wish.new_donee_users }
-    # does not work, beacasue gem is looking for [:users][:notifiable_path] in options, but have stored [:donees][:notifiable_path]
-    # notifiable_path: :wish_notifiable_path
-    # so we used fall back to polymorphics path `wishes/:id` and handle it there
-  }
-
-  acts_as_notifiable :ex_donees, { targets: ->(wish, _key) { wish.ex_donee_users }}
-  acts_as_notifiable :ex_donors, { targets: ->(wish, _key) { wish.ex_donor_users }}
-  acts_as_notifiable :new_donees, { targets: ->(wish, _key) { wish.new_donee_users }}
-  acts_as_notifiable :new_donors, { targets: ->(wish, _key) { wish.new_donor_users }}
+  include Notifiable
+  notifies :donors, targets: ->(wish, _key) { wish.donor_users - [wish.updated_by] - wish.new_donor_users }
+  notifies :donees, targets: ->(wish, _key) { wish.donee_users - [wish.updated_by] - wish.new_donee_users }
+  notifies :ex_donees, targets: ->(wish, _key) { wish.ex_donee_users }
+  notifies :ex_donors, targets: ->(wish, _key) { wish.ex_donor_users }
+  notifies :new_donees, targets: ->(wish, _key) { wish.new_donee_users }
+  notifies :new_donors, targets: ->(wish, _key) { wish.new_donor_users }
 
   scope :not_fulfilled, -> { where.not(state: Wish::State::STATE_FULFILLED) }
   scope :fulfilled, -> { where(state: Wish::State::STATE_FULFILLED) }

@@ -1,6 +1,0 @@
-<div class="notification_wrapper">
-  <h3 class="rz-page-title"><%= t('notification.views.index.header', target_name: @target.printable_target_name) %></h3>
-  <ul class="notifications rz-notifications">
-    <%= render_notification @notification, @index_options.slice(:routing_scope, :devise_default_routes).merge(fallback: :default) %>
-  </ul>
-</div>

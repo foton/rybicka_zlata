@@ -32,7 +32,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -57,7 +57,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -82,7 +82,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -105,7 +105,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -130,7 +130,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -154,7 +154,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -181,7 +181,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(donor_conn_ids: new_donor_conns.collect(&:id)), updating_user)
     end
 
@@ -202,7 +202,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params, updating_user)
     end
 
@@ -228,7 +228,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(donor_conn_ids: new_donor_conns.collect(&:id)), updating_user)
     end
 
@@ -263,7 +263,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(donee_conn_ids: new_donee_conns.collect(&:id)), updating_user)
     end
 
@@ -292,7 +292,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
     self.original_attributes = wish.attributes.dup.symbolize_keys
 
-    service = assert_difference('ActivityNotification::Notification.count', expected_notified_users.size) do
+    service = assert_difference('Notification.count', expected_notified_users.size) do
       WishUpdater.call(wish, valid_params.merge(state_action: action.to_s), updating_user)
     end
 
@@ -312,7 +312,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
     wish_params = valid_params
     wish_params[:title] = new_title
 
-    service = assert_no_difference('ActivityNotification::Notification.count') do
+    service = assert_no_difference('Notification.count') do
       WishUpdater.call(wish, wish_params, updating_user)
     end
 
@@ -335,7 +335,7 @@ class WishUpdaterTest < ActiveSupport::TestCase
 
   def assert_notified(users:, key:, notifier:, notifiable:)
     users.each do |target|
-      assert target.notifications.where(notifiable: notifiable, notifier: notifier).filtered_by_key(key).exists?,
+      assert target.notifications.where(notifiable: notifiable, notifier: notifier, key: key).exists?,
              "Notification for #{target.email} for '#{key}' not found between #{target.notifications.all.to_a}"
     end
   end

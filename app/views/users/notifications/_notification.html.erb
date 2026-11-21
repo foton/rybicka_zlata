@@ -1,13 +1,11 @@
-<%# One notification (render_notification ... fallback: :default). Unopened ones are a PUT form
-    that marks them opened and moves to the wish; opened ones are a plain link. %>
-<% route_params = parameters.slice(:with_group_members, :routing_scope, :devise_default_routes) %>
+<%# locals: notification. Unread ones are a PUT form (mark read and go to the wish), read ones a link. %>
 <% content = capture do %>
   <span class="rz-notification__dot" aria-hidden="true"></span>
   <span class="rz-notification__body">
     <span class="rz-notification__text">
       <%= raw t("notification.targets.#{notification.key}",
-                notifier_name: h(notification&.notifier&.printable_notifier_name || 'Someone'),
-                wish_title: h(notification&.notifiable&.wish_title || 'Not FOUND!')) %>
+                notifier_name: h(notification.notifier&.printable_notifier_name || 'Someone'),
+                wish_title: h(notification.notifiable&.wish_title || 'Not FOUND!')) %>
     </span>
     <span class="rz-notification__date"><%= l(notification.created_at) %></span>
   </span>
@@ -15,12 +13,12 @@
 
 <li class="rz-notification notification_<%= notification.id %> <%= notification.opened? ? 'opened' : 'unopened rz-notification--unopened' %>">
   <% if notification.unopened? %>
-    <%= button_to open_notification_path_for(notification, route_params.merge(move: true)), method: :put,
+    <%= button_to open_user_notification_path(notification.target_id, notification, move: true), method: :put,
                   class: 'rz-notification__link', form_class: 'rz-notification__form' do %>
       <%= content %>
     <% end %>
   <% else %>
-    <%= link_to move_notification_path_for(notification, route_params), class: 'rz-notification__link' do %>
+    <%= link_to move_user_notification_path(notification.target_id, notification), class: 'rz-notification__link' do %>
       <%= content %>
     <% end %>
   <% end %>

@@ -31,7 +31,6 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-twitter'
 
 # gem 'nokogiri', '1.10.5'
-gem 'activity_notification'
 
 group :development, :test do
   # Coffee-rails and Uglifier demand ExecJS, which uses the local Node runtime.

@@ -1,0 +1,18 @@
+<div class="notification_wrapper">
+  <h3 class="rz-page-title"><%= t('notification.views.index.header', target_name: @user.printable_target_name) %></h3>
+
+  <% if @notifications.any?(&:unopened?) %>
+    <div class="rz-button-row">
+      <%= render ButtonComponent.new(t('notification.views.index.open_all'), variant: :tonal, icon: 'done_all',
+                                     href: open_all_user_notifications_path(@user), method: :post, class: 'open_all') %>
+    </div>
+  <% end %>
+
+  <% if @notifications.present? %>
+    <ul class="notifications rz-notifications">
+      <%= render partial: 'users/notifications/notification', collection: @notifications %>
+    </ul>
+  <% else %>
+    <p class="rz-list__empty"><%= t('notification.views.index.none') %></p>
+  <% end %>
+</div>
