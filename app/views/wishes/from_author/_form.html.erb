@@ -1,17 +1,10 @@
-<%= form_for(@wish,as: :wish, url: url) do |f| %>
-  <%= render partial: "/shared/errors", locals: {f_object: @wish} %>
-    <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <%= f.label :title, @wish.persisted? ? t("wishes.from_author.views.edit.title") : t("wishes.from_author.views.new.title"),  class: "mdl-textfield__label" %>
-      <%= f.text_field :title, class: "mdl-textfield__input" %>
-    </div>
-    <br />
-    <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <%= f.label :description, t("wishes.from_author.views.edit.description"),  class: "mdl-textfield__label" %>
-      <%= f.text_area :description, class: "mdl-textfield__input" %>
-    </div>
+<%= form_for(@wish, as: :wish, url: url, builder: RzFormBuilder, html: { class: 'rz-form rz-form--wide' }) do |f| %>
+  <%= render partial: "/shared/errors", locals: { f_object: @wish } %>
+    <%= f.text_field :title, label: (@wish.persisted? ? t("wishes.from_author.views.edit.title") : t("wishes.from_author.views.new.title")) %>
+    <%= f.text_area :description, label: t("wishes.from_author.views.edit.description"), rows: 6 %>
 
-    <div class="actions">
-      <%= form_submit_button(I18n.t("wishes.actions.save.button")) %>
+    <div class="rz-form__actions actions">
+      <%= f.submit t("wishes.actions.save.button"), class: 'save' %>
     </div>
 
     <div class=" mdl-grid" id="user_connections">

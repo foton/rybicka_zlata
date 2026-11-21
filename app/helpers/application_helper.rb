@@ -15,20 +15,6 @@ module ApplicationHelper
     tag.h3(text)
   end
 
-  def switch_for(f_builder, method, label_text = nil, options = {}, html_options = {},
-                 checked_value = '1', unchecked_value = '0')
-    if label_text.blank? && f_builder.object.is_a?(ActiveRecord::Base)
-      label_text = t("activerecord.attributes.#{f_builder.object.class.name.downcase}.#{method}")
-    end
-
-    f_builder.label(method, nil,
-                    options.merge(class: 'mdl-switch mdl-js-switch mdl-js-ripple-effect')) do
-      concat(f_builder.check_box(method,
-                                 options.merge(html_options.merge(class: 'mdl-switch__input')), checked_value, unchecked_value))
-      concat(content_tag(:span, label_text, class: 'mdl-switch__label'))
-    end
-  end
-
   def checkbox_mdl_tag(tag_id, label_text, check_status, checked_value = '1',
                        _unchecked_value = '0', options = {})
     labl_opt = options.dup

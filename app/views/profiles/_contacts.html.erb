@@ -5,18 +5,13 @@
 		<h4><%= t("user.identities.list") %></h4>
     <% if @new_contact.present? %>
       <div id="add_contact" class="form-add">
-        <%= form_for(@new_contact, url: user_identities_path(@user), html: {class: "mdl-shadow--2dp"} ) do |f| %>
-          <%= render partial: "/shared/errors", locals: {f_object: @new_contact} %>
-
-          <div class="mdl-grid">
-            <div class="field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <%= f.label :email, t("user.identities.actions.new.label"),  class: "mdl-textfield__label" %>
-              <%= f.email_field :email, class: "mdl-textfield__input" %>
-              <%= f.hidden_field :provider %>
-            </div>
-            <div class="actions">
-              <%= form_submit_button(t("user.identities.actions.new.submit_button")) %>
-            </div>
+        <%= form_for(@new_contact, url: user_identities_path(@user), builder: RzFormBuilder,
+                                   html: { class: 'rz-form rz-form--card' }) do |f| %>
+          <%= render partial: "/shared/errors", locals: { f_object: @new_contact } %>
+          <%= f.email_field :email, label: t("user.identities.actions.new.label") %>
+          <%= f.hidden_field :provider %>
+          <div class="rz-form__actions actions">
+            <%= f.submit t("user.identities.actions.new.submit_button"), class: 'save' %>
           </div>
         <% end %>
         <%= add_new_button(t("user.identities.actions.new.button")) if @new_contact.errors.empty?%>

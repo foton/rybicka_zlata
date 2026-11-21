@@ -1,0 +1,4 @@
+<%# overrides Devise's partial: same M3 error summary as shared/_errors, with Devise's heading %>
+<%= render "shared/errors", f_object: resource,
+           title: I18n.t("errors.messages.not_saved", count: resource.errors.count,
+                                                      resource: resource.class.model_name.human.downcase) %>

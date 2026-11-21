@@ -1,9 +1,13 @@
-	    <% if f_object.errors.any? %>
-			  <div id="error_explanation" class="alert alert-danger">
-			    <ul>
-			    <% f_object.errors.full_messages.each do |msg| %>
-			      <li><%= msg %></li>
-			    <% end %>
-			    </ul>
-			  </div>
-			<% end %>
+<%# locals: f_object, title (optional heading) %>
+<% if f_object.errors.any? %>
+  <div id="error_explanation" class="rz-form-errors" role="alert">
+    <% if local_assigns[:title] %>
+      <p class="rz-form-errors__title"><%= title %></p>
+    <% end %>
+    <ul>
+      <% f_object.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
