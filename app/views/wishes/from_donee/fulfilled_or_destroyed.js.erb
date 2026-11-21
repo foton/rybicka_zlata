@@ -1,8 +1,0 @@
-document.querySelector('#snackbar').show("<%= raw j(flash[:notice]) %>");
-
-
-$("#<%= anchor_for(@wish) %>").bind('ajax:success', function() {
-  $("#<%= anchor_for(@wish) %>").effect("blind", 500).remove();
-});
-
-

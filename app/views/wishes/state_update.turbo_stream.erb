@@ -1,0 +1,3 @@
+<%# every row of the wish (it may be listed under several donees) %>
+<%= turbo_stream.replace_all ".#{anchor_for(@wish)}", partial: "shared/list_item", locals: { object: @wish } %>
+<%= render "shared/snackbar_stream" %>

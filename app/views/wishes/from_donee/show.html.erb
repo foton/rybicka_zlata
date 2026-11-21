@@ -2,22 +2,11 @@
   <h3><%= @wish.title %></h3>
   <p><%= raw to_html(@wish.description) %></p>
 
-  <div class="actions">
-    <span class="as_list">
-      <ul>
-      <% for action in (@wish.available_actions_for(@user)-[:show]) %>
-        <li><%= tag_to_object_action(:button, action, @user, @wish, false, {state_action: action}) %></li>
-      <% end %>
-
-      </ul>
-    </span>
-
-    <span class="as_list">
-      <ul>
-        <li><%= tag_to_object_action(:button, :another_new, @user, Wish::FromAuthor.new, false, {}) %></li>
-      </ul>
-    </span>
-
+  <div class="actions rz-button-row">
+    <% (@wish.available_actions_for(@user) - [:show]).each do |action| %>
+      <%= render ObjectActionComponent.new(action: action, user: @user, object: @wish, params: { state_action: action }) %>
+    <% end %>
+    <%= render ObjectActionComponent.new(action: :another_new, user: @user, object: Wish::FromAuthor.new, variant: :outlined) %>
   </div>
 
   <div class="mdl-grid" id="wish_connections">

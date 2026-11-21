@@ -10,14 +10,10 @@
     </ul>
   </div>
 
-  <div class="actions">
-    <span class="as_list">
-      <ul>
-      <% for action in (@wish.available_actions_for(@user)-[:show]) %>
-        <li><%= tag_to_object_action(:button, action, @user, @wish, false, {state_action: action}) %></li>
-      <% end %>
-      </ul>
-    </span>
+  <div class="actions rz-button-row">
+    <% (@wish.available_actions_for(@user) - [:show]).each do |action| %>
+      <%= render ObjectActionComponent.new(action: action, user: @user, object: @wish, params: { state_action: action }) %>
+    <% end %>
   </div>
 
   <%= render partial: 'discussions/show' %>

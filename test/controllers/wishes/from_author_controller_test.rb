@@ -108,12 +108,14 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert @wish.fulfilled?
   end
 
-  def test_fulfilled_js
+  def test_fulfilled_turbo_stream
     patch :update,
-          params: { user_id: @bart.id, id: @wish.id, state_action: :fulfilled, format: :js }
+          params: { user_id: @bart.id, id: @wish.id, state_action: :fulfilled,
+                    format: :turbo_stream }
 
     assert_response :ok
     assert_template 'wishes/from_donee/fulfilled_or_destroyed'
+    assert_removes_wish_rows_and_shows_snackbar(@wish)
     assert_equal "Přání '#{@wish.title}' bylo splněno.", flash[:notice]
 
     @wish.reload
@@ -130,11 +132,12 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert Wish.where(id: @wish.id).blank?
   end
 
-  def test_destroy_js
-    delete :destroy, params: { user_id: @bart.id, id: @wish.id, format: :js }
+  def test_destroy_turbo_stream
+    delete :destroy, params: { user_id: @bart.id, id: @wish.id, format: :turbo_stream }
 
     assert_response :ok
     assert_template 'wishes/from_donee/fulfilled_or_destroyed'
+    assert_removes_wish_rows_and_shows_snackbar(@wish)
     assert_equal "Přání '#{@wish.title}' bylo úspěšně smazáno.", flash[:notice]
 
     assert Wish.where(id: @wish.id).blank?
@@ -162,5 +165,14 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
   SERVICE_STRUCT = Struct.new(:success?, :errors, :result)
   def succesfull_creator(params, author)
     SERVICE_STRUCT.new(true, [], Wish::FromAuthor.new(id: 5, title: params[:title], author: author))
+  end
+
+  private
+
+  # all rows of the wish (it can be listed more times) are removed, flash goes to the snackbar
+  def assert_removes_wish_rows_and_shows_snackbar(wish)
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
+    assert_select %(turbo-stream[action="remove"][targets=".wish_#{wish.id}"])
+    assert_select 'turbo-stream[action="append"][target="snackbar"] template .rz-snackbar__item--notice'
   end
 end

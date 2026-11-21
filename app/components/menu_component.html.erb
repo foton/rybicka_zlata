@@ -1,0 +1,13 @@
+<div class="rz-menu-anchor <%= classes %>">
+  <button type="button" class="rz-icon-button" popovertarget="<%= uid %>"
+          aria-label="<%= label %>" title="<%= label %>" style="anchor-name: --<%= uid %>">
+    <%= render IconComponent.new(icon) %>
+  </button>
+  <div id="<%= uid %>" class="rz-menu rz-menu--anchored" popover style="position-anchor: --<%= uid %>">
+    <ul class="rz-menu__list">
+      <% items.each do |item| %>
+        <li><%= item %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

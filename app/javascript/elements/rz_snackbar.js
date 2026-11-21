@@ -5,13 +5,24 @@
 const AUTOHIDE_MS = 10000
 
 class RzSnackbar extends HTMLElement {
+  #observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      mutation.addedNodes.forEach((node) => {
+        if (node instanceof HTMLElement && node.matches(".rz-snackbar__item")) this.#arm(node)
+      })
+    }
+  })
+
   connectedCallback() {
     this.querySelectorAll(".rz-snackbar__item").forEach((item) => this.#arm(item))
     this.addEventListener("click", this.#onClick)
+    // items appended later (Turbo Stream `append "snackbar"`) get their auto-hide timer too
+    this.#observer.observe(this, { childList: true })
   }
 
   disconnectedCallback() {
     this.removeEventListener("click", this.#onClick)
+    this.#observer.disconnect()
   }
 
   show(message, { kind = "notice" } = {}) {
@@ -32,8 +43,7 @@ class RzSnackbar extends HTMLElement {
     close.innerHTML = '<span class="rz-icon material-symbols-outlined" aria-hidden="true" translate="no">close</span>'
 
     item.append(text, close)
-    this.append(item)
-    this.#arm(item)
+    this.append(item) // armed by the MutationObserver
     return item
   }
 
@@ -52,7 +62,8 @@ class RzSnackbar extends HTMLElement {
 
   #arm(item) {
     const ms = Number(item.dataset.autohide)
-    if (!ms) return
+    if (!ms || item.dataset.armed) return
+    item.dataset.armed = "true"
 
     let timer
     const start = () => { clearTimeout(timer); timer = setTimeout(() => this.dismiss(item), ms) }

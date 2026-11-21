@@ -32,11 +32,11 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
 
   private
 
-  def destroy_wish
+  def destroy_wish(messages = flash)
     if @wish.destroy(@user)
-      flash[:notice] = t('wishes.from_author.views.deleted', title: @wish.title)
+      messages[:notice] = t('wishes.from_author.views.deleted', title: @wish.title)
     else
-      flash[:error] = t('wishes.from_author.views.not_deleted', title: @wish.title)
+      messages[:error] = t('wishes.from_author.views.not_deleted', title: @wish.title)
     end
   end
 

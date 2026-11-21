@@ -1,0 +1,60 @@
+/*
+ * M3 list with trailing actions (ListComponent / ListItemComponent).
+ * Actions are buttons from 600px up and an overflow menu on phones.
+ */
+.rz-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rz-list-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px;
+  padding: 8px 8px 8px 16px;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+.rz-list-item:first-child { border-top: 1px solid var(--md-sys-color-outline-variant); }
+
+.rz-list-item__content {
+  flex: 1;
+  min-width: 0;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-large);
+  overflow-wrap: anywhere;
+}
+
+.rz-list-item__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.rz-list-item__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.rz-list-item__menu { display: none; }
+
+@media (max-width: 599px) {
+  .rz-list-item { padding-right: 4px; }
+  .rz-list-item__buttons { display: none; }
+  .rz-list-item__menu { display: block; }
+}
+
+.rz-list__empty {
+  margin: 16px 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-medium);
+}
+
+.rz-list-item__content a {
+  color: var(--md-sys-color-primary);
+  text-decoration: none;
+}
+.rz-list-item__content a:hover { text-decoration: underline; }

@@ -137,7 +137,7 @@ Pokud(/^u přání "(.*?)" jsou akce \[(.*?)\]$/) do |wish_title, actions_str|
   within(:css, '#wishes') do
     wish = find('li', text: wish_title)
     action_names.each do |action_name|
-      wish.find('.actions').find('a', text: action_name)
+      wish.find('.actions').find(:link_or_button, action_name)
     end
   end
 end

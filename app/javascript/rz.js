@@ -7,3 +7,13 @@ import "elements"
 // Turbo stays opt-in (data-turbo="true") until those pages are migrated.
 Turbo.config.drive.enabled = false
 Turbo.config.forms.mode = "optin"
+
+// Content inserted by Turbo Streams may still contain MDL widgets (tooltips, ...)
+// of not yet migrated partials: let MDL upgrade them after each stream render.
+document.addEventListener("turbo:before-stream-render", (event) => {
+  const render = event.detail.render
+  event.detail.render = async (streamElement) => {
+    await render(streamElement)
+    window.componentHandler?.upgradeDom()
+  }
+})

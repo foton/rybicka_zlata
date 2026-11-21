@@ -1,0 +1,17 @@
+<li id="<%= helpers.anchor_for(object) %>" class="rz-list-item <%= helpers.classes_for(object, user) %>">
+  <div class="rz-list-item__content primary_content"><%= content %></div>
+  <div class="rz-list-item__actions actions">
+    <% if actions.any? %>
+      <div class="rz-list-item__buttons">
+        <% actions.each do |action| %>
+          <%= render action_component(action) %>
+        <% end %>
+      </div>
+      <%= render MenuComponent.new(label: t('rybickazlata.layout.more_actions'), classes: 'rz-list-item__menu') do |menu| %>
+        <% actions.each do |action| %>
+          <% menu.with_item { render action_component(action, menu_item: true) } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</li>

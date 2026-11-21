@@ -15,6 +15,7 @@
   background: transparent;
   color: var(--md-sys-color-primary);
   font: var(--md-sys-typescale-label-large);
+  white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -57,7 +58,43 @@
 }
 .rz-button--filled:hover { box-shadow: var(--md-sys-elevation-level1); }
 
+.rz-button--tonal {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.rz-button--tonal:hover { box-shadow: var(--md-sys-elevation-level1); }
+
+.rz-button--outlined {
+  border: 1px solid var(--md-sys-color-outline);
+  color: var(--md-sys-color-primary);
+}
+
+.rz-button--elevated {
+  background: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-primary);
+  box-shadow: var(--md-sys-elevation-level1);
+}
+.rz-button--elevated:hover { box-shadow: var(--md-sys-elevation-level2); }
+
 .rz-button--text { padding: 0 12px; }
+
+/* icon + label: M3 uses 16px less padding on the icon side */
+.rz-button:has(> .rz-icon):not(.rz-button--icon-only) { padding-left: 16px; }
+.rz-button .rz-icon { font-size: 18px; }
+.rz-button--icon-only { width: 40px; padding: 0; }
+.rz-button--icon-only .rz-icon { font-size: 24px; }
+
+.rz-button:disabled,
+.rz-button[aria-disabled="true"] {
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
+  color: color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);
+  box-shadow: none;
+  cursor: default;
+}
+.rz-button--text:disabled { background: transparent; }
+
+/* button_to wraps the button in a form; keep it inline in rows of buttons */
+.rz-button-form { display: inline-flex; margin: 0; }
 
 .rz-icon-button {
   width: 40px;
@@ -66,3 +103,6 @@
   border-radius: var(--md-sys-shape-corner-full);
   color: var(--md-sys-color-on-surface-variant);
 }
+
+/* a row of buttons (actions on a detail page) */
+.rz-button-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0; }

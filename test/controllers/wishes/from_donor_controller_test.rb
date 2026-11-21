@@ -80,6 +80,21 @@ class Wishes::FromDonorControllerTest < ActionController::TestCase
     assert @marge_wish.booked_by?(@bart)
   end
 
+  def test_update_turbo_stream
+    # action from a list row: every row of the wish is re-rendered, notice goes to the snackbar
+    patch :update,
+          params: { user_id: @bart.id, id: @marge_wish.id, state_action: :book,
+                    format: :turbo_stream }
+
+    assert_response :ok
+    assert_template 'wishes/state_update'
+    assert_select %(turbo-stream[action="replace"][targets=".wish_#{@marge_wish.id}"] template li#wish_#{@marge_wish.id})
+    assert_select %(turbo-stream[action="replace"] template form[data-turbo="true"] button.unbook)
+    assert_select 'turbo-stream[action="append"][target="snackbar"] template .rz-snackbar__text',
+                  text: "Přání 'M: Taller hairs' bylo zarezervováno pro 'Bartholomew JoJo Simpson'"
+    assert @marge_wish.reload.booked_by?(@bart)
+  end
+
   def test_do_not_update_if_action_is_not_allowed_to_user
     # update just call method wish.do_action! from 'state_action=do_action' if it is allowed to user
 

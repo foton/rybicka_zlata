@@ -1,3 +1,8 @@
-<ul class="list-with-actions">
-  <%= render( partial: "/shared/list_with_actions_item", collection: collection, as: :object, locals: {remote: remote}) || none_text %>
-</ul>
+<%# locals: collection, none_text, remote (true = row actions answered by Turbo Streams) %>
+<%= render ListComponent.new(empty_text: none_text) do |list| %>
+  <% collection.each do |object| %>
+    <% list.with_item(object: object, user: @user, remote: remote) do %>
+      <%= render partial: "list_item_primary_content", locals: { object: object } %>
+    <% end %>
+  <% end %>
+<% end %>

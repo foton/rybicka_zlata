@@ -45,34 +45,32 @@ module ApplicationHelper
   end
 
   def form_submit_button(text = nil)
-    button_tag(class: 'save ' + button_mdl_classes) do
-      text || '<i class="material-icons">check</i>'.html_safe
-    end
+    render ButtonComponent.new(text, type: :submit, class: 'save', icon: (text ? nil : 'check'),
+                                     aria_label: (text ? nil : 'OK'))
   end
 
   def form_next_button(text = nil)
-    button_tag(class: 'next-step ' + button_mdl_classes) do
-      text || '<i class="material-icons">forward</i>'.html_safe
-    end
+    render ButtonComponent.new(text, type: :submit, class: 'next-step', icon: (text ? nil : 'arrow_forward'))
   end
 
   def add_new_button(text = nil)
-    button_tag(class: 'new ' + button_mdl_classes) do
-      text || '<i class="material-icons">add</i>'.html_safe
-    end
+    render ButtonComponent.new(text, type: :submit, variant: :tonal, class: 'new', icon: 'add')
   end
 
+  # Button looking link (GET) or button_to form (other methods).
+  # Legacy `data: { confirm:, 'confirm-yes':, confirm_no: }` is turned into the M3 confirm dialog.
   def button_link_to(title, url, options = {})
-    opt = { method: :get, class: '' }.merge(options)
-    # opt_4_helper={method: opt[:method], data: opt[:data], remote: opt[:remote]}
-    # html_opt=opt.dup
-    # html_opt.delete(:method)
-    # html_opt.delete(:data)
-    # html_opt.delete(:remote)
-    opt[:class] = opt[:class] + ' mdl-list__item-secondary-action ' + button_mdl_classes
+    opt = options.dup
+    method = opt.delete(:method) || :get
+    remote = opt.delete(:remote)
+    data = (opt.delete(:data) || {}).to_h.transform_keys { |k| k.to_s.tr('_', '-') }
+    confirm = if data['confirm']
+                { message: data.delete('confirm'), yes: data.delete('confirm-yes'), no: data.delete('confirm-no') }
+              end
+    opt[:data] = data if data.present?
 
-    # link_to( title, url, method: opt[:method], data: opt[:data], id: opt[:id], class: opt[:html_class]+" mdl-list__item-secondary-action "+button_mdl_classes)
-    link_to(title, url, opt)
+    render ButtonComponent.new(title, href: url, method: method, variant: :tonal, confirm: confirm,
+                                      turbo: remote.present?, **opt)
   end
 
   # convert char '\n' to '<br />'

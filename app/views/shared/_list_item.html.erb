@@ -1,0 +1,4 @@
+<%# one row of shared/_list_with_actions, used by Turbo Stream responses %>
+<%= render ListItemComponent.new(object: object, user: @user, remote: true) do %>
+  <%= render partial: "list_item_primary_content", locals: { object: object } %>
+<% end %>

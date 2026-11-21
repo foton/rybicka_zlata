@@ -1,3 +1,3 @@
-// Registry of custom elements (vanilla Web Components).
-// Each element lives in its own module in this folder and is imported here.
+// Registry of custom elements and page behaviours (vanilla JS modules).
 import "elements/rz_snackbar"
+import "elements/rz_confirm"

@@ -1,0 +1,6 @@
+<%# appends current flash (flash.now) as snackbars %>
+<%= turbo_stream.append "snackbar" do %>
+  <% SnackbarComponent.messages_from(flash).each do |message| %>
+    <%= render SnackbarComponent::ItemComponent.new(message: message) %>
+  <% end %>
+<% end %>

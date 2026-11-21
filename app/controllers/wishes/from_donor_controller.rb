@@ -20,13 +20,25 @@ class Wishes::FromDonorController < ApplicationController
 
     respond_to do |format|
       if wish_updater.success?
-        flash[:notice] = wish_updater.result.message
-        format.html { redirect_to user_others_wish_url(@user, @wish) }
-        format.js   { render 'wishes/state_update' }
+        format.html do
+          flash[:notice] = wish_updater.result.message
+          redirect_to user_others_wish_url(@user, @wish)
+        end
+        format.turbo_stream do # list row actions
+          flash.now[:notice] = wish_updater.result.message
+          render 'wishes/state_update'
+        end
       else
-        flash[:error] = t('wishes.from_donor.views.not_updated', title: @wish.title)
-        @user = @wish.author
-        format.html { render action: 'show' }
+        not_updated = t('wishes.from_donor.views.not_updated', title: @wish.title)
+        format.html do
+          flash[:error] = not_updated
+          @user = @wish.author
+          render action: 'show'
+        end
+        format.turbo_stream do
+          flash.now[:error] = not_updated
+          render 'shared/snackbar_stream'
+        end
       end
     end
   end

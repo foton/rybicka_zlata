@@ -1,7 +1,7 @@
 <h3><%= t("wishes.from_donee.views.index.header") %></h3>
 
 <div id="wishes">
-  <%= tag_to_object_action(:button, :new, @user, Wish::FromAuthor.new, false, {}) %>
+  <%= render ObjectActionComponent.new(action: :new, user: @user, object: Wish::FromAuthor.new, variant: :filled) %>
 
 	<div id="donee_wishes_list" class="wishes-list">
     <%= render( partial: "/shared/list_with_actions", locals: { collection: @wishes, none_text: t("wishes.from_donee.views.index.no_wishes"), remote: true} ) %>

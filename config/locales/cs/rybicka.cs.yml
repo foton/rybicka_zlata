@@ -8,6 +8,7 @@ cs:
       change_language: "Změnit jazyk"
       dismiss: "Zavřít"
       skip_to_content: "Přeskočit na obsah"
+      more_actions: "Další akce"
     static:
 
       about:

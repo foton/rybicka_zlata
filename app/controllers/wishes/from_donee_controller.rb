@@ -35,29 +35,40 @@ class Wishes::FromDoneeController < ApplicationController
 
     respond_to do |format|
       if wish_updater.success?
-        flash[:notice] = wish_updater.result.message || updated_message
-        format.html { redirect_to user_my_wish_url(@user, @wish) }
-        format.js do
-          if @wish.fulfilled?
-            render 'fulfilled_or_destroyed', format: :js, layout: false
-          else
-            render 'state_update', format: :js, layout: false
-          end
+        message = wish_updater.result.message || updated_message
+        format.html do
+          flash[:notice] = message
+          redirect_to user_my_wish_url(@user, @wish)
+        end
+        format.turbo_stream do # list row actions
+          flash.now[:notice] = message
+          render(@wish.fulfilled? ? 'fulfilled_or_destroyed' : 'wishes/state_update')
         end
       else
-        flash[:error] = not_updated_message
         @user = @wish.author
-        format.html { render action: 'edit' }
+        format.html do
+          flash[:error] = not_updated_message
+          render action: 'edit'
+        end
+        format.turbo_stream do
+          flash.now[:error] = not_updated_message
+          render 'shared/snackbar_stream'
+        end
       end
     end
   end
 
   def destroy
     load_wish
-    destroy_wish
     respond_to do |format|
-      format.html { redirect_to user_my_wishes_url(@user), status: :see_other, format: :html }
-      format.js   { render 'fulfilled_or_destroyed', format: :js, layout: false }
+      format.html do
+        destroy_wish(flash)
+        redirect_to user_my_wishes_url(@user), status: :see_other
+      end
+      format.turbo_stream do # list row actions
+        destroy_wish(flash.now)
+        render 'fulfilled_or_destroyed'
+      end
     end
   end
 
@@ -71,11 +82,11 @@ class Wishes::FromDoneeController < ApplicationController
     @wish ||= wish_scope.find(params[:id])
   end
 
-  def destroy_wish
+  def destroy_wish(messages = flash)
     if @wish.destroy(@user)
-      flash[:notice] = t('wishes.from_donee.views.deleted', title: @wish.title)
+      messages[:notice] = t('wishes.from_donee.views.deleted', title: @wish.title)
     else
-      flash[:error] = t('wishes.from_donee.views.not_deleted', title: @wish.title)
+      messages[:error] = t('wishes.from_donee.views.not_deleted', title: @wish.title)
     end
   end
 
