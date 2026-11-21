@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_20_153000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_21_190000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -97,27 +97,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_20_153000) do
     t.bigint "wish_id"
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["wish_id"], name: "index_posts_on_wish_id"
-  end
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.datetime "created_at", precision: nil, null: false
-    t.string "key", null: false
-    t.bigint "notifiable_id"
-    t.string "notifiable_type"
-    t.text "optional_targets"
-    t.datetime "subscribed_at", precision: nil
-    t.datetime "subscribed_to_email_at", precision: nil
-    t.boolean "subscribing", default: true, null: false
-    t.boolean "subscribing_to_email", default: true, null: false
-    t.bigint "target_id", null: false
-    t.string "target_type", null: false
-    t.datetime "unsubscribed_at", precision: nil
-    t.datetime "unsubscribed_to_email_at", precision: nil
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["key"], name: "index_subscriptions_on_key"
-    t.index ["notifiable_type", "notifiable_id"], name: "index_subscriptions_on_notifiable"
-    t.index ["target_type", "target_id", "key", "notifiable_type", "notifiable_id"], name: "index_subscriptions_uniqueness", unique: true
-    t.index ["target_type", "target_id"], name: "index_subscriptions_on_target_type_and_target_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

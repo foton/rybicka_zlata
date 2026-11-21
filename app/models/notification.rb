@@ -1,5 +1,26 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: notifications
+#
+#  created_at      :datetime         not null
+#  group_id        :integer
+#  group_owner_id  :integer
+#  group_type      :string
+#  id              :integer          not null, primary key
+#  key             :string           not null
+#  notifiable_id   :integer          not null
+#  notifiable_type :string           not null
+#  notifier_id     :integer
+#  notifier_type   :string
+#  opened_at       :datetime
+#  parameters      :text
+#  target_id       :integer          not null
+#  target_type     :string           not null
+#  updated_at      :datetime         not null
+#
+
 # In-app notification for a user (target) about a wish or a discussion post (notifiable),
 # caused by another user (notifier). `key` selects the text in notification.targets.*.
 # Stored in the `notifications` table created by the former activity_notification gem.
