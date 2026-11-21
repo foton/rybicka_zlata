@@ -1,6 +1,10 @@
-<div id="my_notifications">
-  <h4><%= t("notification.views.user_profile.last_few") %></h4>
-  <%= render_notification @latest_notifications, {fallback: :default} %>
-  <%= link_to(t("notification.views.user_profile.all_notifications"), user_notifications_path(@user)) %>
-</div>
-
+<section id="my_notifications" class="rz-section">
+  <h4 class="rz-section__title"><%= t("notification.views.user_profile.last_few") %></h4>
+  <% if @latest_notifications.present? %>
+    <ul class="notifications rz-notifications">
+      <%= render_notification @latest_notifications, { fallback: :default } %>
+    </ul>
+  <% end %>
+  <%= render ButtonComponent.new(t("notification.views.user_profile.all_notifications"),
+                                 href: user_notifications_path(@user), variant: :text, icon: 'notifications') %>
+</section>

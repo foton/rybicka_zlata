@@ -1,0 +1,40 @@
+/* Notifications (activity_notification views): M3 list, unread ones marked with a dot. */
+.rz-notifications { margin: 0 0 16px; padding: 0; list-style: none; max-width: 800px; }
+
+.rz-notification { border-bottom: 1px solid var(--md-sys-color-outline-variant); }
+.rz-notification__form { margin: 0; }
+
+.rz-notification__link {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 12px 16px;
+  border: 0;
+  background: transparent;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-large);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.rz-notification__link:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent); }
+.rz-notification__link:focus-visible { outline: 3px solid var(--md-sys-color-secondary); outline-offset: -3px; }
+
+.rz-notification--unopened .rz-notification__link {
+  background: color-mix(in srgb, var(--md-sys-color-secondary-container) 45%, transparent);
+}
+
+.rz-notification__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 50%;
+}
+.rz-notification--unopened .rz-notification__dot { background: var(--md-sys-color-primary); }
+
+.rz-notification__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rz-notification__date { color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-small); }

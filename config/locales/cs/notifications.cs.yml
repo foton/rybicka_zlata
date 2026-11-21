@@ -4,6 +4,8 @@ cs:
       navigation: Oznámení
       index:
         header: Oznámení pro %{target_name}
+        open_all: "Označit vše jako přečtené"
+        none: "Zatím tu nejsou žádná oznámení."
       user_profile:
         last_few: Poslední nepřečtená oznámení
         all_notifications: Výpis všech oznámení

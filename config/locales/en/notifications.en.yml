@@ -4,6 +4,8 @@ en:
       navigation: Notifications
       index:
         header: Notifications for %{target_name}
+        open_all: "Mark all as read"
+        none: "There are no notifications yet."
       user_profile:
         last_few: Last unread notifications
         all_notifications: All notifications
