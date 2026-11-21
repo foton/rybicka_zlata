@@ -24,3 +24,6 @@
 
 /code_metrics*
 /rybicka4*
+
+# compiled assets are built on deploy (Heroku runs assets:precompile)
+/public/assets
