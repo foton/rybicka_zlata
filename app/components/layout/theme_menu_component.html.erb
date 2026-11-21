@@ -1,0 +1,19 @@
+<button type="button" id="theme-switcher" class="rz-icon-button" popovertarget="theme-menu"
+        style="anchor-name: --theme-menu" aria-label="<%= label %>" title="<%= label %>"
+        data-theme-icons="<%= ICONS.to_json %>">
+  <%= render IconComponent.new(ICONS[current]) %>
+</button>
+<div id="theme-menu" class="rz-menu rz-menu--anchored" popover style="position-anchor: --theme-menu">
+  <ul class="rz-menu__list" aria-label="<%= label %>">
+    <% CHOICES.each do |choice| %>
+      <li>
+        <%= link_to helpers.change_theme_path(theme: choice), class: 'rz-menu__item rz-theme-choice',
+                    data: { theme_choice: choice }, aria: { current: (selected?(choice) ? 'true' : nil) } do %>
+          <%= render IconComponent.new(ICONS[choice]) %>
+          <span class="rz-menu__text"><%= choice_label(choice) %></span>
+          <%= render IconComponent.new('check', classes: 'rz-menu__check') %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

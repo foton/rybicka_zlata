@@ -63,3 +63,9 @@
 }
 .rz-menu__item:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
 .rz-menu__item:focus-visible { outline: 3px solid var(--md-sys-color-secondary); outline-offset: -3px; }
+
+/* selected item (e.g. current theme): check mark at the end */
+.rz-menu__text { flex: 1; }
+.rz-menu__check { visibility: hidden; color: var(--md-sys-color-primary); }
+.rz-menu__item[aria-current="true"] .rz-menu__check { visibility: visible; }
+.rz-menu__item .rz-icon { color: var(--md-sys-color-on-surface-variant); }

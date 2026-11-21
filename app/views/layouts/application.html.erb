@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<%# light / dark follows the OS (prefers-color-scheme); <html data-theme="light|dark"> forces one %>
-<html lang="<%= I18n.locale %>">
+<%# light / dark follows the OS (prefers-color-scheme) unless the user chose one (theme cookie) %>
+<html lang="<%= I18n.locale %>" <%= tag.attributes(data: { theme: current_theme }) %>>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,7 +23,7 @@
 <body class="rz">
   <a class="rz-skip-link" href="#main"><%= t('rybickazlata.layout.skip_to_content') %></a>
 
-  <%= render Layout::TopAppBarComponent.new(user: current_user,
+  <%= render Layout::TopAppBarComponent.new(user: current_user, theme: current_theme,
                                             unopened_notifications_count: unopened_notifications_count) %>
 
   <div class="rz-shell <%= 'rz-shell--with-nav' if user_signed_in? %>">

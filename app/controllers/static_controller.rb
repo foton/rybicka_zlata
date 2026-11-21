@@ -30,6 +30,17 @@ class StaticController < ApplicationController
     redirect_to localize_referer(params[:locale])
   end
 
+  # light / dark / system (= follow the OS); kept in a cookie so the layout renders it
+  # without a flash of the wrong theme. JS (elements/rz_theme.js) does the same client side.
+  def change_theme
+    if ApplicationHelper::THEMES.include?(params[:theme])
+      cookies.permanent[:theme] = { value: params[:theme], same_site: :lax }
+    else
+      cookies.delete(:theme)
+    end
+    redirect_back_or_to root_path
+  end
+
   private
 
   def localize_referer(new_locale)

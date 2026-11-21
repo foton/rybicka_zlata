@@ -1,4 +1,4 @@
-<header class="rz-top-app-bar">
+<header class="rz-top-app-bar <%= 'rz-top-app-bar--signed-out' unless user %>">
   <% if user %>
     <button type="button" class="rz-icon-button rz-top-app-bar__nav-toggle"
             popovertarget="main_menu" aria-label="<%= t('rybickazlata.layout.open_menu') %>">
@@ -6,7 +6,7 @@
     </button>
   <% end %>
 
-  <%= link_to helpers.root_path, class: 'rz-top-app-bar__brand' do %>
+  <%= link_to helpers.root_path, class: 'rz-top-app-bar__brand', aria: { label: t('rybickazlata.name') } do %>
     <%= image_tag 'logo.png', alt: '', class: 'rz-top-app-bar__logo', id: 'logo', width: 88, height: 48 %>
     <span class="rz-top-app-bar__title"><%= t('rybickazlata.name') %></span>
   <% end %>
@@ -21,6 +21,8 @@
         <% end %>
       <% end %>
     <% end %>
+
+    <%= render Layout::ThemeMenuComponent.new(theme: theme) %>
 
     <button type="button" id="locale-switcher" class="rz-icon-button" popovertarget="locale-menu"
             style="anchor-name: --locale-menu"

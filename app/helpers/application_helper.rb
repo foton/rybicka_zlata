@@ -3,6 +3,13 @@
 require 'url_regexp'
 
 module ApplicationHelper
+  THEMES = %w[light dark].freeze # anything else = follow the OS (prefers-color-scheme)
+
+  # 'light', 'dark' or nil (system)
+  def current_theme
+    cookies[:theme] if THEMES.include?(cookies[:theme])
+  end
+
   def set_page_title(page_title) # version page_title=(pg) does not work, it set local variable instead in view
     content_for(:title) { page_title }
   end

@@ -11,6 +11,11 @@ cs:
       more_actions: "Další akce"
       show_password: "Zobrazit heslo"
       hide_password: "Skrýt heslo"
+      theme:
+        label: "Vzhled"
+        light: "Světlý"
+        dark: "Tmavý"
+        system: "Podle systému"
     connection_picker:
       search: "Hledat kontakt…"
       filter: "Filtr"

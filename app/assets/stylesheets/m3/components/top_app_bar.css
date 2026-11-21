@@ -64,3 +64,8 @@
   .rz-top-app-bar__title { font: var(--md-sys-typescale-title-medium); }
   .rz-top-app-bar__logo { width: 72px; height: 40px; }
 }
+
+/* signed out on a phone: sign up / sign in buttons need the room, the logo carries the brand */
+@media (max-width: 479px) {
+  .rz-top-app-bar--signed-out .rz-top-app-bar__title { display: none; }
+}

@@ -11,6 +11,11 @@ en:
       more_actions: "More actions"
       show_password: "Show password"
       hide_password: "Hide password"
+      theme:
+        label: "Theme"
+        light: "Light"
+        dark: "Dark"
+        system: "System"
     connection_picker:
       search: "Search contacts…"
       filter: "Filter"
