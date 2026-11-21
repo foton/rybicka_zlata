@@ -13,8 +13,12 @@
       not in the snackbar; after a failed attempt (POST) the fields are marked invalid too %>
   <% sign_in_alert = flash[:alert].tap { flash.delete(:alert) } %>
   <% sign_in_failed = sign_in_alert.present? && request.post? %>
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name),
+  <%# locale goes in a hidden field, not in the URL: after a failed sign in Devise re-runs the
+      action with PATH_INFO = the posted URL incl. its query, and the per-form CSRF token
+      (computed for the path without query) would no longer match -> InvalidAuthenticityToken %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name, locale: nil),
                builder: RzFormBuilder, html: { class: 'rz-form' }) do |f| %>
+    <%= hidden_field_tag :locale, I18n.locale, id: nil %>
     <% if sign_in_alert.present? %>
       <div id="sign_in_alert" class="rz-form-errors <%= 'rz-form-errors--info' unless sign_in_failed %>" role="alert">
         <%= sign_in_alert %>
