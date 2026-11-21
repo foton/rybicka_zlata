@@ -25,6 +25,11 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
+# frontend 2026: components + vanilla JS modules (no Node)
+gem 'importmap-rails', '~> 2.2'
+gem 'turbo-rails', '~> 2.0'
+gem 'view_component', '~> 4.25'
+
 # authorization
 gem 'devise'
 gem 'devise-i18n'

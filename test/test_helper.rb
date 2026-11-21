@@ -17,6 +17,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 require 'minitest/autorun' # to enable stubbing
+require 'view_component/test_case' # ViewComponent::TestCase for tests in test/components
 
 # # fast truncation of all tables that need truncations (select is 10x faster then truncate)
 # # http://grosser.it/2012/07/03/rubyactiverecord-fastest-way-to-truncate-test-database/

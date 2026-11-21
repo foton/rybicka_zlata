@@ -1,0 +1,11 @@
+# ActionCable config. Required since turbo-rails (its test helpers touch ActionCable).
+# The app uses Turbo Streams only as HTTP responses (no broadcasting over WebSockets),
+# so the in-process "async" adapter is enough; no Redis needed.
+development:
+  adapter: async
+
+test:
+  adapter: test
+
+production:
+  adapter: async

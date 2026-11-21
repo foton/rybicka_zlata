@@ -27,8 +27,11 @@ Rails.application.configure do
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
+  # No minification: Uglifier cannot parse ES modules (importmap) and the sass
+  # compressor chokes on modern CSS. Sprockets still writes .gz variants,
+  # which ActionDispatch::Static serves compressed.
+  config.assets.js_compressor = nil
+  config.assets.css_compressor = nil
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false

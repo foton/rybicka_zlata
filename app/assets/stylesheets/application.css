@@ -10,7 +10,16 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
+ * Legacy (MDL) styles. Listed explicitly instead of `require_tree .`, so the new
+ * design system in ./m3 (linked separately as m3.css) is not bundled in here.
+ *
+ *= require ./alerts_flashes
+ *= require ./list_with_actions
+ *= require ./mdl_extensions/mdl-jquery-modal-dialog
+ *= require ./mdl_extensions/mdl-selectfield.min
+ *= require ./mdl_extensions/my
+ *= require ./social_networks
+ *= require ./wishes
  *= require_self
  *= require jquery-ui
  */
