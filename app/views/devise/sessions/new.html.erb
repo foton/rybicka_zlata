@@ -20,10 +20,19 @@
   </div>
 
   <div class="mdl-cell">
+  <%# Devise's message (wrong e-mail/password, "you must sign in", ...) is shown here at the form,
+      not in the snackbar; after a failed attempt (POST) the fields are marked invalid too %>
+  <% sign_in_alert = flash[:alert].tap { flash.delete(:alert) } %>
+  <% sign_in_failed = sign_in_alert.present? && request.post? %>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name),
                builder: RzFormBuilder, html: { class: 'rz-form' }) do |f| %>
-    <%= f.email_field :email, autofocus: true, autocomplete: 'email' %>
-    <%= f.password_field :password, autocomplete: 'current-password' %>
+    <% if sign_in_alert.present? %>
+      <div id="sign_in_alert" class="rz-form-errors <%= 'rz-form-errors--info' unless sign_in_failed %>" role="alert">
+        <%= sign_in_alert %>
+      </div>
+    <% end %>
+    <%= f.email_field :email, autofocus: true, autocomplete: 'email', error: sign_in_failed %>
+    <%= f.password_field :password, autocomplete: 'current-password', error: sign_in_failed %>
 
     <% if devise_mapping.rememberable? -%>
       <%= f.switch :remember_me %>

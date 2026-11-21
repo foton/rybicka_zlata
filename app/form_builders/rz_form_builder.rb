@@ -12,6 +12,7 @@
 # Field methods keep Rails' signatures; extra keyword options:
 #   label:            label text (default: Rails' translated attribute name), false = no label
 #   supporting_text:  hint under the field (replaced by the validation error, if any)
+#   error:            true = show the field as invalid even without a validation error
 # Labels float via CSS only (:placeholder-shown), so no JavaScript is needed.
 # Validation errors of the attribute mark the field (aria-invalid) and are shown under it.
 class RzFormBuilder < ActionView::Helpers::FormBuilder # rubocop:disable Metrics/ClassLength
@@ -65,6 +66,7 @@ class RzFormBuilder < ActionView::Helpers::FormBuilder # rubocop:disable Metrics
   private
 
   def text_like_field(method, options, modifier: nil)
+    mark_error(method) if options.delete(:error)
     label_text = options.delete(:label)
     supporting = supporting_for(method, options.delete(:supporting_text))
     opts = field_options(method, options, 'rz-text-field__input', supporting)
@@ -134,7 +136,8 @@ class RzFormBuilder < ActionView::Helpers::FormBuilder # rubocop:disable Metrics
   end
 
   def supporting_for(method, text)
-    error?(method) ? object.errors[method].to_sentence : text
+    messages = object.respond_to?(:errors) ? object.errors[method] : []
+    messages.present? ? messages.to_sentence : text
   end
 
   def supporting_tag(method, text)
@@ -148,6 +151,16 @@ class RzFormBuilder < ActionView::Helpers::FormBuilder # rubocop:disable Metrics
   end
 
   def error?(method)
-    object.respond_to?(:errors) && object.errors[method].present?
+    forced_error?(method) || (object.respond_to?(:errors) && object.errors[method].present?)
+  end
+
+  # `error: true` marks a field invalid without a validation error on the object
+  # (e.g. Devise's failed sign in only sets flash[:alert])
+  def mark_error(method)
+    (@forced_errors ||= Set.new) << method
+  end
+
+  def forced_error?(method)
+    @forced_errors&.include?(method)
   end
 end

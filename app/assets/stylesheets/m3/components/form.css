@@ -213,3 +213,9 @@
 .rz-form--wide { max-width: 720px; }
 .rz-form--wide .rz-text-field { max-width: none; }
 .rz-form-errors__title { margin: 0 0 4px; font: var(--md-sys-typescale-title-small); }
+
+/* neutral variant (e.g. "you must sign in first") */
+.rz-form-errors--info {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}

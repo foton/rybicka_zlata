@@ -33,6 +33,13 @@ class RzFormBuilderTest < ActionView::TestCase
                     text: 'je povinná položka'
   end
 
+  def test_forced_error_state_without_validation_error
+    html = build { |f| f.password_field :name, error: true }
+
+    assert_fragment html, 'div.rz-text-field--error input[aria-invalid="true"]'
+    assert_no_match(/rz-field__supporting/, html)
+  end
+
   def test_supporting_text
     html = build { |f| f.text_field :name, supporting_text: 'nápověda' }
 
