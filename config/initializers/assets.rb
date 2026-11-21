@@ -11,7 +11,6 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
-Rails.application.config.assets.precompile += %w[jquery.ui.touch-punch.min.js]
 
 # No minification in any environment: Uglifier cannot parse ES modules (importmap)
 # and the sass compressor (default of sassc-rails, also in dev/test) chokes on

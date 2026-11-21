@@ -111,21 +111,30 @@ end
 #   end
 # end
 
+# ConnectionPickerComponent: a contact (or group) row has either a segmented button
+# Obdarovaný | — | Dárce (author's wish form) or a checkbox (co-donee's donors).
 Pokud(/^do seznamu (dárců|obdarovaných) přidám "(.*?)"$/) do |block, label|
-  # non dragable version
-  # within("#donor_connections") do
-  #   check label
-  # end
-
-  within('#user_connections') do
-    find('li', text: label).drag_to(find(list_selector_for(block)))
-  end
+  set_connection_role(label, block == 'dárců' ? :donor : :donee)
 end
 
 Pak(/^ze seznamu (?:dárců|obdarovaných) odeberu "(.*?)"$/) do |label|
-  # it not depend where connections is right now, it shoul be only once on screen
+  set_connection_role(label, :none)
+end
+
+# row of a contact / group; group rows start with the icon ligature "groups"
+def picker_row(label)
+  find('.rz-picker__row', text: /\A\s*(?:groups\s+)?#{Regexp.escape(label)}/)
+end
+
+def set_connection_role(label, role)
   within('#user_connections') do
-    find('li', text: label).drag_to(find('#unused_conn_ids'))
+    row = picker_row(label)
+    if row.has_css?('.rz-segmented', wait: 0)
+      row.find(".rz-segmented__segment--#{role}").click
+    else
+      checkbox = row.find('input[type="checkbox"]', visible: :all)
+      checkbox.click if checkbox.checked? == (role == :none)
+    end
   end
 end
 
@@ -140,13 +149,3 @@ Pak(/^pokud si otevřu přání "([^"]*)" u "([^"]*)"$/) do |wish_title, user_na
   donee_block.click_link(wish_title)
 end
 
-def list_selector_for(block)
-  case block
-  when 'dárců'
-    '#donor_conn_ids'
-  when 'obdarovaných'
-    '#donee_conn_ids'
-  else
-    raise "Uncatched block: '#{block_name}'"
-  end
-end

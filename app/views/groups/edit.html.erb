@@ -1,23 +1,14 @@
- 	<div id="edit_group">
-	  <%= form_for([@user, @group], builder: RzFormBuilder, html: { class: 'rz-form rz-form--wide' }) do |f| %>
-      <%= render partial: "/shared/errors", locals: { f_object: @group } %>
-      <%= f.text_field :name, label: t("groups.views.add.name") %>
-      <div class="rz-form__actions actions">
-        <%= f.submit t("groups.actions.save.button"), class: 'save' %>
-      </div>
-	
+<div id="edit_group">
+  <%= form_for([@user, @group], builder: RzFormBuilder, html: { class: 'rz-form rz-form--wide' }) do |f| %>
+    <%= render partial: "/shared/errors", locals: { f_object: @group } %>
+    <%= f.text_field :name, label: t("groups.views.add.name") %>
 
-        
-      <div class="group lists-of-checkboxes lists-of-checkboxes_two-panels mdl-grid" id="group_connections">
-        <div class="list-of-checked md-cell" id="connections_in_group">
-		    	<%= render partial: "connections_select", locals: {connections: @group.connections} %>
-		    </div>
-		    <div class="mdl-layout-spacer"></div>
- 		    <div class="list-of-unchecked md-cell" id="connections_not_in_group">
-		      <%= render partial: "connections_select", locals: {connections: (@user_connections-@group.connections)} %>
-		    </div>
+    <%= render ConnectionPickerComponent.new(
+          mode: :toggle, connections: @user_connections, field_name: 'group[connection_ids]',
+          selected_ids: @group.connections.map(&:id), include_hidden: true, id: 'group_connections') %>
 
-      </div>
-      
-  	<% end %>
-	</div>
+    <div class="rz-form__actions actions">
+      <%= f.submit t("groups.actions.save.button"), class: 'save' %>
+    </div>
+  <% end %>
+</div>

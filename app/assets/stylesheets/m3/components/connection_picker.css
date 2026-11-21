@@ -1,0 +1,182 @@
+/* Connection picker (ConnectionPickerComponent + <rz-connection-picker>). */
+.rz-picker {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 900px;
+  margin: 16px 0;
+}
+
+.rz-picker__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+}
+.rz-picker__summary {
+  flex: 1 1 100%;
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-medium);
+}
+.rz-picker__summary strong { color: var(--md-sys-color-on-surface); }
+
+.rz-picker__search {
+  display: flex;
+  flex: 1 1 240px;
+  align-items: center;
+  gap: 8px;
+  max-width: 360px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+}
+.rz-picker__search-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-large);
+}
+.rz-picker__search:focus-within { outline: 2px solid var(--md-sys-color-primary); }
+
+/* filter / search only make sense with JS */
+rz-connection-picker:not(:defined) .rz-picker__search,
+rz-connection-picker:not(:defined) .rz-chips,
+rz-connection-picker:not(:defined) .rz-picker__section--groups { display: none; }
+
+.rz-picker__heading {
+  margin: 16px 0 4px;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-title-small);
+}
+.rz-picker__help {
+  margin: 0 0 8px;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-small);
+}
+
+.rz-picker__list { margin: 0; padding: 0; list-style: none; }
+
+.rz-picker__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 16px;
+  min-height: 56px;
+  padding: 6px 0 6px 8px;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+.rz-picker__row[hidden] { display: none; }
+.rz-picker__row--group .rz-picker__label { font-weight: 500; }
+
+.rz-picker__label {
+  display: inline-flex;
+  flex: 1 1 240px;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-large);
+  overflow-wrap: anywhere;
+}
+.rz-picker__label .rz-icon { color: var(--md-sys-color-on-surface-variant); }
+
+.rz-picker__partial {
+  display: none;
+  padding: 0 8px;
+  border-radius: var(--md-sys-shape-corner-small);
+  background: var(--md-sys-color-surface-container-highest);
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-label-small);
+}
+.rz-picker__row[data-state="partial"] .rz-picker__partial { display: inline-block; }
+
+.rz-picker__empty { color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-medium); }
+
+/* ---- filter chips (M3 filter chip) ---- */
+.rz-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.rz-chip {
+  position: relative;
+  min-height: 32px;
+  padding: 0 16px;
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-small);
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-label-large);
+  cursor: pointer;
+}
+.rz-chip:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface-variant) 8%, transparent); }
+.rz-chip[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.rz-chip:focus-visible { outline: 3px solid var(--md-sys-color-secondary); outline-offset: 2px; }
+
+/* ---- segmented button ---- */
+.rz-segmented {
+  display: inline-flex;
+  flex: none;
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-full);
+  overflow: hidden;
+}
+.rz-segmented__segment {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 48px;
+  min-height: 40px;
+  padding: 0 12px;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-label-large);
+  cursor: pointer;
+  user-select: none;
+}
+.rz-segmented__segment + .rz-segmented__segment { border-left: 1px solid var(--md-sys-color-outline); }
+.rz-segmented__segment:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent); }
+
+/* the radio stays in the DOM (keyboard, forms, tests), just not painted */
+.rz-segmented__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.rz-segmented__check { display: none; font-size: 18px; }
+.rz-segmented__segment:has(.rz-segmented__input:checked) {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.rz-segmented__segment:has(.rz-segmented__input:checked) .rz-segmented__check { display: inline; }
+.rz-segmented__segment:has(.rz-segmented__input:focus-visible) {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: -3px;
+}
+
+@media (max-width: 599px) {
+  .rz-segmented { width: 100%; }
+  .rz-segmented__segment { flex: 1; padding: 0 8px; }
+}
+
+.rz-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

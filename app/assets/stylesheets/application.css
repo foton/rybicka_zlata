@@ -20,7 +20,6 @@
  *= require ./social_networks
  *= require ./wishes
  *= require_self
- *= require jquery-ui
  */
 
 /* main { width: 100%} */
@@ -87,11 +86,6 @@ footer {
 }
 
 
-.list-of-checkboxes ul, .list-of-unchecked ul, .list-of-checked ul{
-	list-style-type: none;
-	list-style-position: inside;
-	padding-left:0;
-}
 
 
 /* https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
@@ -110,7 +104,8 @@ footer {
 }
 
 
-.donors, .donees, .available_conns {
+
+.donors, .donees {
 	padding: 0.5em;
 	border: 1px solid lightgray;
 }
@@ -130,10 +125,6 @@ footer {
 	line-height: 1.2em;
 }
 
-#unused_connections {
-	display: none;
-  border: 1px solid gray;
-}
 
 #donor_connections, #donee_connections {
   background-color: rgb(255, 204, 102);
@@ -141,53 +132,13 @@ footer {
 }
 
 
-.sortable-list {
-	min-height: 5em;
-	margin-bottom: 0px ;
-	padding: 0.3em;
-	list-style-type: none;
-	list-style-position: inside;
-	border: 1px dashed rgb(63, 81, 181);
-}
 
-.sortable-list li {
-	background-color: white;
-	min-height: 2em;
-	border: 1px solid gray;
-  padding: 0.3em;
-  padding-left: 0.5em;
-  margin: 0.1em;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  cursor: grab;
-  border-radius: 7px;
-}
 
-.sortable-list li.group {
-  background-color: rgb(63,81,181);
-  color: white;
-  font-weight: bold;
-}
 
-.sortable-list li.group.group_incomplete {
-  background-color: gray;
-}
 
-.sortable-list li input {
-	display: hidden;
-}
 
-.sortable-list li span.label_text {
-	cursor: grab;
-}
 
-.sortable_drop_placeholder {
-	border: 1px dashed #666;
-	background-color: #aaa;
-}
 
-.ui-sortable-handle {
-  cursor: grab;
-}
 
 #donees_list {
   padding: 0;
@@ -204,17 +155,8 @@ footer {
   margin-top: 1em;
 }
 
-.list-of-checkboxes .group {
-	background-color: #aaa;
-}
 
-.group_incomplete {
-  color: gray;
-}
 
-.group_complete {
-  color: white;
-}
 
 .video_responsive_frame{
     position: relative;

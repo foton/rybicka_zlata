@@ -9,6 +9,26 @@ cs:
       dismiss: "Zavřít"
       skip_to_content: "Přeskočit na obsah"
       more_actions: "Další akce"
+    connection_picker:
+      search: "Hledat kontakt…"
+      filter: "Filtr"
+      groups: "Skupiny"
+      contacts: "Kontakty"
+      partial: "částečně"
+      nothing_found: "Žádný kontakt neodpovídá hledání."
+      selected: "Vybraný"
+      groups_help: "Skupiny slouží k hromadnému výběru: volba u skupiny nastaví stejnou roli všem jejím kontaktům."
+      filters:
+        all: "Vše"
+        donee: "Obdarovaní"
+        donor: "Dárci"
+        none: "Nepřiřazení"
+        selected: "Vybraní"
+        unselected: "Nevybraní"
+      roles:
+        donee: "Obdarovaný"
+        none: "Nepřiřazený"
+        donor: "Dárce"
     static:
 
       about:

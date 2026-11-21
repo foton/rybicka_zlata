@@ -71,6 +71,20 @@ class Wishes::FromAuthorControllerTest < ActionController::TestCase
     assert_equal @bart.groups, assigns(:user_groups)
   end
 
+  def test_update_donees_and_donors_through_connection_roles
+    # ConnectionPickerComponent sends one role per connection
+    roles = { @bart_to_lisa_conn.id => 'donee', @bart_to_marge_conn.id => 'donor',
+              @bart_to_homer_conn.id => 'donor', connections(:bart_to_milhouse).id => 'none' }
+
+    patch :update, params: { user_id: @bart.id, id: @wish.id,
+                             wish: { title: @wish.title, connection_roles: roles } }
+
+    assert_redirected_to user_my_wish_path(@bart, @wish)
+    @wish.reload
+    assert_equal [@bart_to_lisa_conn, @bart.base_connection].sort, @wish.donee_connections.to_a.sort
+    assert_equal [@bart_to_marge_conn, @bart_to_homer_conn].sort, @wish.donor_connections.to_a.sort
+  end
+
   def test_update_my_wish_attributes_donees_and_donors
     assert_equal [@bart_to_homer_conn, @bart.base_connection].sort,
                  @wish.donee_connections.to_a.sort

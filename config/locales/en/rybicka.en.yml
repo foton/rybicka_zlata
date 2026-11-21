@@ -9,6 +9,26 @@ en:
       dismiss: "Dismiss"
       skip_to_content: "Skip to content"
       more_actions: "More actions"
+    connection_picker:
+      search: "Search contacts…"
+      filter: "Filter"
+      groups: "Groups"
+      contacts: "Contacts"
+      partial: "partly"
+      nothing_found: "No contact matches the search."
+      selected: "Selected"
+      groups_help: "Groups are for bulk selection: a choice made for a group sets the same role for all its contacts."
+      filters:
+        all: "All"
+        donee: "Donees"
+        donor: "Donors"
+        none: "Unassigned"
+        selected: "Selected"
+        unselected: "Not selected"
+      roles:
+        donee: "Donee"
+        none: "Unassigned"
+        donor: "Donor"
     static:
 
       about:

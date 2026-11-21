@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When(/^fill in text "([^"]*)" into "([^"]*)"(?: input)?$/) do |text, polozka|
-  fill_in(polozka, with: text)
+  replace_field_value(find_field(polozka), text)
 end
 
 When(/^select "([^"]*)" from "([^"]*)" selection$/) do |value, field|

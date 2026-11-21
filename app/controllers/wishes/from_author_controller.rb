@@ -44,12 +44,24 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
     @wish_params ||= begin
       wish_params = params[:wish] || ActionController::Parameters.new({})
       wish_params.delete(:unused_conn_ids)
+      assign_conn_ids_from_roles(wish_params)
       wish_params[:donee_conn_ids] = wish_params[:donee_conn_ids].blank? ? [] : wish_params[:donee_conn_ids].collect(&:to_i)
       wish_params[:donor_conn_ids] = wish_params[:donor_conn_ids].blank? ? [] : wish_params[:donor_conn_ids].collect(&:to_i)
       wish_params[:state_action] = params[:state_action]
 
       wish_params.permit(:title, :description, :state_action, donor_conn_ids: [], donee_conn_ids: [])
     end
+  end
+
+  # ConnectionPickerComponent sends wish[connection_roles][<connection id>]=donee|none|donor;
+  # the model still takes donee_conn_ids / donor_conn_ids
+  def assign_conn_ids_from_roles(wish_params)
+    roles = wish_params.delete(:connection_roles)
+    return if roles.blank?
+
+    roles = roles.to_unsafe_h
+    wish_params[:donee_conn_ids] = roles.select { |_id, role| role == 'donee' }.keys
+    wish_params[:donor_conn_ids] = roles.select { |_id, role| role == 'donor' }.keys
   end
 
   def wish_scope

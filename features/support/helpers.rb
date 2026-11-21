@@ -19,3 +19,14 @@ def user_email_for_(user_identificator)
     raise "Uncovered user for '#{user_identificator}'"
   end
 end
+
+# Replace the whole value of a text field.
+# In Chrome, Selenium's default (select all, then type) sometimes appends to the old value,
+# because send_keys moves the caret to the end; deleting it with backspaces is reliable.
+def replace_field_value(field, text)
+  if Capybara.current_driver == :rack_test
+    field.set(text)
+  else
+    field.set(text, clear: :backspace)
+  end
+end

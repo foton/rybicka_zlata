@@ -1,29 +1,16 @@
 <h3><%= @wish.title %></h3>
 <p><%= @wish.description %></p>
 
-<%= form_for(@wish, url: user_my_wish_path(current_user,@wish)) do |f| %>
-  <%= render partial: "/shared/errors", locals: {f_object: @wish} %>
-  <div class="actions">
-    <%= form_submit_button(t("wishes.actions.save.button")) %>
+<%= form_for(@wish, url: user_my_wish_path(current_user, @wish), builder: RzFormBuilder,
+                    html: { class: 'rz-form rz-form--wide' }) do |f| %>
+  <%= render partial: "/shared/errors", locals: { f_object: @wish } %>
+
+  <%= render ConnectionPickerComponent.new(
+        mode: :toggle, connections: @available_donor_connections, groups: @available_donor_groups,
+        field_name: 'wish[donor_conn_ids]', selected_ids: @wish.donor_connections.map(&:id),
+        toggle_label: t('rybickazlata.connection_picker.roles.donor')) %>
+
+  <div class="rz-form__actions actions">
+    <%= f.submit t("wishes.actions.save.button"), class: 'save' %>
   </div>
-
-  <div class=" mdl-grid" id="user_connections">
-    <p class="help mdl-cell--12-col"><%= t("wishes.from_author.views.edit.groups_are_good_for") %></p>
-    <%= render partial: "/wishes/unused_connections_form", locals: {wish: @wish} %>
-
-    <%= render partial: "/wishes/donor_connections_form", locals: {wish: @wish} %>
-  </div>
-
 <% end %>
-
-<%= render partial: "/wishes/groups_for_js" %>
-<script type="text/javascript">
-$( document ).ready(function() {
-  var selectors_hash = {};
-  selectors_hash['lists_container']="#user_connections";
-  selectors_hash['unused_list']="#unused_connections";
-  selectors_hash['other_lists_arr']=["#donor_connections"];
-
-  create_3_panel_selection(selectors_hash);
-});
-</script>

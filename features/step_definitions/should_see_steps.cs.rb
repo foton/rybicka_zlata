@@ -83,8 +83,13 @@ Pak(/^nevidím kontakt "([^"]*)"$/) do |name|
 end
 
 Pak(/^vidím kontakt "([^"]*)" v "([^"]*)"$/) do |name, block_name|
-  within(:css, block_selector_for(block_name)) do
-    find('li', text: name)
+  if page.has_css?('#user_connections', wait: 0) # edit form with ConnectionPickerComponent
+    states = block_name == 'Dárci' ? %w[donor selected] : %w[donee]
+    within('#user_connections') { assert_includes states, picker_row(name)['data-state'] }
+  else
+    within(:css, block_selector_for(block_name)) do
+      find('li', text: name)
+    end
   end
 end
 

@@ -1,0 +1,76 @@
+<rz-connection-picker id="<%= id %>" class="rz-picker" data-mode="<%= mode %>">
+  <div class="rz-picker__toolbar">
+    <p class="rz-picker__summary" aria-live="polite">
+      <% filters.excluding(:all).each_with_index do |filter, i| %>
+        <%= ' · ' if i.positive? %><%= t("rybickazlata.connection_picker.filters.#{filter}") %>
+        <strong data-count="<%= filter %>"><%= counts.fetch(filter, 0) %></strong>
+      <% end %>
+    </p>
+    <div class="rz-picker__search">
+      <%= render IconComponent.new('search') %>
+      <input type="search" class="rz-picker__search-input" data-search
+             placeholder="<%= t('rybickazlata.connection_picker.search') %>"
+             aria-label="<%= t('rybickazlata.connection_picker.search') %>">
+    </div>
+    <div class="rz-chips" role="group" aria-label="<%= t('rybickazlata.connection_picker.filter') %>">
+      <% filters.each do |filter| %>
+        <button type="button" class="rz-chip" data-filter="<%= filter %>" aria-pressed="<%= filter == :all %>">
+          <%= t("rybickazlata.connection_picker.filters.#{filter}") %>
+        </button>
+      <% end %>
+    </div>
+  </div>
+
+  <% if groups.any? %>
+    <section class="rz-picker__section rz-picker__section--groups">
+      <h4 class="rz-picker__heading"><%= t('rybickazlata.connection_picker.groups') %></h4>
+      <p class="rz-picker__help"><%= t('rybickazlata.connection_picker.groups_help') %></p>
+      <ul class="rz-picker__list">
+        <% groups.each do |group| %>
+          <li class="rz-picker__row rz-picker__row--group" data-group data-member-ids="<%= group.member_ids.join(',') %>"
+              data-state="<%= group.state %>">
+            <% if roles? %>
+              <span class="rz-picker__label">
+                <%= render IconComponent.new('groups') %> <%= group.label %>
+                <span class="rz-picker__partial"><%= t('rybickazlata.connection_picker.partial') %></span>
+              </span>
+              <%= render SegmentedButtonComponent.new(name: "picker_groups[#{group.id}]", label: group.label,
+                                                      options: role_options, value: group.state) %>
+            <% else %>
+              <label class="rz-checkbox__label rz-picker__label">
+                <input type="checkbox" class="rz-checkbox__input" data-group-toggle
+                       <%= 'checked' if group.state == :selected %>>
+                <%= render IconComponent.new('groups') %> <%= group.label %>
+              </label>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <section class="rz-picker__section">
+    <h4 class="rz-picker__heading"><%= t('rybickazlata.connection_picker.contacts') %></h4>
+    <% if include_hidden? %>
+      <input type="hidden" name="<%= hidden_name %>" value="">
+    <% end %>
+    <ul class="rz-picker__list">
+      <% rows.each do |row| %>
+        <li class="rz-picker__row" data-id="<%= row.id %>" data-state="<%= row.state %>">
+          <% if roles? %>
+            <span class="rz-picker__label"><%= row.label %></span>
+            <%= render SegmentedButtonComponent.new(name: input_name(row), label: row.label,
+                                                    options: role_options, value: row.state) %>
+          <% else %>
+            <label class="rz-checkbox__label rz-picker__label">
+              <input type="checkbox" class="rz-checkbox__input" name="<%= input_name(row) %>" value="<%= row.id %>"
+                     <%= 'checked' if row.state == :selected %>>
+              <%= row.label %>
+            </label>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+    <p class="rz-picker__empty" data-empty hidden><%= t('rybickazlata.connection_picker.nothing_found') %></p>
+  </section>
+</rz-connection-picker>

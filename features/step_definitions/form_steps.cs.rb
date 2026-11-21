@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When(/^(?:vyplním|zapíšu) do (?:položky )?"([^"]*)" text "([^"]*)"$/) do |polozka, text|
-  fill_in(polozka, with: text)
+  replace_field_value(find_field(polozka), text)
 end
 
 When(/^vyberu "([^"]*)" z nabídky "([^"]*)"$/) do |value, field|
@@ -9,7 +9,7 @@ When(/^vyberu "([^"]*)" z nabídky "([^"]*)"$/) do |value, field|
 end
 
 Pak(/^změním "(.*?)" na "(.*?)"$/) do |old_value, new_value|
-  find("input[value=\"#{old_value}\"]").set(new_value)
+  replace_field_value(find("input[value=\"#{old_value}\"]"), new_value)
 end
 
 Když(/^zadám další adresu "(.*?)"$/) do |adr|

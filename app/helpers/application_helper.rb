@@ -15,21 +15,6 @@ module ApplicationHelper
     tag.h3(text)
   end
 
-  def checkbox_mdl_tag(tag_id, label_text, check_status, checked_value = '1',
-                       _unchecked_value = '0', options = {})
-    labl_opt = options.dup
-    labl_opt[:class] = "#{options[:class]} mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
-    check_opt = options.dup
-    check_opt[:class] = "#{options[:class]} mdl-checkbox__input"
-    span_opt = options.dup
-    span_opt[:class] = "#{options[:class]} mdl-checkbox__label"
-
-    label_tag(nil, labl_opt) do
-      concat(check_box_tag(tag_id, checked_value, check_status, check_opt))
-      concat(content_tag(:span, label_text, span_opt))
-    end
-  end
-
   def form_submit_button(text = nil)
     render ButtonComponent.new(text, type: :submit, class: 'save', icon: (text ? nil : 'check'),
                                      aria_label: (text ? nil : 'OK'))

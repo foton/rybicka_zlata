@@ -1,7 +1,0 @@
-					<ul class="">
-					<% for conn in connections %>
-						<li>
-              <%= checkbox_mdl_tag( "group[connection_ids][#{conn.id}]", conn.fullname, @group.connections.include?(conn), conn.id, "0", { name: "group[connection_ids][]"}) %>
-						</li>
-					<% end %>
-				  </ul>

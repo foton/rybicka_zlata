@@ -1,33 +1,14 @@
 <%= form_for(@wish, as: :wish, url: url, builder: RzFormBuilder, html: { class: 'rz-form rz-form--wide' }) do |f| %>
   <%= render partial: "/shared/errors", locals: { f_object: @wish } %>
-    <%= f.text_field :title, label: (@wish.persisted? ? t("wishes.from_author.views.edit.title") : t("wishes.from_author.views.new.title")) %>
-    <%= f.text_area :description, label: t("wishes.from_author.views.edit.description"), rows: 6 %>
+  <%= f.text_field :title, label: (@wish.persisted? ? t("wishes.from_author.views.edit.title") : t("wishes.from_author.views.new.title")) %>
+  <%= f.text_area :description, label: t("wishes.from_author.views.edit.description"), rows: 6 %>
 
-    <div class="rz-form__actions actions">
-      <%= f.submit t("wishes.actions.save.button"), class: 'save' %>
-    </div>
+  <%= render ConnectionPickerComponent.new(
+        connections: @user_connections, groups: @user_groups, field_name: 'wish[connection_roles]',
+        roles: @wish.donee_connections.to_h { |c| [c.id, :donee] }
+                    .merge(@wish.donor_connections.to_h { |c| [c.id, :donor] })) %>
 
-    <div class=" mdl-grid" id="user_connections">
-      <p class="help mdl-cell--12-col"><%= t("wishes.from_author.views.edit.groups_are_good_for") %></p>
-
-      <%= render partial: "donee_connections_form", locals: {wish: @wish} %>
-
-      <%= render partial: "/wishes/unused_connections_form", locals: {wish: @wish} %>
-
-      <%= render partial: "/wishes/donor_connections_form", locals: {wish: @wish} %>
-    </div>
-
+  <div class="rz-form__actions actions">
+    <%= f.submit t("wishes.actions.save.button"), class: 'save' %>
+  </div>
 <% end %>
-
-<%= render partial: "/wishes/groups_for_js" %>
-<script type="text/javascript">
-$( document ).ready(function() {
-  var selectors_hash = {};
-  selectors_hash['lists_container']="#user_connections";
-  selectors_hash['unused_list']="#unused_connections";
-  selectors_hash['other_lists_arr']=["#donor_connections","#donee_connections"];
-
-  create_3_panel_selection(selectors_hash);
-
-});
-</script>
