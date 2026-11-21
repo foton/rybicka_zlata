@@ -1,14 +1,17 @@
-<h3><%= t("wishes.from_donee.views.index.header") %></h3>
+<h3 class="rz-page-title"><%= t("wishes.from_donee.views.index.header") %></h3>
 
 <div id="wishes">
-  <%= render ObjectActionComponent.new(action: :new, user: @user, object: Wish::FromAuthor.new, variant: :filled) %>
+  <div class="rz-button-row">
+    <%= render ObjectActionComponent.new(action: :new, user: @user, object: Wish::FromAuthor.new, variant: :filled) %>
+  </div>
 
-	<div id="donee_wishes_list" class="wishes-list">
-    <%= render( partial: "/shared/list_with_actions", locals: { collection: @wishes, none_text: t("wishes.from_donee.views.index.no_wishes"), remote: true} ) %>
-	</div>
+  <div id="donee_wishes_list" class="wishes-list">
+    <%= render(partial: "/shared/list_with_actions",
+               locals: { collection: @wishes, none_text: t("wishes.from_donee.views.index.no_wishes"), remote: true }) %>
+  </div>
 
-  <div>
-    <%= link_to(t("wishes.from_donee.views.index.header_fulfilled"), user_my_wishes_path(@user, fulfilled: 1)) %>
+  <div class="rz-button-row">
+    <%= render ButtonComponent.new(t("wishes.from_donee.views.index.header_fulfilled"),
+                                   href: user_my_wishes_path(@user, fulfilled: 1), variant: :text, icon: 'task_alt') %>
   </div>
 </div>
-

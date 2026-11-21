@@ -1,10 +1,8 @@
-<h3><%= t("wishes.from_donee.views.index.header_fulfilled") %></h3>
+<h3 class="rz-page-title"><%= t("wishes.from_donee.views.index.header_fulfilled") %></h3>
 
 <div id="wishes">
   <div id="donee_wishes_list" class="wishes-list">
-    <%= render( partial: "/shared/list_with_actions", locals: { collection: @wishes, none_text: t("wishes.from_donee.views.index.no_fulfilled_wishes"), remote: true} ) %>
+    <%= render(partial: "/shared/list_with_actions",
+               locals: { collection: @wishes, none_text: t("wishes.from_donee.views.index.no_fulfilled_wishes"), remote: true }) %>
   </div>
-
-</div>       
-       
-
+</div>

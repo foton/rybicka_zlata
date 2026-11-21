@@ -1,7 +1,8 @@
-  <div id="<%= donee_wishes[:user].anchor%>" class="lists wishes-list">
-  	<h4><%= donee_wishes[:user].displayed_name_for(@user) %> [<%= donee_wishes[:user].displayed_name %>]</h4>
-  	<a name="<%= donee_wishes[:user].anchor %>"></a>
-
-    <%= render( partial: "/shared/list_with_actions", locals: { collection: donee_wishes[:wishes], none_text: t("wishes.from_donor.views.list.none"), remote: true} ) %>
-
-  </div>
+<section id="<%= donee_wishes[:user].anchor %>" class="lists wishes-list rz-section">
+  <h4 class="rz-section__title">
+    <%= donee_wishes[:user].displayed_name_for(@user) %>
+    <span class="rz-section__subtitle">[<%= donee_wishes[:user].displayed_name %>]</span>
+  </h4>
+  <%= render(partial: "/shared/list_with_actions",
+             locals: { collection: donee_wishes[:wishes], none_text: t("wishes.from_donor.views.list.none"), remote: true }) %>
+</section>

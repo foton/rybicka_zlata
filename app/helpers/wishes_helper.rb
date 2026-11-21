@@ -59,20 +59,17 @@ module WishesHelper
   end
 
   def donor_infos_for(wish, user = current_user)
-    if wish.call_for_co_donors? && user.donor_of?(wish)
-      raw '<span class="donor_infos">' + I18n.t('wishes.actions.call_for_co_donors.notice', user_name: wish.called_for_co_donors_by_user.name) + '</span>'
-    end
+    return unless wish.call_for_co_donors? && user.donor_of?(wish)
+
+    tag.span(I18n.t('wishes.actions.call_for_co_donors.notice', user_name: wish.called_for_co_donors_by_user.name),
+             class: 'donor_infos rz-wish__notice')
   end
 
   def icon_of_wish_sharing(wish)
-    if wish.shared?
-      icon = 'group'
-      tooltip = I18n.t('wishes.shared_icon_tooltip.shared')
-    else
-      icon = 'person'
-      tooltip = I18n.t('wishes.shared_icon_tooltip.personal')
-    end
-    w_id = anchor_for(wish) + '_shared_icon'
-    raw "<i class=\"material-icons shared-wish-icon\" id=\"#{w_id}\" >#{icon}</i><span class=\"mdl-tooltip\" for=\"#{w_id}\" >#{tooltip}</span>"
+    kind = wish.shared? ? :shared : :personal
+    tooltip = I18n.t("wishes.shared_icon_tooltip.#{kind}")
+    tag.span(render(IconComponent.new(wish.shared? ? 'group' : 'person')),
+             class: 'shared-wish-icon', id: "#{anchor_for(wish)}_shared_icon", title: tooltip,
+             role: 'img', aria: { label: tooltip })
   end
 end

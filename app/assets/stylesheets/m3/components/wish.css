@@ -1,0 +1,42 @@
+/* Wish row content (wishes/_wish_primary_content) and wish detail. */
+.rz-wish {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+}
+.rz-list-item__content a.rz-wish { color: inherit; }
+.rz-list-item__content a.rz-wish:hover { text-decoration: none; }
+.rz-list-item__content a.rz-wish:hover .rz-wish__title-text { text-decoration: underline; }
+
+.rz-wish__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--md-sys-color-primary);
+  font: var(--md-sys-typescale-title-medium);
+}
+.rz-wish__title .rz-icon { font-size: 20px; color: var(--md-sys-color-on-surface-variant); }
+.rz-wish__description { color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-medium); }
+.rz-wish__meta { color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-small); }
+.rz-wish__notice { color: var(--md-sys-color-tertiary); font: var(--md-sys-typescale-label-large); }
+
+/* state of the wish for the donor (WishesHelper#class_for_state) */
+/* "I am the donor" (booked / called by me): light amber tint + accent stripe */
+.rz-list-item.wish_me_as_donor {
+  background: color-mix(in srgb, var(--md-sys-color-tertiary-container) 25%, var(--md-sys-color-surface));
+  box-shadow: inset 4px 0 0 var(--md-sys-color-tertiary-container);
+}
+.rz-list-item.wish_reserved,
+.rz-list-item.wish_gifted,
+.rz-list-item.wish_fulfilled { background: var(--md-sys-color-surface-container-highest); }
+.rz-list-item.wish_reserved .rz-wish__title,
+.rz-list-item.wish_gifted .rz-wish__title { color: var(--md-sys-color-on-surface-variant); }
+
+.rz-wish-detail__description {
+  max-width: 70ch;
+  margin: 0 0 16px;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-large);
+}

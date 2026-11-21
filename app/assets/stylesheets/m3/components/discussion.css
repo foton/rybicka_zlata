@@ -1,0 +1,38 @@
+/* Discussion under a wish. */
+.rz-discussion__posts { margin: 0 0 16px; padding: 0; list-style: none; max-width: 720px; }
+
+.rz-post {
+  margin: 0 0 8px;
+  padding: 12px 16px;
+  border-radius: var(--md-sys-shape-corner-medium);
+  background: var(--md-sys-color-surface-container-low);
+}
+/* visible to donees too: highlighted, so authors do not reveal surprises by mistake */
+.rz-post--visible-to-anybody { box-shadow: inset 4px 0 0 var(--md-sys-color-tertiary); }
+
+.rz-post__content {
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-large);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.rz-post__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin-top: 4px;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-small);
+}
+.rz-post__author { font: var(--md-sys-typescale-label-medium); }
+.rz-post__badge {
+  padding: 0 8px;
+  border-radius: var(--md-sys-shape-corner-small);
+  background: var(--md-sys-color-tertiary-container);
+  color: var(--md-sys-color-on-tertiary-container);
+  font: var(--md-sys-typescale-label-small);
+}
+.rz-post__info .rz-button-form { margin-left: auto; }
+.rz-post__delete { color: var(--md-sys-color-error); }

@@ -1,28 +1,17 @@
-<li id="<%= post.anchor %>">
+<li id="<%= post.anchor %>" class="rz-post<%= ' rz-post--visible-to-anybody' if post.show_to_anybody? %>">
   <a name="<%= post.anchor %>"></a>
-  <div class="post_content<%= ' visible_to_anybody' if post.show_to_anybody? %>">
-    <%= post.content %>
-  </div>
-  <div class="post_info">
-    <span class="visible_to_anybody">
-      <%= t('discussion.this_posts_is_visible_to_donees') if post.show_to_anybody? %>
-    </span>
-    <% if DiscussionService.new(post.wish, current_user).can_delete_post?(post) %>
-    <span class="post_action">
-      <span id="delete_<%= post.anchor %>" class="mdl-button mdl-button--icon mdl-button--colored">
-        <%= link_to('<i class="material-icons">delete_forever</i>'.html_safe,
-                    discussions_post_path(post),
-                    method: :delete,
-                    class: 'delete_button') %>
-      </span>
-
-      <span class="mdl-tooltip", for="delete_<%= post.anchor %>">
-        <%= t('discussion.delete_post.button') %>
-      </span>
-    </span>
+  <div class="post_content rz-post__content<%= ' visible_to_anybody' if post.show_to_anybody? %>"><%= post.content %></div>
+  <div class="post_info rz-post__info">
+    <span class="rz-post__author"><%= post.author.displayed_name %></span>
+    <span class="rz-post__date">[<%= l(post.created_at) %>]</span>
+    <% if post.show_to_anybody? %>
+      <span class="visible_to_anybody rz-post__badge"><%= t('discussion.this_posts_is_visible_to_donees') %></span>
     <% end %>
-
-    <%= post.author.displayed_name %>
-    [<%= l(post.created_at) %>]
+    <% if DiscussionService.new(post.wish, current_user).can_delete_post?(post) %>
+      <%= render ButtonComponent.new(href: discussions_post_path(post), method: :delete, variant: :text,
+                                     icon: 'delete_forever', class: 'delete_button rz-post__delete',
+                                     id: "delete_#{post.anchor}", aria_label: t('discussion.delete_post.button'),
+                                     title: t('discussion.delete_post.button')) %>
+    <% end %>
   </div>
 </li>

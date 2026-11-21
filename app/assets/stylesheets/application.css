@@ -105,18 +105,8 @@ footer {
 
 
 
-.donors, .donees {
-	padding: 0.5em;
-	border: 1px solid lightgray;
-}
 
-.connection_list li {
-  border-bottom: 1px solid gray;
-}
 
-.connection_list li:first-child{
-  border-top: 1px solid gray;
-}
 
 .info, .help {
 	font-size: 80%;
@@ -126,10 +116,6 @@ footer {
 }
 
 
-#donor_connections, #donee_connections {
-  background-color: rgb(255, 204, 102);
-  border: 1px solid gray;
-}
 
 
 
@@ -180,25 +166,9 @@ footer {
     width: 100%;
 }
 
-#discussion #posts li {
-  border-bottom: 1px solid lightgray;
-}
 
-#discussion #posts li:first-child{
-  border-top: 1px solid lightgray;
-}
 
-#discussion .visible_to_anybody {
-  color: rgb(179, 45, 0);
-}
 
-#discussion .post_info {
-  font-size: 80%;
-  font-style: italic;
-  color: gray;
-  line-height: 1.2em;
-  text-align: right;
-}
 
 .field_value {
   font-weight: bold;
