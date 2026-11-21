@@ -1,25 +1,14 @@
 <%= set_page_title(t("devise.sign_up")) %>
 
-<div class="mdl-grid">
+<div class="rz-auth">
+  <section class="rz-auth__providers" id="omniauth_links">
+    <p class="rz-auth__label"><%= t("devise.shared.links.sign_in_with_provider", provider: "") %></p>
+    <%= render partial: "devise/shared/omniauth_links" %>
+  </section>
 
-  <div class="mdl-cell" >
-    <div id="omniauth_links">
-      <div><%= t("devise.shared.links.sign_in_with_provider", provider: "") %></div>
-      <%= render partial: "devise/shared/omniauth_links" %>
-    </div>
-  </div>
+  <div class="rz-auth__divider"><%= t("or") %></div>
 
-  <div class="mdl-cell divider-h" >
-  </div>
-
-  <div class="mdl-cell mdl-cell--1-col vh-centered" >
-    <div><%= t("or") %></div>
-  </div>
-
-  <div class="mdl-cell divider-h" >
-  </div>
-
-  <div class="mdl-cell">
+  <section class="rz-auth__form">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
                  builder: RzFormBuilder, html: { class: 'rz-form' }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
@@ -34,6 +23,5 @@
         <%= f.submit t('devise.registrations.new.sign_up') %>
       </div>
     <% end %>
-  </div>
-
+  </section>
 </div>

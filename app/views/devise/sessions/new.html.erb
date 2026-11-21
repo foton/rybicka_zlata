@@ -1,25 +1,14 @@
 <% set_page_title(t("devise.sessions.new.sign_in") ) -%>
 
-<div class="mdl-grid">
+<div class="rz-auth">
+  <section class="rz-auth__providers" id="omniauth_links">
+    <p class="rz-auth__label"><%= t("devise.shared.links.sign_in_with_provider", provider: "") %></p>
+    <%= render partial: "devise/shared/omniauth_links" %>
+  </section>
 
-  <div class="mdl-cell" >
-    <div id="omniauth_links">
-      <div><%= t("devise.shared.links.sign_in_with_provider", provider: "") %></div>
-      <%= render partial: "devise/shared/omniauth_links" %>
-    </div>
-  </div>
+  <div class="rz-auth__divider"><%= t("or") %></div>
 
-  <div class="mdl-cell divider-h" >
-  </div>
-
-  <div class="mdl-cell mdl-cell--1-col vh-centered" >
-    <div><%= t("or") %></div>
-  </div>
-
-  <div class="mdl-cell divider-h" >
-  </div>
-
-  <div class="mdl-cell">
+  <section class="rz-auth__form">
   <%# Devise's message (wrong e-mail/password, "you must sign in", ...) is shown here at the form,
       not in the snackbar; after a failed attempt (POST) the fields are marked invalid too %>
   <% sign_in_alert = flash[:alert].tap { flash.delete(:alert) } %>
@@ -44,11 +33,7 @@
   <% end %>
 
   <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-    <%= link_to t("devise.shared.links.forgot_your_password"), new_password_path(resource_name) %><br />
+    <p class="rz-auth__links"><%= link_to t("devise.shared.links.forgot_your_password"), new_password_path(resource_name) %></p>
   <% end -%>
-
-  </div>
-
+  </section>
 </div>
-
-

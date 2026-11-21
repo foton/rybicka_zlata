@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
 module SocialHelper
+  # OAuth sign-in as an M3 outlined button with the provider's logo.
+  # A real POST form (button_to): OmniAuth accepts only POST with a CSRF token.
   def sign_in_button_for(provider)
-    logo_text = <<~LOGO
-      <span class="sc-icon" id="#{provider}_icon">
-        <svg viewBox="#{PROVIDER_BUTTONS[provider][:svg_view_box]}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <g><path d="#{PROVIDER_BUTTONS[provider][:svg_path]}"></path></g>
-        </svg>
-      </span>
-      <span class="sc-text">#{PROVIDER_BUTTONS[provider][:text]}</span>
-    LOGO
+    button = PROVIDER_BUTTONS.fetch(provider)
+    button_to(send("user_#{provider}_omniauth_authorize_path", params: {}), method: :post,
+              class: "sc-btn sc--#{provider} rz-button rz-button--outlined rz-social-button",
+              form_class: 'rz-social-form', data: { turbo: false }) do
+      safe_join([provider_logo(provider, button), tag.span(button[:text], class: 'sc-text')])
+    end
+  end
 
-    link_to(send("user_#{provider}_omniauth_authorize_path", params: {}), method: :post, class: "sc-btn sc--#{provider} mdl-button") do
-      logo_text.html_safe
+  def provider_logo(provider, button)
+    tag.span(class: 'sc-icon', id: "#{provider}_icon", aria: { hidden: true }) do
+      tag.svg(tag.path(d: button[:svg_path]), viewBox: button[:svg_view_box], xmlns: 'http://www.w3.org/2000/svg')
     end
   end
 

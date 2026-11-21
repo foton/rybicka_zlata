@@ -57,3 +57,35 @@ a.rz-chip {
   color: var(--md-sys-color-on-surface-variant);
   text-decoration: none;
 }
+
+/* plain headings / texts of views that have no component classes (M3 type scale) */
+.rz-main__content h2 { margin: 8px 0 16px; font: var(--md-sys-typescale-headline-large); }
+.rz-main__content h3 { margin: 8px 0 24px; font: var(--md-sys-typescale-headline-medium); }
+.rz-main__content h4 { margin: 24px 0 8px; font: var(--md-sys-typescale-title-large); }
+.rz-main__content :is(h2, h3, h4) { color: var(--md-sys-color-on-surface); }
+.rz-main__content p { margin: 0 0 12px; }
+.rz-main__content a:not([class]) { color: var(--md-sys-color-primary); }
+
+/* hint texts */
+.rz-main__content .help,
+.rz-main__content .info {
+  max-width: 80ch;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-small);
+  font-style: normal;
+}
+.rz-main__content .help { margin: 0 0 16px; }
+
+/* home page */
+.rz-home__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin: 16px 0 24px;
+}
+.rz-home__image img { display: block; width: 100%; max-width: 320px; height: auto; margin: 0 auto; }
+.rz-home__video { max-width: 720px; }
+@media (min-width: 840px) {
+  .rz-home__intro { grid-template-columns: 280px minmax(0, 1fr); }
+}

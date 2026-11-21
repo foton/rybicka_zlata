@@ -17,7 +17,6 @@
  *= require ./list_with_actions
  *= require ./mdl_extensions/mdl-selectfield.min
  *= require ./mdl_extensions/my
- *= require ./social_networks
  *= require ./wishes
  *= require_self
  */

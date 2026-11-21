@@ -20,10 +20,11 @@
 
     <%= render( partial: "/shared/list_with_actions", locals: { collection: @user.identities.order(:email), none_text: t("user.identities.none"), remote: false} ) %>
 
-    <p><%= I18n.t("user.identities.add_sign_in_to_this_account_through") %>:<br />
-    <% for provider in ( User::Identity::OAUTH_PROVIDERS - @user.identities.oauth.pluck(:provider) )%>
-      <%= sign_in_button_for(provider.to_sym) %>
-    <% end %>
-    </p>
+    <p><%= I18n.t("user.identities.add_sign_in_to_this_account_through") %>:</p>
+    <div class="rz-social-buttons">
+      <% (User::Identity::OAUTH_PROVIDERS - @user.identities.oauth.pluck(:provider)).each do |provider| %>
+        <%= sign_in_button_for(provider.to_sym) %>
+      <% end %>
+    </div>
 	</div>
 </div>

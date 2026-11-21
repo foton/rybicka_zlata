@@ -1,0 +1,39 @@
+/* OAuth sign-in buttons: M3 outlined buttons with the provider's logo in its brand color. */
+.rz-social-buttons { display: flex; flex-direction: column; align-items: stretch; gap: 8px; max-width: 280px; }
+.rz-social-form { display: flex; margin: 0; }
+.rz-social-button { width: 100%; justify-content: flex-start; padding-left: 16px; color: var(--md-sys-color-on-surface); }
+.rz-social-button .sc-icon { display: inline-flex; }
+.rz-social-button svg { width: 20px; height: 20px; fill: currentColor; }
+.sc--google .sc-icon { color: #4285f4; }
+.sc--facebook .sc-icon { color: #1877f2; }
+.sc--twitter .sc-icon { color: #1da1f2; }
+.sc--linkedin .sc-icon { color: #0a66c2; }
+.sc--github .sc-icon { color: var(--md-sys-color-on-surface); }
+
+/* sign in / sign up page: providers | "or" | form */
+.rz-auth {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.rz-auth__providers { display: flex; flex-direction: column; gap: 12px; }
+.rz-auth__label { margin: 0; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-title-small); }
+.rz-auth__divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-label-large);
+}
+.rz-auth__divider::before,
+.rz-auth__divider::after { content: ""; flex: 1; height: 1px; background: var(--md-sys-color-outline-variant); }
+.rz-auth__links { margin-top: 8px; }
+
+@media (min-width: 840px) {
+  .rz-auth { grid-template-columns: 240px auto minmax(0, 1fr); align-items: start; }
+  .rz-auth__divider { flex-direction: column; align-self: stretch; }
+  .rz-auth__divider::before,
+  .rz-auth__divider::after { width: 1px; height: auto; }
+}

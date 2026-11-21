@@ -1,24 +1,25 @@
-  <div class="mdl-grid">
-    <div class= "mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-      <%= link_to t("devise.sessions.new.sign_in"), new_user_session_path, class: "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" %>
-      <%= link_to t("devise.registrations.new.sign_up"), new_user_registration_path, class: "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" %>
-    </div>  
-
-    <div id="wishes_links_image" class= "mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-      <%= image_tag("wishes_links_optimized.svg") %>
+<div class="rz-home">
+  <% unless user_signed_in? %>
+    <div class="rz-button-row rz-home__actions">
+      <%= render ButtonComponent.new(t("devise.sessions.new.sign_in"), href: new_user_session_path) %>
+      <%= render ButtonComponent.new(t("devise.registrations.new.sign_up"), href: new_user_registration_path,
+                                     variant: :tonal) %>
     </div>
+  <% end %>
 
-    <div class="home mdl-cell mdl-cell--9-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-      <%= render partial:  "home_article" %>
-      
+  <div class="rz-home__intro">
+    <div id="wishes_links_image" class="rz-home__image">
+      <%= image_tag("wishes_links_optimized.svg", alt: "") %>
     </div>
-
-    <div id="videoframe" class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-      <div class="video_responsive_frame">
-        <iframe id="video_tutorial" src="https://www.youtube.com/embed/qH6ZwUEs-Es" frameborder="0" allowfullscreen></iframe>
-      </div>  
+    <div class="home rz-home__article">
+      <%= render partial: "home_article" %>
     </div>
-
-
-
   </div>
+
+  <div id="videoframe" class="rz-home__video">
+    <div class="video_responsive_frame">
+      <iframe id="video_tutorial" src="https://www.youtube.com/embed/qH6ZwUEs-Es" title="Rybička zlatá"
+              allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</div>

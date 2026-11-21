@@ -83,10 +83,4 @@ module ApplicationHelper
   def unopened_notifications_count
     @unopened_notifications_count ||= user_signed_in? ? current_user.unopened_notification_count({}) : 0
   end
-
-  private
-
-  def button_mdl_classes
-    'mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored'
-  end
 end
