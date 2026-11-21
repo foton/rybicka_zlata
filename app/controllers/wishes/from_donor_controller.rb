@@ -31,7 +31,7 @@ class Wishes::FromDonorController < ApplicationController
       else
         not_updated = t('wishes.from_donor.views.not_updated', title: @wish.title)
         format.html do
-          flash[:error] = not_updated
+          flash.now[:error] = not_updated
           @user = @wish.author
           render action: 'show'
         end

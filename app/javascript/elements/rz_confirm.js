@@ -1,7 +1,6 @@
 // M3 confirmation dialog for <dialog id="confirm-dialog"> (ConfirmDialogComponent).
 //   rzConfirm("Opravdu?", { yes: "Ano", no: "Ne" }) -> Promise<boolean>
-// Used by Turbo forms (data-turbo-confirm), plain forms (data-rz-confirm)
-// and legacy jquery_ujs links (window.rzConfirm).
+// Used by Turbo forms (data-turbo-confirm) and plain forms (data-rz-confirm).
 import { Turbo } from "@hotwired/turbo-rails"
 
 export function rzConfirm(message, { yes, no } = {}) {

@@ -59,7 +59,7 @@ class Users::IdentitiesController < ApplicationController
       redirect_to my_profile_url
       true
     else
-      flash[:error] = t('user.identities.not_added', contact: @identity.to_s)
+      flash.now[:error] = t('user.identities.not_added', contact: @identity.to_s)
       @new_contact = @identity
       @user = @identity.user
       false

@@ -60,7 +60,7 @@ class ConnectionsController < ApplicationController
       redirect_to user_connections_url(@user)
       true
     else
-      flash[:error] = msg_bad
+      flash.now[:error] = msg_bad
       @new_contact = @connection
       @user = @connection.owner
       false

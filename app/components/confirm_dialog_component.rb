@@ -3,7 +3,6 @@
 # M3 confirmation dialog (native <dialog>), one per page, driven by elements/rz_confirm.js:
 # - Turbo forms: data-turbo-confirm (Turbo.config.forms.confirm)
 # - plain forms: data-rz-confirm
-# - legacy jquery_ujs links: data-confirm (bridge in mdl_extensions/my_confirm_dialog.js)
 # Optional data-confirm-yes / data-confirm-no on the form override the button labels.
 class ConfirmDialogComponent < ApplicationComponent
   def call

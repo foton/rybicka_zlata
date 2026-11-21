@@ -24,7 +24,7 @@ class Wishes::FromAuthorController < Wishes::FromDoneeController
       flash[:notice] = t('wishes.from_author.views.added', title: @wish.title)
       redirect_to user_my_wish_url(@user, @wish) # WishFromDonee controller ::show
     else
-      flash[:error] = t('wishes.from_author.views.not_added', title: @wish.title)
+      flash.now[:error] = t('wishes.from_author.views.not_added', title: @wish.title)
       @user = @wish.author
       render('new')
     end

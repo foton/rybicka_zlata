@@ -47,7 +47,7 @@ class Wishes::FromDoneeController < ApplicationController
       else
         @user = @wish.author
         format.html do
-          flash[:error] = not_updated_message
+          flash.now[:error] = not_updated_message
           render action: 'edit'
         end
         format.turbo_stream do

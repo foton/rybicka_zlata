@@ -10,7 +10,7 @@
 # Options: method:, type: (:button), params: ({}), confirm: (String or {message:, yes:, no:}),
 # turbo: (false), aria_label:; everything else (class:, id:, data:, ...) goes to the element.
 #
-# Non-GET links become real forms (button_to), so they work without jquery_ujs.
+# Non-GET links become real forms (button_to), so they work without any JS.
 # confirm: asks via the M3 confirm dialog (data-rz-confirm on plain forms,
 # data-turbo-confirm when the form is submitted by Turbo, i.e. turbo: true).
 class ButtonComponent < ApplicationComponent

@@ -61,7 +61,7 @@ class GroupsController < ApplicationController
       redirect_to user_group_url(@user, @group)
       true
     else
-      flash[:error] = msg_bad
+      flash.now[:error] = msg_bad
       @new_contact = @group
       @user = @group.user
       false
@@ -74,7 +74,7 @@ class GroupsController < ApplicationController
       redirect_to edit_user_group_url(@user, @group) # to add connections
       true
     else
-      flash[:error] = msg_bad
+      flash.now[:error] = msg_bad
       @new_contact = @group
       @user = @group.user
       false
