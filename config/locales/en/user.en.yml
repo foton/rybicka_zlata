@@ -48,7 +48,7 @@ en:
       not_added: "Contact '%{contact}' was not added"
       email_is_owned_by_another_user: "E-mail address '%{email}' is already assigned to another user!"
       add_sign_in_to_this_account_through: "Here you can add sign in to this account through"
-      twitter_do_not_send_email_address: "Twitter unfortunatelly do not serve Your real email. Setup Your primary-email, please."
+      twitter_do_not_send_email_address: "X did not provide your email address. Please set your primary email address."
     profile:
       my:
         header: "Profile"

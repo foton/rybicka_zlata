@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'omni_auth_helper'
 
 class OmniAuthController < ActionDispatch::IntegrationTest
   #  include Devise::TestHelpers
@@ -19,6 +20,32 @@ class OmniAuthController < ActionDispatch::IntegrationTest
 
   def oauth_callback_path_for(provider, params = {})
     Rails.application.routes.url_helpers.user_omniauth_callback_path(provider, params: params)
+  end
+
+  def test_x_sign_in_preserves_the_selected_language_without_oauth_url_parameters
+    previous_auth = OmniAuth.config.mock_auth[:twitter]
+    auth = twitter_oauth_hash
+    user = users(:bart)
+    user.identities.create!(provider: auth.provider, uid: auth.uid)
+    OmniAuth.config.mock_auth[:twitter] = auth
+
+    get new_user_session_path(locale: :en)
+    get new_user_session_path
+    assert_select 'html[lang="en"]'
+    assert_select 'form[action^="/users/auth/twitter"]' do |forms|
+      assert_equal [user_twitter_omniauth_authorize_path], forms.map { |form| form['action'] }
+    end
+
+    post user_twitter_omniauth_authorize_path
+    assert_redirected_to user_twitter_omniauth_callback_path
+    follow_redirect!
+    assert_redirected_to my_profile_path(locale: :en)
+    get my_profile_path
+    assert_response :success
+    assert_select 'html[lang="en"]'
+  ensure
+    OmniAuth.config.mock_auth[:twitter] = previous_auth
+    I18n.locale = I18n.default_locale # rubocop:disable Rails/I18nLocaleAssignment
   end
 
   def test_can_sign_in_with_google

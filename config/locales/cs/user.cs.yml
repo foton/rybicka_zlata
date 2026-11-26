@@ -47,7 +47,7 @@ cs:
       not_added: "Kontakt '%{contact}' nebyl přidán"
       email_is_owned_by_another_user: "E-mailová adresa '%{email}' je již přiřazena jinému uživateli!"
       add_sign_in_to_this_account_through: "Můžete přidat přihlášení k tomuto účtu přes"
-      twitter_do_not_send_email_address: "Twitter bohužel neposkytuje Váš skutečný email, prosím nastavte si použitelný hlavní email."
+      twitter_do_not_send_email_address: "Služba X neposkytla vaši e-mailovou adresu. Nastavte si prosím hlavní e-mailovou adresu."
     profile:
       my:
         header: "Profil"

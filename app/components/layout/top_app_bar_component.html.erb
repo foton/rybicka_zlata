@@ -37,7 +37,13 @@
       </ul>
     </div>
 
-    <% unless user %>
+    <% if user %>
+      <% sign_out_label = t('devise.sessions.destroy.sign_out') %>
+      <%= button_to helpers.destroy_user_session_path, method: :delete, class: 'rz-icon-button',
+                    form_class: 'rz-button-form', aria: { label: sign_out_label }, title: sign_out_label do %>
+        <%= render IconComponent.new('logout') %>
+      <% end %>
+    <% else %>
       <nav id="main_menu" class="rz-top-app-bar__nav" aria-label="<%= t('rybickazlata.layout.main_navigation') %>">
         <%= link_to t('devise.registrations.new.sign_up'), helpers.new_user_registration_path, class: 'rz-button rz-button--text' %>
         <%= link_to t('devise.sessions.new.sign_in'), helpers.new_user_session_path, class: 'rz-button rz-button--filled' %>

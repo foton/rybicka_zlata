@@ -10,7 +10,9 @@ class ApplicationController < ActionController::Base
   around_action :user_time_zone, if: :current_user
 
   def set_locale
-    I18n.locale = params[:locale] || current_user&.locale || I18n.default_locale
+    requested_locale = params[:locale].to_s
+    session[:locale] = requested_locale if I18n.available_locales.map(&:to_s).include?(requested_locale)
+    I18n.locale = session[:locale] || current_user&.locale || I18n.default_locale
   end
 
   def self.default_url_options(options = {})

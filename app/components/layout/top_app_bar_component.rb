@@ -2,7 +2,7 @@
 
 module Layout
   # M3 small top app bar: menu toggle (narrow screens), brand, notifications,
-  # theme and language switch.
+  # theme, language switch and sign out.
   # Signed-out users get their navigation (sign up / sign in) right in the bar as #main_menu.
   class TopAppBarComponent < ApplicationComponent
     LOCALES = { cs: 'Čeština', en: 'English' }.freeze

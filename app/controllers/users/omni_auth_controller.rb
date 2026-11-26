@@ -19,7 +19,7 @@ class Users::OmniAuthController < Devise::OmniauthCallbacksController
   end
 
   def twitter
-    set_user_from_omniauth('twitter', 'Twitter')
+    set_user_from_omniauth('twitter', 'X')
   end
 
   def linkedin

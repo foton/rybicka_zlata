@@ -6,7 +6,6 @@
 .rz-social-button svg { width: 20px; height: 20px; fill: currentColor; }
 .sc--google .sc-icon { color: #4285f4; }
 .sc--facebook .sc-icon { color: #1877f2; }
-.sc--twitter .sc-icon { color: #1da1f2; }
 .sc--linkedin .sc-icon { color: #0a66c2; }
 .sc--github .sc-icon { color: var(--md-sys-color-on-surface); }
 
