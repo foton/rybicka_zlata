@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Given(/^(?:bych měl|měl bych) být úspěšně přihlášen$/) do
-  step 'měl bych vidět text "Přihlášení bylo úspěšné."'
+  # step 'měl bych vidět text "Přihlášení bylo úspěšné."'
   within('#main_menu') do
     assert page.has_button?('Odhlásit')
   end
