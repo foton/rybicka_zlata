@@ -95,6 +95,12 @@ a.rz-chip {
 .form-add[data-form-add="expanded"] > .new,
 .form-add:not([data-form-add]) > .new { display: none; }
 
+.form-add + :is(.rz-list, .rz-list__empty, :has(> .rz-list, > .rz-list__empty)) {
+  margin-block-start: 16px;
+}
+
+#contacts_list > :is(.rz-list, .rz-list__empty) { margin-block-end: 16px; }
+
 /* label: value pairs (ApplicationHelper#label_and_value) */
 .field_value { font-weight: 500; }
 

@@ -41,7 +41,7 @@ en:
           submit_button: "Submit"
           label: "Another your email address"
       none: "You have no address in evidence"
-      list: "Your addresses"
+      list: "Your e-mail addresses"
       deleted: "Contact '%{contact}' was deleted"
       added: "Contact '%{contact}' was added"
       not_deleted: "Contact '%{contact}' was not deleted"

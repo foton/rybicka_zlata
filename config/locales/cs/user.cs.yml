@@ -40,7 +40,7 @@ cs:
           submit_button: "Zapsat"
           label: "Vaše další emailová adresa"
       none: "Nemáte evidovány žádné adresy"
-      list: "Vaše adresy"
+      list: "Vaše e-mailové adresy"
       deleted: "Kontakt '%{contact}' byl smazán"
       added: "Kontakt '%{contact}' byl přidán"
       not_deleted: "Kontakt '%{contact}' nebyl smazán"
