@@ -10,6 +10,9 @@ class PrivacyPolicyTest < ActionDispatch::IntegrationTest
     get privacy_policy_path
     assert_response :success
     assert_select 'h1', 'Zásady ochrany osobních údajů'
+    assert_select 'head meta[property="og:image"]' do |tags|
+      assert_match %r{\Ahttps?://[^/]+/assets/logo(?:-[^/]+)?\.png\z}, tags.first['content']
+    end
     assert_select '#data-deletion a[href="mailto:porybny@rybickazlata.cz"]'
   end
 

@@ -1,3 +1,8 @@
+<% content_for :title, t('privacy_policy.title') %>
+<% content_for :head do %>
+  <%= tag.meta property: 'og:image', content: image_url('logo.png') %>
+<% end %>
+
 <article>
   <h1><%= t('privacy_policy.title') %></h1>
   <%= render 'privacy_policy' %>
