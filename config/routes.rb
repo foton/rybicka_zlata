@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get '/change_locale' => 'static#change_locale', :as => 'change_locale'
   get '/change_theme' => 'static#change_theme', :as => 'change_theme'
   get '/about' => 'static#about', :as => 'about'
+  get '/privacy' => 'static#privacy', :as => 'privacy_policy'
   post '/message_to_admin' => 'static#message_to_admin', :as => 'message_to_admin'
   root to: 'static#home'
 
